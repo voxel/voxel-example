@@ -2,8 +2,6 @@ var createGame = require('voxel-engine')
 var highlight = require('voxel-highlight')
 var voxel = require('voxel')
 var extend = require('extend')
-var fly = require('voxel-fly')
-var walk = require('voxel-walk')
 
 module.exports = function(opts, setup) {
   setup = setup || defaultSetup
@@ -31,10 +29,6 @@ module.exports = function(opts, setup) {
 
 function defaultSetup(game) {
   
-  var makeFly = fly(game)
-  var target = game.controls.target()
-  game.flyer = makeFly(target)
-  
   // highlight blocks when you look at them, hold <Ctrl> for block placement
   var blockPosPlace, blockPosErase
   var hl = game.highlighter = highlight(game, { color: 0xff0000 })
@@ -56,13 +50,4 @@ function defaultSetup(game) {
       if (position) game.setBlock(position, 0)
     }
   })
-
-  game.on('tick', function() {
-    walk.render(target.playerSkin)
-    var vx = Math.abs(target.velocity.x)
-    var vz = Math.abs(target.velocity.z)
-    if (vx > 0.001 || vz > 0.001) walk.stopWalking()
-    else walk.startWalking()
-  })
-
 }
