@@ -1,6 +1,5 @@
 var createGame = require('voxel-engine')
 var highlight = require('voxel-highlight')
-var player = require('voxel-player')
 var voxel = require('voxel')
 var extend = require('extend')
 var fly = require('voxel-fly')
@@ -24,21 +23,13 @@ module.exports = function(opts, setup) {
   window.game = game // for debugging
   game.appendTo(container)
   if (game.notCapable()) return game
-  
-  var createPlayer = player(game)
 
-  // create the player from a minecraft skin file and tell the
-  // game to use it as the main player
-  var avatar = createPlayer(opts.playerSkin || 'player.png')
-  avatar.possess()
-  avatar.yaw.position.set(2, 14, 4)
+  setup(game)
 
-  setup(game, avatar)
-  
   return game
 }
 
-function defaultSetup(game, avatar) {
+function defaultSetup(game) {
   
   var makeFly = fly(game)
   var target = game.controls.target()
@@ -51,11 +42,6 @@ function defaultSetup(game, avatar) {
   hl.on('remove', function (voxelPos) { blockPosErase = null })
   hl.on('highlight-adjacent', function (voxelPos) { blockPosPlace = voxelPos })
   hl.on('remove-adjacent', function (voxelPos) { blockPosPlace = null })
-
-  // toggle between first and third person modes
-  window.addEventListener('keydown', function (ev) {
-    if (ev.keyCode === 'R'.charCodeAt(0)) avatar.toggle()
-  })
 
   // block interaction stuff, uses highlight data
   var currentMaterial = 1
