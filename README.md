@@ -1,4 +1,4 @@
-# voxel-hello-worldn
+# voxel-example
 
 Experimental port of [voxel-hello-world](https://github.com/maxogden/voxel-hello-world) built
 on ndarray/gl-now (see [voxel/issues#4](https://github.com/voxel/issues/issues/4)). Uses
@@ -14,10 +14,10 @@ Learn more at http://voxeljs.com
 
 # Using it as a module
 
-`npm install voxel-hello-worldn`
+`npm install voxel-example`
 
 ```javascript
-var game = require('voxel-hello-worldn')
+var game = require('voxel-example')
 ```
 
 # Get it running on your machine
@@ -25,7 +25,7 @@ var game = require('voxel-hello-worldn')
 The first time you set up, you should install the required npm packages:
 
 ```
-cd voxel-hello-worldn
+cd voxel-example
 npm install
 ```
 
