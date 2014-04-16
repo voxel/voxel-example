@@ -1,5 +1,5 @@
-require('./lib/blocks') // TODO: refactor with game-shell-voxel
+//require('./lib/blocks') // TODO: refactor with game-shell-voxel
 
 require('./')({require: require, pluginOpts: {
-  './lib/blocks': {}
+  //'./lib/blocks': {} // built-in for now
 }})
