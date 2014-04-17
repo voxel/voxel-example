@@ -1,5 +1,7 @@
-//require('./lib/blocks') // TODO: refactor with game-shell-voxel
+require('./lib/blocks.js')
+require('./lib/terrain.js')
 
 require('./')({require: require, pluginOpts: {
-  //'./lib/blocks': {} // built-in for now
+  './lib/blocks.js': {},
+  './lib/terrain.js': {},
 }})
