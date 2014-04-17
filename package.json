@@ -18,6 +18,6 @@
     "beefy": "1.1.0"
   },
   "scripts": {
-    "start": "beefy test.js:bundle.js 8080"
+    "start": "beefy demo.js:bundle.js 8080"
   }
 }
