@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "voxel": "0.3.1",
-    "voxel-engine": "git://github.com/deathcap/voxel-engine.git#ndarray",
+    "voxel-engine": "git://github.com/deathcap/voxel-engine.git#5d09d07a25b973ce4b3d1bc71fe42fa187dd865d",
     "voxel-highlight": "0.0.9",
     "extend": "1.1.3",
     "ndarray": "^1.0.13",
