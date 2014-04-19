@@ -1,12 +1,11 @@
 var createGame = require('voxel-engine')
 var highlight = require('voxel-highlight')
-var voxel = require('voxel')
 var extend = require('extend')
 
 module.exports = function(opts, setup) {
   setup = setup || defaultSetup
   var defaults = {
-    generate: voxel.generator['Valley'],
+    generate: 'Valley',
     chunkDistance: 2,
     materials: ['#fff', '#000'],
     materialFlatColor: true,
