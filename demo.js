@@ -15,7 +15,7 @@ createExample({require: require, pluginOpts: {
   //'voxel-stitch': {debug: true},
 
   './lib/blocks.js': {},
-  './lib/terrain.js': {},
+  //'./lib/terrain.js': {},
   'voxel-plugins-ui': {gui: new createGUI.GUI()},
   'kb-bindings-ui': {},
   'voxel-drop': {},

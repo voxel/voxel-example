@@ -5,6 +5,7 @@ var extend = require('extend')
 module.exports = function(opts, setup) {
   setup = setup || defaultSetup
   var defaults = {
+    generate: 'Valley',
     chunkDistance: 2,
     materials: ['#fff', '#000'],
     materialFlatColor: true,
