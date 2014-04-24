@@ -6,12 +6,12 @@
     "url": "git@github.com:deathcap/voxel-example.git"
   },
   "dependencies": {
-    "voxel-engine": "git://github.com/deathcap/voxel-engine.git#245ac6cd6abdd889e5b30c75445be5c8c716ab90",
+    "voxel-engine": "git://github.com/deathcap/voxel-engine.git#46dcbbcafa6f535a7e718b1dec58bb29dace6084",
     "voxel-highlight": "0.0.9",
     "extend": "1.1.3",
     "ndarray": "^1.0.13",
     "ndarray-fill": "^0.1.0",
-    "voxel-wireframe": "git://github.com/deathcap/voxel-wireframe.git#b096edb81d4d00ce1f999ba089486d1d3a40f9c7",
+    "voxel-wireframe": "git://github.com/deathcap/voxel-wireframe.git#e8d9b6f28b00d8875fe45594f0becb22368166b6",
     "kb-bindings-ui": "^0.3.0",
     "voxel-plugins-ui": "^0.2.0",
     "voxel-drop": "^0.1.2",
