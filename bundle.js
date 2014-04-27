@@ -57,12 +57,14 @@ module.exports = function(opts, setup) {
 function defaultSetup(game) {
   
   // highlight blocks when you look at them, hold <Ctrl> for block placement
+  /*
   var blockPosPlace, blockPosErase
   var hl = game.highlighter = highlight(game, { color: 0xff0000 })
   hl.on('highlight', function (voxelPos) { blockPosErase = voxelPos })
   hl.on('remove', function (voxelPos) { blockPosErase = null })
   hl.on('highlight-adjacent', function (voxelPos) { blockPosPlace = voxelPos })
   hl.on('remove-adjacent', function (voxelPos) { blockPosPlace = null })
+  */
 
   // block interaction stuff, uses highlight data
   var currentMaterial = 1
@@ -18416,12 +18418,14 @@ function Game(opts) {
 
     // TODO: fix async chunk gen, loadPendingChunks() may load 1 even if this.pendingChunks empty
     setTimeout(function() {
-      self.asyncChunkGeneration = 'asyncChunkGeneration' in opts ? opts.asyncChunkGeneration : false
+      self.asyncChunkGeneration = 'asyncChunkGeneration' in opts ? opts.asyncChunkGeneration : true
     }, 2000)
   })
   this.mesherPlugin = plugins.get('voxel-mesher')
 
-  this.paused = true
+  this.cameraPlugin = plugins.get('game-shell-fps-camera') // TODO: support other plugins implementing same API
+
+  //this.paused = true // TODO: should it start paused, then unpause when pointer lock is acquired?
 
   // initializeControls()
   // player control
@@ -18446,12 +18450,16 @@ Game.prototype.voxelPosition = function(gamePosition) {
 }
 
 Game.prototype.cameraPosition = function() {
-  return this.shell.camera.position
+  var p = this.cameraPlugin.camera.position
+
+  // Negate since basic-camera consides -Y up, but we use +Y for up
+  // TODO: do X and Z need to be negated too?
+  return [-p[0], -p[1], -p[2]]
 }
 
 var _cameraVector = vector.create();
 Game.prototype.cameraVector = function() {
-  this.shell.camera.getCameraVector(_cameraVector)
+  this.cameraPlugin.camera.getCameraVector(_cameraVector)
   return _cameraVector
 }
 
@@ -18664,11 +18672,14 @@ Game.prototype.potentialCollisionSet = function() {
  */
 
 Game.prototype.playerPosition = function() {
+  return this.cameraPosition()
+  /* TODO: cameraPosition != playerPosition?
   var target = this.controls.target()
   var position = target
     ? target.avatar.position
     : this.camera.localToWorld(this.camera.position.clone())
   return [position.x, position.y, position.z]
+  */
 }
 
 Game.prototype.playerAABB = function(position) {
@@ -18790,6 +18801,8 @@ Game.prototype.updateDirtyChunks = function() {
 Game.prototype.loadPendingChunks = function(count) {
   var pendingChunks = this.pendingChunks
 
+  console.log('loadPendingChunks=',pendingChunks)
+
   if (!this.asyncChunkGeneration) {
     count = pendingChunks.length
   } else {
@@ -18819,11 +18832,30 @@ Game.prototype.showAllChunks = function() {
   }
 }
 
+// Calculate fraction of each voxel type in chunk, for debugging
+var chunkDensity = function(chunk) {
+  var counts = {};
+  var length = chunk.data.length;
+  for (var i = 0; i < length; i += 1) {
+    var val = chunk.data[i]
+    if (!(val in counts)) counts[val] = 0
+
+    counts[val] += 1
+  }
+
+  var densities = {}
+  for (var val in counts) {
+    densities[val] = counts[val] / length
+  }
+  return densities
+}
+
 Game.prototype.showChunk = function(chunk, optionalPosition) {
   if (optionalPosition) chunk.position = optionalPosition
 
   var chunkIndex = chunk.position.join('|')
   var bounds = this.voxels.getBounds.apply(this.voxels, chunk.position)
+  //console.log('showChunk',chunkIndex,'density=',JSON.stringify(chunkDensity(chunk)))
 
   var voxelArray = isndarray(chunk) ? chunk : ndarray(chunk.voxels, chunk.dims)
   var mesh = this.mesherPlugin.createVoxelMesh(this.shell.gl, voxelArray, this.stitcher.voxelSideTextureIDs, this.stitcher.voxelSideTextureSizes, chunk.position)
@@ -18892,7 +18924,7 @@ Game.prototype.tick = function(delta) {
 
   this.emit('tick', delta)
   
-  if (!this.controls) return
+  //if (!this.controls) return // this.controls removed; still load chunks
   var playerPos = this.playerPosition()
   this.spatial.emit('position', playerPos, playerPos)
 }
@@ -18901,6 +18933,7 @@ Game.prototype.render = function(delta) {
   this.view.render(this.scene)
 }
 
+// TODO: merge with game-shell render loop?
 Game.prototype.initializeTimer = function(rate) {
   var self = this
   var accum = 0
@@ -18937,6 +18970,7 @@ Game.prototype.initializeTimer = function(rate) {
 Game.prototype.handleChunkGeneration = function() {
   var self = this
   this.voxels.on('missingChunk', function(chunkPos) {
+    console.log('handleChunkGeneration missingChunk',chunkPos)
     self.pendingChunks.push(chunkPos.join('|'))
   })
   this.voxels.requestMissingChunks(this.worldOrigin)
