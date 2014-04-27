@@ -29,12 +29,14 @@ module.exports = function(opts, setup) {
 function defaultSetup(game) {
   
   // highlight blocks when you look at them, hold <Ctrl> for block placement
+  /*
   var blockPosPlace, blockPosErase
   var hl = game.highlighter = highlight(game, { color: 0xff0000 })
   hl.on('highlight', function (voxelPos) { blockPosErase = voxelPos })
   hl.on('remove', function (voxelPos) { blockPosErase = null })
   hl.on('highlight-adjacent', function (voxelPos) { blockPosPlace = voxelPos })
   hl.on('remove-adjacent', function (voxelPos) { blockPosPlace = null })
+  */
 
   // block interaction stuff, uses highlight data
   var currentMaterial = 1
