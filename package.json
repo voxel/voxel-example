@@ -6,7 +6,7 @@
     "url": "git@github.com:deathcap/voxel-example.git"
   },
   "dependencies": {
-    "voxel-engine": "git://github.com/deathcap/voxel-engine.git#5efc028bfae1ffe155fd6d6beca7e4bce163f731",
+    "voxel-engine": "git://github.com/deathcap/voxel-engine.git#fd6ef6bf3bf78eceb51a5435ce2f74049ff5d774",
     "voxel-highlight": "0.0.9",
     "extend": "1.1.3",
     "ndarray": "^1.0.13",
