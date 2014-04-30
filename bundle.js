@@ -27246,21 +27246,14 @@ Game.prototype.removeFarChunks = function(playerPosition) {
     if (!chunk) return
     var chunkPosition = chunk.position
     if (mesh) {
-      if (mesh.surfaceMesh) {
-        self.scene.remove(mesh.surfaceMesh)
-        //mesh.surfaceMesh.geometry.dispose()
-      }
-      if (mesh.wireMesh) {
-        mesh.wireMesh.geometry.dispose()
-        //self.scene.remove(mesh.wireMesh)
-      }
-      delete mesh.data
-      delete mesh.geometry
-      delete mesh.meshed
-      delete mesh.surfaceMesh
-      delete mesh.wireMesh
+      // dispose of the gl-vao meshes
+      // TODO: refactor so each plugin is responsible, instead of having to list each here
+      if (mesh.triangleVAO) mesh.triangleVAO.dispose() // voxel-mesher
+      if (mesh.wireVAO) mesh.wireVAO.dispose() // voxel-wireframe
+      if (mesh.borderVAO) mesh.borderVAO.dispose() // voxel-chunkborder
     }
     delete self.voxels.chunks[chunkIndex]
+    delete self.voxels.meshes[chunkIndex]
     self.emit('removeChunk', chunkPosition)
   })
   self.voxels.requestMissingChunks(playerPosition)
@@ -27282,8 +27275,6 @@ Game.prototype.updateDirtyChunks = function() {
 
 Game.prototype.loadPendingChunks = function(count) {
   var pendingChunks = this.pendingChunks
-
-  console.log('loadPendingChunks=',pendingChunks)
 
   if (!this.asyncChunkGeneration) {
     count = pendingChunks.length
@@ -27452,7 +27443,6 @@ Game.prototype.initializeTimer = function(rate) {
 Game.prototype.handleChunkGeneration = function() {
   var self = this
   this.voxels.on('missingChunk', function(chunkPos) {
-    console.log('handleChunkGeneration missingChunk',chunkPos)
     self.pendingChunks.push(chunkPos.join('|'))
   })
   this.voxels.requestMissingChunks(this.worldOrigin)
@@ -86741,20 +86731,16 @@ Chunker.prototype.chunkAtPosition = function(position) {
 };
 
 Chunker.prototype.voxelIndexFromCoordinates = function(x, y, z) {
-  var bits = this.chunkBits
-  var mask = (1 << bits) - 1
-  var vidx = (x & mask) + ((y & mask) << bits) + ((z & mask) << bits * 2)
-  return vidx
+  throw new Error('Chunker.prototype.voxelIndexFromCoordinates removed, use voxelAtCoordinates')
 }
 
 Chunker.prototype.voxelAtCoordinates = function(x, y, z, val) {
   var ckey = this.chunkAtCoordinates(x, y, z).join('|')
   var chunk = this.chunks[ckey]
   if (!chunk) return false
-  var vidx = this.voxelIndexFromCoordinates(x, y, z)
-  var v = chunk.data[vidx]
+  var v = chunk.get(x, y, z)
   if (typeof val !== 'undefined') {
-    chunk.data[vidx] = val
+    chunk.set(x, y, z, val)
   }
   return v
 }
