@@ -10,6 +10,7 @@ require('voxel-keys')
 require('voxel-artpacks')
 require('voxel-wireframe')
 require('voxel-chunkborder')
+require('voxel-reach');
 
 createExample({require: require, pluginOpts: {
   'game-shell-fps-camera': {position: [28,-37,27], rotationX:20*Math.PI/180, rotationY:133*Math.PI/180},
@@ -25,4 +26,5 @@ createExample({require: require, pluginOpts: {
   'voxel-artpacks': {},
   'voxel-wireframe': {},
   'voxel-chunkborder': {},
+  'voxel-reach': {},
 }})

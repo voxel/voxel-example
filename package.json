@@ -18,7 +18,8 @@
     "voxel-drop": "^0.1.2",
     "voxel-keys": "^0.1.0",
     "voxel-artpacks": "^0.1.1",
-    "dat-gui": "^0.5.0"
+    "dat-gui": "^0.5.0",
+    "voxel-reach": "^0.2.0"
   },
   "devDependencies": {
     "browserify": "3.38.0",
