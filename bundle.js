@@ -61,28 +61,24 @@ module.exports = function(opts, setup) {
 
 function defaultSetup(game) {
   
-  // highlight blocks when you look at them, hold <Ctrl> for block placement
-  /*
-  var blockPosPlace, blockPosErase
-  var hl = game.highlighter = highlight(game, { color: 0xff0000 })
-  hl.on('highlight', function (voxelPos) { blockPosErase = voxelPos })
-  hl.on('remove', function (voxelPos) { blockPosErase = null })
-  hl.on('highlight-adjacent', function (voxelPos) { blockPosPlace = voxelPos })
-  hl.on('remove-adjacent', function (voxelPos) { blockPosPlace = null })
-  */
-
-  // block interaction stuff, uses highlight data
+  // block interaction
   var currentMaterial = 1
 
   game.on('fire', function (target, state) {
-    var position = blockPosPlace
+    var hit = game.raycastVoxels()
+    if (!hit) {
+      console.log('no block')
+      return
+    }
+
+    var position = hit.voxel
+    console.log('hit.voxel',position)
     if (position) {
       game.createBlock(position, currentMaterial)
-    }
-    else {
+    } /* TODO: firealt else {
       position = blockPosErase
       if (position) game.setBlock(position, 0)
-    }
+    }*/
   })
 }
 
@@ -26913,15 +26909,7 @@ function Game(opts) {
 
   //this.paused = true // TODO: should it start paused, then unpause when pointer lock is acquired?
 
-  // initializeControls()
-  // player control
-  // game-shell handles controls now TODO: provide some compatibility layer? as not covered by https://github.com/deathcap/voxel-keys
-  Object.defineProperty(this, 'keybindings', {get:function() { throw new Error('voxel-engine "keybindings" property removed') }})
-  Object.defineProperty(this, 'buttons', {get:function() { throw new Error('voxel-engine "buttons" property removed') }}) // especially for this one (polling interface)
-  Object.defineProperty(this, 'interact', {get:function() { throw new Error('voxel-engine "interact" property removed') }})
-
-  var buttons = {}; // TODO: this is a state object (key => boolean), but game-shell has .wasDown(key) => boolean instead
-  this.hookupControls(buttons, opts)
+  this.initializeControls(opts)
 }
 
 inherits(Game, EventEmitter)
@@ -27095,6 +27083,23 @@ Game.prototype.gravity = [0, -0.0000036, 0]
 Game.prototype.friction = 0.3
 Game.prototype.epilson = 1e-8
 Game.prototype.terminalVelocity = [0.9, 0.1, 0.9]
+
+Game.prototype.defaultButtons = {
+  'W': 'forward'
+, 'A': 'left'
+, 'S': 'backward'
+, 'D': 'right'
+, '<up>': 'forward'
+, '<left>': 'left'
+, '<down>': 'backward'
+, '<right>': 'right'
+, '<mouse 1>': 'fire'
+, '<mouse 3>': 'firealt'
+, '<space>': 'jump'
+, '<shift>': 'crouch'
+, '<control>': 'alt'
+, '<tab>': 'sprint'
+}
 
 // used in methods that have identity function(pos) {}
 Game.prototype.parseVectorArguments = function(args) {
@@ -27451,6 +27456,51 @@ Game.prototype.initializeTimer = function(rate) {
   }
 }
 
+// Create the buttons state object (binding => state), proxying to game-shell .wasDown(binding)
+Game.prototype.proxyButtons = function() {
+  var self = this
+
+  self.buttons = {}
+
+  Object.keys(this.shell.bindings).forEach(function(name) {
+    Object.defineProperty(self.buttons, name, {get:
+      function() {
+        return self.shell.wasDown(name)
+      }
+    })
+  })
+}
+
+// cleanup key name - based on https://github.com/mikolalysenko/game-shell/blob/master/shell.js
+var filtered_vkey = function(k) {
+  if(k.charAt(0) === '<' && k.charAt(k.length-1) === '>') {
+    k = k.substring(1, k.length-1)
+  }
+  k = k.replace(/\s/g, "-")
+  return k
+}
+
+Game.prototype.initializeControls = function(opts) {
+  // player control - game-shell handles most controls now
+
+  // initial keybindings passed in from options
+  Object.defineProperty(this, 'keybindings', {get:function() { throw new Error('voxel-engine "keybindings" property removed') }})
+  var keybindings = opts.keybindings || this.defaultButtons
+  for (var key in keybindings) {
+    var name = keybindings[key]
+
+    // translate name for game-shell
+    key = filtered_vkey(key)
+
+    this.shell.bind(name, key)
+  }
+
+  Object.defineProperty(this, 'interact', {get:function() { throw new Error('voxel-engine "interact" property removed') }})
+
+  this.proxyButtons() // sets this.buttons TODO: refresh when shell.bindings changes (bind/unbind)
+  this.hookupControls(this.buttons, opts)
+}
+
 Game.prototype.hookupControls = function(buttons, opts) {
   opts = opts || {}
   opts.controls = opts.controls || {}
@@ -27458,6 +27508,20 @@ Game.prototype.hookupControls = function(buttons, opts) {
   this.controls = control(buttons, opts.controls)
   this.items.push(this.controls)
   this.controlling = null
+
+  // control calls controls.target(x), required for controls to function
+  // normally called by voxel-player game.control(player), but requires three.js :(
+  // use a fake object for now TODO
+  var player = {
+    velocity: {x:0, y:0, z:0},
+    position: {x:0, y:0, z:0},
+    atRestY: function() {
+      return true // TODO
+    },
+    rotation: {x:0, y:0, z:0},
+    yaw: 0, pitch: 0, roll: 0
+  }
+  this.control(player)
 }
 
 Game.prototype.handleChunkGeneration = function() {
@@ -27911,24 +27975,24 @@ function CameraPlugin(game, opts) {
 
 
 CameraPlugin.prototype.enable = function() {
-  this.shell.bind('move-left', 'left', 'A');
-  this.shell.bind('move-right', 'right', 'D');
-  this.shell.bind('move-forward', 'up', 'W');
-  this.shell.bind('move-back', 'down', 'S');
-  this.shell.bind('move-up', 'space');
-  this.shell.bind('move-down', 'shift');
+  this.shell.bind('left', 'left', 'A');
+  this.shell.bind('right', 'right', 'D');
+  this.shell.bind('forward', 'up', 'W');
+  this.shell.bind('backward', 'down', 'S');
+  this.shell.bind('jump', 'space');
+  this.shell.bind('crouch', 'shift');
 
   this.shell.on('tick', this.onTick = this.tick.bind(this));
 };
 
 CameraPlugin.prototype.disable = function() {
   this.shell.removeListener('tick', this.onTick);
-  this.shell.unbind('move-left');
-  this.shell.unbind('move-right');
-  this.shell.unbind('move-forward');
-  this.shell.unbind('move-back');
-  this.shell.unbind('move-up');
-  this.shell.unbind('move-down');
+  this.shell.unbind('left');
+  this.shell.unbind('right');
+  this.shell.unbind('forward');
+  this.shell.unbind('backward');
+  this.shell.unbind('jump');
+  this.shell.unbind('crouch');
 };
 
 CameraPlugin.prototype.view = function(out) {
@@ -27950,27 +28014,27 @@ CameraPlugin.prototype.tick = function() {
 
   // movement relative to camera
   this.camera.getCameraVector(this.cameraVector);
-  if (this.shell.wasDown('move-forward')) {
+  if (this.shell.wasDown('forward')) {
     vec3.scaleAndAdd(this.camera.position, this.camera.position, this.cameraVector, this.speed);
   }
-  if (this.shell.wasDown('move-back')) {
+  if (this.shell.wasDown('backward')) {
     vec3.scaleAndAdd(this.camera.position, this.camera.position, this.cameraVector, -this.speed);
   }
-  if (this.shell.wasDown('move-right')) {
+  if (this.shell.wasDown('right')) {
     vec3.cross(this.scratch0, this.cameraVector, this.y_axis);
     vec3.scaleAndAdd(this.camera.position, this.camera.position, this.scratch0, this.speed);
   }
-  if (this.shell.wasDown('move-left')) {
+  if (this.shell.wasDown('left')) {
     vec3.cross(this.scratch0, this.cameraVector, this.y_axis);
     vec3.scaleAndAdd(this.camera.position, this.camera.position, this.scratch0, -this.speed);
   }
 
   // fly straight up or down
   if (this.enableFlight) {
-    if (this.shell.wasDown('move-up')) {
+    if (this.shell.wasDown('jump')) {
       this.camera.position[1] -= 1;
     }
-    if (this.shell.wasDown('move-down')) {
+    if (this.shell.wasDown('crouch')) {
       this.camera.position[1] += 1;
     }
   }
