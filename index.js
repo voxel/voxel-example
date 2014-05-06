@@ -29,7 +29,7 @@ module.exports = function(opts, setup) {
 function defaultSetup(game) {
   
   // block interaction
-  var currentMaterial = 1
+  var currentMaterial = 3
 
   game.on('fire', function (target, state) {
     var hit = game.raycastVoxels()
