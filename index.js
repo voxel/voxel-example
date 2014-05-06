@@ -28,27 +28,23 @@ module.exports = function(opts, setup) {
 
 function defaultSetup(game) {
   
-  // highlight blocks when you look at them, hold <Ctrl> for block placement
-  /*
-  var blockPosPlace, blockPosErase
-  var hl = game.highlighter = highlight(game, { color: 0xff0000 })
-  hl.on('highlight', function (voxelPos) { blockPosErase = voxelPos })
-  hl.on('remove', function (voxelPos) { blockPosErase = null })
-  hl.on('highlight-adjacent', function (voxelPos) { blockPosPlace = voxelPos })
-  hl.on('remove-adjacent', function (voxelPos) { blockPosPlace = null })
-  */
-
-  // block interaction stuff, uses highlight data
+  // block interaction
   var currentMaterial = 1
 
   game.on('fire', function (target, state) {
-    var position = blockPosPlace
+    var hit = game.raycastVoxels()
+    if (!hit) {
+      console.log('no block')
+      return
+    }
+
+    var position = hit.voxel
+    console.log('hit.voxel',position)
     if (position) {
       game.createBlock(position, currentMaterial)
-    }
-    else {
+    } /* TODO: firealt else {
       position = blockPosErase
       if (position) game.setBlock(position, 0)
-    }
+    }*/
   })
 }
