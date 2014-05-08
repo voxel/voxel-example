@@ -26,5 +26,5 @@ createExample({require: require, pluginOpts: {
   'voxel-artpacks': {},
   'voxel-wireframe': {},
   'voxel-chunkborder': {},
-  'voxel-reach': {},
+  //'voxel-reach': {},
 }})
