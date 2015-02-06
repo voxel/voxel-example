@@ -1,5 +1,4 @@
 var createGame = require('voxel-engine')
-var highlight = require('voxel-highlight')
 var extend = require('extend')
 
 module.exports = function(opts, setup) {
