@@ -1,50 +1,16 @@
-var createGame = require('voxel-engine')
-var highlight = require('voxel-highlight')
-var extend = require('extend')
+var createEngine = require('voxel-engine')
 
-module.exports = function(opts, setup) {
-  setup = setup || defaultSetup
-  var defaults = {
-    generate: 'Valley',
-    chunkDistance: 2,
-    materials: ['#fff', '#000'],
-    materialFlatColor: true,
-    worldOrigin: [0, 0, 0],
-    controls: { discreteFire: true }
-  }
-  opts = extend({}, defaults, opts || {})
+require('./lib/blocks.js')
+require('./lib/terrain.js')
 
-  // setup the game and add some trees
-  var game = createGame(opts)
-  var container = opts.container || document.body
-  window.game = game // for debugging
-  game.appendTo(container)
-  if (game.notCapable()) return game
+var main = function() {
+  createEngine({require: require, exposeGlobal: true, pluginOpts: {
+    'game-shell-fps-camera': {position: [-4, -40, -5], rotationX:15*Math.PI/180, rotationY:135*Math.PI/180 },
 
-  setup(game)
+    './lib/blocks.js': {},
+    './lib/terrain.js': {}
+  }})
+};
 
-  return game
-}
+module.exports = main
 
-function defaultSetup(game) {
-  
-  // block interaction
-  var currentMaterial = 1
-
-  game.on('fire', function (target, state) {
-    var hit = game.raycastVoxels()
-    if (!hit) {
-      console.log('no block')
-      return
-    }
-
-    var position = hit.voxel
-    console.log('hit.voxel',position)
-    if (position) {
-      game.createBlock(position, currentMaterial)
-    } /* TODO: firealt else {
-      position = blockPosErase
-      if (position) game.setBlock(position, 0)
-    }*/
-  })
-}

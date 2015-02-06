@@ -1,10 +1,10 @@
 # voxel-example
 
-Experimental port of [voxel-hello-world](https://github.com/maxogden/voxel-hello-world) built
-on ndarray/gl-now (see [voxel/issues#4](https://github.com/voxel/issues/issues/4)). Uses
-`ndarray` branches of core voxel.js modules where possible.
+Minimal example of using voxel-engine
 
-Warning: incomplete
+Based on ported [voxel-hello-world](https://github.com/maxogden/voxel-hello-world)
+and [voxel-mipmap-demo](http://mikolalysenko.github.io/voxel-mipmap-demo/)
+for on ndarray/gl-now (see [voxel/issues#4](https://github.com/voxel/issues/issues/4)).
 
 original readme:
 
@@ -18,6 +18,8 @@ Learn more at http://voxeljs.com
 
 ```javascript
 var game = require('voxel-example')
+
+game()
 ```
 
 # Get it running on your machine
@@ -35,7 +37,7 @@ Then run the start script:
 npm start
 ```
 
-Then point your browser to [http://localhost:8080](http://localhost:8080) and have fun!
+Then point your browser to [http://localhost:8081](http://localhost:8081) and have fun!
 
 ## How does this work?
 
