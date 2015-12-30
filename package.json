@@ -7,11 +7,11 @@
   },
   "dependencies": {
     "voxel-engine-stackgl": "git://github.com/voxel/voxel-engine-stackgl.git",
-    "ndarray": "^1.0.13",
-    "ndarray-fill": "^0.1.0"
+    "ndarray": "^1.0.18",
+    "ndarray-fill": "^1.0.1"
   },
   "devDependencies": {
-    "browserify": "3.38.0",
+    "browserify": "12.0.1",
     "beefy": "1.1.0"
   },
   "scripts": {
