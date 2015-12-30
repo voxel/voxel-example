@@ -1,10 +1,14 @@
 # voxel-example
 
-Minimal example of using voxel-engine
+Minimal example of using voxel-engine-stackgl
 
 Based on ported [voxel-hello-world](https://github.com/maxogden/voxel-hello-world)
-and [voxel-mipmap-demo](http://mikolalysenko.github.io/voxel-mipmap-demo/)
-for on ndarray/gl-now (see [voxel/issues#4](https://github.com/voxel/issues/issues/4)).
+(for three.js-based [voxel-engine](https://github.com/maxogden/voxel-engine)),
+except for
+[voxel-engine-stackgl](https://github.com/voxel/voxel-engine-stackgl)
+(built on [stackgl](https://github.com/stackgl)/[ndarray scijs](https://github.com/scijs/))
+instead
+(for background see [voxel/issues#4](https://github.com/voxel/issues/issues/4)).
 
 original readme:
 
