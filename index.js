@@ -1,4 +1,4 @@
-var createEngine = require('voxel-engine')
+var createEngine = require('voxel-engine-stackgl')
 
 require('./lib/blocks.js')
 require('./lib/terrain.js')

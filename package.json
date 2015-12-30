@@ -6,15 +6,15 @@
     "url": "git@github.com:deathcap/voxel-example.git"
   },
   "dependencies": {
-    "voxel-engine": "git://github.com/maxogden/voxel-engine.git#ndarray",
-    "ndarray": "^1.0.13",
-    "ndarray-fill": "^0.1.0"
+    "voxel-engine-stackgl": "^1.0.1",
+    "ndarray": "^1.0.18",
+    "ndarray-fill": "^1.0.1"
   },
   "devDependencies": {
-    "browserify": "3.38.0",
-    "beefy": "1.1.0"
+    "browserify": "12.0.1",
+    "wzrd": "1.3.1"
   },
   "scripts": {
-    "start": "beefy demo.js:bundle.js 8081"
+    "start": "wzrd demo.js:bundle.js --port 8081"
   }
 }
