@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "voxel-engine-stackgl": "^1.1.0",
-    "voxel-flatland": "deathcap/voxel-flatland",
+    "voxel-flatland": "^0.1.0",
     "voxel-bedrock": "^1.0.0"
   },
   "devDependencies": {
