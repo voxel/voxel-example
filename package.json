@@ -4,7 +4,7 @@
   "main": "example.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:deathcap/voxel-example.git"
+    "url": "git@github.com:voxel/voxel-example.git"
   },
   "dependencies": {
     "voxel-engine-stackgl": "^1.1.0",
