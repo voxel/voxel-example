@@ -1,4 +1,0 @@
-var createExample = require('./')
-
-createExample()
-
