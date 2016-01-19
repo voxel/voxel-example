@@ -18,5 +18,5 @@
   "scripts": {
     "start": "wzrd example.js:bundle.js --port 8081"
   },
-  "license": "BSD"
+  "license": "BSD-3-Clause"
 }
