@@ -11986,6 +11986,22 @@ function hasOwnProperty(obj, prop) {
 },{"./support/isBuffer":42,"_process":26,"inherits":22}],44:[function(require,module,exports){
 'use strict';
 
+require('voxel-engine-stackgl')({
+  pluginLoaders: {
+    'voxel-bedrock': require('voxel-bedrock'),
+    'voxel-flatland': require('voxel-flatland')
+  },
+  pluginOpts: {
+    'voxel-engine-stackgl': {generateChunks: false},
+    'game-shell-fps-camera': {position: [0, -100, 0]},
+
+    'voxel-bedrock': {},
+    'voxel-flatland': {block: 'bedrock'}
+  }});
+
+},{"voxel-bedrock":45,"voxel-engine-stackgl":46,"voxel-flatland":340}],45:[function(require,module,exports){
+'use strict';
+
 module.exports = function(game, opts) {
   return new BedrockPlugin(game, opts);
 };
@@ -12009,7 +12025,7 @@ BedrockPlugin.prototype.disable = function() {
   // TODO: unregister block
 };
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (process){
 'use strict'
 var voxel = require('voxel')
@@ -12822,7 +12838,7 @@ Game.prototype.destroy = function() {
 }
 
 }).call(this,require('_process'))
-},{"./":45,"./lib/detector":46,"_process":26,"aabb-3d":47,"collide-3d-tilemap":49,"events":21,"extend":50,"game-shell-fps-camera":51,"gl-now":56,"gl-vec3":80,"inherits":102,"isndarray":103,"ndarray":104,"obsolete":106,"path":25,"spatial-events":107,"tic":109,"voxel":317,"voxel-controls":110,"voxel-mesher":112,"voxel-physicals":171,"voxel-plugins":333,"voxel-raycast":172,"voxel-region-change":173,"voxel-registry":176,"voxel-shader":334,"voxel-stitch":315}],46:[function(require,module,exports){
+},{"./":46,"./lib/detector":47,"_process":26,"aabb-3d":48,"collide-3d-tilemap":59,"events":21,"extend":60,"game-shell-fps-camera":61,"gl-now":74,"gl-vec3":98,"inherits":120,"isndarray":121,"ndarray":122,"obsolete":125,"path":25,"spatial-events":126,"tic":128,"voxel":333,"voxel-controls":129,"voxel-mesher":131,"voxel-physicals":185,"voxel-plugins":187,"voxel-raycast":188,"voxel-region-change":189,"voxel-registry":201,"voxel-shader":202,"voxel-stitch":331}],47:[function(require,module,exports){
 /**
  * @author alteredq / http://alteredqualia.com/
  * @author mr.doob / http://mrdoob.com/
@@ -12883,7 +12899,7 @@ module.exports = function() {
   };
 }
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 module.exports = AABB
 
 var vec3 = require('gl-matrix').vec3
@@ -13000,92 +13016,64 @@ proto.union = function(aabb) {
 
 
 
-},{"gl-matrix":48}],48:[function(require,module,exports){
+},{"gl-matrix":49}],49:[function(require,module,exports){
 /**
  * @fileoverview gl-matrix - High performance matrix and vector operations
  * @author Brandon Jones
  * @author Colin MacKenzie IV
- * @version 2.2.1
+ * @version 2.3.0
  */
 
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+// END HEADER
 
+exports.glMatrix = require("./gl-matrix/common.js");
+exports.mat2 = require("./gl-matrix/mat2.js");
+exports.mat2d = require("./gl-matrix/mat2d.js");
+exports.mat3 = require("./gl-matrix/mat3.js");
+exports.mat4 = require("./gl-matrix/mat4.js");
+exports.quat = require("./gl-matrix/quat.js");
+exports.vec2 = require("./gl-matrix/vec2.js");
+exports.vec3 = require("./gl-matrix/vec3.js");
+exports.vec4 = require("./gl-matrix/vec4.js");
+},{"./gl-matrix/common.js":50,"./gl-matrix/mat2.js":51,"./gl-matrix/mat2d.js":52,"./gl-matrix/mat3.js":53,"./gl-matrix/mat4.js":54,"./gl-matrix/quat.js":55,"./gl-matrix/vec2.js":56,"./gl-matrix/vec3.js":57,"./gl-matrix/vec4.js":58}],50:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-(function(_global) {
-  "use strict";
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  var shim = {};
-  if (typeof(exports) === 'undefined') {
-    if(typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-      shim.exports = {};
-      define(function() {
-        return shim.exports;
-      });
-    } else {
-      // gl-matrix lives in a browser, define its namespaces in global
-      shim.exports = typeof(window) !== 'undefined' ? window : _global;
-    }
-  }
-  else {
-    // gl-matrix lives in commonjs, define its namespaces in exports
-    shim.exports = exports;
-  }
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-  (function(exports) {
-    /* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-
-if(!GLMAT_EPSILON) {
-    var GLMAT_EPSILON = 0.000001;
-}
-
-if(!GLMAT_ARRAY_TYPE) {
-    var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
-}
-
-if(!GLMAT_RANDOM) {
-    var GLMAT_RANDOM = Math.random;
-}
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
 
 /**
  * @class Common utilities
@@ -13093,17 +13081,18 @@ if(!GLMAT_RANDOM) {
  */
 var glMatrix = {};
 
+// Constants
+glMatrix.EPSILON = 0.000001;
+glMatrix.ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
+glMatrix.RANDOM = Math.random;
+
 /**
- * Sets the type of array used when creating new vectors and matricies
+ * Sets the type of array used when creating new vectors and matrices
  *
  * @param {Type} type Array type, such as Float32Array or Array
  */
 glMatrix.setMatrixArrayType = function(type) {
     GLMAT_ARRAY_TYPE = type;
-}
-
-if(typeof(exports) !== 'undefined') {
-    exports.glMatrix = glMatrix;
 }
 
 var degree = Math.PI / 180;
@@ -13116,1695 +13105,36 @@ var degree = Math.PI / 180;
 glMatrix.toRadian = function(a){
      return a * degree;
 }
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 2 Dimensional Vector
- * @name vec2
- */
-
-var vec2 = {};
-
-/**
- * Creates a new, empty vec2
- *
- * @returns {vec2} a new 2D vector
- */
-vec2.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(2);
-    out[0] = 0;
-    out[1] = 0;
-    return out;
-};
-
-/**
- * Creates a new vec2 initialized with values from an existing vector
- *
- * @param {vec2} a vector to clone
- * @returns {vec2} a new 2D vector
- */
-vec2.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(2);
-    out[0] = a[0];
-    out[1] = a[1];
-    return out;
-};
-
-/**
- * Creates a new vec2 initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @returns {vec2} a new 2D vector
- */
-vec2.fromValues = function(x, y) {
-    var out = new GLMAT_ARRAY_TYPE(2);
-    out[0] = x;
-    out[1] = y;
-    return out;
-};
-
-/**
- * Copy the values from one vec2 to another
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the source vector
- * @returns {vec2} out
- */
-vec2.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    return out;
-};
-
-/**
- * Set the components of a vec2 to the given values
- *
- * @param {vec2} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @returns {vec2} out
- */
-vec2.set = function(out, x, y) {
-    out[0] = x;
-    out[1] = y;
-    return out;
-};
-
-/**
- * Adds two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.add = function(out, a, b) {
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    return out;
-};
-
-/**
- * Subtracts vector b from vector a
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.subtract = function(out, a, b) {
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    return out;
-};
-
-/**
- * Alias for {@link vec2.subtract}
- * @function
- */
-vec2.sub = vec2.subtract;
-
-/**
- * Multiplies two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.multiply = function(out, a, b) {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    return out;
-};
-
-/**
- * Alias for {@link vec2.multiply}
- * @function
- */
-vec2.mul = vec2.multiply;
-
-/**
- * Divides two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.divide = function(out, a, b) {
-    out[0] = a[0] / b[0];
-    out[1] = a[1] / b[1];
-    return out;
-};
-
-/**
- * Alias for {@link vec2.divide}
- * @function
- */
-vec2.div = vec2.divide;
-
-/**
- * Returns the minimum of two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.min = function(out, a, b) {
-    out[0] = Math.min(a[0], b[0]);
-    out[1] = Math.min(a[1], b[1]);
-    return out;
-};
-
-/**
- * Returns the maximum of two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.max = function(out, a, b) {
-    out[0] = Math.max(a[0], b[0]);
-    out[1] = Math.max(a[1], b[1]);
-    return out;
-};
-
-/**
- * Scales a vec2 by a scalar number
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {vec2} out
- */
-vec2.scale = function(out, a, b) {
-    out[0] = a[0] * b;
-    out[1] = a[1] * b;
-    return out;
-};
-
-/**
- * Adds two vec2's after scaling the second operand by a scalar value
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @param {Number} scale the amount to scale b by before adding
- * @returns {vec2} out
- */
-vec2.scaleAndAdd = function(out, a, b, scale) {
-    out[0] = a[0] + (b[0] * scale);
-    out[1] = a[1] + (b[1] * scale);
-    return out;
-};
-
-/**
- * Calculates the euclidian distance between two vec2's
- *
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {Number} distance between a and b
- */
-vec2.distance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1];
-    return Math.sqrt(x*x + y*y);
-};
-
-/**
- * Alias for {@link vec2.distance}
- * @function
- */
-vec2.dist = vec2.distance;
-
-/**
- * Calculates the squared euclidian distance between two vec2's
- *
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {Number} squared distance between a and b
- */
-vec2.squaredDistance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1];
-    return x*x + y*y;
-};
-
-/**
- * Alias for {@link vec2.squaredDistance}
- * @function
- */
-vec2.sqrDist = vec2.squaredDistance;
-
-/**
- * Calculates the length of a vec2
- *
- * @param {vec2} a vector to calculate length of
- * @returns {Number} length of a
- */
-vec2.length = function (a) {
-    var x = a[0],
-        y = a[1];
-    return Math.sqrt(x*x + y*y);
-};
-
-/**
- * Alias for {@link vec2.length}
- * @function
- */
-vec2.len = vec2.length;
-
-/**
- * Calculates the squared length of a vec2
- *
- * @param {vec2} a vector to calculate squared length of
- * @returns {Number} squared length of a
- */
-vec2.squaredLength = function (a) {
-    var x = a[0],
-        y = a[1];
-    return x*x + y*y;
-};
-
-/**
- * Alias for {@link vec2.squaredLength}
- * @function
- */
-vec2.sqrLen = vec2.squaredLength;
-
-/**
- * Negates the components of a vec2
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a vector to negate
- * @returns {vec2} out
- */
-vec2.negate = function(out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    return out;
-};
-
-/**
- * Normalize a vec2
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a vector to normalize
- * @returns {vec2} out
- */
-vec2.normalize = function(out, a) {
-    var x = a[0],
-        y = a[1];
-    var len = x*x + y*y;
-    if (len > 0) {
-        //TODO: evaluate use of glm_invsqrt here?
-        len = 1 / Math.sqrt(len);
-        out[0] = a[0] * len;
-        out[1] = a[1] * len;
-    }
-    return out;
-};
-
-/**
- * Calculates the dot product of two vec2's
- *
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {Number} dot product of a and b
- */
-vec2.dot = function (a, b) {
-    return a[0] * b[0] + a[1] * b[1];
-};
-
-/**
- * Computes the cross product of two vec2's
- * Note that the cross product must by definition produce a 3D vector
- *
- * @param {vec3} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec3} out
- */
-vec2.cross = function(out, a, b) {
-    var z = a[0] * b[1] - a[1] * b[0];
-    out[0] = out[1] = 0;
-    out[2] = z;
-    return out;
-};
-
-/**
- * Performs a linear interpolation between two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {vec2} out
- */
-vec2.lerp = function (out, a, b, t) {
-    var ax = a[0],
-        ay = a[1];
-    out[0] = ax + t * (b[0] - ax);
-    out[1] = ay + t * (b[1] - ay);
-    return out;
-};
-
-/**
- * Generates a random vector with the given scale
- *
- * @param {vec2} out the receiving vector
- * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
- * @returns {vec2} out
- */
-vec2.random = function (out, scale) {
-    scale = scale || 1.0;
-    var r = GLMAT_RANDOM() * 2.0 * Math.PI;
-    out[0] = Math.cos(r) * scale;
-    out[1] = Math.sin(r) * scale;
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat2
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat2} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat2 = function(out, a, m) {
-    var x = a[0],
-        y = a[1];
-    out[0] = m[0] * x + m[2] * y;
-    out[1] = m[1] * x + m[3] * y;
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat2d
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat2d} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat2d = function(out, a, m) {
-    var x = a[0],
-        y = a[1];
-    out[0] = m[0] * x + m[2] * y + m[4];
-    out[1] = m[1] * x + m[3] * y + m[5];
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat3
- * 3rd vector component is implicitly '1'
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat3} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat3 = function(out, a, m) {
-    var x = a[0],
-        y = a[1];
-    out[0] = m[0] * x + m[3] * y + m[6];
-    out[1] = m[1] * x + m[4] * y + m[7];
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat4
- * 3rd vector component is implicitly '0'
- * 4th vector component is implicitly '1'
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat4 = function(out, a, m) {
-    var x = a[0], 
-        y = a[1];
-    out[0] = m[0] * x + m[4] * y + m[12];
-    out[1] = m[1] * x + m[5] * y + m[13];
-    return out;
-};
-
-/**
- * Perform some operation over an array of vec2s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec2. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec2s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-vec2.forEach = (function() {
-    var vec = vec2.create();
-
-    return function(a, stride, offset, count, fn, arg) {
-        var i, l;
-        if(!stride) {
-            stride = 2;
-        }
-
-        if(!offset) {
-            offset = 0;
-        }
-        
-        if(count) {
-            l = Math.min((count * stride) + offset, a.length);
-        } else {
-            l = a.length;
-        }
-
-        for(i = offset; i < l; i += stride) {
-            vec[0] = a[i]; vec[1] = a[i+1];
-            fn(vec, vec, arg);
-            a[i] = vec[0]; a[i+1] = vec[1];
-        }
-        
-        return a;
-    };
-})();
-
-/**
- * Returns a string representation of a vector
- *
- * @param {vec2} vec vector to represent as a string
- * @returns {String} string representation of the vector
- */
-vec2.str = function (a) {
-    return 'vec2(' + a[0] + ', ' + a[1] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.vec2 = vec2;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 3 Dimensional Vector
- * @name vec3
- */
-
-var vec3 = {};
-
-/**
- * Creates a new, empty vec3
- *
- * @returns {vec3} a new 3D vector
- */
-vec3.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(3);
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    return out;
-};
-
-/**
- * Creates a new vec3 initialized with values from an existing vector
- *
- * @param {vec3} a vector to clone
- * @returns {vec3} a new 3D vector
- */
-vec3.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(3);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    return out;
-};
-
-/**
- * Creates a new vec3 initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @returns {vec3} a new 3D vector
- */
-vec3.fromValues = function(x, y, z) {
-    var out = new GLMAT_ARRAY_TYPE(3);
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    return out;
-};
-
-/**
- * Copy the values from one vec3 to another
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the source vector
- * @returns {vec3} out
- */
-vec3.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    return out;
-};
-
-/**
- * Set the components of a vec3 to the given values
- *
- * @param {vec3} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @returns {vec3} out
- */
-vec3.set = function(out, x, y, z) {
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    return out;
-};
-
-/**
- * Adds two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.add = function(out, a, b) {
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    out[2] = a[2] + b[2];
-    return out;
-};
-
-/**
- * Subtracts vector b from vector a
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.subtract = function(out, a, b) {
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    out[2] = a[2] - b[2];
-    return out;
-};
-
-/**
- * Alias for {@link vec3.subtract}
- * @function
- */
-vec3.sub = vec3.subtract;
-
-/**
- * Multiplies two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.multiply = function(out, a, b) {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    out[2] = a[2] * b[2];
-    return out;
-};
-
-/**
- * Alias for {@link vec3.multiply}
- * @function
- */
-vec3.mul = vec3.multiply;
-
-/**
- * Divides two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.divide = function(out, a, b) {
-    out[0] = a[0] / b[0];
-    out[1] = a[1] / b[1];
-    out[2] = a[2] / b[2];
-    return out;
-};
-
-/**
- * Alias for {@link vec3.divide}
- * @function
- */
-vec3.div = vec3.divide;
-
-/**
- * Returns the minimum of two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.min = function(out, a, b) {
-    out[0] = Math.min(a[0], b[0]);
-    out[1] = Math.min(a[1], b[1]);
-    out[2] = Math.min(a[2], b[2]);
-    return out;
-};
-
-/**
- * Returns the maximum of two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.max = function(out, a, b) {
-    out[0] = Math.max(a[0], b[0]);
-    out[1] = Math.max(a[1], b[1]);
-    out[2] = Math.max(a[2], b[2]);
-    return out;
-};
-
-/**
- * Scales a vec3 by a scalar number
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {vec3} out
- */
-vec3.scale = function(out, a, b) {
-    out[0] = a[0] * b;
-    out[1] = a[1] * b;
-    out[2] = a[2] * b;
-    return out;
-};
-
-/**
- * Adds two vec3's after scaling the second operand by a scalar value
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @param {Number} scale the amount to scale b by before adding
- * @returns {vec3} out
- */
-vec3.scaleAndAdd = function(out, a, b, scale) {
-    out[0] = a[0] + (b[0] * scale);
-    out[1] = a[1] + (b[1] * scale);
-    out[2] = a[2] + (b[2] * scale);
-    return out;
-};
-
-/**
- * Calculates the euclidian distance between two vec3's
- *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {Number} distance between a and b
- */
-vec3.distance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2];
-    return Math.sqrt(x*x + y*y + z*z);
-};
-
-/**
- * Alias for {@link vec3.distance}
- * @function
- */
-vec3.dist = vec3.distance;
-
-/**
- * Calculates the squared euclidian distance between two vec3's
- *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {Number} squared distance between a and b
- */
-vec3.squaredDistance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2];
-    return x*x + y*y + z*z;
-};
-
-/**
- * Alias for {@link vec3.squaredDistance}
- * @function
- */
-vec3.sqrDist = vec3.squaredDistance;
-
-/**
- * Calculates the length of a vec3
- *
- * @param {vec3} a vector to calculate length of
- * @returns {Number} length of a
- */
-vec3.length = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2];
-    return Math.sqrt(x*x + y*y + z*z);
-};
-
-/**
- * Alias for {@link vec3.length}
- * @function
- */
-vec3.len = vec3.length;
-
-/**
- * Calculates the squared length of a vec3
- *
- * @param {vec3} a vector to calculate squared length of
- * @returns {Number} squared length of a
- */
-vec3.squaredLength = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2];
-    return x*x + y*y + z*z;
-};
-
-/**
- * Alias for {@link vec3.squaredLength}
- * @function
- */
-vec3.sqrLen = vec3.squaredLength;
-
-/**
- * Negates the components of a vec3
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a vector to negate
- * @returns {vec3} out
- */
-vec3.negate = function(out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    out[2] = -a[2];
-    return out;
-};
-
-/**
- * Normalize a vec3
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a vector to normalize
- * @returns {vec3} out
- */
-vec3.normalize = function(out, a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2];
-    var len = x*x + y*y + z*z;
-    if (len > 0) {
-        //TODO: evaluate use of glm_invsqrt here?
-        len = 1 / Math.sqrt(len);
-        out[0] = a[0] * len;
-        out[1] = a[1] * len;
-        out[2] = a[2] * len;
-    }
-    return out;
-};
-
-/**
- * Calculates the dot product of two vec3's
- *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {Number} dot product of a and b
- */
-vec3.dot = function (a, b) {
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-};
-
-/**
- * Computes the cross product of two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.cross = function(out, a, b) {
-    var ax = a[0], ay = a[1], az = a[2],
-        bx = b[0], by = b[1], bz = b[2];
-
-    out[0] = ay * bz - az * by;
-    out[1] = az * bx - ax * bz;
-    out[2] = ax * by - ay * bx;
-    return out;
-};
-
-/**
- * Performs a linear interpolation between two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {vec3} out
- */
-vec3.lerp = function (out, a, b, t) {
-    var ax = a[0],
-        ay = a[1],
-        az = a[2];
-    out[0] = ax + t * (b[0] - ax);
-    out[1] = ay + t * (b[1] - ay);
-    out[2] = az + t * (b[2] - az);
-    return out;
-};
-
-/**
- * Generates a random vector with the given scale
- *
- * @param {vec3} out the receiving vector
- * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
- * @returns {vec3} out
- */
-vec3.random = function (out, scale) {
-    scale = scale || 1.0;
-
-    var r = GLMAT_RANDOM() * 2.0 * Math.PI;
-    var z = (GLMAT_RANDOM() * 2.0) - 1.0;
-    var zScale = Math.sqrt(1.0-z*z) * scale;
-
-    out[0] = Math.cos(r) * zScale;
-    out[1] = Math.sin(r) * zScale;
-    out[2] = z * scale;
-    return out;
-};
-
-/**
- * Transforms the vec3 with a mat4.
- * 4th vector component is implicitly '1'
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec3} out
- */
-vec3.transformMat4 = function(out, a, m) {
-    var x = a[0], y = a[1], z = a[2];
-    out[0] = m[0] * x + m[4] * y + m[8] * z + m[12];
-    out[1] = m[1] * x + m[5] * y + m[9] * z + m[13];
-    out[2] = m[2] * x + m[6] * y + m[10] * z + m[14];
-    return out;
-};
-
-/**
- * Transforms the vec3 with a mat3.
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to transform
- * @param {mat4} m the 3x3 matrix to transform with
- * @returns {vec3} out
- */
-vec3.transformMat3 = function(out, a, m) {
-    var x = a[0], y = a[1], z = a[2];
-    out[0] = x * m[0] + y * m[3] + z * m[6];
-    out[1] = x * m[1] + y * m[4] + z * m[7];
-    out[2] = x * m[2] + y * m[5] + z * m[8];
-    return out;
-};
-
-/**
- * Transforms the vec3 with a quat
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec3} out
- */
-vec3.transformQuat = function(out, a, q) {
-    // benchmarks: http://jsperf.com/quaternion-transform-vec3-implementations
-
-    var x = a[0], y = a[1], z = a[2],
-        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
-
-        // calculate quat * vec
-        ix = qw * x + qy * z - qz * y,
-        iy = qw * y + qz * x - qx * z,
-        iz = qw * z + qx * y - qy * x,
-        iw = -qx * x - qy * y - qz * z;
-
-    // calculate result * inverse quat
-    out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-    return out;
-};
-
-/*
-* Rotate a 3D vector around the x-axis
-* @param {vec3} out The receiving vec3
-* @param {vec3} a The vec3 point to rotate
-* @param {vec3} b The origin of the rotation
-* @param {Number} c The angle of rotation
-* @returns {vec3} out
-*/
-vec3.rotateX = function(out, a, b, c){
-   var p = [], r=[];
-	  //Translate point to the origin
-	  p[0] = a[0] - b[0];
-	  p[1] = a[1] - b[1];
-  	p[2] = a[2] - b[2];
-
-	  //perform rotation
-	  r[0] = p[0];
-	  r[1] = p[1]*Math.cos(c) - p[2]*Math.sin(c);
-	  r[2] = p[1]*Math.sin(c) + p[2]*Math.cos(c);
-
-	  //translate to correct position
-	  out[0] = r[0] + b[0];
-	  out[1] = r[1] + b[1];
-	  out[2] = r[2] + b[2];
-
-  	return out;
-};
-
-/*
-* Rotate a 3D vector around the y-axis
-* @param {vec3} out The receiving vec3
-* @param {vec3} a The vec3 point to rotate
-* @param {vec3} b The origin of the rotation
-* @param {Number} c The angle of rotation
-* @returns {vec3} out
-*/
-vec3.rotateY = function(out, a, b, c){
-  	var p = [], r=[];
-  	//Translate point to the origin
-  	p[0] = a[0] - b[0];
-  	p[1] = a[1] - b[1];
-  	p[2] = a[2] - b[2];
-  
-  	//perform rotation
-  	r[0] = p[2]*Math.sin(c) + p[0]*Math.cos(c);
-  	r[1] = p[1];
-  	r[2] = p[2]*Math.cos(c) - p[0]*Math.sin(c);
-  
-  	//translate to correct position
-  	out[0] = r[0] + b[0];
-  	out[1] = r[1] + b[1];
-  	out[2] = r[2] + b[2];
-  
-  	return out;
-};
-
-/*
-* Rotate a 3D vector around the z-axis
-* @param {vec3} out The receiving vec3
-* @param {vec3} a The vec3 point to rotate
-* @param {vec3} b The origin of the rotation
-* @param {Number} c The angle of rotation
-* @returns {vec3} out
-*/
-vec3.rotateZ = function(out, a, b, c){
-  	var p = [], r=[];
-  	//Translate point to the origin
-  	p[0] = a[0] - b[0];
-  	p[1] = a[1] - b[1];
-  	p[2] = a[2] - b[2];
-  
-  	//perform rotation
-  	r[0] = p[0]*Math.cos(c) - p[1]*Math.sin(c);
-  	r[1] = p[0]*Math.sin(c) + p[1]*Math.cos(c);
-  	r[2] = p[2];
-  
-  	//translate to correct position
-  	out[0] = r[0] + b[0];
-  	out[1] = r[1] + b[1];
-  	out[2] = r[2] + b[2];
-  
-  	return out;
-};
-
-/**
- * Perform some operation over an array of vec3s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec3. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec3s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-vec3.forEach = (function() {
-    var vec = vec3.create();
-
-    return function(a, stride, offset, count, fn, arg) {
-        var i, l;
-        if(!stride) {
-            stride = 3;
-        }
-
-        if(!offset) {
-            offset = 0;
-        }
-        
-        if(count) {
-            l = Math.min((count * stride) + offset, a.length);
-        } else {
-            l = a.length;
-        }
-
-        for(i = offset; i < l; i += stride) {
-            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2];
-            fn(vec, vec, arg);
-            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2];
-        }
-        
-        return a;
-    };
-})();
-
-/**
- * Returns a string representation of a vector
- *
- * @param {vec3} vec vector to represent as a string
- * @returns {String} string representation of the vector
- */
-vec3.str = function (a) {
-    return 'vec3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.vec3 = vec3;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 4 Dimensional Vector
- * @name vec4
- */
-
-var vec4 = {};
-
-/**
- * Creates a new, empty vec4
- *
- * @returns {vec4} a new 4D vector
- */
-vec4.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    return out;
-};
-
-/**
- * Creates a new vec4 initialized with values from an existing vector
- *
- * @param {vec4} a vector to clone
- * @returns {vec4} a new 4D vector
- */
-vec4.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-};
-
-/**
- * Creates a new vec4 initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {vec4} a new 4D vector
- */
-vec4.fromValues = function(x, y, z, w) {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    out[3] = w;
-    return out;
-};
-
-/**
- * Copy the values from one vec4 to another
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the source vector
- * @returns {vec4} out
- */
-vec4.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-};
-
-/**
- * Set the components of a vec4 to the given values
- *
- * @param {vec4} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {vec4} out
- */
-vec4.set = function(out, x, y, z, w) {
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    out[3] = w;
-    return out;
-};
-
-/**
- * Adds two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.add = function(out, a, b) {
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    out[2] = a[2] + b[2];
-    out[3] = a[3] + b[3];
-    return out;
-};
-
-/**
- * Subtracts vector b from vector a
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.subtract = function(out, a, b) {
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    out[2] = a[2] - b[2];
-    out[3] = a[3] - b[3];
-    return out;
-};
-
-/**
- * Alias for {@link vec4.subtract}
- * @function
- */
-vec4.sub = vec4.subtract;
-
-/**
- * Multiplies two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.multiply = function(out, a, b) {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    out[2] = a[2] * b[2];
-    out[3] = a[3] * b[3];
-    return out;
-};
-
-/**
- * Alias for {@link vec4.multiply}
- * @function
- */
-vec4.mul = vec4.multiply;
-
-/**
- * Divides two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.divide = function(out, a, b) {
-    out[0] = a[0] / b[0];
-    out[1] = a[1] / b[1];
-    out[2] = a[2] / b[2];
-    out[3] = a[3] / b[3];
-    return out;
-};
-
-/**
- * Alias for {@link vec4.divide}
- * @function
- */
-vec4.div = vec4.divide;
-
-/**
- * Returns the minimum of two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.min = function(out, a, b) {
-    out[0] = Math.min(a[0], b[0]);
-    out[1] = Math.min(a[1], b[1]);
-    out[2] = Math.min(a[2], b[2]);
-    out[3] = Math.min(a[3], b[3]);
-    return out;
-};
-
-/**
- * Returns the maximum of two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.max = function(out, a, b) {
-    out[0] = Math.max(a[0], b[0]);
-    out[1] = Math.max(a[1], b[1]);
-    out[2] = Math.max(a[2], b[2]);
-    out[3] = Math.max(a[3], b[3]);
-    return out;
-};
-
-/**
- * Scales a vec4 by a scalar number
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {vec4} out
- */
-vec4.scale = function(out, a, b) {
-    out[0] = a[0] * b;
-    out[1] = a[1] * b;
-    out[2] = a[2] * b;
-    out[3] = a[3] * b;
-    return out;
-};
-
-/**
- * Adds two vec4's after scaling the second operand by a scalar value
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @param {Number} scale the amount to scale b by before adding
- * @returns {vec4} out
- */
-vec4.scaleAndAdd = function(out, a, b, scale) {
-    out[0] = a[0] + (b[0] * scale);
-    out[1] = a[1] + (b[1] * scale);
-    out[2] = a[2] + (b[2] * scale);
-    out[3] = a[3] + (b[3] * scale);
-    return out;
-};
-
-/**
- * Calculates the euclidian distance between two vec4's
- *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {Number} distance between a and b
- */
-vec4.distance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2],
-        w = b[3] - a[3];
-    return Math.sqrt(x*x + y*y + z*z + w*w);
-};
-
-/**
- * Alias for {@link vec4.distance}
- * @function
- */
-vec4.dist = vec4.distance;
-
-/**
- * Calculates the squared euclidian distance between two vec4's
- *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {Number} squared distance between a and b
- */
-vec4.squaredDistance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2],
-        w = b[3] - a[3];
-    return x*x + y*y + z*z + w*w;
-};
-
-/**
- * Alias for {@link vec4.squaredDistance}
- * @function
- */
-vec4.sqrDist = vec4.squaredDistance;
-
-/**
- * Calculates the length of a vec4
- *
- * @param {vec4} a vector to calculate length of
- * @returns {Number} length of a
- */
-vec4.length = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2],
-        w = a[3];
-    return Math.sqrt(x*x + y*y + z*z + w*w);
-};
-
-/**
- * Alias for {@link vec4.length}
- * @function
- */
-vec4.len = vec4.length;
-
-/**
- * Calculates the squared length of a vec4
- *
- * @param {vec4} a vector to calculate squared length of
- * @returns {Number} squared length of a
- */
-vec4.squaredLength = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2],
-        w = a[3];
-    return x*x + y*y + z*z + w*w;
-};
-
-/**
- * Alias for {@link vec4.squaredLength}
- * @function
- */
-vec4.sqrLen = vec4.squaredLength;
-
-/**
- * Negates the components of a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a vector to negate
- * @returns {vec4} out
- */
-vec4.negate = function(out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    out[2] = -a[2];
-    out[3] = -a[3];
-    return out;
-};
-
-/**
- * Normalize a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a vector to normalize
- * @returns {vec4} out
- */
-vec4.normalize = function(out, a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2],
-        w = a[3];
-    var len = x*x + y*y + z*z + w*w;
-    if (len > 0) {
-        len = 1 / Math.sqrt(len);
-        out[0] = a[0] * len;
-        out[1] = a[1] * len;
-        out[2] = a[2] * len;
-        out[3] = a[3] * len;
-    }
-    return out;
-};
-
-/**
- * Calculates the dot product of two vec4's
- *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {Number} dot product of a and b
- */
-vec4.dot = function (a, b) {
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
-};
-
-/**
- * Performs a linear interpolation between two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {vec4} out
- */
-vec4.lerp = function (out, a, b, t) {
-    var ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
-    out[0] = ax + t * (b[0] - ax);
-    out[1] = ay + t * (b[1] - ay);
-    out[2] = az + t * (b[2] - az);
-    out[3] = aw + t * (b[3] - aw);
-    return out;
-};
-
-/**
- * Generates a random vector with the given scale
- *
- * @param {vec4} out the receiving vector
- * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
- * @returns {vec4} out
- */
-vec4.random = function (out, scale) {
-    scale = scale || 1.0;
-
-    //TODO: This is a pretty awful way of doing this. Find something better.
-    out[0] = GLMAT_RANDOM();
-    out[1] = GLMAT_RANDOM();
-    out[2] = GLMAT_RANDOM();
-    out[3] = GLMAT_RANDOM();
-    vec4.normalize(out, out);
-    vec4.scale(out, out, scale);
-    return out;
-};
-
-/**
- * Transforms the vec4 with a mat4.
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec4} out
- */
-vec4.transformMat4 = function(out, a, m) {
-    var x = a[0], y = a[1], z = a[2], w = a[3];
-    out[0] = m[0] * x + m[4] * y + m[8] * z + m[12] * w;
-    out[1] = m[1] * x + m[5] * y + m[9] * z + m[13] * w;
-    out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w;
-    out[3] = m[3] * x + m[7] * y + m[11] * z + m[15] * w;
-    return out;
-};
-
-/**
- * Transforms the vec4 with a quat
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec4} out
- */
-vec4.transformQuat = function(out, a, q) {
-    var x = a[0], y = a[1], z = a[2],
-        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
-
-        // calculate quat * vec
-        ix = qw * x + qy * z - qz * y,
-        iy = qw * y + qz * x - qx * z,
-        iz = qw * z + qx * y - qy * x,
-        iw = -qx * x - qy * y - qz * z;
-
-    // calculate result * inverse quat
-    out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-    return out;
-};
-
-/**
- * Perform some operation over an array of vec4s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec4. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec2s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-vec4.forEach = (function() {
-    var vec = vec4.create();
-
-    return function(a, stride, offset, count, fn, arg) {
-        var i, l;
-        if(!stride) {
-            stride = 4;
-        }
-
-        if(!offset) {
-            offset = 0;
-        }
-        
-        if(count) {
-            l = Math.min((count * stride) + offset, a.length);
-        } else {
-            l = a.length;
-        }
-
-        for(i = offset; i < l; i += stride) {
-            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2]; vec[3] = a[i+3];
-            fn(vec, vec, arg);
-            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2]; a[i+3] = vec[3];
-        }
-        
-        return a;
-    };
-})();
-
-/**
- * Returns a string representation of a vector
- *
- * @param {vec4} vec vector to represent as a string
- * @returns {String} string representation of the vector
- */
-vec4.str = function (a) {
-    return 'vec4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.vec4 = vec4;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+module.exports = glMatrix;
+
+},{}],51:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+var glMatrix = require("./common.js");
 
 /**
  * @class 2x2 Matrix
  * @name mat2
  */
-
 var mat2 = {};
 
 /**
@@ -14813,7 +13143,7 @@ var mat2 = {};
  * @returns {mat2} a new 2x2 matrix
  */
 mat2.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(4);
+    var out = new glMatrix.ARRAY_TYPE(4);
     out[0] = 1;
     out[1] = 0;
     out[2] = 0;
@@ -14828,7 +13158,7 @@ mat2.create = function() {
  * @returns {mat2} a new 2x2 matrix
  */
 mat2.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(4);
+    var out = new glMatrix.ARRAY_TYPE(4);
     out[0] = a[0];
     out[1] = a[1];
     out[2] = a[2];
@@ -15004,6 +13334,46 @@ mat2.scale = function(out, a, v) {
 };
 
 /**
+ * Creates a matrix from a given angle
+ * This is equivalent to (but much faster than):
+ *
+ *     mat2.identity(dest);
+ *     mat2.rotate(dest, dest, rad);
+ *
+ * @param {mat2} out mat2 receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat2} out
+ */
+mat2.fromRotation = function(out, rad) {
+    var s = Math.sin(rad),
+        c = Math.cos(rad);
+    out[0] = c;
+    out[1] = s;
+    out[2] = -s;
+    out[3] = c;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector scaling
+ * This is equivalent to (but much faster than):
+ *
+ *     mat2.identity(dest);
+ *     mat2.scale(dest, dest, vec);
+ *
+ * @param {mat2} out mat2 receiving operation result
+ * @param {vec2} v Scaling vector
+ * @returns {mat2} out
+ */
+mat2.fromScaling = function(out, v) {
+    out[0] = v[0];
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = v[1];
+    return out;
+}
+
+/**
  * Returns a string representation of a mat2
  *
  * @param {mat2} mat matrix to represent as a string
@@ -15039,31 +13409,31 @@ mat2.LDU = function (L, D, U, a) {
     return [L, D, U];       
 }; 
 
-if(typeof(exports) !== 'undefined') {
-    exports.mat2 = mat2;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+module.exports = mat2;
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+},{"./common.js":50}],52:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+var glMatrix = require("./common.js");
 
 /**
  * @class 2x3 Matrix
@@ -15083,7 +13453,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
  * </pre>
  * The last row is ignored so the array is shorter and operations are faster.
  */
-
 var mat2d = {};
 
 /**
@@ -15092,7 +13461,7 @@ var mat2d = {};
  * @returns {mat2d} a new 2x3 matrix
  */
 mat2d.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(6);
+    var out = new glMatrix.ARRAY_TYPE(6);
     out[0] = 1;
     out[1] = 0;
     out[2] = 0;
@@ -15109,7 +13478,7 @@ mat2d.create = function() {
  * @returns {mat2d} a new 2x3 matrix
  */
 mat2d.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(6);
+    var out = new glMatrix.ARRAY_TYPE(6);
     out[0] = a[0];
     out[1] = a[1];
     out[2] = a[2];
@@ -15214,7 +13583,6 @@ mat2d.multiply = function (out, a, b) {
  */
 mat2d.mul = mat2d.multiply;
 
-
 /**
  * Rotates a mat2d by the given angle
  *
@@ -15277,6 +13645,70 @@ mat2d.translate = function(out, a, v) {
 };
 
 /**
+ * Creates a matrix from a given angle
+ * This is equivalent to (but much faster than):
+ *
+ *     mat2d.identity(dest);
+ *     mat2d.rotate(dest, dest, rad);
+ *
+ * @param {mat2d} out mat2d receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat2d} out
+ */
+mat2d.fromRotation = function(out, rad) {
+    var s = Math.sin(rad), c = Math.cos(rad);
+    out[0] = c;
+    out[1] = s;
+    out[2] = -s;
+    out[3] = c;
+    out[4] = 0;
+    out[5] = 0;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector scaling
+ * This is equivalent to (but much faster than):
+ *
+ *     mat2d.identity(dest);
+ *     mat2d.scale(dest, dest, vec);
+ *
+ * @param {mat2d} out mat2d receiving operation result
+ * @param {vec2} v Scaling vector
+ * @returns {mat2d} out
+ */
+mat2d.fromScaling = function(out, v) {
+    out[0] = v[0];
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = v[1];
+    out[4] = 0;
+    out[5] = 0;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector translation
+ * This is equivalent to (but much faster than):
+ *
+ *     mat2d.identity(dest);
+ *     mat2d.translate(dest, dest, vec);
+ *
+ * @param {mat2d} out mat2d receiving operation result
+ * @param {vec2} v Translation vector
+ * @returns {mat2d} out
+ */
+mat2d.fromTranslation = function(out, v) {
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 1;
+    out[4] = v[0];
+    out[5] = v[1];
+    return out;
+}
+
+/**
  * Returns a string representation of a mat2d
  *
  * @param {mat2d} a matrix to represent as a string
@@ -15297,37 +13729,35 @@ mat2d.frob = function (a) {
     return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + 1))
 }; 
 
-if(typeof(exports) !== 'undefined') {
-    exports.mat2d = mat2d;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+module.exports = mat2d;
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+},{"./common.js":50}],53:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+var glMatrix = require("./common.js");
 
 /**
  * @class 3x3 Matrix
  * @name mat3
  */
-
 var mat3 = {};
 
 /**
@@ -15336,7 +13766,7 @@ var mat3 = {};
  * @returns {mat3} a new 3x3 matrix
  */
 mat3.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(9);
+    var out = new glMatrix.ARRAY_TYPE(9);
     out[0] = 1;
     out[1] = 0;
     out[2] = 0;
@@ -15376,7 +13806,7 @@ mat3.fromMat4 = function(out, a) {
  * @returns {mat3} a new 3x3 matrix
  */
 mat3.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(9);
+    var out = new glMatrix.ARRAY_TYPE(9);
     out[0] = a[0];
     out[1] = a[1];
     out[2] = a[2];
@@ -15655,6 +14085,84 @@ mat3.scale = function(out, a, v) {
 };
 
 /**
+ * Creates a matrix from a vector translation
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.translate(dest, dest, vec);
+ *
+ * @param {mat3} out mat3 receiving operation result
+ * @param {vec2} v Translation vector
+ * @returns {mat3} out
+ */
+mat3.fromTranslation = function(out, v) {
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 1;
+    out[5] = 0;
+    out[6] = v[0];
+    out[7] = v[1];
+    out[8] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a given angle
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.rotate(dest, dest, rad);
+ *
+ * @param {mat3} out mat3 receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat3} out
+ */
+mat3.fromRotation = function(out, rad) {
+    var s = Math.sin(rad), c = Math.cos(rad);
+
+    out[0] = c;
+    out[1] = s;
+    out[2] = 0;
+
+    out[3] = -s;
+    out[4] = c;
+    out[5] = 0;
+
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector scaling
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.scale(dest, dest, vec);
+ *
+ * @param {mat3} out mat3 receiving operation result
+ * @param {vec2} v Scaling vector
+ * @returns {mat3} out
+ */
+mat3.fromScaling = function(out, v) {
+    out[0] = v[0];
+    out[1] = 0;
+    out[2] = 0;
+
+    out[3] = 0;
+    out[4] = v[1];
+    out[5] = 0;
+
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+}
+
+/**
  * Copies the values from a mat2d into a mat3
  *
  * @param {mat3} out the receiving matrix
@@ -15788,37 +14296,35 @@ mat3.frob = function (a) {
 };
 
 
-if(typeof(exports) !== 'undefined') {
-    exports.mat3 = mat3;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+module.exports = mat3;
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+},{"./common.js":50}],54:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+var glMatrix = require("./common.js");
 
 /**
  * @class 4x4 Matrix
  * @name mat4
  */
-
 var mat4 = {};
 
 /**
@@ -15827,7 +14333,7 @@ var mat4 = {};
  * @returns {mat4} a new 4x4 matrix
  */
 mat4.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(16);
+    var out = new glMatrix.ARRAY_TYPE(16);
     out[0] = 1;
     out[1] = 0;
     out[2] = 0;
@@ -15854,7 +14360,7 @@ mat4.create = function() {
  * @returns {mat4} a new 4x4 matrix
  */
 mat4.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(16);
+    var out = new glMatrix.ARRAY_TYPE(16);
     out[0] = a[0];
     out[1] = a[1];
     out[2] = a[2];
@@ -16205,7 +14711,7 @@ mat4.scale = function(out, a, v) {
 };
 
 /**
- * Rotates a mat4 by the given angle
+ * Rotates a mat4 by the given angle around the given axis
  *
  * @param {mat4} out the receiving matrix
  * @param {mat4} a the matrix to rotate
@@ -16224,7 +14730,7 @@ mat4.rotate = function (out, a, rad, axis) {
         b10, b11, b12,
         b20, b21, b22;
 
-    if (Math.abs(len) < GLMAT_EPSILON) { return null; }
+    if (Math.abs(len) < glMatrix.EPSILON) { return null; }
     
     len = 1 / len;
     x *= len;
@@ -16397,6 +14903,221 @@ mat4.rotateZ = function (out, a, rad) {
 };
 
 /**
+ * Creates a matrix from a vector translation
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.translate(dest, dest, vec);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {vec3} v Translation vector
+ * @returns {mat4} out
+ */
+mat4.fromTranslation = function(out, v) {
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = 1;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[10] = 1;
+    out[11] = 0;
+    out[12] = v[0];
+    out[13] = v[1];
+    out[14] = v[2];
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector scaling
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.scale(dest, dest, vec);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {vec3} v Scaling vector
+ * @returns {mat4} out
+ */
+mat4.fromScaling = function(out, v) {
+    out[0] = v[0];
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = v[1];
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[10] = v[2];
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a given angle around a given axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotate(dest, dest, rad, axis);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @param {vec3} axis the axis to rotate around
+ * @returns {mat4} out
+ */
+mat4.fromRotation = function(out, rad, axis) {
+    var x = axis[0], y = axis[1], z = axis[2],
+        len = Math.sqrt(x * x + y * y + z * z),
+        s, c, t;
+    
+    if (Math.abs(len) < glMatrix.EPSILON) { return null; }
+    
+    len = 1 / len;
+    x *= len;
+    y *= len;
+    z *= len;
+    
+    s = Math.sin(rad);
+    c = Math.cos(rad);
+    t = 1 - c;
+    
+    // Perform rotation-specific matrix multiplication
+    out[0] = x * x * t + c;
+    out[1] = y * x * t + z * s;
+    out[2] = z * x * t - y * s;
+    out[3] = 0;
+    out[4] = x * y * t - z * s;
+    out[5] = y * y * t + c;
+    out[6] = z * y * t + x * s;
+    out[7] = 0;
+    out[8] = x * z * t + y * s;
+    out[9] = y * z * t - x * s;
+    out[10] = z * z * t + c;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from the given angle around the X axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotateX(dest, dest, rad);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ */
+mat4.fromXRotation = function(out, rad) {
+    var s = Math.sin(rad),
+        c = Math.cos(rad);
+    
+    // Perform axis-specific matrix multiplication
+    out[0]  = 1;
+    out[1]  = 0;
+    out[2]  = 0;
+    out[3]  = 0;
+    out[4] = 0;
+    out[5] = c;
+    out[6] = s;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = -s;
+    out[10] = c;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from the given angle around the Y axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotateY(dest, dest, rad);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ */
+mat4.fromYRotation = function(out, rad) {
+    var s = Math.sin(rad),
+        c = Math.cos(rad);
+    
+    // Perform axis-specific matrix multiplication
+    out[0]  = c;
+    out[1]  = 0;
+    out[2]  = -s;
+    out[3]  = 0;
+    out[4] = 0;
+    out[5] = 1;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = s;
+    out[9] = 0;
+    out[10] = c;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from the given angle around the Z axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotateZ(dest, dest, rad);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ */
+mat4.fromZRotation = function(out, rad) {
+    var s = Math.sin(rad),
+        c = Math.cos(rad);
+    
+    // Perform axis-specific matrix multiplication
+    out[0]  = c;
+    out[1]  = s;
+    out[2]  = 0;
+    out[3]  = 0;
+    out[4] = -s;
+    out[5] = c;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[10] = 1;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
  * Creates a matrix from a quaternion rotation and vector translation
  * This is equivalent to (but much faster than):
  *
@@ -16446,6 +15167,128 @@ mat4.fromRotationTranslation = function (out, q, v) {
     out[15] = 1;
     
     return out;
+};
+
+/**
+ * Creates a matrix from a quaternion rotation, vector translation and vector scale
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.translate(dest, vec);
+ *     var quatMat = mat4.create();
+ *     quat4.toMat4(quat, quatMat);
+ *     mat4.multiply(dest, quatMat);
+ *     mat4.scale(dest, scale)
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {quat4} q Rotation quaternion
+ * @param {vec3} v Translation vector
+ * @param {vec3} s Scaling vector
+ * @returns {mat4} out
+ */
+mat4.fromRotationTranslationScale = function (out, q, v, s) {
+    // Quaternion math
+    var x = q[0], y = q[1], z = q[2], w = q[3],
+        x2 = x + x,
+        y2 = y + y,
+        z2 = z + z,
+
+        xx = x * x2,
+        xy = x * y2,
+        xz = x * z2,
+        yy = y * y2,
+        yz = y * z2,
+        zz = z * z2,
+        wx = w * x2,
+        wy = w * y2,
+        wz = w * z2,
+        sx = s[0],
+        sy = s[1],
+        sz = s[2];
+
+    out[0] = (1 - (yy + zz)) * sx;
+    out[1] = (xy + wz) * sx;
+    out[2] = (xz - wy) * sx;
+    out[3] = 0;
+    out[4] = (xy - wz) * sy;
+    out[5] = (1 - (xx + zz)) * sy;
+    out[6] = (yz + wx) * sy;
+    out[7] = 0;
+    out[8] = (xz + wy) * sz;
+    out[9] = (yz - wx) * sz;
+    out[10] = (1 - (xx + yy)) * sz;
+    out[11] = 0;
+    out[12] = v[0];
+    out[13] = v[1];
+    out[14] = v[2];
+    out[15] = 1;
+    
+    return out;
+};
+
+/**
+ * Creates a matrix from a quaternion rotation, vector translation and vector scale, rotating and scaling around the given origin
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.translate(dest, vec);
+ *     mat4.translate(dest, origin);
+ *     var quatMat = mat4.create();
+ *     quat4.toMat4(quat, quatMat);
+ *     mat4.multiply(dest, quatMat);
+ *     mat4.scale(dest, scale)
+ *     mat4.translate(dest, negativeOrigin);
+ *
+ * @param {mat4} out mat4 receiving operation result
+ * @param {quat4} q Rotation quaternion
+ * @param {vec3} v Translation vector
+ * @param {vec3} s Scaling vector
+ * @param {vec3} o The origin vector around which to scale and rotate
+ * @returns {mat4} out
+ */
+mat4.fromRotationTranslationScaleOrigin = function (out, q, v, s, o) {
+  // Quaternion math
+  var x = q[0], y = q[1], z = q[2], w = q[3],
+      x2 = x + x,
+      y2 = y + y,
+      z2 = z + z,
+
+      xx = x * x2,
+      xy = x * y2,
+      xz = x * z2,
+      yy = y * y2,
+      yz = y * z2,
+      zz = z * z2,
+      wx = w * x2,
+      wy = w * y2,
+      wz = w * z2,
+      
+      sx = s[0],
+      sy = s[1],
+      sz = s[2],
+
+      ox = o[0],
+      oy = o[1],
+      oz = o[2];
+      
+  out[0] = (1 - (yy + zz)) * sx;
+  out[1] = (xy + wz) * sx;
+  out[2] = (xz - wy) * sx;
+  out[3] = 0;
+  out[4] = (xy - wz) * sy;
+  out[5] = (1 - (xx + zz)) * sy;
+  out[6] = (yz + wx) * sy;
+  out[7] = 0;
+  out[8] = (xz + wy) * sz;
+  out[9] = (yz - wx) * sz;
+  out[10] = (1 - (xx + yy)) * sz;
+  out[11] = 0;
+  out[12] = v[0] + ox - (out[0] * ox + out[4] * oy + out[8] * oz);
+  out[13] = v[1] + oy - (out[1] * ox + out[5] * oy + out[9] * oz);
+  out[14] = v[2] + oz - (out[2] * ox + out[6] * oy + out[10] * oz);
+  out[15] = 1;
+        
+  return out;
 };
 
 mat4.fromQuat = function (out, q) {
@@ -16555,6 +15398,44 @@ mat4.perspective = function (out, fovy, aspect, near, far) {
 };
 
 /**
+ * Generates a perspective projection matrix with the given field of view.
+ * This is primarily useful for generating projection matrices to be used
+ * with the still experiemental WebVR API.
+ *
+ * @param {mat4} out mat4 frustum matrix will be written into
+ * @param {number} fov Object containing the following values: upDegrees, downDegrees, leftDegrees, rightDegrees
+ * @param {number} near Near bound of the frustum
+ * @param {number} far Far bound of the frustum
+ * @returns {mat4} out
+ */
+mat4.perspectiveFromFieldOfView = function (out, fov, near, far) {
+    var upTan = Math.tan(fov.upDegrees * Math.PI/180.0),
+        downTan = Math.tan(fov.downDegrees * Math.PI/180.0),
+        leftTan = Math.tan(fov.leftDegrees * Math.PI/180.0),
+        rightTan = Math.tan(fov.rightDegrees * Math.PI/180.0),
+        xScale = 2.0 / (leftTan + rightTan),
+        yScale = 2.0 / (upTan + downTan);
+
+    out[0] = xScale;
+    out[1] = 0.0;
+    out[2] = 0.0;
+    out[3] = 0.0;
+    out[4] = 0.0;
+    out[5] = yScale;
+    out[6] = 0.0;
+    out[7] = 0.0;
+    out[8] = -((leftTan - rightTan) * xScale * 0.5);
+    out[9] = ((upTan - downTan) * yScale * 0.5);
+    out[10] = far / (near - far);
+    out[11] = -1.0;
+    out[12] = 0.0;
+    out[13] = 0.0;
+    out[14] = (far * near) / (near - far);
+    out[15] = 0.0;
+    return out;
+}
+
+/**
  * Generates a orthogonal projection matrix with the given bounds
  *
  * @param {mat4} out mat4 frustum matrix will be written into
@@ -16610,9 +15491,9 @@ mat4.lookAt = function (out, eye, center, up) {
         centery = center[1],
         centerz = center[2];
 
-    if (Math.abs(eyex - centerx) < GLMAT_EPSILON &&
-        Math.abs(eyey - centery) < GLMAT_EPSILON &&
-        Math.abs(eyez - centerz) < GLMAT_EPSILON) {
+    if (Math.abs(eyex - centerx) < glMatrix.EPSILON &&
+        Math.abs(eyey - centery) < glMatrix.EPSILON &&
+        Math.abs(eyez - centerz) < glMatrix.EPSILON) {
         return mat4.identity(out);
     }
 
@@ -16696,41 +15577,42 @@ mat4.str = function (a) {
  * @returns {Number} Frobenius norm
  */
 mat4.frob = function (a) {
-    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2) + Math.pow(a[9], 2) + Math.pow(a[10], 2) + Math.pow(a[11], 2) + Math.pow(a[12], 2) + Math.pow(a[13], 2) + Math.pow(a[14], 2) + Math.pow(a[15], 2) ))
+    return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2) + Math.pow(a[9], 2) + Math.pow(a[10], 2) + Math.pow(a[11], 2) + Math.pow(a[12], 2) + Math.pow(a[13], 2) + Math.pow(a[14], 2) + Math.pow(a[15], 2) ))
 };
 
 
-if(typeof(exports) !== 'undefined') {
-    exports.mat4 = mat4;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+module.exports = mat4;
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+},{"./common.js":50}],55:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+var glMatrix = require("./common.js");
+var mat3 = require("./mat3.js");
+var vec3 = require("./vec3.js");
+var vec4 = require("./vec4.js");
 
 /**
  * @class Quaternion
  * @name quat
  */
-
 var quat = {};
 
 /**
@@ -16739,7 +15621,7 @@ var quat = {};
  * @returns {quat} a new quaternion
  */
 quat.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(4);
+    var out = new glMatrix.ARRAY_TYPE(4);
     out[0] = 0;
     out[1] = 0;
     out[2] = 0;
@@ -17021,7 +15903,7 @@ quat.calculateW = function (out, a) {
     out[0] = x;
     out[1] = y;
     out[2] = z;
-    out[3] = -Math.sqrt(Math.abs(1.0 - x * x - y * y - z * z));
+    out[3] = Math.sqrt(Math.abs(1.0 - x * x - y * y - z * z));
     return out;
 };
 
@@ -17096,6 +15978,30 @@ quat.slerp = function (out, a, b, t) {
     
     return out;
 };
+
+/**
+ * Performs a spherical linear interpolation with two control points
+ *
+ * @param {quat} out the receiving quaternion
+ * @param {quat} a the first operand
+ * @param {quat} b the second operand
+ * @param {quat} c the third operand
+ * @param {quat} d the fourth operand
+ * @param {Number} t interpolation amount
+ * @returns {quat} out
+ */
+quat.sqlerp = (function () {
+  var temp1 = quat.create();
+  var temp2 = quat.create();
+  
+  return function (out, a, b, c, d, t) {
+    quat.slerp(temp1, a, d, t);
+    quat.slerp(temp2, b, c, t);
+    quat.slerp(out, temp1, temp2, 2 * t * (1 - t));
+    
+    return out;
+  };
+}());
 
 /**
  * Calculates the inverse of a quat
@@ -17196,9 +16102,9 @@ quat.fromMat3 = function(out, m) {
         fRoot = Math.sqrt(fTrace + 1.0);  // 2w
         out[3] = 0.5 * fRoot;
         fRoot = 0.5/fRoot;  // 1/(4w)
-        out[0] = (m[7]-m[5])*fRoot;
-        out[1] = (m[2]-m[6])*fRoot;
-        out[2] = (m[3]-m[1])*fRoot;
+        out[0] = (m[5]-m[7])*fRoot;
+        out[1] = (m[6]-m[2])*fRoot;
+        out[2] = (m[1]-m[3])*fRoot;
     } else {
         // |w| <= 1/2
         var i = 0;
@@ -17212,7 +16118,7 @@ quat.fromMat3 = function(out, m) {
         fRoot = Math.sqrt(m[i*3+i]-m[j*3+j]-m[k*3+k] + 1.0);
         out[i] = 0.5 * fRoot;
         fRoot = 0.5 / fRoot;
-        out[3] = (m[k*3+j] - m[j*3+k]) * fRoot;
+        out[3] = (m[j*3+k] - m[k*3+j]) * fRoot;
         out[j] = (m[j*3+i] + m[i*3+j]) * fRoot;
         out[k] = (m[k*3+i] + m[i*3+k]) * fRoot;
     }
@@ -17230,27 +16136,1784 @@ quat.str = function (a) {
     return 'quat(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
 };
 
-if(typeof(exports) !== 'undefined') {
-    exports.quat = quat;
-}
-;
+module.exports = quat;
 
+},{"./common.js":50,"./mat3.js":53,"./vec3.js":57,"./vec4.js":58}],56:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
 
+var glMatrix = require("./common.js");
 
+/**
+ * @class 2 Dimensional Vector
+ * @name vec2
+ */
+var vec2 = {};
 
+/**
+ * Creates a new, empty vec2
+ *
+ * @returns {vec2} a new 2D vector
+ */
+vec2.create = function() {
+    var out = new glMatrix.ARRAY_TYPE(2);
+    out[0] = 0;
+    out[1] = 0;
+    return out;
+};
 
+/**
+ * Creates a new vec2 initialized with values from an existing vector
+ *
+ * @param {vec2} a vector to clone
+ * @returns {vec2} a new 2D vector
+ */
+vec2.clone = function(a) {
+    var out = new glMatrix.ARRAY_TYPE(2);
+    out[0] = a[0];
+    out[1] = a[1];
+    return out;
+};
 
+/**
+ * Creates a new vec2 initialized with the given values
+ *
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @returns {vec2} a new 2D vector
+ */
+vec2.fromValues = function(x, y) {
+    var out = new glMatrix.ARRAY_TYPE(2);
+    out[0] = x;
+    out[1] = y;
+    return out;
+};
 
+/**
+ * Copy the values from one vec2 to another
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the source vector
+ * @returns {vec2} out
+ */
+vec2.copy = function(out, a) {
+    out[0] = a[0];
+    out[1] = a[1];
+    return out;
+};
 
+/**
+ * Set the components of a vec2 to the given values
+ *
+ * @param {vec2} out the receiving vector
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @returns {vec2} out
+ */
+vec2.set = function(out, x, y) {
+    out[0] = x;
+    out[1] = y;
+    return out;
+};
 
+/**
+ * Adds two vec2's
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {vec2} out
+ */
+vec2.add = function(out, a, b) {
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+    return out;
+};
 
-  })(shim.exports);
-})(this);
+/**
+ * Subtracts vector b from vector a
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {vec2} out
+ */
+vec2.subtract = function(out, a, b) {
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+    return out;
+};
 
-},{}],49:[function(require,module,exports){
+/**
+ * Alias for {@link vec2.subtract}
+ * @function
+ */
+vec2.sub = vec2.subtract;
+
+/**
+ * Multiplies two vec2's
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {vec2} out
+ */
+vec2.multiply = function(out, a, b) {
+    out[0] = a[0] * b[0];
+    out[1] = a[1] * b[1];
+    return out;
+};
+
+/**
+ * Alias for {@link vec2.multiply}
+ * @function
+ */
+vec2.mul = vec2.multiply;
+
+/**
+ * Divides two vec2's
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {vec2} out
+ */
+vec2.divide = function(out, a, b) {
+    out[0] = a[0] / b[0];
+    out[1] = a[1] / b[1];
+    return out;
+};
+
+/**
+ * Alias for {@link vec2.divide}
+ * @function
+ */
+vec2.div = vec2.divide;
+
+/**
+ * Returns the minimum of two vec2's
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {vec2} out
+ */
+vec2.min = function(out, a, b) {
+    out[0] = Math.min(a[0], b[0]);
+    out[1] = Math.min(a[1], b[1]);
+    return out;
+};
+
+/**
+ * Returns the maximum of two vec2's
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {vec2} out
+ */
+vec2.max = function(out, a, b) {
+    out[0] = Math.max(a[0], b[0]);
+    out[1] = Math.max(a[1], b[1]);
+    return out;
+};
+
+/**
+ * Scales a vec2 by a scalar number
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the vector to scale
+ * @param {Number} b amount to scale the vector by
+ * @returns {vec2} out
+ */
+vec2.scale = function(out, a, b) {
+    out[0] = a[0] * b;
+    out[1] = a[1] * b;
+    return out;
+};
+
+/**
+ * Adds two vec2's after scaling the second operand by a scalar value
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @param {Number} scale the amount to scale b by before adding
+ * @returns {vec2} out
+ */
+vec2.scaleAndAdd = function(out, a, b, scale) {
+    out[0] = a[0] + (b[0] * scale);
+    out[1] = a[1] + (b[1] * scale);
+    return out;
+};
+
+/**
+ * Calculates the euclidian distance between two vec2's
+ *
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {Number} distance between a and b
+ */
+vec2.distance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1];
+    return Math.sqrt(x*x + y*y);
+};
+
+/**
+ * Alias for {@link vec2.distance}
+ * @function
+ */
+vec2.dist = vec2.distance;
+
+/**
+ * Calculates the squared euclidian distance between two vec2's
+ *
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {Number} squared distance between a and b
+ */
+vec2.squaredDistance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1];
+    return x*x + y*y;
+};
+
+/**
+ * Alias for {@link vec2.squaredDistance}
+ * @function
+ */
+vec2.sqrDist = vec2.squaredDistance;
+
+/**
+ * Calculates the length of a vec2
+ *
+ * @param {vec2} a vector to calculate length of
+ * @returns {Number} length of a
+ */
+vec2.length = function (a) {
+    var x = a[0],
+        y = a[1];
+    return Math.sqrt(x*x + y*y);
+};
+
+/**
+ * Alias for {@link vec2.length}
+ * @function
+ */
+vec2.len = vec2.length;
+
+/**
+ * Calculates the squared length of a vec2
+ *
+ * @param {vec2} a vector to calculate squared length of
+ * @returns {Number} squared length of a
+ */
+vec2.squaredLength = function (a) {
+    var x = a[0],
+        y = a[1];
+    return x*x + y*y;
+};
+
+/**
+ * Alias for {@link vec2.squaredLength}
+ * @function
+ */
+vec2.sqrLen = vec2.squaredLength;
+
+/**
+ * Negates the components of a vec2
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a vector to negate
+ * @returns {vec2} out
+ */
+vec2.negate = function(out, a) {
+    out[0] = -a[0];
+    out[1] = -a[1];
+    return out;
+};
+
+/**
+ * Returns the inverse of the components of a vec2
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a vector to invert
+ * @returns {vec2} out
+ */
+vec2.inverse = function(out, a) {
+  out[0] = 1.0 / a[0];
+  out[1] = 1.0 / a[1];
+  return out;
+};
+
+/**
+ * Normalize a vec2
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a vector to normalize
+ * @returns {vec2} out
+ */
+vec2.normalize = function(out, a) {
+    var x = a[0],
+        y = a[1];
+    var len = x*x + y*y;
+    if (len > 0) {
+        //TODO: evaluate use of glm_invsqrt here?
+        len = 1 / Math.sqrt(len);
+        out[0] = a[0] * len;
+        out[1] = a[1] * len;
+    }
+    return out;
+};
+
+/**
+ * Calculates the dot product of two vec2's
+ *
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {Number} dot product of a and b
+ */
+vec2.dot = function (a, b) {
+    return a[0] * b[0] + a[1] * b[1];
+};
+
+/**
+ * Computes the cross product of two vec2's
+ * Note that the cross product must by definition produce a 3D vector
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @returns {vec3} out
+ */
+vec2.cross = function(out, a, b) {
+    var z = a[0] * b[1] - a[1] * b[0];
+    out[0] = out[1] = 0;
+    out[2] = z;
+    return out;
+};
+
+/**
+ * Performs a linear interpolation between two vec2's
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the first operand
+ * @param {vec2} b the second operand
+ * @param {Number} t interpolation amount between the two inputs
+ * @returns {vec2} out
+ */
+vec2.lerp = function (out, a, b, t) {
+    var ax = a[0],
+        ay = a[1];
+    out[0] = ax + t * (b[0] - ax);
+    out[1] = ay + t * (b[1] - ay);
+    return out;
+};
+
+/**
+ * Generates a random vector with the given scale
+ *
+ * @param {vec2} out the receiving vector
+ * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
+ * @returns {vec2} out
+ */
+vec2.random = function (out, scale) {
+    scale = scale || 1.0;
+    var r = glMatrix.RANDOM() * 2.0 * Math.PI;
+    out[0] = Math.cos(r) * scale;
+    out[1] = Math.sin(r) * scale;
+    return out;
+};
+
+/**
+ * Transforms the vec2 with a mat2
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the vector to transform
+ * @param {mat2} m matrix to transform with
+ * @returns {vec2} out
+ */
+vec2.transformMat2 = function(out, a, m) {
+    var x = a[0],
+        y = a[1];
+    out[0] = m[0] * x + m[2] * y;
+    out[1] = m[1] * x + m[3] * y;
+    return out;
+};
+
+/**
+ * Transforms the vec2 with a mat2d
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the vector to transform
+ * @param {mat2d} m matrix to transform with
+ * @returns {vec2} out
+ */
+vec2.transformMat2d = function(out, a, m) {
+    var x = a[0],
+        y = a[1];
+    out[0] = m[0] * x + m[2] * y + m[4];
+    out[1] = m[1] * x + m[3] * y + m[5];
+    return out;
+};
+
+/**
+ * Transforms the vec2 with a mat3
+ * 3rd vector component is implicitly '1'
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the vector to transform
+ * @param {mat3} m matrix to transform with
+ * @returns {vec2} out
+ */
+vec2.transformMat3 = function(out, a, m) {
+    var x = a[0],
+        y = a[1];
+    out[0] = m[0] * x + m[3] * y + m[6];
+    out[1] = m[1] * x + m[4] * y + m[7];
+    return out;
+};
+
+/**
+ * Transforms the vec2 with a mat4
+ * 3rd vector component is implicitly '0'
+ * 4th vector component is implicitly '1'
+ *
+ * @param {vec2} out the receiving vector
+ * @param {vec2} a the vector to transform
+ * @param {mat4} m matrix to transform with
+ * @returns {vec2} out
+ */
+vec2.transformMat4 = function(out, a, m) {
+    var x = a[0], 
+        y = a[1];
+    out[0] = m[0] * x + m[4] * y + m[12];
+    out[1] = m[1] * x + m[5] * y + m[13];
+    return out;
+};
+
+/**
+ * Perform some operation over an array of vec2s.
+ *
+ * @param {Array} a the array of vectors to iterate over
+ * @param {Number} stride Number of elements between the start of each vec2. If 0 assumes tightly packed
+ * @param {Number} offset Number of elements to skip at the beginning of the array
+ * @param {Number} count Number of vec2s to iterate over. If 0 iterates over entire array
+ * @param {Function} fn Function to call for each vector in the array
+ * @param {Object} [arg] additional argument to pass to fn
+ * @returns {Array} a
+ * @function
+ */
+vec2.forEach = (function() {
+    var vec = vec2.create();
+
+    return function(a, stride, offset, count, fn, arg) {
+        var i, l;
+        if(!stride) {
+            stride = 2;
+        }
+
+        if(!offset) {
+            offset = 0;
+        }
+        
+        if(count) {
+            l = Math.min((count * stride) + offset, a.length);
+        } else {
+            l = a.length;
+        }
+
+        for(i = offset; i < l; i += stride) {
+            vec[0] = a[i]; vec[1] = a[i+1];
+            fn(vec, vec, arg);
+            a[i] = vec[0]; a[i+1] = vec[1];
+        }
+        
+        return a;
+    };
+})();
+
+/**
+ * Returns a string representation of a vector
+ *
+ * @param {vec2} vec vector to represent as a string
+ * @returns {String} string representation of the vector
+ */
+vec2.str = function (a) {
+    return 'vec2(' + a[0] + ', ' + a[1] + ')';
+};
+
+module.exports = vec2;
+
+},{"./common.js":50}],57:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+var glMatrix = require("./common.js");
+
+/**
+ * @class 3 Dimensional Vector
+ * @name vec3
+ */
+var vec3 = {};
+
+/**
+ * Creates a new, empty vec3
+ *
+ * @returns {vec3} a new 3D vector
+ */
+vec3.create = function() {
+    var out = new glMatrix.ARRAY_TYPE(3);
+    out[0] = 0;
+    out[1] = 0;
+    out[2] = 0;
+    return out;
+};
+
+/**
+ * Creates a new vec3 initialized with values from an existing vector
+ *
+ * @param {vec3} a vector to clone
+ * @returns {vec3} a new 3D vector
+ */
+vec3.clone = function(a) {
+    var out = new glMatrix.ARRAY_TYPE(3);
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    return out;
+};
+
+/**
+ * Creates a new vec3 initialized with the given values
+ *
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @param {Number} z Z component
+ * @returns {vec3} a new 3D vector
+ */
+vec3.fromValues = function(x, y, z) {
+    var out = new glMatrix.ARRAY_TYPE(3);
+    out[0] = x;
+    out[1] = y;
+    out[2] = z;
+    return out;
+};
+
+/**
+ * Copy the values from one vec3 to another
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the source vector
+ * @returns {vec3} out
+ */
+vec3.copy = function(out, a) {
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    return out;
+};
+
+/**
+ * Set the components of a vec3 to the given values
+ *
+ * @param {vec3} out the receiving vector
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @param {Number} z Z component
+ * @returns {vec3} out
+ */
+vec3.set = function(out, x, y, z) {
+    out[0] = x;
+    out[1] = y;
+    out[2] = z;
+    return out;
+};
+
+/**
+ * Adds two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {vec3} out
+ */
+vec3.add = function(out, a, b) {
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+    out[2] = a[2] + b[2];
+    return out;
+};
+
+/**
+ * Subtracts vector b from vector a
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {vec3} out
+ */
+vec3.subtract = function(out, a, b) {
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+    out[2] = a[2] - b[2];
+    return out;
+};
+
+/**
+ * Alias for {@link vec3.subtract}
+ * @function
+ */
+vec3.sub = vec3.subtract;
+
+/**
+ * Multiplies two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {vec3} out
+ */
+vec3.multiply = function(out, a, b) {
+    out[0] = a[0] * b[0];
+    out[1] = a[1] * b[1];
+    out[2] = a[2] * b[2];
+    return out;
+};
+
+/**
+ * Alias for {@link vec3.multiply}
+ * @function
+ */
+vec3.mul = vec3.multiply;
+
+/**
+ * Divides two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {vec3} out
+ */
+vec3.divide = function(out, a, b) {
+    out[0] = a[0] / b[0];
+    out[1] = a[1] / b[1];
+    out[2] = a[2] / b[2];
+    return out;
+};
+
+/**
+ * Alias for {@link vec3.divide}
+ * @function
+ */
+vec3.div = vec3.divide;
+
+/**
+ * Returns the minimum of two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {vec3} out
+ */
+vec3.min = function(out, a, b) {
+    out[0] = Math.min(a[0], b[0]);
+    out[1] = Math.min(a[1], b[1]);
+    out[2] = Math.min(a[2], b[2]);
+    return out;
+};
+
+/**
+ * Returns the maximum of two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {vec3} out
+ */
+vec3.max = function(out, a, b) {
+    out[0] = Math.max(a[0], b[0]);
+    out[1] = Math.max(a[1], b[1]);
+    out[2] = Math.max(a[2], b[2]);
+    return out;
+};
+
+/**
+ * Scales a vec3 by a scalar number
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the vector to scale
+ * @param {Number} b amount to scale the vector by
+ * @returns {vec3} out
+ */
+vec3.scale = function(out, a, b) {
+    out[0] = a[0] * b;
+    out[1] = a[1] * b;
+    out[2] = a[2] * b;
+    return out;
+};
+
+/**
+ * Adds two vec3's after scaling the second operand by a scalar value
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @param {Number} scale the amount to scale b by before adding
+ * @returns {vec3} out
+ */
+vec3.scaleAndAdd = function(out, a, b, scale) {
+    out[0] = a[0] + (b[0] * scale);
+    out[1] = a[1] + (b[1] * scale);
+    out[2] = a[2] + (b[2] * scale);
+    return out;
+};
+
+/**
+ * Calculates the euclidian distance between two vec3's
+ *
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {Number} distance between a and b
+ */
+vec3.distance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1],
+        z = b[2] - a[2];
+    return Math.sqrt(x*x + y*y + z*z);
+};
+
+/**
+ * Alias for {@link vec3.distance}
+ * @function
+ */
+vec3.dist = vec3.distance;
+
+/**
+ * Calculates the squared euclidian distance between two vec3's
+ *
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {Number} squared distance between a and b
+ */
+vec3.squaredDistance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1],
+        z = b[2] - a[2];
+    return x*x + y*y + z*z;
+};
+
+/**
+ * Alias for {@link vec3.squaredDistance}
+ * @function
+ */
+vec3.sqrDist = vec3.squaredDistance;
+
+/**
+ * Calculates the length of a vec3
+ *
+ * @param {vec3} a vector to calculate length of
+ * @returns {Number} length of a
+ */
+vec3.length = function (a) {
+    var x = a[0],
+        y = a[1],
+        z = a[2];
+    return Math.sqrt(x*x + y*y + z*z);
+};
+
+/**
+ * Alias for {@link vec3.length}
+ * @function
+ */
+vec3.len = vec3.length;
+
+/**
+ * Calculates the squared length of a vec3
+ *
+ * @param {vec3} a vector to calculate squared length of
+ * @returns {Number} squared length of a
+ */
+vec3.squaredLength = function (a) {
+    var x = a[0],
+        y = a[1],
+        z = a[2];
+    return x*x + y*y + z*z;
+};
+
+/**
+ * Alias for {@link vec3.squaredLength}
+ * @function
+ */
+vec3.sqrLen = vec3.squaredLength;
+
+/**
+ * Negates the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a vector to negate
+ * @returns {vec3} out
+ */
+vec3.negate = function(out, a) {
+    out[0] = -a[0];
+    out[1] = -a[1];
+    out[2] = -a[2];
+    return out;
+};
+
+/**
+ * Returns the inverse of the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a vector to invert
+ * @returns {vec3} out
+ */
+vec3.inverse = function(out, a) {
+  out[0] = 1.0 / a[0];
+  out[1] = 1.0 / a[1];
+  out[2] = 1.0 / a[2];
+  return out;
+};
+
+/**
+ * Normalize a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a vector to normalize
+ * @returns {vec3} out
+ */
+vec3.normalize = function(out, a) {
+    var x = a[0],
+        y = a[1],
+        z = a[2];
+    var len = x*x + y*y + z*z;
+    if (len > 0) {
+        //TODO: evaluate use of glm_invsqrt here?
+        len = 1 / Math.sqrt(len);
+        out[0] = a[0] * len;
+        out[1] = a[1] * len;
+        out[2] = a[2] * len;
+    }
+    return out;
+};
+
+/**
+ * Calculates the dot product of two vec3's
+ *
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {Number} dot product of a and b
+ */
+vec3.dot = function (a, b) {
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+};
+
+/**
+ * Computes the cross product of two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @returns {vec3} out
+ */
+vec3.cross = function(out, a, b) {
+    var ax = a[0], ay = a[1], az = a[2],
+        bx = b[0], by = b[1], bz = b[2];
+
+    out[0] = ay * bz - az * by;
+    out[1] = az * bx - ax * bz;
+    out[2] = ax * by - ay * bx;
+    return out;
+};
+
+/**
+ * Performs a linear interpolation between two vec3's
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @param {Number} t interpolation amount between the two inputs
+ * @returns {vec3} out
+ */
+vec3.lerp = function (out, a, b, t) {
+    var ax = a[0],
+        ay = a[1],
+        az = a[2];
+    out[0] = ax + t * (b[0] - ax);
+    out[1] = ay + t * (b[1] - ay);
+    out[2] = az + t * (b[2] - az);
+    return out;
+};
+
+/**
+ * Performs a hermite interpolation with two control points
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @param {vec3} c the third operand
+ * @param {vec3} d the fourth operand
+ * @param {Number} t interpolation amount between the two inputs
+ * @returns {vec3} out
+ */
+vec3.hermite = function (out, a, b, c, d, t) {
+  var factorTimes2 = t * t,
+      factor1 = factorTimes2 * (2 * t - 3) + 1,
+      factor2 = factorTimes2 * (t - 2) + t,
+      factor3 = factorTimes2 * (t - 1),
+      factor4 = factorTimes2 * (3 - 2 * t);
+  
+  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+  
+  return out;
+};
+
+/**
+ * Performs a bezier interpolation with two control points
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the first operand
+ * @param {vec3} b the second operand
+ * @param {vec3} c the third operand
+ * @param {vec3} d the fourth operand
+ * @param {Number} t interpolation amount between the two inputs
+ * @returns {vec3} out
+ */
+vec3.bezier = function (out, a, b, c, d, t) {
+  var inverseFactor = 1 - t,
+      inverseFactorTimesTwo = inverseFactor * inverseFactor,
+      factorTimes2 = t * t,
+      factor1 = inverseFactorTimesTwo * inverseFactor,
+      factor2 = 3 * t * inverseFactorTimesTwo,
+      factor3 = 3 * factorTimes2 * inverseFactor,
+      factor4 = factorTimes2 * t;
+  
+  out[0] = a[0] * factor1 + b[0] * factor2 + c[0] * factor3 + d[0] * factor4;
+  out[1] = a[1] * factor1 + b[1] * factor2 + c[1] * factor3 + d[1] * factor4;
+  out[2] = a[2] * factor1 + b[2] * factor2 + c[2] * factor3 + d[2] * factor4;
+  
+  return out;
+};
+
+/**
+ * Generates a random vector with the given scale
+ *
+ * @param {vec3} out the receiving vector
+ * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
+ * @returns {vec3} out
+ */
+vec3.random = function (out, scale) {
+    scale = scale || 1.0;
+
+    var r = glMatrix.RANDOM() * 2.0 * Math.PI;
+    var z = (glMatrix.RANDOM() * 2.0) - 1.0;
+    var zScale = Math.sqrt(1.0-z*z) * scale;
+
+    out[0] = Math.cos(r) * zScale;
+    out[1] = Math.sin(r) * zScale;
+    out[2] = z * scale;
+    return out;
+};
+
+/**
+ * Transforms the vec3 with a mat4.
+ * 4th vector component is implicitly '1'
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the vector to transform
+ * @param {mat4} m matrix to transform with
+ * @returns {vec3} out
+ */
+vec3.transformMat4 = function(out, a, m) {
+    var x = a[0], y = a[1], z = a[2],
+        w = m[3] * x + m[7] * y + m[11] * z + m[15];
+    w = w || 1.0;
+    out[0] = (m[0] * x + m[4] * y + m[8] * z + m[12]) / w;
+    out[1] = (m[1] * x + m[5] * y + m[9] * z + m[13]) / w;
+    out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w;
+    return out;
+};
+
+/**
+ * Transforms the vec3 with a mat3.
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the vector to transform
+ * @param {mat4} m the 3x3 matrix to transform with
+ * @returns {vec3} out
+ */
+vec3.transformMat3 = function(out, a, m) {
+    var x = a[0], y = a[1], z = a[2];
+    out[0] = x * m[0] + y * m[3] + z * m[6];
+    out[1] = x * m[1] + y * m[4] + z * m[7];
+    out[2] = x * m[2] + y * m[5] + z * m[8];
+    return out;
+};
+
+/**
+ * Transforms the vec3 with a quat
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a the vector to transform
+ * @param {quat} q quaternion to transform with
+ * @returns {vec3} out
+ */
+vec3.transformQuat = function(out, a, q) {
+    // benchmarks: http://jsperf.com/quaternion-transform-vec3-implementations
+
+    var x = a[0], y = a[1], z = a[2],
+        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
+
+        // calculate quat * vec
+        ix = qw * x + qy * z - qz * y,
+        iy = qw * y + qz * x - qx * z,
+        iz = qw * z + qx * y - qy * x,
+        iw = -qx * x - qy * y - qz * z;
+
+    // calculate result * inverse quat
+    out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
+    out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
+    out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+    return out;
+};
+
+/**
+ * Rotate a 3D vector around the x-axis
+ * @param {vec3} out The receiving vec3
+ * @param {vec3} a The vec3 point to rotate
+ * @param {vec3} b The origin of the rotation
+ * @param {Number} c The angle of rotation
+ * @returns {vec3} out
+ */
+vec3.rotateX = function(out, a, b, c){
+   var p = [], r=[];
+	  //Translate point to the origin
+	  p[0] = a[0] - b[0];
+	  p[1] = a[1] - b[1];
+  	p[2] = a[2] - b[2];
+
+	  //perform rotation
+	  r[0] = p[0];
+	  r[1] = p[1]*Math.cos(c) - p[2]*Math.sin(c);
+	  r[2] = p[1]*Math.sin(c) + p[2]*Math.cos(c);
+
+	  //translate to correct position
+	  out[0] = r[0] + b[0];
+	  out[1] = r[1] + b[1];
+	  out[2] = r[2] + b[2];
+
+  	return out;
+};
+
+/**
+ * Rotate a 3D vector around the y-axis
+ * @param {vec3} out The receiving vec3
+ * @param {vec3} a The vec3 point to rotate
+ * @param {vec3} b The origin of the rotation
+ * @param {Number} c The angle of rotation
+ * @returns {vec3} out
+ */
+vec3.rotateY = function(out, a, b, c){
+  	var p = [], r=[];
+  	//Translate point to the origin
+  	p[0] = a[0] - b[0];
+  	p[1] = a[1] - b[1];
+  	p[2] = a[2] - b[2];
+  
+  	//perform rotation
+  	r[0] = p[2]*Math.sin(c) + p[0]*Math.cos(c);
+  	r[1] = p[1];
+  	r[2] = p[2]*Math.cos(c) - p[0]*Math.sin(c);
+  
+  	//translate to correct position
+  	out[0] = r[0] + b[0];
+  	out[1] = r[1] + b[1];
+  	out[2] = r[2] + b[2];
+  
+  	return out;
+};
+
+/**
+ * Rotate a 3D vector around the z-axis
+ * @param {vec3} out The receiving vec3
+ * @param {vec3} a The vec3 point to rotate
+ * @param {vec3} b The origin of the rotation
+ * @param {Number} c The angle of rotation
+ * @returns {vec3} out
+ */
+vec3.rotateZ = function(out, a, b, c){
+  	var p = [], r=[];
+  	//Translate point to the origin
+  	p[0] = a[0] - b[0];
+  	p[1] = a[1] - b[1];
+  	p[2] = a[2] - b[2];
+  
+  	//perform rotation
+  	r[0] = p[0]*Math.cos(c) - p[1]*Math.sin(c);
+  	r[1] = p[0]*Math.sin(c) + p[1]*Math.cos(c);
+  	r[2] = p[2];
+  
+  	//translate to correct position
+  	out[0] = r[0] + b[0];
+  	out[1] = r[1] + b[1];
+  	out[2] = r[2] + b[2];
+  
+  	return out;
+};
+
+/**
+ * Perform some operation over an array of vec3s.
+ *
+ * @param {Array} a the array of vectors to iterate over
+ * @param {Number} stride Number of elements between the start of each vec3. If 0 assumes tightly packed
+ * @param {Number} offset Number of elements to skip at the beginning of the array
+ * @param {Number} count Number of vec3s to iterate over. If 0 iterates over entire array
+ * @param {Function} fn Function to call for each vector in the array
+ * @param {Object} [arg] additional argument to pass to fn
+ * @returns {Array} a
+ * @function
+ */
+vec3.forEach = (function() {
+    var vec = vec3.create();
+
+    return function(a, stride, offset, count, fn, arg) {
+        var i, l;
+        if(!stride) {
+            stride = 3;
+        }
+
+        if(!offset) {
+            offset = 0;
+        }
+        
+        if(count) {
+            l = Math.min((count * stride) + offset, a.length);
+        } else {
+            l = a.length;
+        }
+
+        for(i = offset; i < l; i += stride) {
+            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2];
+            fn(vec, vec, arg);
+            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2];
+        }
+        
+        return a;
+    };
+})();
+
+/**
+ * Get the angle between two 3D vectors
+ * @param {vec3} a The first operand
+ * @param {vec3} b The second operand
+ * @returns {Number} The angle in radians
+ */
+vec3.angle = function(a, b) {
+   
+    var tempA = vec3.fromValues(a[0], a[1], a[2]);
+    var tempB = vec3.fromValues(b[0], b[1], b[2]);
+ 
+    vec3.normalize(tempA, tempA);
+    vec3.normalize(tempB, tempB);
+ 
+    var cosine = vec3.dot(tempA, tempB);
+
+    if(cosine > 1.0){
+        return 0;
+    } else {
+        return Math.acos(cosine);
+    }     
+};
+
+/**
+ * Returns a string representation of a vector
+ *
+ * @param {vec3} vec vector to represent as a string
+ * @returns {String} string representation of the vector
+ */
+vec3.str = function (a) {
+    return 'vec3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ')';
+};
+
+module.exports = vec3;
+
+},{"./common.js":50}],58:[function(require,module,exports){
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+
+var glMatrix = require("./common.js");
+
+/**
+ * @class 4 Dimensional Vector
+ * @name vec4
+ */
+var vec4 = {};
+
+/**
+ * Creates a new, empty vec4
+ *
+ * @returns {vec4} a new 4D vector
+ */
+vec4.create = function() {
+    var out = new glMatrix.ARRAY_TYPE(4);
+    out[0] = 0;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    return out;
+};
+
+/**
+ * Creates a new vec4 initialized with values from an existing vector
+ *
+ * @param {vec4} a vector to clone
+ * @returns {vec4} a new 4D vector
+ */
+vec4.clone = function(a) {
+    var out = new glMatrix.ARRAY_TYPE(4);
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    out[3] = a[3];
+    return out;
+};
+
+/**
+ * Creates a new vec4 initialized with the given values
+ *
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @param {Number} z Z component
+ * @param {Number} w W component
+ * @returns {vec4} a new 4D vector
+ */
+vec4.fromValues = function(x, y, z, w) {
+    var out = new glMatrix.ARRAY_TYPE(4);
+    out[0] = x;
+    out[1] = y;
+    out[2] = z;
+    out[3] = w;
+    return out;
+};
+
+/**
+ * Copy the values from one vec4 to another
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the source vector
+ * @returns {vec4} out
+ */
+vec4.copy = function(out, a) {
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+    out[3] = a[3];
+    return out;
+};
+
+/**
+ * Set the components of a vec4 to the given values
+ *
+ * @param {vec4} out the receiving vector
+ * @param {Number} x X component
+ * @param {Number} y Y component
+ * @param {Number} z Z component
+ * @param {Number} w W component
+ * @returns {vec4} out
+ */
+vec4.set = function(out, x, y, z, w) {
+    out[0] = x;
+    out[1] = y;
+    out[2] = z;
+    out[3] = w;
+    return out;
+};
+
+/**
+ * Adds two vec4's
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {vec4} out
+ */
+vec4.add = function(out, a, b) {
+    out[0] = a[0] + b[0];
+    out[1] = a[1] + b[1];
+    out[2] = a[2] + b[2];
+    out[3] = a[3] + b[3];
+    return out;
+};
+
+/**
+ * Subtracts vector b from vector a
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {vec4} out
+ */
+vec4.subtract = function(out, a, b) {
+    out[0] = a[0] - b[0];
+    out[1] = a[1] - b[1];
+    out[2] = a[2] - b[2];
+    out[3] = a[3] - b[3];
+    return out;
+};
+
+/**
+ * Alias for {@link vec4.subtract}
+ * @function
+ */
+vec4.sub = vec4.subtract;
+
+/**
+ * Multiplies two vec4's
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {vec4} out
+ */
+vec4.multiply = function(out, a, b) {
+    out[0] = a[0] * b[0];
+    out[1] = a[1] * b[1];
+    out[2] = a[2] * b[2];
+    out[3] = a[3] * b[3];
+    return out;
+};
+
+/**
+ * Alias for {@link vec4.multiply}
+ * @function
+ */
+vec4.mul = vec4.multiply;
+
+/**
+ * Divides two vec4's
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {vec4} out
+ */
+vec4.divide = function(out, a, b) {
+    out[0] = a[0] / b[0];
+    out[1] = a[1] / b[1];
+    out[2] = a[2] / b[2];
+    out[3] = a[3] / b[3];
+    return out;
+};
+
+/**
+ * Alias for {@link vec4.divide}
+ * @function
+ */
+vec4.div = vec4.divide;
+
+/**
+ * Returns the minimum of two vec4's
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {vec4} out
+ */
+vec4.min = function(out, a, b) {
+    out[0] = Math.min(a[0], b[0]);
+    out[1] = Math.min(a[1], b[1]);
+    out[2] = Math.min(a[2], b[2]);
+    out[3] = Math.min(a[3], b[3]);
+    return out;
+};
+
+/**
+ * Returns the maximum of two vec4's
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {vec4} out
+ */
+vec4.max = function(out, a, b) {
+    out[0] = Math.max(a[0], b[0]);
+    out[1] = Math.max(a[1], b[1]);
+    out[2] = Math.max(a[2], b[2]);
+    out[3] = Math.max(a[3], b[3]);
+    return out;
+};
+
+/**
+ * Scales a vec4 by a scalar number
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the vector to scale
+ * @param {Number} b amount to scale the vector by
+ * @returns {vec4} out
+ */
+vec4.scale = function(out, a, b) {
+    out[0] = a[0] * b;
+    out[1] = a[1] * b;
+    out[2] = a[2] * b;
+    out[3] = a[3] * b;
+    return out;
+};
+
+/**
+ * Adds two vec4's after scaling the second operand by a scalar value
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @param {Number} scale the amount to scale b by before adding
+ * @returns {vec4} out
+ */
+vec4.scaleAndAdd = function(out, a, b, scale) {
+    out[0] = a[0] + (b[0] * scale);
+    out[1] = a[1] + (b[1] * scale);
+    out[2] = a[2] + (b[2] * scale);
+    out[3] = a[3] + (b[3] * scale);
+    return out;
+};
+
+/**
+ * Calculates the euclidian distance between two vec4's
+ *
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {Number} distance between a and b
+ */
+vec4.distance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1],
+        z = b[2] - a[2],
+        w = b[3] - a[3];
+    return Math.sqrt(x*x + y*y + z*z + w*w);
+};
+
+/**
+ * Alias for {@link vec4.distance}
+ * @function
+ */
+vec4.dist = vec4.distance;
+
+/**
+ * Calculates the squared euclidian distance between two vec4's
+ *
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {Number} squared distance between a and b
+ */
+vec4.squaredDistance = function(a, b) {
+    var x = b[0] - a[0],
+        y = b[1] - a[1],
+        z = b[2] - a[2],
+        w = b[3] - a[3];
+    return x*x + y*y + z*z + w*w;
+};
+
+/**
+ * Alias for {@link vec4.squaredDistance}
+ * @function
+ */
+vec4.sqrDist = vec4.squaredDistance;
+
+/**
+ * Calculates the length of a vec4
+ *
+ * @param {vec4} a vector to calculate length of
+ * @returns {Number} length of a
+ */
+vec4.length = function (a) {
+    var x = a[0],
+        y = a[1],
+        z = a[2],
+        w = a[3];
+    return Math.sqrt(x*x + y*y + z*z + w*w);
+};
+
+/**
+ * Alias for {@link vec4.length}
+ * @function
+ */
+vec4.len = vec4.length;
+
+/**
+ * Calculates the squared length of a vec4
+ *
+ * @param {vec4} a vector to calculate squared length of
+ * @returns {Number} squared length of a
+ */
+vec4.squaredLength = function (a) {
+    var x = a[0],
+        y = a[1],
+        z = a[2],
+        w = a[3];
+    return x*x + y*y + z*z + w*w;
+};
+
+/**
+ * Alias for {@link vec4.squaredLength}
+ * @function
+ */
+vec4.sqrLen = vec4.squaredLength;
+
+/**
+ * Negates the components of a vec4
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a vector to negate
+ * @returns {vec4} out
+ */
+vec4.negate = function(out, a) {
+    out[0] = -a[0];
+    out[1] = -a[1];
+    out[2] = -a[2];
+    out[3] = -a[3];
+    return out;
+};
+
+/**
+ * Returns the inverse of the components of a vec4
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a vector to invert
+ * @returns {vec4} out
+ */
+vec4.inverse = function(out, a) {
+  out[0] = 1.0 / a[0];
+  out[1] = 1.0 / a[1];
+  out[2] = 1.0 / a[2];
+  out[3] = 1.0 / a[3];
+  return out;
+};
+
+/**
+ * Normalize a vec4
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a vector to normalize
+ * @returns {vec4} out
+ */
+vec4.normalize = function(out, a) {
+    var x = a[0],
+        y = a[1],
+        z = a[2],
+        w = a[3];
+    var len = x*x + y*y + z*z + w*w;
+    if (len > 0) {
+        len = 1 / Math.sqrt(len);
+        out[0] = x * len;
+        out[1] = y * len;
+        out[2] = z * len;
+        out[3] = w * len;
+    }
+    return out;
+};
+
+/**
+ * Calculates the dot product of two vec4's
+ *
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @returns {Number} dot product of a and b
+ */
+vec4.dot = function (a, b) {
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
+};
+
+/**
+ * Performs a linear interpolation between two vec4's
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the first operand
+ * @param {vec4} b the second operand
+ * @param {Number} t interpolation amount between the two inputs
+ * @returns {vec4} out
+ */
+vec4.lerp = function (out, a, b, t) {
+    var ax = a[0],
+        ay = a[1],
+        az = a[2],
+        aw = a[3];
+    out[0] = ax + t * (b[0] - ax);
+    out[1] = ay + t * (b[1] - ay);
+    out[2] = az + t * (b[2] - az);
+    out[3] = aw + t * (b[3] - aw);
+    return out;
+};
+
+/**
+ * Generates a random vector with the given scale
+ *
+ * @param {vec4} out the receiving vector
+ * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
+ * @returns {vec4} out
+ */
+vec4.random = function (out, scale) {
+    scale = scale || 1.0;
+
+    //TODO: This is a pretty awful way of doing this. Find something better.
+    out[0] = glMatrix.RANDOM();
+    out[1] = glMatrix.RANDOM();
+    out[2] = glMatrix.RANDOM();
+    out[3] = glMatrix.RANDOM();
+    vec4.normalize(out, out);
+    vec4.scale(out, out, scale);
+    return out;
+};
+
+/**
+ * Transforms the vec4 with a mat4.
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the vector to transform
+ * @param {mat4} m matrix to transform with
+ * @returns {vec4} out
+ */
+vec4.transformMat4 = function(out, a, m) {
+    var x = a[0], y = a[1], z = a[2], w = a[3];
+    out[0] = m[0] * x + m[4] * y + m[8] * z + m[12] * w;
+    out[1] = m[1] * x + m[5] * y + m[9] * z + m[13] * w;
+    out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w;
+    out[3] = m[3] * x + m[7] * y + m[11] * z + m[15] * w;
+    return out;
+};
+
+/**
+ * Transforms the vec4 with a quat
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a the vector to transform
+ * @param {quat} q quaternion to transform with
+ * @returns {vec4} out
+ */
+vec4.transformQuat = function(out, a, q) {
+    var x = a[0], y = a[1], z = a[2],
+        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
+
+        // calculate quat * vec
+        ix = qw * x + qy * z - qz * y,
+        iy = qw * y + qz * x - qx * z,
+        iz = qw * z + qx * y - qy * x,
+        iw = -qx * x - qy * y - qz * z;
+
+    // calculate result * inverse quat
+    out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
+    out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
+    out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+    out[3] = a[3];
+    return out;
+};
+
+/**
+ * Perform some operation over an array of vec4s.
+ *
+ * @param {Array} a the array of vectors to iterate over
+ * @param {Number} stride Number of elements between the start of each vec4. If 0 assumes tightly packed
+ * @param {Number} offset Number of elements to skip at the beginning of the array
+ * @param {Number} count Number of vec4s to iterate over. If 0 iterates over entire array
+ * @param {Function} fn Function to call for each vector in the array
+ * @param {Object} [arg] additional argument to pass to fn
+ * @returns {Array} a
+ * @function
+ */
+vec4.forEach = (function() {
+    var vec = vec4.create();
+
+    return function(a, stride, offset, count, fn, arg) {
+        var i, l;
+        if(!stride) {
+            stride = 4;
+        }
+
+        if(!offset) {
+            offset = 0;
+        }
+        
+        if(count) {
+            l = Math.min((count * stride) + offset, a.length);
+        } else {
+            l = a.length;
+        }
+
+        for(i = offset; i < l; i += stride) {
+            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2]; vec[3] = a[i+3];
+            fn(vec, vec, arg);
+            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2]; a[i+3] = vec[3];
+        }
+        
+        return a;
+    };
+})();
+
+/**
+ * Returns a string representation of a vector
+ *
+ * @param {vec4} vec vector to represent as a string
+ * @returns {String} string representation of the vector
+ */
+vec4.str = function (a) {
+    return 'vec4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
+};
+
+module.exports = vec4;
+
+},{"./common.js":50}],59:[function(require,module,exports){
 module.exports = function(field, tilesize, dimensions, offset) {
   dimensions = dimensions || [ 
     Math.sqrt(field.length) >> 0
@@ -17339,7 +18002,7 @@ module.exports = function(field, tilesize, dimensions, offset) {
   }  
 }
 
-},{}],50:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
@@ -17421,7 +18084,7 @@ module.exports = function extend() {
 };
 
 
-},{}],51:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 'use strict';
 
 var glm = require('gl-matrix');
@@ -17550,7 +18213,7 @@ CameraPlugin.prototype.getVector = function(out) {
   out[2] = -_scratch1[2];
 };
 
-},{"./pointer-stream.js":55,"basic-camera":52,"events":21,"gl-matrix":53,"inherits":54}],52:[function(require,module,exports){
+},{"./pointer-stream.js":73,"basic-camera":62,"events":21,"gl-matrix":63,"inherits":120}],62:[function(require,module,exports){
 var glm = require('gl-matrix')
 var vec3 = glm.vec3
 var mat4 = glm.mat4
@@ -17604,11 +18267,27 @@ noclip.prototype.rotateZ   = function(angle) {
   return this
 }
 
-},{"gl-matrix":53}],53:[function(require,module,exports){
-arguments[4][48][0].apply(exports,arguments)
-},{"dup":48}],54:[function(require,module,exports){
-arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}],55:[function(require,module,exports){
+},{"gl-matrix":63}],63:[function(require,module,exports){
+arguments[4][49][0].apply(exports,arguments)
+},{"./gl-matrix/common.js":64,"./gl-matrix/mat2.js":65,"./gl-matrix/mat2d.js":66,"./gl-matrix/mat3.js":67,"./gl-matrix/mat4.js":68,"./gl-matrix/quat.js":69,"./gl-matrix/vec2.js":70,"./gl-matrix/vec3.js":71,"./gl-matrix/vec4.js":72,"dup":49}],64:[function(require,module,exports){
+arguments[4][50][0].apply(exports,arguments)
+},{"dup":50}],65:[function(require,module,exports){
+arguments[4][51][0].apply(exports,arguments)
+},{"./common.js":64,"dup":51}],66:[function(require,module,exports){
+arguments[4][52][0].apply(exports,arguments)
+},{"./common.js":64,"dup":52}],67:[function(require,module,exports){
+arguments[4][53][0].apply(exports,arguments)
+},{"./common.js":64,"dup":53}],68:[function(require,module,exports){
+arguments[4][54][0].apply(exports,arguments)
+},{"./common.js":64,"dup":54}],69:[function(require,module,exports){
+arguments[4][55][0].apply(exports,arguments)
+},{"./common.js":64,"./mat3.js":67,"./vec3.js":71,"./vec4.js":72,"dup":55}],70:[function(require,module,exports){
+arguments[4][56][0].apply(exports,arguments)
+},{"./common.js":64,"dup":56}],71:[function(require,module,exports){
+arguments[4][57][0].apply(exports,arguments)
+},{"./common.js":64,"dup":57}],72:[function(require,module,exports){
+arguments[4][58][0].apply(exports,arguments)
+},{"./common.js":64,"dup":58}],73:[function(require,module,exports){
 'use strict';
 
 var Readable = require('stream').Readable;
@@ -17652,7 +18331,7 @@ PointerStream.prototype._read = function() {
 
 module.exports = PointerStream;
 
-},{"inherits":54,"stream":40}],56:[function(require,module,exports){
+},{"inherits":120,"stream":40}],74:[function(require,module,exports){
 "use strict"
 
 var makeGameShell = require("game-shell")
@@ -17666,6 +18345,7 @@ function createGLShell(options) {
   //First create shell
   var shell = makeGameShell(options)
   var scale = shell.scale || 1
+  var contextOptions = options.glOptions
 
   shell.on("init", function initGLNow() {
   
@@ -17673,7 +18353,8 @@ function createGLShell(options) {
     var canvas = document.createElement("canvas")
     
     //Try initializing WebGL
-    var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
+    var gl = canvas.getContext("webgl", contextOptions) || 
+             canvas.getContext("experimental-webgl", contextOptions)
     if(!gl) {
       shell.emit("gl-error", new Error("Unable to initialize WebGL"))
       return
@@ -17793,8 +18474,7 @@ function createGLShell(options) {
 }
 
 module.exports = createGLShell
-
-},{"game-shell":66,"webglew":68}],57:[function(require,module,exports){
+},{"game-shell":84,"webglew":86}],75:[function(require,module,exports){
 if(typeof window.performance === "object") {
   if(window.performance.now) {
     module.exports = function() { return window.performance.now() }
@@ -17807,7 +18487,7 @@ if(typeof window.performance === "object") {
   module.exports = function() { return (new Date()).getTime() }
 }
 
-},{}],58:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 //Adapted from here: https://developer.mozilla.org/en-US/docs/Web/Reference/Events/wheel?redirectlocale=en-US&redirectslug=DOM%2FMozilla_event_reference%2Fwheel
 
 var prefix = "", _addEventListener, onwheel, support;
@@ -17867,7 +18547,7 @@ module.exports = function( elem, callback, useCapture ) {
     _addWheelListener( elem, "MozMousePixelScroll", callback, useCapture );
   }
 };
-},{}],59:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
  
@@ -17897,7 +18577,7 @@ if (!window.cancelAnimationFrame)
         clearTimeout(id);
     };
 
-},{}],60:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 "use strict"
 
 function compileSearch(funcName, predicate, reversed, extraArgs, useNdarray, earlyOut) {
@@ -17959,7 +18639,7 @@ module.exports = {
   eq: compileBoundsSearch("-", true, "EQ", true)
 }
 
-},{}],61:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -17973,8 +18653,10 @@ module.exports = {
 
   var fns = [], listener
     , doc = document
+    , hack = doc.documentElement.doScroll
     , domContentLoaded = 'DOMContentLoaded'
-    , loaded = /^loaded|^i|^c/.test(doc.readyState)
+    , loaded = (hack ? /^loaded|^c/ : /^loaded|^i|^c/).test(doc.readyState)
+
 
   if (!loaded)
   doc.addEventListener(domContentLoaded, listener = function () {
@@ -17984,12 +18666,12 @@ module.exports = {
   })
 
   return function (fn) {
-    loaded ? fn() : fns.push(fn)
+    loaded ? setTimeout(fn, 0) : fns.push(fn)
   }
 
 });
 
-},{}],62:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 "use strict"
 
 function invert(hash) {
@@ -18003,7 +18685,7 @@ function invert(hash) {
 }
 
 module.exports = invert
-},{}],63:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 "use strict"
 
 function iota(n) {
@@ -18015,7 +18697,7 @@ function iota(n) {
 }
 
 module.exports = iota
-},{}],64:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 "use strict"
 
 function unique_pred(list, compare) {
@@ -18074,7 +18756,7 @@ function unique(list, compare, sorted) {
 
 module.exports = unique
 
-},{}],65:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 var ua = typeof window !== 'undefined' ? window.navigator.userAgent : ''
   , isOSX = /OS X/.test(ua)
   , isOpera = /Opera/.test(ua)
@@ -18212,7 +18894,7 @@ for(i = 112; i < 136; ++i) {
   output[i] = 'F'+(i-111)
 }
 
-},{}],66:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 "use strict"
 
 var EventEmitter = require("events").EventEmitter
@@ -18283,6 +18965,9 @@ function GameShell() {
   this._pointerLockActive = false
   
   this._render = render.bind(undefined, this)
+
+  this.preventDefaults = true
+  this.stopPropagation = false
   
   for(var i=0; i<keyNames.length; ++i) {
     this._curKeyState[i] = false
@@ -18299,7 +18984,7 @@ function GameShell() {
   this.tickTime = this._tickRate
   this.frameTime = 10.0
   this.stickyFullscreen = false
-  this.stickyPointLock = false
+  this.stickyPointerLock = false
   
   //Scroll stuff
   this.scroll = [0,0,0]
@@ -18638,9 +19323,18 @@ function isFocused(shell) {
          (document.activeElement === shell.element)
 }
 
+function handleEvent(shell, ev) {
+  if(shell.preventDefaults) {
+    ev.preventDefault()
+  }
+  if(shell.stopPropagation) {
+    ev.stopPropagation()
+  }
+}
+
 //Set key up
 function handleKeyUp(shell, ev) {
-  ev.preventDefault()
+  handleEvent(shell, ev)
   var kc = physicalKeyCode(ev.keyCode || ev.char || ev.which || ev.charCode)
   if(kc >= 0) {
     setKeyState(shell, kc, false)
@@ -18652,11 +19346,11 @@ function handleKeyDown(shell, ev) {
   if(!isFocused(shell)) {
     return
   }
+  handleEvent(shell, ev)
   if(ev.metaKey) {
     //Hack: Clear key state when meta gets pressed to prevent keys sticking
     handleBlur(shell, ev)
   } else {
-    ev.preventDefault()
     var kc = physicalKeyCode(ev.keyCode || ev.char || ev.which || ev.charCode)
     if(kc >= 0) {
       setKeyState(shell, kc, true)
@@ -18676,6 +19370,7 @@ function setMouseButtons(shell, buttons) {
 }
 
 function handleMouseMove(shell, ev) {
+  handleEvent(shell, ev)
   if(shell._pointerLockActive) {
     var movementX = ev.movementX       ||
                     ev.mozMovementX    ||
@@ -18695,16 +19390,19 @@ function handleMouseMove(shell, ev) {
 }
 
 function handleMouseDown(shell, ev) {
+  handleEvent(shell, ev)
   setKeyState(shell, mouseCodes[ev.button], true)
   return false
 }
 
 function handleMouseUp(shell, ev) {
+  handleEvent(shell, ev)
   setKeyState(shell, mouseCodes[ev.button], false)
   return false
 }
 
 function handleMouseEnter(shell, ev) {
+  handleEvent(shell, ev)
   if(shell._pointerLockActive) {
     shell.prevMouseX = shell.mouseX = shell.width>>1
     shell.prevMouseY = shell.mouseY = shell.height>>1
@@ -18716,12 +19414,14 @@ function handleMouseEnter(shell, ev) {
 }
 
 function handleMouseLeave(shell, ev) {
+  handleEvent(shell, ev)
   setMouseButtons(shell, 0)
   return false
 }
 
 //Handle mouse wheel events
 function handleMouseWheel(shell, ev) {
+  handleEvent(shell, ev)
   var scale = 1
   switch(ev.deltaMode) {
     case 0: //Pixel
@@ -18742,6 +19442,7 @@ function handleMouseWheel(shell, ev) {
 }
 
 function handleContexMenu(shell, ev) {
+  handleEvent(shell, ev)
   return false
 }
 
@@ -18800,11 +19501,11 @@ function createShell(options) {
   shell._tickRate = options.tickRate || 30
   shell.frameSkip = options.frameSkip || (shell._tickRate+5) * 5
   shell.stickyFullscreen = !!options.stickyFullscreen || !!options.sticky
-  shell.stickyPointerLock = !!options.stickPointerLock || !options.sticky
+  shell.stickyPointerLock = !!options.stickyPointerLock || !!options.sticky
   
   //Set bindings
   if(options.bindings) {
-    shell.bindings = bindings
+    shell.bindings = options.bindings
   }
   
   //Wait for dom to intiailize
@@ -18932,257 +19633,702 @@ function createShell(options) {
 
 module.exports = createShell
 
-},{"./lib/hrtime-polyfill.js":57,"./lib/mousewheel-polyfill.js":58,"./lib/raf-polyfill.js":59,"binary-search-bounds":60,"domready":61,"events":21,"invert-hash":62,"iota-array":63,"uniq":64,"util":43,"vkey":65}],67:[function(require,module,exports){
-/* (The MIT License)
+},{"./lib/hrtime-polyfill.js":75,"./lib/mousewheel-polyfill.js":76,"./lib/raf-polyfill.js":77,"binary-search-bounds":78,"domready":79,"events":21,"invert-hash":80,"iota-array":81,"uniq":82,"util":43,"vkey":83}],85:[function(require,module,exports){
+// Copyright (C) 2011 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**
+ * @fileoverview Install a leaky WeakMap emulation on platforms that
+ * don't provide a built-in one.
  *
- * Copyright (c) 2012 Brandon Benvie <http://bbenvie.com>
+ * <p>Assumes that an ES5 platform where, if {@code WeakMap} is
+ * already present, then it conforms to the anticipated ES6
+ * specification. To run this file on an ES5 or almost ES5
+ * implementation where the {@code WeakMap} specification does not
+ * quite conform, run <code>repairES5.js</code> first.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
- * associated documentation files (the 'Software'), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge, publish, distribute,
- * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * <p>Even though WeakMapModule is not global, the linter thinks it
+ * is, which is why it is in the overrides list below.
  *
- * The above copyright notice and this permission notice shall be included with all copies or
- * substantial portions of the Software.
+ * <p>NOTE: Before using this WeakMap emulation in a non-SES
+ * environment, see the note below about hiddenRecord.
  *
- * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * @author Mark S. Miller
+ * @requires crypto, ArrayBuffer, Uint8Array, navigator, console
+ * @overrides WeakMap, ses, Proxy
+ * @overrides WeakMapModule
  */
 
-// Original WeakMap implementation by Gozala @ https://gist.github.com/1269991
-// Updated and bugfixed by Raynos @ https://gist.github.com/1638059
-// Expanded by Benvie @ https://github.com/Benvie/harmony-collections
+/**
+ * This {@code WeakMap} emulation is observably equivalent to the
+ * ES-Harmony WeakMap, but with leakier garbage collection properties.
+ *
+ * <p>As with true WeakMaps, in this emulation, a key does not
+ * retain maps indexed by that key and (crucially) a map does not
+ * retain the keys it indexes. A map by itself also does not retain
+ * the values associated with that map.
+ *
+ * <p>However, the values associated with a key in some map are
+ * retained so long as that key is retained and those associations are
+ * not overridden. For example, when used to support membranes, all
+ * values exported from a given membrane will live for the lifetime
+ * they would have had in the absence of an interposed membrane. Even
+ * when the membrane is revoked, all objects that would have been
+ * reachable in the absence of revocation will still be reachable, as
+ * far as the GC can tell, even though they will no longer be relevant
+ * to ongoing computation.
+ *
+ * <p>The API implemented here is approximately the API as implemented
+ * in FF6.0a1 and agreed to by MarkM, Andreas Gal, and Dave Herman,
+ * rather than the offially approved proposal page. TODO(erights):
+ * upgrade the ecmascript WeakMap proposal page to explain this API
+ * change and present to EcmaScript committee for their approval.
+ *
+ * <p>The first difference between the emulation here and that in
+ * FF6.0a1 is the presence of non enumerable {@code get___, has___,
+ * set___, and delete___} methods on WeakMap instances to represent
+ * what would be the hidden internal properties of a primitive
+ * implementation. Whereas the FF6.0a1 WeakMap.prototype methods
+ * require their {@code this} to be a genuine WeakMap instance (i.e.,
+ * an object of {@code [[Class]]} "WeakMap}), since there is nothing
+ * unforgeable about the pseudo-internal method names used here,
+ * nothing prevents these emulated prototype methods from being
+ * applied to non-WeakMaps with pseudo-internal methods of the same
+ * names.
+ *
+ * <p>Another difference is that our emulated {@code
+ * WeakMap.prototype} is not itself a WeakMap. A problem with the
+ * current FF6.0a1 API is that WeakMap.prototype is itself a WeakMap
+ * providing ambient mutability and an ambient communications
+ * channel. Thus, if a WeakMap is already present and has this
+ * problem, repairES5.js wraps it in a safe wrappper in order to
+ * prevent access to this channel. (See
+ * PATCH_MUTABLE_FROZEN_WEAKMAP_PROTO in repairES5.js).
+ */
 
-void function(global, undefined_, undefined){
-  var getProps = Object.getOwnPropertyNames,
-      defProp  = Object.defineProperty,
-      toSource = Function.prototype.toString,
-      create   = Object.create,
-      hasOwn   = Object.prototype.hasOwnProperty,
-      funcName = /^\n?function\s?(\w*)?_?\(/;
+/**
+ * If this is a full <a href=
+ * "http://code.google.com/p/es-lab/wiki/SecureableES5"
+ * >secureable ES5</a> platform and the ES-Harmony {@code WeakMap} is
+ * absent, install an approximate emulation.
+ *
+ * <p>If WeakMap is present but cannot store some objects, use our approximate
+ * emulation as a wrapper.
+ *
+ * <p>If this is almost a secureable ES5 platform, then WeakMap.js
+ * should be run after repairES5.js.
+ *
+ * <p>See {@code WeakMap} for documentation of the garbage collection
+ * properties of this WeakMap emulation.
+ */
+(function WeakMapModule() {
+  "use strict";
 
+  if (typeof ses !== 'undefined' && ses.ok && !ses.ok()) {
+    // already too broken, so give up
+    return;
+  }
 
-  function define(object, key, value){
-    if (typeof key === 'function') {
-      value = key;
-      key = nameOf(value).replace(/_$/, '');
+  /**
+   * In some cases (current Firefox), we must make a choice betweeen a
+   * WeakMap which is capable of using all varieties of host objects as
+   * keys and one which is capable of safely using proxies as keys. See
+   * comments below about HostWeakMap and DoubleWeakMap for details.
+   *
+   * This function (which is a global, not exposed to guests) marks a
+   * WeakMap as permitted to do what is necessary to index all host
+   * objects, at the cost of making it unsafe for proxies.
+   *
+   * Do not apply this function to anything which is not a genuine
+   * fresh WeakMap.
+   */
+  function weakMapPermitHostObjects(map) {
+    // identity of function used as a secret -- good enough and cheap
+    if (map.permitHostObjects___) {
+      map.permitHostObjects___(weakMapPermitHostObjects);
     }
-    return defProp(object, key, { configurable: true, writable: true, value: value });
+  }
+  if (typeof ses !== 'undefined') {
+    ses.weakMapPermitHostObjects = weakMapPermitHostObjects;
   }
 
-  function nameOf(func){
-    return typeof func !== 'function'
-          ? '' : 'name' in func
-          ? func.name : toSource.call(func).match(funcName)[1];
+  // IE 11 has no Proxy but has a broken WeakMap such that we need to patch
+  // it using DoubleWeakMap; this flag tells DoubleWeakMap so.
+  var doubleWeakMapCheckSilentFailure = false;
+
+  // Check if there is already a good-enough WeakMap implementation, and if so
+  // exit without replacing it.
+  if (typeof WeakMap === 'function') {
+    var HostWeakMap = WeakMap;
+    // There is a WeakMap -- is it good enough?
+    if (typeof navigator !== 'undefined' &&
+        /Firefox/.test(navigator.userAgent)) {
+      // We're now *assuming not*, because as of this writing (2013-05-06)
+      // Firefox's WeakMaps have a miscellany of objects they won't accept, and
+      // we don't want to make an exhaustive list, and testing for just one
+      // will be a problem if that one is fixed alone (as they did for Event).
+
+      // If there is a platform that we *can* reliably test on, here's how to
+      // do it:
+      //  var problematic = ... ;
+      //  var testHostMap = new HostWeakMap();
+      //  try {
+      //    testHostMap.set(problematic, 1);  // Firefox 20 will throw here
+      //    if (testHostMap.get(problematic) === 1) {
+      //      return;
+      //    }
+      //  } catch (e) {}
+
+    } else {
+      // IE 11 bug: WeakMaps silently fail to store frozen objects.
+      var testMap = new HostWeakMap();
+      var testObject = Object.freeze({});
+      testMap.set(testObject, 1);
+      if (testMap.get(testObject) !== 1) {
+        doubleWeakMapCheckSilentFailure = true;
+        // Fall through to installing our WeakMap.
+      } else {
+        module.exports = WeakMap;
+        return;
+      }
+    }
   }
 
-  // ############
-  // ### Data ###
-  // ############
+  var hop = Object.prototype.hasOwnProperty;
+  var gopn = Object.getOwnPropertyNames;
+  var defProp = Object.defineProperty;
+  var isExtensible = Object.isExtensible;
 
-  var Data = (function(){
-    var dataDesc = { value: { writable: true, value: undefined } },
-        datalock = 'return function(k){if(k===s)return l}',
-        uids     = create(null),
+  /**
+   * Security depends on HIDDEN_NAME being both <i>unguessable</i> and
+   * <i>undiscoverable</i> by untrusted code.
+   *
+   * <p>Given the known weaknesses of Math.random() on existing
+   * browsers, it does not generate unguessability we can be confident
+   * of.
+   *
+   * <p>It is the monkey patching logic in this file that is intended
+   * to ensure undiscoverability. The basic idea is that there are
+   * three fundamental means of discovering properties of an object:
+   * The for/in loop, Object.keys(), and Object.getOwnPropertyNames(),
+   * as well as some proposed ES6 extensions that appear on our
+   * whitelist. The first two only discover enumerable properties, and
+   * we only use HIDDEN_NAME to name a non-enumerable property, so the
+   * only remaining threat should be getOwnPropertyNames and some
+   * proposed ES6 extensions that appear on our whitelist. We monkey
+   * patch them to remove HIDDEN_NAME from the list of properties they
+   * returns.
+   *
+   * <p>TODO(erights): On a platform with built-in Proxies, proxies
+   * could be used to trap and thereby discover the HIDDEN_NAME, so we
+   * need to monkey patch Proxy.create, Proxy.createFunction, etc, in
+   * order to wrap the provided handler with the real handler which
+   * filters out all traps using HIDDEN_NAME.
+   *
+   * <p>TODO(erights): Revisit Mike Stay's suggestion that we use an
+   * encapsulated function at a not-necessarily-secret name, which
+   * uses the Stiegler shared-state rights amplification pattern to
+   * reveal the associated value only to the WeakMap in which this key
+   * is associated with that value. Since only the key retains the
+   * function, the function can also remember the key without causing
+   * leakage of the key, so this doesn't violate our general gc
+   * goals. In addition, because the name need not be a guarded
+   * secret, we could efficiently handle cross-frame frozen keys.
+   */
+  var HIDDEN_NAME_PREFIX = 'weakmap:';
+  var HIDDEN_NAME = HIDDEN_NAME_PREFIX + 'ident:' + Math.random() + '___';
 
-        createUID = function(){
-          var key = Math.random().toString(36).slice(2);
-          return key in uids ? createUID() : uids[key] = key;
-        },
+  if (typeof crypto !== 'undefined' &&
+      typeof crypto.getRandomValues === 'function' &&
+      typeof ArrayBuffer === 'function' &&
+      typeof Uint8Array === 'function') {
+    var ab = new ArrayBuffer(25);
+    var u8s = new Uint8Array(ab);
+    crypto.getRandomValues(u8s);
+    HIDDEN_NAME = HIDDEN_NAME_PREFIX + 'rand:' +
+      Array.prototype.map.call(u8s, function(u8) {
+        return (u8 % 36).toString(36);
+      }).join('') + '___';
+  }
 
-        globalID = createUID(),
+  function isNotHiddenName(name) {
+    return !(
+        name.substr(0, HIDDEN_NAME_PREFIX.length) == HIDDEN_NAME_PREFIX &&
+        name.substr(name.length - 3) === '___');
+  }
 
-        storage = function(obj){
-          if (hasOwn.call(obj, globalID))
-            return obj[globalID];
+  /**
+   * Monkey patch getOwnPropertyNames to avoid revealing the
+   * HIDDEN_NAME.
+   *
+   * <p>The ES5.1 spec requires each name to appear only once, but as
+   * of this writing, this requirement is controversial for ES6, so we
+   * made this code robust against this case. If the resulting extra
+   * search turns out to be expensive, we can probably relax this once
+   * ES6 is adequately supported on all major browsers, iff no browser
+   * versions we support at that time have relaxed this constraint
+   * without providing built-in ES6 WeakMaps.
+   */
+  defProp(Object, 'getOwnPropertyNames', {
+    value: function fakeGetOwnPropertyNames(obj) {
+      return gopn(obj).filter(isNotHiddenName);
+    }
+  });
 
-          if (!Object.isExtensible(obj))
-            throw new TypeError("Object must be extensible");
-
-          var store = create(null);
-          defProp(obj, globalID, { value: store });
-          return store;
-        };
-
-    // common per-object storage area made visible by patching getOwnPropertyNames'
-    define(Object, function getOwnPropertyNames(obj){
-      var props = getProps(obj);
-      if (hasOwn.call(obj, globalID))
-        props.splice(props.indexOf(globalID), 1);
-      return props;
+  /**
+   * getPropertyNames is not in ES5 but it is proposed for ES6 and
+   * does appear in our whitelist, so we need to clean it too.
+   */
+  if ('getPropertyNames' in Object) {
+    var originalGetPropertyNames = Object.getPropertyNames;
+    defProp(Object, 'getPropertyNames', {
+      value: function fakeGetPropertyNames(obj) {
+        return originalGetPropertyNames(obj).filter(isNotHiddenName);
+      }
     });
+  }
 
-    function Data(){
-      var puid = createUID(),
-          secret = {};
-
-      this.unlock = function(obj){
-        var store = storage(obj);
-        if (hasOwn.call(store, puid))
-          return store[puid](secret);
-
-        var data = create(null, dataDesc);
-        defProp(store, puid, {
-          value: new Function('s', 'l', datalock)(secret, data)
-        });
-        return data;
-      }
+  /**
+   * <p>To treat objects as identity-keys with reasonable efficiency
+   * on ES5 by itself (i.e., without any object-keyed collections), we
+   * need to add a hidden property to such key objects when we
+   * can. This raises several issues:
+   * <ul>
+   * <li>Arranging to add this property to objects before we lose the
+   *     chance, and
+   * <li>Hiding the existence of this new property from most
+   *     JavaScript code.
+   * <li>Preventing <i>certification theft</i>, where one object is
+   *     created falsely claiming to be the key of an association
+   *     actually keyed by another object.
+   * <li>Preventing <i>value theft</i>, where untrusted code with
+   *     access to a key object but not a weak map nevertheless
+   *     obtains access to the value associated with that key in that
+   *     weak map.
+   * </ul>
+   * We do so by
+   * <ul>
+   * <li>Making the name of the hidden property unguessable, so "[]"
+   *     indexing, which we cannot intercept, cannot be used to access
+   *     a property without knowing the name.
+   * <li>Making the hidden property non-enumerable, so we need not
+   *     worry about for-in loops or {@code Object.keys},
+   * <li>monkey patching those reflective methods that would
+   *     prevent extensions, to add this hidden property first,
+   * <li>monkey patching those methods that would reveal this
+   *     hidden property.
+   * </ul>
+   * Unfortunately, because of same-origin iframes, we cannot reliably
+   * add this hidden property before an object becomes
+   * non-extensible. Instead, if we encounter a non-extensible object
+   * without a hidden record that we can detect (whether or not it has
+   * a hidden record stored under a name secret to us), then we just
+   * use the key object itself to represent its identity in a brute
+   * force leaky map stored in the weak map, losing all the advantages
+   * of weakness for these.
+   */
+  function getHiddenRecord(key) {
+    if (key !== Object(key)) {
+      throw new TypeError('Not an object: ' + key);
+    }
+    var hiddenRecord = key[HIDDEN_NAME];
+    if (hiddenRecord && hiddenRecord.key === key) { return hiddenRecord; }
+    if (!isExtensible(key)) {
+      // Weak map must brute force, as explained in doc-comment above.
+      return void 0;
     }
 
-    define(Data.prototype, function get(o){ return this.unlock(o).value });
-    define(Data.prototype, function set(o, v){ this.unlock(o).value = v });
+    // The hiddenRecord and the key point directly at each other, via
+    // the "key" and HIDDEN_NAME properties respectively. The key
+    // field is for quickly verifying that this hidden record is an
+    // own property, not a hidden record from up the prototype chain.
+    //
+    // NOTE: Because this WeakMap emulation is meant only for systems like
+    // SES where Object.prototype is frozen without any numeric
+    // properties, it is ok to use an object literal for the hiddenRecord.
+    // This has two advantages:
+    // * It is much faster in a performance critical place
+    // * It avoids relying on Object.create(null), which had been
+    //   problematic on Chrome 28.0.1480.0. See
+    //   https://code.google.com/p/google-caja/issues/detail?id=1687
+    hiddenRecord = { key: key };
 
-    return Data;
-  }());
+    // When using this WeakMap emulation on platforms where
+    // Object.prototype might not be frozen and Object.create(null) is
+    // reliable, use the following two commented out lines instead.
+    // hiddenRecord = Object.create(null);
+    // hiddenRecord.key = key;
 
-
-  var WM = (function(data){
-    var validate = function(key){
-      if (key == null || typeof key !== 'object' && typeof key !== 'function')
-        throw new TypeError("Invalid WeakMap key");
-    }
-
-    var wrap = function(collection, value){
-      var store = data.unlock(collection);
-      if (store.value)
-        throw new TypeError("Object is already a WeakMap");
-      store.value = value;
-    }
-
-    var unwrap = function(collection){
-      var storage = data.unlock(collection).value;
-      if (!storage)
-        throw new TypeError("WeakMap is not generic");
-      return storage;
-    }
-
-    var initialize = function(weakmap, iterable){
-      if (iterable !== null && typeof iterable === 'object' && typeof iterable.forEach === 'function') {
-        iterable.forEach(function(item, i){
-          if (item instanceof Array && item.length === 2)
-            set.call(weakmap, iterable[i][0], iterable[i][1]);
-        });
-      }
-    }
-
-
-    function WeakMap(iterable){
-      if (this === global || this == null || this === WeakMap.prototype)
-        return new WeakMap(iterable);
-
-      wrap(this, new Data);
-      initialize(this, iterable);
-    }
-
-    function get(key){
-      validate(key);
-      var value = unwrap(this).get(key);
-      return value === undefined_ ? undefined : value;
-    }
-
-    function set(key, value){
-      validate(key);
-      // store a token for explicit undefined so that "has" works correctly
-      unwrap(this).set(key, value === undefined ? undefined_ : value);
-    }
-
-    function has(key){
-      validate(key);
-      return unwrap(this).get(key) !== undefined;
-    }
-
-    function delete_(key){
-      validate(key);
-      var data = unwrap(this),
-          had = data.get(key) !== undefined;
-      data.set(key, undefined);
-      return had;
-    }
-
-    function toString(){
-      unwrap(this);
-      return '[object WeakMap]';
-    }
+    // Please contact us if you need this to work on platforms where
+    // Object.prototype might not be frozen and
+    // Object.create(null) might not be reliable.
 
     try {
-      var src = ('return '+delete_).replace('e_', '\\u0065'),
-          del = new Function('unwrap', 'validate', src)(unwrap, validate);
-    } catch (e) {
-      var del = delete_;
+      defProp(key, HIDDEN_NAME, {
+        value: hiddenRecord,
+        writable: false,
+        enumerable: false,
+        configurable: false
+      });
+      return hiddenRecord;
+    } catch (error) {
+      // Under some circumstances, isExtensible seems to misreport whether
+      // the HIDDEN_NAME can be defined.
+      // The circumstances have not been isolated, but at least affect
+      // Node.js v0.10.26 on TravisCI / Linux, but not the same version of
+      // Node.js on OS X.
+      return void 0;
+    }
+  }
+
+  /**
+   * Monkey patch operations that would make their argument
+   * non-extensible.
+   *
+   * <p>The monkey patched versions throw a TypeError if their
+   * argument is not an object, so it should only be done to functions
+   * that should throw a TypeError anyway if their argument is not an
+   * object.
+   */
+  (function(){
+    var oldFreeze = Object.freeze;
+    defProp(Object, 'freeze', {
+      value: function identifyingFreeze(obj) {
+        getHiddenRecord(obj);
+        return oldFreeze(obj);
+      }
+    });
+    var oldSeal = Object.seal;
+    defProp(Object, 'seal', {
+      value: function identifyingSeal(obj) {
+        getHiddenRecord(obj);
+        return oldSeal(obj);
+      }
+    });
+    var oldPreventExtensions = Object.preventExtensions;
+    defProp(Object, 'preventExtensions', {
+      value: function identifyingPreventExtensions(obj) {
+        getHiddenRecord(obj);
+        return oldPreventExtensions(obj);
+      }
+    });
+  })();
+
+  function constFunc(func) {
+    func.prototype = null;
+    return Object.freeze(func);
+  }
+
+  var calledAsFunctionWarningDone = false;
+  function calledAsFunctionWarning() {
+    // Future ES6 WeakMap is currently (2013-09-10) expected to reject WeakMap()
+    // but we used to permit it and do it ourselves, so warn only.
+    if (!calledAsFunctionWarningDone && typeof console !== 'undefined') {
+      calledAsFunctionWarningDone = true;
+      console.warn('WeakMap should be invoked as new WeakMap(), not ' +
+          'WeakMap(). This will be an error in the future.');
+    }
+  }
+
+  var nextId = 0;
+
+  var OurWeakMap = function() {
+    if (!(this instanceof OurWeakMap)) {  // approximate test for new ...()
+      calledAsFunctionWarning();
     }
 
-    var src = (''+Object).split('Object');
-    var stringifier = function toString(){
-      return src[0] + nameOf(this) + src[1];
-    };
+    // We are currently (12/25/2012) never encountering any prematurely
+    // non-extensible keys.
+    var keys = []; // brute force for prematurely non-extensible keys.
+    var values = []; // brute force for corresponding values.
+    var id = nextId++;
 
-    define(stringifier, stringifier);
-
-    var prep = { __proto__: [] } instanceof Array
-      ? function(f){ f.__proto__ = stringifier }
-      : function(f){ define(f, stringifier) };
-
-    prep(WeakMap);
-
-    [toString, get, set, has, del].forEach(function(method){
-      define(WeakMap.prototype, method);
-      prep(method);
-    });
-
-    return WeakMap;
-  }(new Data));
-
-  var defaultCreator = Object.create
-    ? function(){ return Object.create(null) }
-    : function(){ return {} };
-
-  function createStorage(creator){
-    var weakmap = new WM;
-    creator || (creator = defaultCreator);
-
-    function storage(object, value){
-      if (value || arguments.length === 2) {
-        weakmap.set(object, value);
+    function get___(key, opt_default) {
+      var index;
+      var hiddenRecord = getHiddenRecord(key);
+      if (hiddenRecord) {
+        return id in hiddenRecord ? hiddenRecord[id] : opt_default;
       } else {
-        value = weakmap.get(object);
-        if (value === undefined) {
-          value = creator(object);
-          weakmap.set(object, value);
+        index = keys.indexOf(key);
+        return index >= 0 ? values[index] : opt_default;
+      }
+    }
+
+    function has___(key) {
+      var hiddenRecord = getHiddenRecord(key);
+      if (hiddenRecord) {
+        return id in hiddenRecord;
+      } else {
+        return keys.indexOf(key) >= 0;
+      }
+    }
+
+    function set___(key, value) {
+      var index;
+      var hiddenRecord = getHiddenRecord(key);
+      if (hiddenRecord) {
+        hiddenRecord[id] = value;
+      } else {
+        index = keys.indexOf(key);
+        if (index >= 0) {
+          values[index] = value;
+        } else {
+          // Since some browsers preemptively terminate slow turns but
+          // then continue computing with presumably corrupted heap
+          // state, we here defensively get keys.length first and then
+          // use it to update both the values and keys arrays, keeping
+          // them in sync.
+          index = keys.length;
+          values[index] = value;
+          // If we crash here, values will be one longer than keys.
+          keys[index] = key;
         }
       }
-      return value;
+      return this;
     }
 
-    return storage;
+    function delete___(key) {
+      var hiddenRecord = getHiddenRecord(key);
+      var index, lastIndex;
+      if (hiddenRecord) {
+        return id in hiddenRecord && delete hiddenRecord[id];
+      } else {
+        index = keys.indexOf(key);
+        if (index < 0) {
+          return false;
+        }
+        // Since some browsers preemptively terminate slow turns but
+        // then continue computing with potentially corrupted heap
+        // state, we here defensively get keys.length first and then use
+        // it to update both the keys and the values array, keeping
+        // them in sync. We update the two with an order of assignments,
+        // such that any prefix of these assignments will preserve the
+        // key/value correspondence, either before or after the delete.
+        // Note that this needs to work correctly when index === lastIndex.
+        lastIndex = keys.length - 1;
+        keys[index] = void 0;
+        // If we crash here, there's a void 0 in the keys array, but
+        // no operation will cause a "keys.indexOf(void 0)", since
+        // getHiddenRecord(void 0) will always throw an error first.
+        values[index] = values[lastIndex];
+        // If we crash here, values[index] cannot be found here,
+        // because keys[index] is void 0.
+        keys[index] = keys[lastIndex];
+        // If index === lastIndex and we crash here, then keys[index]
+        // is still void 0, since the aliasing killed the previous key.
+        keys.length = lastIndex;
+        // If we crash here, keys will be one shorter than values.
+        values.length = lastIndex;
+        return true;
+      }
+    }
+
+    return Object.create(OurWeakMap.prototype, {
+      get___:    { value: constFunc(get___) },
+      has___:    { value: constFunc(has___) },
+      set___:    { value: constFunc(set___) },
+      delete___: { value: constFunc(delete___) }
+    });
+  };
+
+  OurWeakMap.prototype = Object.create(Object.prototype, {
+    get: {
+      /**
+       * Return the value most recently associated with key, or
+       * opt_default if none.
+       */
+      value: function get(key, opt_default) {
+        return this.get___(key, opt_default);
+      },
+      writable: true,
+      configurable: true
+    },
+
+    has: {
+      /**
+       * Is there a value associated with key in this WeakMap?
+       */
+      value: function has(key) {
+        return this.has___(key);
+      },
+      writable: true,
+      configurable: true
+    },
+
+    set: {
+      /**
+       * Associate value with key in this WeakMap, overwriting any
+       * previous association if present.
+       */
+      value: function set(key, value) {
+        return this.set___(key, value);
+      },
+      writable: true,
+      configurable: true
+    },
+
+    'delete': {
+      /**
+       * Remove any association for key in this WeakMap, returning
+       * whether there was one.
+       *
+       * <p>Note that the boolean return here does not work like the
+       * {@code delete} operator. The {@code delete} operator returns
+       * whether the deletion succeeds at bringing about a state in
+       * which the deleted property is absent. The {@code delete}
+       * operator therefore returns true if the property was already
+       * absent, whereas this {@code delete} method returns false if
+       * the association was already absent.
+       */
+      value: function remove(key) {
+        return this.delete___(key);
+      },
+      writable: true,
+      configurable: true
+    }
+  });
+
+  if (typeof HostWeakMap === 'function') {
+    (function() {
+      // If we got here, then the platform has a WeakMap but we are concerned
+      // that it may refuse to store some key types. Therefore, make a map
+      // implementation which makes use of both as possible.
+
+      // In this mode we are always using double maps, so we are not proxy-safe.
+      // This combination does not occur in any known browser, but we had best
+      // be safe.
+      if (doubleWeakMapCheckSilentFailure && typeof Proxy !== 'undefined') {
+        Proxy = undefined;
+      }
+
+      function DoubleWeakMap() {
+        if (!(this instanceof OurWeakMap)) {  // approximate test for new ...()
+          calledAsFunctionWarning();
+        }
+
+        // Preferable, truly weak map.
+        var hmap = new HostWeakMap();
+
+        // Our hidden-property-based pseudo-weak-map. Lazily initialized in the
+        // 'set' implementation; thus we can avoid performing extra lookups if
+        // we know all entries actually stored are entered in 'hmap'.
+        var omap = undefined;
+
+        // Hidden-property maps are not compatible with proxies because proxies
+        // can observe the hidden name and either accidentally expose it or fail
+        // to allow the hidden property to be set. Therefore, we do not allow
+        // arbitrary WeakMaps to switch to using hidden properties, but only
+        // those which need the ability, and unprivileged code is not allowed
+        // to set the flag.
+        //
+        // (Except in doubleWeakMapCheckSilentFailure mode in which case we
+        // disable proxies.)
+        var enableSwitching = false;
+
+        function dget(key, opt_default) {
+          if (omap) {
+            return hmap.has(key) ? hmap.get(key)
+                : omap.get___(key, opt_default);
+          } else {
+            return hmap.get(key, opt_default);
+          }
+        }
+
+        function dhas(key) {
+          return hmap.has(key) || (omap ? omap.has___(key) : false);
+        }
+
+        var dset;
+        if (doubleWeakMapCheckSilentFailure) {
+          dset = function(key, value) {
+            hmap.set(key, value);
+            if (!hmap.has(key)) {
+              if (!omap) { omap = new OurWeakMap(); }
+              omap.set(key, value);
+            }
+            return this;
+          };
+        } else {
+          dset = function(key, value) {
+            if (enableSwitching) {
+              try {
+                hmap.set(key, value);
+              } catch (e) {
+                if (!omap) { omap = new OurWeakMap(); }
+                omap.set___(key, value);
+              }
+            } else {
+              hmap.set(key, value);
+            }
+            return this;
+          };
+        }
+
+        function ddelete(key) {
+          var result = !!hmap['delete'](key);
+          if (omap) { return omap.delete___(key) || result; }
+          return result;
+        }
+
+        return Object.create(OurWeakMap.prototype, {
+          get___:    { value: constFunc(dget) },
+          has___:    { value: constFunc(dhas) },
+          set___:    { value: constFunc(dset) },
+          delete___: { value: constFunc(ddelete) },
+          permitHostObjects___: { value: constFunc(function(token) {
+            if (token === weakMapPermitHostObjects) {
+              enableSwitching = true;
+            } else {
+              throw new Error('bogus call to permitHostObjects___');
+            }
+          })}
+        });
+      }
+      DoubleWeakMap.prototype = OurWeakMap.prototype;
+      module.exports = DoubleWeakMap;
+
+      // define .constructor to hide OurWeakMap ctor
+      Object.defineProperty(WeakMap.prototype, 'constructor', {
+        value: WeakMap,
+        enumerable: false,  // as default .constructor is
+        configurable: true,
+        writable: true
+      });
+    })();
+  } else {
+    // There is no host WeakMap, so we must use the emulation.
+
+    // Emulated WeakMaps are incompatible with native proxies (because proxies
+    // can observe the hidden name), so we must disable Proxy usage (in
+    // ArrayLike and Domado, currently).
+    if (typeof Proxy !== 'undefined') {
+      Proxy = undefined;
+    }
+
+    module.exports = OurWeakMap;
   }
+})();
 
+},{}],86:[function(require,module,exports){
+'use strict'
 
-  if (typeof module !== 'undefined') {
-    module.exports = WM;
-  } else if (typeof exports !== 'undefined') {
-    exports.WeakMap = WM;
-  } else if (!('WeakMap' in global)) {
-    global.WeakMap = WM;
-  }
-
-  WM.createStorage = createStorage;
-  if (global.WeakMap)
-    global.WeakMap.createStorage = createStorage;
-}((0, eval)('this'));
-
-},{}],68:[function(require,module,exports){
-"use strict";
-
-var weakMap = typeof WeakMap === "undefined" ? require("weakmap") : WeakMap
+var weakMap = typeof WeakMap === 'undefined' ? require('weak-map') : WeakMap
 
 var WebGLEWStruct = new weakMap()
 
 function baseName(ext_name) {
-  return ext_name.replace(/^[A-Z]+_/, "")
+  return ext_name.replace(/^[A-Z]+_/, '')
 }
 
 function initWebGLEW(gl) {
@@ -19194,6 +20340,11 @@ function initWebGLEW(gl) {
   var supported = gl.getSupportedExtensions()
   for(var i=0; i<supported.length; ++i) {
     var extName = supported[i]
+
+    //Skip MOZ_ extensions
+    if(extName.indexOf('MOZ_') === 0) {
+      continue
+    }
     var ext = gl.getExtension(supported[i])
     if(!ext) {
       continue
@@ -19211,7 +20362,7 @@ function initWebGLEW(gl) {
   return extensions
 }
 module.exports = initWebGLEW
-},{"weakmap":67}],69:[function(require,module,exports){
+},{"weak-map":85}],87:[function(require,module,exports){
 module.exports = add;
 
 /**
@@ -19228,7 +20379,7 @@ function add(out, a, b) {
     out[2] = a[2] + b[2]
     return out
 }
-},{}],70:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 module.exports = angle
 
 var fromValues = require('./fromValues')
@@ -19257,7 +20408,7 @@ function angle(a, b) {
     }     
 }
 
-},{"./dot":77,"./fromValues":79,"./normalize":88}],71:[function(require,module,exports){
+},{"./dot":95,"./fromValues":97,"./normalize":106}],89:[function(require,module,exports){
 module.exports = clone;
 
 /**
@@ -19273,7 +20424,7 @@ function clone(a) {
     out[2] = a[2]
     return out
 }
-},{}],72:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 module.exports = copy;
 
 /**
@@ -19289,7 +20440,7 @@ function copy(out, a) {
     out[2] = a[2]
     return out
 }
-},{}],73:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports = create;
 
 /**
@@ -19304,7 +20455,7 @@ function create() {
     out[2] = 0
     return out
 }
-},{}],74:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 module.exports = cross;
 
 /**
@@ -19324,7 +20475,7 @@ function cross(out, a, b) {
     out[2] = ax * by - ay * bx
     return out
 }
-},{}],75:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 module.exports = distance;
 
 /**
@@ -19340,7 +20491,7 @@ function distance(a, b) {
         z = b[2] - a[2]
     return Math.sqrt(x*x + y*y + z*z)
 }
-},{}],76:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = divide;
 
 /**
@@ -19357,7 +20508,7 @@ function divide(out, a, b) {
     out[2] = a[2] / b[2]
     return out
 }
-},{}],77:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 module.exports = dot;
 
 /**
@@ -19370,7 +20521,7 @@ module.exports = dot;
 function dot(a, b) {
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 }
-},{}],78:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 module.exports = forEach;
 
 var vec = require('./create')()
@@ -19415,7 +20566,7 @@ function forEach(a, stride, offset, count, fn, arg) {
         
         return a
 }
-},{"./create":73}],79:[function(require,module,exports){
+},{"./create":91}],97:[function(require,module,exports){
 module.exports = fromValues;
 
 /**
@@ -19433,7 +20584,7 @@ function fromValues(x, y, z) {
     out[2] = z
     return out
 }
-},{}],80:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 module.exports = {
   create: require('./create')
   , clone: require('./clone')
@@ -19468,7 +20619,7 @@ module.exports = {
   , rotateZ: require('./rotateZ')
   , forEach: require('./forEach')
 }
-},{"./add":69,"./angle":70,"./clone":71,"./copy":72,"./create":73,"./cross":74,"./distance":75,"./divide":76,"./dot":77,"./forEach":78,"./fromValues":79,"./inverse":81,"./length":82,"./lerp":83,"./max":84,"./min":85,"./multiply":86,"./negate":87,"./normalize":88,"./random":89,"./rotateX":90,"./rotateY":91,"./rotateZ":92,"./scale":93,"./scaleAndAdd":94,"./set":95,"./squaredDistance":96,"./squaredLength":97,"./subtract":98,"./transformMat3":99,"./transformMat4":100,"./transformQuat":101}],81:[function(require,module,exports){
+},{"./add":87,"./angle":88,"./clone":89,"./copy":90,"./create":91,"./cross":92,"./distance":93,"./divide":94,"./dot":95,"./forEach":96,"./fromValues":97,"./inverse":99,"./length":100,"./lerp":101,"./max":102,"./min":103,"./multiply":104,"./negate":105,"./normalize":106,"./random":107,"./rotateX":108,"./rotateY":109,"./rotateZ":110,"./scale":111,"./scaleAndAdd":112,"./set":113,"./squaredDistance":114,"./squaredLength":115,"./subtract":116,"./transformMat3":117,"./transformMat4":118,"./transformQuat":119}],99:[function(require,module,exports){
 module.exports = inverse;
 
 /**
@@ -19484,7 +20635,7 @@ function inverse(out, a) {
   out[2] = 1.0 / a[2]
   return out
 }
-},{}],82:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 module.exports = length;
 
 /**
@@ -19499,7 +20650,7 @@ function length(a) {
         z = a[2]
     return Math.sqrt(x*x + y*y + z*z)
 }
-},{}],83:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 module.exports = lerp;
 
 /**
@@ -19520,7 +20671,7 @@ function lerp(out, a, b, t) {
     out[2] = az + t * (b[2] - az)
     return out
 }
-},{}],84:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 module.exports = max;
 
 /**
@@ -19537,7 +20688,7 @@ function max(out, a, b) {
     out[2] = Math.max(a[2], b[2])
     return out
 }
-},{}],85:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 module.exports = min;
 
 /**
@@ -19554,7 +20705,7 @@ function min(out, a, b) {
     out[2] = Math.min(a[2], b[2])
     return out
 }
-},{}],86:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 module.exports = multiply;
 
 /**
@@ -19571,7 +20722,7 @@ function multiply(out, a, b) {
     out[2] = a[2] * b[2]
     return out
 }
-},{}],87:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 module.exports = negate;
 
 /**
@@ -19587,7 +20738,7 @@ function negate(out, a) {
     out[2] = -a[2]
     return out
 }
-},{}],88:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 module.exports = normalize;
 
 /**
@@ -19611,7 +20762,7 @@ function normalize(out, a) {
     }
     return out
 }
-},{}],89:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 module.exports = random;
 
 /**
@@ -19633,7 +20784,7 @@ function random(out, scale) {
     out[2] = z * scale
     return out
 }
-},{}],90:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 module.exports = rotateX;
 
 /**
@@ -19663,7 +20814,7 @@ function rotateX(out, a, b, c){
 
     return out
 }
-},{}],91:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 module.exports = rotateY;
 
 /**
@@ -19693,7 +20844,7 @@ function rotateY(out, a, b, c){
   
     return out
 }
-},{}],92:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 module.exports = rotateZ;
 
 /**
@@ -19723,7 +20874,7 @@ function rotateZ(out, a, b, c){
   
     return out
 }
-},{}],93:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 module.exports = scale;
 
 /**
@@ -19740,7 +20891,7 @@ function scale(out, a, b) {
     out[2] = a[2] * b
     return out
 }
-},{}],94:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 module.exports = scaleAndAdd;
 
 /**
@@ -19758,7 +20909,7 @@ function scaleAndAdd(out, a, b, scale) {
     out[2] = a[2] + (b[2] * scale)
     return out
 }
-},{}],95:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 module.exports = set;
 
 /**
@@ -19776,7 +20927,7 @@ function set(out, x, y, z) {
     out[2] = z
     return out
 }
-},{}],96:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 module.exports = squaredDistance;
 
 /**
@@ -19792,7 +20943,7 @@ function squaredDistance(a, b) {
         z = b[2] - a[2]
     return x*x + y*y + z*z
 }
-},{}],97:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 module.exports = squaredLength;
 
 /**
@@ -19807,7 +20958,7 @@ function squaredLength(a) {
         z = a[2]
     return x*x + y*y + z*z
 }
-},{}],98:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 module.exports = subtract;
 
 /**
@@ -19824,7 +20975,7 @@ function subtract(out, a, b) {
     out[2] = a[2] - b[2]
     return out
 }
-},{}],99:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 module.exports = transformMat3;
 
 /**
@@ -19842,7 +20993,7 @@ function transformMat3(out, a, m) {
     out[2] = x * m[2] + y * m[5] + z * m[8]
     return out
 }
-},{}],100:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 module.exports = transformMat4;
 
 /**
@@ -19863,7 +21014,7 @@ function transformMat4(out, a, m) {
     out[2] = (m[2] * x + m[6] * y + m[10] * z + m[14]) / w
     return out
 }
-},{}],101:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 module.exports = transformQuat;
 
 /**
@@ -19892,9 +21043,9 @@ function transformQuat(out, a, q) {
     out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx
     return out
 }
-},{}],102:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}],103:[function(require,module,exports){
+},{"dup":22}],121:[function(require,module,exports){
 module.exports = function(arr) {
   if (!arr) return false
   if (!arr.dtype) return false
@@ -19902,28 +21053,11 @@ module.exports = function(arr) {
   return re.test(String(arr.constructor))
 }
 
-},{}],104:[function(require,module,exports){
-(function (Buffer){
+},{}],122:[function(require,module,exports){
 var iota = require("iota-array")
-
-var arrayMethods = [
-  "concat",
-  "join",
-  "slice",
-  "toString",
-  "indexOf",
-  "lastIndexOf",
-  "forEach",
-  "every",
-  "some",
-  "filter",
-  "map",
-  "reduce",
-  "reduceRight"
-]
+var isBuffer = require("is-buffer")
 
 var hasTypedArrays  = ((typeof Float64Array) !== "undefined")
-var hasBuffer       = ((typeof Buffer) !== "undefined")
 
 function compare1st(a, b) {
   return a[0] - b[0]
@@ -19950,10 +21084,10 @@ function compileConstructor(dtype, dimension) {
     className = "View_Nil" + dtype
   }
   var useGetters = (dtype === "generic")
-  
+
   if(dimension === -1) {
     //Special case for trivial arrays
-    var code = 
+    var code =
       "function "+className+"(a){this.data=a;};\
 var proto="+className+".prototype;\
 proto.dtype='"+dtype+"';\
@@ -20004,67 +21138,31 @@ return function construct_"+className+"(a,b,c,d){return new "+className+"(a,d)}"
   }
 
   var code = ["'use strict'"]
-    
+
   //Create constructor for view
   var indices = iota(dimension)
   var args = indices.map(function(i) { return "i"+i })
   var index_str = "this.offset+" + indices.map(function(i) {
-        return "this._stride" + i + "*i" + i
+        return "this.stride[" + i + "]*i" + i
       }).join("+")
-  code.push("function "+className+"(a,"+
-    indices.map(function(i) {
+  var shapeArg = indices.map(function(i) {
       return "b"+i
-    }).join(",") + "," +
-    indices.map(function(i) {
+    }).join(",")
+  var strideArg = indices.map(function(i) {
       return "c"+i
-    }).join(",") + ",d){this.data=a")
-  for(var i=0; i<dimension; ++i) {
-    code.push("this._shape"+i+"=b"+i+"|0")
-  }
-  for(var i=0; i<dimension; ++i) {
-    code.push("this._stride"+i+"=c"+i+"|0")
-  }
-  code.push("this.offset=d|0}",
+    }).join(",")
+  code.push(
+    "function "+className+"(a," + shapeArg + "," + strideArg + ",d){this.data=a",
+      "this.shape=[" + shapeArg + "]",
+      "this.stride=[" + strideArg + "]",
+      "this.offset=d|0}",
     "var proto="+className+".prototype",
     "proto.dtype='"+dtype+"'",
     "proto.dimension="+dimension)
-  
-  //view.stride and view.shape
-  var strideClassName = "VStride" + dimension + "d" + dtype
-  var shapeClassName = "VShape" + dimension + "d" + dtype
-  var props = {"stride":strideClassName, "shape":shapeClassName}
-  for(var prop in props) {
-    var arrayName = props[prop]
-    code.push(
-      "function " + arrayName + "(v) {this._v=v} var aproto=" + arrayName + ".prototype",
-      "aproto.length="+dimension)
-    
-    var array_elements = []
-    for(var i=0; i<dimension; ++i) {
-      array_elements.push(["this._v._", prop, i].join(""))
-    }
-    code.push(
-      "aproto.toJSON=function " + arrayName + "_toJSON(){return [" + array_elements.join(",") + "]}",
-      "aproto.valueOf=aproto.toString=function " + arrayName + "_toString(){return [" + array_elements.join(",") + "].join()}")
-    
-    for(var i=0; i<dimension; ++i) {
-      code.push("Object.defineProperty(aproto,"+i+",{get:function(){return this._v._"+prop+i+"},set:function(v){return this._v._"+prop+i+"=v|0},enumerable:true})")
-    }
-    for(var i=0; i<arrayMethods.length; ++i) {
-      if(arrayMethods[i] in Array.prototype) {
-        code.push("aproto."+arrayMethods[i]+"=Array.prototype."+arrayMethods[i])
-      }
-    }
-    code.push(["Object.defineProperty(proto,'",prop,"',{get:function ", arrayName, "_get(){return new ", arrayName, "(this)},set: function ", arrayName, "_set(v){"].join(""))
-    for(var i=0; i<dimension; ++i) {
-      code.push("this._"+prop+i+"=v["+i+"]|0")
-    }
-    code.push("return v}})")
-  }
-  
+
   //view.size:
   code.push("Object.defineProperty(proto,'size',{get:function "+className+"_size(){\
-return "+indices.map(function(i) { return "this._shape"+i }).join("*"),
+return "+indices.map(function(i) { return "this.shape["+i+"]" }).join("*"),
 "}})")
 
   //view.order:
@@ -20075,10 +21173,10 @@ return "+indices.map(function(i) { return "this._shape"+i }).join("*"),
     if(dimension < 4) {
       code.push("function "+className+"_order(){")
       if(dimension === 2) {
-        code.push("return (Math.abs(this._stride0)>Math.abs(this._stride1))?[1,0]:[0,1]}})")
+        code.push("return (Math.abs(this.stride[0])>Math.abs(this.stride[1]))?[1,0]:[0,1]}})")
       } else if(dimension === 3) {
         code.push(
-"var s0=Math.abs(this._stride0),s1=Math.abs(this._stride1),s2=Math.abs(this._stride2);\
+"var s0=Math.abs(this.stride[0]),s1=Math.abs(this.stride[1]),s2=Math.abs(this.stride[2]);\
 if(s0>s1){\
 if(s1>s2){\
 return [2,1,0];\
@@ -20099,7 +21197,7 @@ return [0,2,1];\
       code.push("ORDER})")
     }
   }
-  
+
   //view.set(i0, ..., v):
   code.push(
 "proto.set=function "+className+"_set("+args.join(",")+",v){")
@@ -20108,7 +21206,7 @@ return [0,2,1];\
   } else {
     code.push("return this.data["+index_str+"]=v}")
   }
-  
+
   //view.get(i0, ...):
   code.push("proto.get=function "+className+"_get("+args.join(",")+"){")
   if(useGetters) {
@@ -20116,7 +21214,7 @@ return [0,2,1];\
   } else {
     code.push("return this.data["+index_str+"]}")
   }
-  
+
   //view.index:
   code.push(
     "proto.index=function "+className+"_index(", args.join(), "){return "+index_str+"}")
@@ -20124,15 +21222,15 @@ return [0,2,1];\
   //view.hi():
   code.push("proto.hi=function "+className+"_hi("+args.join(",")+"){return new "+className+"(this.data,"+
     indices.map(function(i) {
-      return ["(typeof i",i,"!=='number'||i",i,"<0)?this._shape", i, ":i", i,"|0"].join("")
+      return ["(typeof i",i,"!=='number'||i",i,"<0)?this.shape[", i, "]:i", i,"|0"].join("")
     }).join(",")+","+
     indices.map(function(i) {
-      return "this._stride"+i
+      return "this.stride["+i + "]"
     }).join(",")+",this.offset)}")
-  
+
   //view.lo():
-  var a_vars = indices.map(function(i) { return "a"+i+"=this._shape"+i })
-  var c_vars = indices.map(function(i) { return "c"+i+"=this._stride"+i })
+  var a_vars = indices.map(function(i) { return "a"+i+"=this.shape["+i+"]" })
+  var c_vars = indices.map(function(i) { return "c"+i+"=this.stride["+i+"]" })
   code.push("proto.lo=function "+className+"_lo("+args.join(",")+"){var b=this.offset,d=0,"+a_vars.join(",")+","+c_vars.join(","))
   for(var i=0; i<dimension; ++i) {
     code.push(
@@ -20148,14 +21246,14 @@ a"+i+"-=d}")
     indices.map(function(i) {
       return "c"+i
     }).join(",")+",b)}")
-  
+
   //view.step():
   code.push("proto.step=function "+className+"_step("+args.join(",")+"){var "+
     indices.map(function(i) {
-      return "a"+i+"=this._shape"+i
+      return "a"+i+"=this.shape["+i+"]"
     }).join(",")+","+
     indices.map(function(i) {
-      return "b"+i+"=this._stride"+i
+      return "b"+i+"=this.stride["+i+"]"
     }).join(",")+",c=this.offset,d=0,ceil=Math.ceil")
   for(var i=0; i<dimension; ++i) {
     code.push(
@@ -20177,7 +21275,7 @@ b"+i+"*=d\
     indices.map(function(i) {
       return "b" + i
     }).join(",")+",c)}")
-  
+
   //view.transpose():
   var tShape = new Array(dimension)
   var tStride = new Array(dimension)
@@ -20188,14 +21286,14 @@ b"+i+"*=d\
   code.push("proto.transpose=function "+className+"_transpose("+args+"){"+
     args.map(function(n,idx) { return n + "=(" + n + "===undefined?" + idx + ":" + n + "|0)"}).join(";"),
     "var a=this.shape,b=this.stride;return new "+className+"(this.data,"+tShape.join(",")+","+tStride.join(",")+",this.offset)}")
-  
+
   //view.pick():
   code.push("proto.pick=function "+className+"_pick("+args+"){var a=[],b=[],c=this.offset")
   for(var i=0; i<dimension; ++i) {
-    code.push("if(typeof i"+i+"==='number'&&i"+i+">=0){c=(c+this._stride"+i+"*i"+i+")|0}else{a.push(this._shape"+i+");b.push(this._stride"+i+")}")
+    code.push("if(typeof i"+i+"==='number'&&i"+i+">=0){c=(c+this.stride["+i+"]*i"+i+")|0}else{a.push(this.shape["+i+"]);b.push(this.stride["+i+"])}")
   }
   code.push("var ctor=CTOR_LIST[a.length+1];return ctor(this.data,a,b,c)}")
-    
+
   //Add return statement
   code.push("return function construct_"+className+"(data,shape,stride,offset){return new "+className+"(data,"+
     indices.map(function(i) {
@@ -20211,10 +21309,8 @@ b"+i+"*=d\
 }
 
 function arrayDType(data) {
-  if(hasBuffer) {
-    if(Buffer.isBuffer(data)) {
-      return "buffer"
-    }
+  if(isBuffer(data)) {
+    return "buffer"
   }
   if(hasTypedArrays) {
     switch(Object.prototype.toString.call(data)) {
@@ -20301,10 +21397,12 @@ function wrappedNDArrayCtor(data, shape, stride, offset) {
 }
 
 module.exports = wrappedNDArrayCtor
-}).call(this,require("buffer").Buffer)
-},{"buffer":17,"iota-array":105}],105:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],106:[function(require,module,exports){
+
+},{"iota-array":123,"is-buffer":124}],123:[function(require,module,exports){
+arguments[4][81][0].apply(exports,arguments)
+},{"dup":81}],124:[function(require,module,exports){
+arguments[4][23][0].apply(exports,arguments)
+},{"dup":23}],125:[function(require,module,exports){
 'use strict';
 
 var obsolete = function(object, property, reason) {
@@ -20320,7 +21418,7 @@ var obsolete = function(object, property, reason) {
 
 module.exports = obsolete;
 
-},{}],107:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 module.exports = SpatialEventEmitter
 
 var slice = [].slice
@@ -20456,7 +21554,7 @@ function finite(bbox) {
          isFinite(bbox.z1())
 }
 
-},{"./tree":108,"aabb-3d":47}],108:[function(require,module,exports){
+},{"./tree":127,"aabb-3d":48}],127:[function(require,module,exports){
 module.exports = Tree
 
 var aabb = require('aabb-3d')
@@ -20582,7 +21680,7 @@ proto.send = function(event, bbox, args) {
   }
 }
 
-},{"aabb-3d":47}],109:[function(require,module,exports){
+},{"aabb-3d":48}],128:[function(require,module,exports){
 /*
  * tic
  * https://github.com/shama/tic
@@ -20629,7 +21727,7 @@ Tic.prototype.tick = function(dt) {
   });
 };
 
-},{}],110:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 module.exports = control
 
 var Stream = require('stream').Stream
@@ -20923,7 +22021,7 @@ function clamp(value, to) {
   return isFinite(to) ? max(min(value, to), -to) : value
 }
 
-},{"stream":40}],111:[function(require,module,exports){
+},{"stream":40}],130:[function(require,module,exports){
 "use strict"
 
 var ndarray = require("ndarray")
@@ -20990,7 +22088,7 @@ function createVoxelMesh(gl, voxels, voxelSideTextureIDs, voxelSideTextureSizes,
 
 module.exports = createVoxelMesh
 
-},{"./mesh.js":113,"gl-buffer":119,"gl-mat4":131,"gl-vao":151,"ndarray":164,"ndarray-ops":159}],112:[function(require,module,exports){
+},{"./mesh.js":132,"gl-buffer":138,"gl-mat4":148,"gl-vao":166,"ndarray":122,"ndarray-ops":170}],131:[function(require,module,exports){
 'use strict';
 
 var createVoxelMesh = require('./mesh-buffer.js');
@@ -21119,7 +22217,7 @@ MesherPlugin.prototype.splitVoxelArray = function(voxels) {
 };
 
 
-},{"./mesh-buffer.js":111,"block-models":114,"events":21,"gl-buffer":119,"gl-vao":151,"inherits":158,"ndarray":164,"ndarray-ops":159}],113:[function(require,module,exports){
+},{"./mesh-buffer.js":130,"block-models":133,"events":21,"gl-buffer":138,"gl-vao":166,"inherits":120,"ndarray":122,"ndarray-ops":170}],132:[function(require,module,exports){
 "use strict"
 
 var ndarray = require("ndarray")
@@ -21670,7 +22768,7 @@ function computeMesh(array, voxelSideTextureIDs, voxelSideTextureSizes) {
 
 module.exports = computeMesh
 
-},{"cwise-compiler":115,"greedy-mesher":152,"ndarray":164,"typedarray-pool":168}],114:[function(require,module,exports){
+},{"cwise-compiler":134,"greedy-mesher":167,"ndarray":122,"typedarray-pool":173}],133:[function(require,module,exports){
 'use strict';
 
 // get all coordinates for a cube ranging from vertex a to b
@@ -21816,7 +22914,7 @@ var parseBlockModel = function(elements, getTextureUV, x, y, z) {
 module.exports = parseBlockModel;
 
 
-},{}],115:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 "use strict"
 
 var createThunk = require("./lib/thunk.js")
@@ -21825,6 +22923,7 @@ function Procedure() {
   this.argTypes = []
   this.shimArgs = []
   this.arrayArgs = []
+  this.arrayBlockIndices = []
   this.scalarArgs = []
   this.offsetArgs = []
   this.offsetArgIndex = []
@@ -21851,8 +22950,10 @@ function compileCwise(user_args) {
   proc.argTypes = proc_args
   for(var i=0; i<proc_args.length; ++i) {
     var arg_type = proc_args[i]
-    if(arg_type === "array") {
+    if(arg_type === "array" || (typeof arg_type === "object" && arg_type.blockIndices)) {
+      proc.argTypes[i] = "array"
       proc.arrayArgs.push(i)
+      proc.arrayBlockIndices.push(arg_type.blockIndices ? arg_type.blockIndices : 0)
       proc.shimArgs.push("array" + i)
       if(i < proc.pre.args.length && proc.pre.args[i].count>0) {
         throw new Error("cwise: pre() block may not reference array args")
@@ -21924,11 +23025,13 @@ function compileCwise(user_args) {
 
 module.exports = compileCwise
 
-},{"./lib/thunk.js":117}],116:[function(require,module,exports){
+},{"./lib/thunk.js":136}],135:[function(require,module,exports){
 "use strict"
 
 var uniq = require("uniq")
 
+// This function generates very simple loops analogous to how you typically traverse arrays (the outermost loop corresponds to the slowest changing index, the innermost loop to the fastest changing index)
+// TODO: If two arrays have the same strides (and offsets) there is potential for decreasing the number of "pointers" and related variables. The drawback is that the type signature would become more specific and that there would thus be less potential for caching, but it might still be worth it, especially when dealing with large numbers of arguments.
 function innerFill(order, proc, body) {
   var dimension = order.length
     , nargs = proc.arrayArgs.length
@@ -21936,7 +23039,7 @@ function innerFill(order, proc, body) {
     , code = []
     , vars = []
     , idx=0, pidx=0, i, j
-  for(i=0; i<dimension; ++i) {
+  for(i=0; i<dimension; ++i) { // Iteration variables
     vars.push(["i",i,"=0"].join(""))
   }
   //Compute scan deltas
@@ -21944,16 +23047,16 @@ function innerFill(order, proc, body) {
     for(i=0; i<dimension; ++i) {
       pidx = idx
       idx = order[i]
-      if(i === 0) {
+      if(i === 0) { // The innermost/fastest dimension's delta is simply its stride
         vars.push(["d",j,"s",i,"=t",j,"p",idx].join(""))
-      } else {
+      } else { // For other dimensions the delta is basically the stride minus something which essentially "rewinds" the previous (more inner) dimension
         vars.push(["d",j,"s",i,"=(t",j,"p",idx,"-s",pidx,"*t",j,"p",pidx,")"].join(""))
       }
     }
   }
   code.push("var " + vars.join(","))
   //Scan loop
-  for(i=dimension-1; i>=0; --i) {
+  for(i=dimension-1; i>=0; --i) { // Start at largest stride and work your way inwards
     idx = order[i]
     code.push(["for(i",i,"=0;i",i,"<s",idx,";++i",i,"){"].join(""))
   }
@@ -21977,6 +23080,9 @@ function innerFill(order, proc, body) {
   return code.join("\n")
 }
 
+// Generate "outer" loops that loop over blocks of data, applying "inner" loops to the blocks by manipulating the local variables in such a way that the inner loop only "sees" the current block.
+// TODO: If this is used, then the previous declaration (done by generateCwiseOp) of s* is essentially unnecessary.
+//       I believe the s* are not used elsewhere (in particular, I don't think they're used in the pre/post parts and "shape" is defined independently), so it would be possible to make defining the s* dependent on what loop method is being used.
 function outerFill(matched, order, proc, body) {
   var dimension = order.length
     , nargs = proc.arrayArgs.length
@@ -21986,10 +23092,12 @@ function outerFill(matched, order, proc, body) {
   for(var i=0; i<nargs; ++i) {
     code.push(["var offset",i,"=p",i].join(""))
   }
-  //Generate matched loops
+  //Generate loops for unmatched dimensions
+  // The order in which these dimensions are traversed is fairly arbitrary (from small stride to large stride, for the first argument)
+  // TODO: It would be nice if the order in which these loops are placed would also be somehow "optimal" (at the very least we should check that it really doesn't hurt us if they're not).
   for(var i=matched; i<dimension; ++i) {
-    code.push(["for(var j"+i+"=SS[", order[i], "]|0;j", i, ">0;){"].join(""))
-    code.push(["if(j",i,"<",blockSize,"){"].join(""))
+    code.push(["for(var j"+i+"=SS[", order[i], "]|0;j", i, ">0;){"].join("")) // Iterate back to front
+    code.push(["if(j",i,"<",blockSize,"){"].join("")) // Either decrease j by blockSize (s = blockSize), or set it to zero (after setting s = j).
     code.push(["s",order[i],"=j",i].join(""))
     code.push(["j",i,"=0"].join(""))
     code.push(["}else{s",order[i],"=",blockSize].join(""))
@@ -22013,6 +23121,9 @@ function outerFill(matched, order, proc, body) {
 }
 
 //Count the number of compatible inner orders
+// This is the length of the longest common prefix of the arrays in orders.
+// Each array in orders lists the dimensions of the correspond ndarray in order of increasing stride.
+// This is thus the maximum number of dimensions that can be efficiently traversed by simple nested loops for all arrays.
 function countMatches(orders) {
   var matched = 0, dimension = orders[0].length
   while(matched < dimension) {
@@ -22027,6 +23138,7 @@ function countMatches(orders) {
 }
 
 //Processes a block according to the given data types
+// Replaces variable names by different ones, either "local" ones (that are then ferried in and out of the given array) or ones matching the arguments that the function performing the ultimate loop will accept.
 function processBlock(block, proc, dtypes) {
   var code = block.body
   var pre = []
@@ -22044,34 +23156,57 @@ function processBlock(block, proc, dtypes) {
         var offArgIndex = proc.offsetArgIndex.indexOf(i)
         var offArg = proc.offsetArgs[offArgIndex]
         arrNum = offArg.array
-        ptrStr = "+q" + offArgIndex
+        ptrStr = "+q" + offArgIndex // Adds offset to the "pointer" in the array
       case "array":
         ptrStr = "p" + arrNum + ptrStr
         var localStr = "l" + i
         var arrStr = "a" + arrNum
-        if(carg.count === 1) {
-          if(dtypes[arrNum] === "generic") {
+        if (proc.arrayBlockIndices[arrNum] === 0) { // Argument to body is just a single value from this array
+          if(carg.count === 1) { // Argument/array used only once(?)
+            if(dtypes[arrNum] === "generic") {
+              if(carg.lvalue) {
+                pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join("")) // Is this necessary if the argument is ONLY used as an lvalue? (keep in mind that we can have a += something, so we would actually need to check carg.rvalue)
+                code = code.replace(re, localStr)
+                post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
+              } else {
+                code = code.replace(re, [arrStr, ".get(", ptrStr, ")"].join(""))
+              }
+            } else {
+              code = code.replace(re, [arrStr, "[", ptrStr, "]"].join(""))
+            }
+          } else if(dtypes[arrNum] === "generic") {
+            pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join("")) // TODO: Could we optimize by checking for carg.rvalue?
+            code = code.replace(re, localStr)
             if(carg.lvalue) {
-              pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join(""))
+              post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
+            }
+          } else {
+            pre.push(["var ", localStr, "=", arrStr, "[", ptrStr, "]"].join("")) // TODO: Could we optimize by checking for carg.rvalue?
+            code = code.replace(re, localStr)
+            if(carg.lvalue) {
+              post.push([arrStr, "[", ptrStr, "]=", localStr].join(""))
+            }
+          }
+        } else { // Argument to body is a "block"
+          var reStrArr = [carg.name], ptrStrArr = [ptrStr]
+          for(var j=0; j<Math.abs(proc.arrayBlockIndices[arrNum]); j++) {
+            reStrArr.push("\\s*\\[([^\\]]+)\\]")
+            ptrStrArr.push("$" + (j+1) + "*t" + arrNum + "b" + j) // Matched index times stride
+          }
+          re = new RegExp(reStrArr.join(""), "g")
+          ptrStr = ptrStrArr.join("+")
+          if(dtypes[arrNum] === "generic") {
+            /*if(carg.lvalue) {
+              pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join("")) // Is this necessary if the argument is ONLY used as an lvalue? (keep in mind that we can have a += something, so we would actually need to check carg.rvalue)
               code = code.replace(re, localStr)
               post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
             } else {
               code = code.replace(re, [arrStr, ".get(", ptrStr, ")"].join(""))
-            }
+            }*/
+            throw new Error("cwise: Generic arrays not supported in combination with blocks!")
           } else {
+            // This does not produce any local variables, even if variables are used multiple times. It would be possible to do so, but it would complicate things quite a bit.
             code = code.replace(re, [arrStr, "[", ptrStr, "]"].join(""))
-          }
-        } else if(dtypes[arrNum] === "generic") {
-          pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join(""))
-          code = code.replace(re, localStr)
-          if(carg.lvalue) {
-            post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
-          }
-        } else {
-          pre.push(["var ", localStr, "=", arrStr, "[", ptrStr, "]"].join(""))
-          code = code.replace(re, localStr)
-          if(carg.lvalue) {
-            post.push([arrStr, "[", ptrStr, "]=", localStr].join(""))
           }
         }
       break
@@ -22119,43 +23254,76 @@ function typeSummary(dtypes) {
 function generateCWiseOp(proc, typesig) {
 
   //Compute dimension
-  var dimension = typesig[1].length|0
+  // Arrays get put first in typesig, and there are two entries per array (dtype and order), so this gets the number of dimensions in the first array arg.
+  var dimension = (typesig[1].length - Math.abs(proc.arrayBlockIndices[0]))|0
   var orders = new Array(proc.arrayArgs.length)
   var dtypes = new Array(proc.arrayArgs.length)
+  for(var i=0; i<proc.arrayArgs.length; ++i) {
+    dtypes[i] = typesig[2*i]
+    orders[i] = typesig[2*i+1]
+  }
+  
+  //Determine where block and loop indices start and end
+  var blockBegin = [], blockEnd = [] // These indices are exposed as blocks
+  var loopBegin = [], loopEnd = [] // These indices are iterated over
+  var loopOrders = [] // orders restricted to the loop indices
+  for(var i=0; i<proc.arrayArgs.length; ++i) {
+    if (proc.arrayBlockIndices[i]<0) {
+      loopBegin.push(0)
+      loopEnd.push(dimension)
+      blockBegin.push(dimension)
+      blockEnd.push(dimension+proc.arrayBlockIndices[i])
+    } else {
+      loopBegin.push(proc.arrayBlockIndices[i]) // Non-negative
+      loopEnd.push(proc.arrayBlockIndices[i]+dimension)
+      blockBegin.push(0)
+      blockEnd.push(proc.arrayBlockIndices[i])
+    }
+    var newOrder = []
+    for(var j=0; j<orders[i].length; j++) {
+      if (loopBegin[i]<=orders[i][j] && orders[i][j]<loopEnd[i]) {
+        newOrder.push(orders[i][j]-loopBegin[i]) // If this is a loop index, put it in newOrder, subtracting loopBegin, to make sure that all loopOrders are using a common set of indices.
+      }
+    }
+    loopOrders.push(newOrder)
+  }
 
   //First create arguments for procedure
-  var arglist = ["SS"]
+  var arglist = ["SS"] // SS is the overall shape over which we iterate
   var code = ["'use strict'"]
   var vars = []
   
   for(var j=0; j<dimension; ++j) {
-    vars.push(["s", j, "=SS[", j, "]"].join(""))
+    vars.push(["s", j, "=SS[", j, "]"].join("")) // The limits for each dimension.
   }
   for(var i=0; i<proc.arrayArgs.length; ++i) {
-    arglist.push("a"+i)
-    arglist.push("t"+i)
-    arglist.push("p"+i)
-    dtypes[i] = typesig[2*i]
-    orders[i] = typesig[2*i+1]
+    arglist.push("a"+i) // Actual data array
+    arglist.push("t"+i) // Strides
+    arglist.push("p"+i) // Offset in the array at which the data starts (also used for iterating over the data)
     
-    for(var j=0; j<dimension; ++j) {
-      vars.push(["t",i,"p",j,"=t",i,"[",j,"]"].join(""))
+    for(var j=0; j<dimension; ++j) { // Unpack the strides into vars for looping
+      vars.push(["t",i,"p",j,"=t",i,"[",loopBegin[i]+j,"]"].join(""))
+    }
+    
+    for(var j=0; j<Math.abs(proc.arrayBlockIndices[i]); ++j) { // Unpack the strides into vars for block iteration
+      vars.push(["t",i,"b",j,"=t",i,"[",blockBegin[i]+j,"]"].join(""))
     }
   }
   for(var i=0; i<proc.scalarArgs.length; ++i) {
     arglist.push("Y" + i)
   }
   if(proc.shapeArgs.length > 0) {
-    vars.push("shape=SS.slice(0)")
+    vars.push("shape=SS.slice(0)") // Makes the shape over which we iterate available to the user defined functions (so you can use width/height for example)
   }
   if(proc.indexArgs.length > 0) {
+    // Prepare an array to keep track of the (logical) indices, initialized to dimension zeroes.
     var zeros = new Array(dimension)
     for(var i=0; i<dimension; ++i) {
       zeros[i] = "0"
     }
     vars.push(["index=[", zeros.join(","), "]"].join(""))
   }
-  for(var i=0; i<proc.offsetArgs.length; ++i) {
+  for(var i=0; i<proc.offsetArgs.length; ++i) { // Offset arguments used for stencil operations
     var off_arg = proc.offsetArgs[i]
     var init_string = []
     for(var j=0; j<off_arg.offset.length; ++j) {
@@ -22191,11 +23359,11 @@ function generateCWiseOp(proc, typesig) {
 
   //Process body
   var body = processBlock(proc.body, proc, dtypes)
-  var matched = countMatches(orders)
+  var matched = countMatches(loopOrders)
   if(matched < dimension) {
-    code.push(outerFill(matched, orders[0], proc, body))
+    code.push(outerFill(matched, loopOrders[0], proc, body)) // TODO: Rather than passing loopOrders[0], it might be interesting to look at passing an order that represents the majority of the arguments for example.
   } else {
-    code.push(innerFill(orders[0], proc, body))
+    code.push(innerFill(loopOrders[0], proc, body))
   }
 
   //Inline epilog
@@ -22204,7 +23372,7 @@ function generateCWiseOp(proc, typesig) {
   }
   
   if(proc.debug) {
-    console.log("Generated cwise routine for ", typesig, ":\n\n", code.join("\n"))
+    console.log("-----Generated cwise routine for ", typesig, ":\n" + code.join("\n") + "\n----------")
   }
   
   var loopName = [(proc.funcName||"unnamed"), "_cwise_loop_", orders[0].join("s"),"m",matched,typeSummary(dtypes)].join("")
@@ -22212,8 +23380,32 @@ function generateCWiseOp(proc, typesig) {
   return f()
 }
 module.exports = generateCWiseOp
-},{"uniq":118}],117:[function(require,module,exports){
+
+},{"uniq":137}],136:[function(require,module,exports){
 "use strict"
+
+// The function below is called when constructing a cwise function object, and does the following:
+// A function object is constructed which accepts as argument a compilation function and returns another function.
+// It is this other function that is eventually returned by createThunk, and this function is the one that actually
+// checks whether a certain pattern of arguments has already been used before and compiles new loops as needed.
+// The compilation passed to the first function object is used for compiling new functions.
+// Once this function object is created, it is called with compile as argument, where the first argument of compile
+// is bound to "proc" (essentially containing a preprocessed version of the user arguments to cwise).
+// So createThunk roughly works like this:
+// function createThunk(proc) {
+//   var thunk = function(compileBound) {
+//     var CACHED = {}
+//     return function(arrays and scalars) {
+//       if (dtype and order of arrays in CACHED) {
+//         var func = CACHED[dtype and order of arrays]
+//       } else {
+//         var func = CACHED[dtype and order of arrays] = compileBound(dtype and order of arrays)
+//       }
+//       return func(arrays and scalars)
+//     }
+//   }
+//   return thunk(compile.bind1(proc))
+// }
 
 var compile = require("./compile.js")
 
@@ -22226,7 +23418,8 @@ function createThunk(proc) {
   code.push(["return function ", thunkName, "(", proc.shimArgs.join(","), "){"].join(""))
   var typesig = []
   var string_typesig = []
-  var proc_args = [["array",proc.arrayArgs[0],".shape"].join("")]
+  var proc_args = [["array",proc.arrayArgs[0],".shape.slice(", // Slice shape so that we only retain the shape over which we iterate (which gets passed to the cwise operator as SS).
+                    Math.max(0,proc.arrayBlockIndices[i]),proc.arrayBlockIndices[i]<0?(","+proc.arrayBlockIndices[i]+")"):")"].join("")]
   for(var i=0; i<proc.arrayArgs.length; ++i) {
     var j = proc.arrayArgs[i]
     vars.push(["t", j, "=array", j, ".dtype,",
@@ -22251,7 +23444,7 @@ function createThunk(proc) {
              "return proc(", proc_args.join(","), ")}"].join(""))
 
   if(proc.debug) {
-    console.log("Generated thunk:", code.join("\n"))
+    console.log("-----Generated thunk:\n" + code.join("\n") + "\n----------")
   }
   
   //Compile thunk
@@ -22261,15 +23454,14 @@ function createThunk(proc) {
 
 module.exports = createThunk
 
-},{"./compile.js":116}],118:[function(require,module,exports){
-arguments[4][64][0].apply(exports,arguments)
-},{"dup":64}],119:[function(require,module,exports){
+},{"./compile.js":135}],137:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"dup":82}],138:[function(require,module,exports){
 "use strict"
 
 var pool = require("typedarray-pool")
 var ops = require("ndarray-ops")
 var ndarray = require("ndarray")
-var webglew = require("webglew")
 
 var SUPPORTED_TYPES = [
   "uint8",
@@ -22295,12 +23487,16 @@ proto.bind = function() {
   this.gl.bindBuffer(this.type, this.handle)
 }
 
+proto.unbind = function() {
+  this.gl.bindBuffer(this.type, null)
+}
+
 proto.dispose = function() {
   this.gl.deleteBuffer(this.handle)
 }
 
 function updateTypeArray(gl, type, len, usage, data, offset) {
-  var dataLen = data.length * data.BYTES_PER_ELEMENT 
+  var dataLen = data.length * data.BYTES_PER_ELEMENT
   if(offset < 0) {
     gl.bufferData(type, data, usage)
     return dataLen
@@ -22343,8 +23539,7 @@ proto.update = function(array, offset) {
       dtype = "float32"
     }
     if(this.type === this.gl.ELEMENT_ARRAY_BUFFER) {
-      var wgl = webglew(gl)
-      var ext = wgl.OES_element_index_uint
+      var ext = gl.getExtension('OES_element_index_uint')
       if(ext && dtype !== "uint16") {
         dtype = "uint32"
       } else {
@@ -22362,9 +23557,9 @@ proto.update = function(array, offset) {
       var ndt = ndarray(tmp, array.shape)
       ops.assign(ndt, array)
       if(offset < 0) {
-        this.length = updateTypeArray(this.gl, this.type, this.length, this.usage, tmp, offset)  
+        this.length = updateTypeArray(this.gl, this.type, this.length, this.usage, tmp, offset)
       } else {
-        this.length = updateTypeArray(this.gl, this.type, this.length, this.usage, tmp.subarray(0, array.size), offset)  
+        this.length = updateTypeArray(this.gl, this.type, this.length, this.usage, tmp.subarray(0, array.size), offset)
       }
       pool.free(tmp)
     }
@@ -22399,7 +23594,6 @@ proto.update = function(array, offset) {
 }
 
 function createBuffer(gl, data, type, usage) {
-  webglew(gl)
   type = type || gl.ARRAY_BUFFER
   usage = usage || gl.DYNAMIC_DRAW
   if(type !== gl.ARRAY_BUFFER && type !== gl.ELEMENT_ARRAY_BUFFER) {
@@ -22415,11 +23609,8 @@ function createBuffer(gl, data, type, usage) {
 }
 
 module.exports = createBuffer
-},{"ndarray":164,"ndarray-ops":159,"typedarray-pool":168,"webglew":121}],120:[function(require,module,exports){
-arguments[4][67][0].apply(exports,arguments)
-},{"dup":67}],121:[function(require,module,exports){
-arguments[4][68][0].apply(exports,arguments)
-},{"dup":68,"weakmap":120}],122:[function(require,module,exports){
+
+},{"ndarray":122,"ndarray-ops":170,"typedarray-pool":173}],139:[function(require,module,exports){
 module.exports = adjoint;
 
 /**
@@ -22453,7 +23644,7 @@ function adjoint(out, a) {
     out[15] =  (a00 * (a11 * a22 - a12 * a21) - a10 * (a01 * a22 - a02 * a21) + a20 * (a01 * a12 - a02 * a11));
     return out;
 };
-},{}],123:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 module.exports = clone;
 
 /**
@@ -22482,7 +23673,7 @@ function clone(a) {
     out[15] = a[15];
     return out;
 };
-},{}],124:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 module.exports = copy;
 
 /**
@@ -22511,7 +23702,7 @@ function copy(out, a) {
     out[15] = a[15];
     return out;
 };
-},{}],125:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 module.exports = create;
 
 /**
@@ -22539,7 +23730,7 @@ function create() {
     out[15] = 1;
     return out;
 };
-},{}],126:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 module.exports = determinant;
 
 /**
@@ -22570,7 +23761,7 @@ function determinant(a) {
     // Calculate the determinant
     return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
 };
-},{}],127:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 module.exports = fromQuat;
 
 /**
@@ -22618,7 +23809,7 @@ function fromQuat(out, q) {
 
     return out;
 };
-},{}],128:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 module.exports = fromRotationTranslation;
 
 /**
@@ -22672,7 +23863,7 @@ function fromRotationTranslation(out, q, v) {
     
     return out;
 };
-},{}],129:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 module.exports = frustum;
 
 /**
@@ -22709,7 +23900,7 @@ function frustum(out, left, right, bottom, top, near, far) {
     out[15] = 0;
     return out;
 };
-},{}],130:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 module.exports = identity;
 
 /**
@@ -22737,7 +23928,7 @@ function identity(out) {
     out[15] = 1;
     return out;
 };
-},{}],131:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 module.exports = {
   create: require('./create')
   , clone: require('./clone')
@@ -22763,7 +23954,7 @@ module.exports = {
   , lookAt: require('./lookAt')
   , str: require('./str')
 }
-},{"./adjoint":122,"./clone":123,"./copy":124,"./create":125,"./determinant":126,"./fromQuat":127,"./fromRotationTranslation":128,"./frustum":129,"./identity":130,"./invert":132,"./lookAt":133,"./multiply":134,"./ortho":135,"./perspective":136,"./perspectiveFromFieldOfView":137,"./rotate":138,"./rotateX":139,"./rotateY":140,"./rotateZ":141,"./scale":142,"./str":143,"./translate":144,"./transpose":145}],132:[function(require,module,exports){
+},{"./adjoint":139,"./clone":140,"./copy":141,"./create":142,"./determinant":143,"./fromQuat":144,"./fromRotationTranslation":145,"./frustum":146,"./identity":147,"./invert":149,"./lookAt":150,"./multiply":151,"./ortho":152,"./perspective":153,"./perspectiveFromFieldOfView":154,"./rotate":155,"./rotateX":156,"./rotateY":157,"./rotateZ":158,"./scale":159,"./str":160,"./translate":161,"./transpose":162}],149:[function(require,module,exports){
 module.exports = invert;
 
 /**
@@ -22819,7 +24010,7 @@ function invert(out, a) {
 
     return out;
 };
-},{}],133:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 var identity = require('./identity');
 
 module.exports = lookAt;
@@ -22910,7 +24101,7 @@ function lookAt(out, eye, center, up) {
 
     return out;
 };
-},{"./identity":130}],134:[function(require,module,exports){
+},{"./identity":147}],151:[function(require,module,exports){
 module.exports = multiply;
 
 /**
@@ -22953,7 +24144,7 @@ function multiply(out, a, b) {
     out[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
     return out;
 };
-},{}],135:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 module.exports = ortho;
 
 /**
@@ -22990,7 +24181,7 @@ function ortho(out, left, right, bottom, top, near, far) {
     out[15] = 1;
     return out;
 };
-},{}],136:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 module.exports = perspective;
 
 /**
@@ -23024,7 +24215,7 @@ function perspective(out, fovy, aspect, near, far) {
     out[15] = 0;
     return out;
 };
-},{}],137:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 module.exports = perspectiveFromFieldOfView;
 
 /**
@@ -23066,7 +24257,7 @@ function perspectiveFromFieldOfView(out, fov, near, far) {
 }
 
 
-},{}],138:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 module.exports = rotate;
 
 /**
@@ -23131,7 +24322,7 @@ function rotate(out, a, rad, axis) {
     }
     return out;
 };
-},{}],139:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 module.exports = rotateX;
 
 /**
@@ -23176,7 +24367,7 @@ function rotateX(out, a, rad) {
     out[11] = a23 * c - a13 * s;
     return out;
 };
-},{}],140:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 module.exports = rotateY;
 
 /**
@@ -23221,7 +24412,7 @@ function rotateY(out, a, rad) {
     out[11] = a03 * s + a23 * c;
     return out;
 };
-},{}],141:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 module.exports = rotateZ;
 
 /**
@@ -23266,7 +24457,7 @@ function rotateZ(out, a, rad) {
     out[7] = a13 * c - a03 * s;
     return out;
 };
-},{}],142:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 module.exports = scale;
 
 /**
@@ -23298,7 +24489,7 @@ function scale(out, a, v) {
     out[15] = a[15];
     return out;
 };
-},{}],143:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 module.exports = str;
 
 /**
@@ -23313,7 +24504,7 @@ function str(a) {
                     a[8] + ', ' + a[9] + ', ' + a[10] + ', ' + a[11] + ', ' + 
                     a[12] + ', ' + a[13] + ', ' + a[14] + ', ' + a[15] + ')';
 };
-},{}],144:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 module.exports = translate;
 
 /**
@@ -23352,7 +24543,7 @@ function translate(out, a, v) {
 
     return out;
 };
-},{}],145:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 module.exports = transpose;
 
 /**
@@ -23402,7 +24593,7 @@ function transpose(out, a) {
     
     return out;
 };
-},{}],146:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 "use strict"
 
 function doBind(gl, elements, attributes) {
@@ -23457,7 +24648,7 @@ function doBind(gl, elements, attributes) {
 }
 
 module.exports = doBind
-},{}],147:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 "use strict"
 
 var bindAttribs = require("./do-bind.js")
@@ -23466,15 +24657,17 @@ function VAOEmulated(gl) {
   this.gl = gl
   this._elements = null
   this._attributes = null
+  this._elementsType = gl.UNSIGNED_SHORT
 }
 
 VAOEmulated.prototype.bind = function() {
   bindAttribs(this.gl, this._elements, this._attributes)
 }
 
-VAOEmulated.prototype.update = function(attributes, elements) {
+VAOEmulated.prototype.update = function(attributes, elements, elementsType) {
   this._elements = elements
   this._attributes = attributes
+  this._elementsType = elementsType || this.gl.UNSIGNED_SHORT
 }
 
 VAOEmulated.prototype.dispose = function() { }
@@ -23484,7 +24677,7 @@ VAOEmulated.prototype.draw = function(mode, count, offset) {
   offset = offset || 0
   var gl = this.gl
   if(this._elements) {
-    gl.drawElements(mode, count, gl.UNSIGNED_SHORT, offset)
+    gl.drawElements(mode, count, this._elementsType, offset)
   } else {
     gl.drawArrays(mode, offset, count)
   }
@@ -23495,7 +24688,7 @@ function createVAOEmulated(gl) {
 }
 
 module.exports = createVAOEmulated
-},{"./do-bind.js":146}],148:[function(require,module,exports){
+},{"./do-bind.js":163}],165:[function(require,module,exports){
 "use strict"
 
 var bindAttribs = require("./do-bind.js")
@@ -23532,6 +24725,7 @@ function VAONative(gl, ext, handle) {
   this.handle = handle
   this._attribs = []
   this._useElements = false
+  this._elementsType = gl.UNSIGNED_SHORT
 }
 
 VAONative.prototype.bind = function() {
@@ -23549,7 +24743,7 @@ VAONative.prototype.dispose = function() {
   this._ext.deleteVertexArrayOES(this.handle)
 }
 
-VAONative.prototype.update = function(attributes, elements) {
+VAONative.prototype.update = function(attributes, elements, elementsType) {
   this.bind()
   bindAttribs(this.gl, elements, attributes)
   this.unbind()
@@ -23564,13 +24758,14 @@ VAONative.prototype.update = function(attributes, elements) {
     }
   }
   this._useElements = !!elements
+  this._elementsType = elementsType || this.gl.UNSIGNED_SHORT
 }
 
 VAONative.prototype.draw = function(mode, count, offset) {
   offset = offset || 0
   var gl = this.gl
   if(this._useElements) {
-    gl.drawElements(mode, count, gl.UNSIGNED_SHORT, offset)
+    gl.drawElements(mode, count, this._elementsType, offset)
   } else {
     gl.drawArrays(mode, offset, count)
   }
@@ -23581,31 +24776,27 @@ function createVAONative(gl, ext) {
 }
 
 module.exports = createVAONative
-},{"./do-bind.js":146}],149:[function(require,module,exports){
-arguments[4][67][0].apply(exports,arguments)
-},{"dup":67}],150:[function(require,module,exports){
-arguments[4][68][0].apply(exports,arguments)
-},{"dup":68,"weakmap":149}],151:[function(require,module,exports){
+},{"./do-bind.js":163}],166:[function(require,module,exports){
 "use strict"
 
-var webglew = require("webglew")
 var createVAONative = require("./lib/vao-native.js")
 var createVAOEmulated = require("./lib/vao-emulated.js")
 
-function createVAO(gl, attributes, elements) {
-  var ext = webglew(gl).OES_vertex_array_object
+function createVAO(gl, attributes, elements, elementsType) {
+  var ext = gl.getExtension('OES_vertex_array_object')
   var vao
   if(ext) {
     vao = createVAONative(gl, ext)
   } else {
     vao = createVAOEmulated(gl)
   }
-  vao.update(attributes, elements)
+  vao.update(attributes, elements, elementsType)
   return vao
 }
 
 module.exports = createVAO
-},{"./lib/vao-emulated.js":147,"./lib/vao-native.js":148,"webglew":150}],152:[function(require,module,exports){
+
+},{"./lib/vao-emulated.js":164,"./lib/vao-native.js":165}],167:[function(require,module,exports){
 "use strict"
 
 var pool = require("typedarray-pool")
@@ -23804,639 +24995,11 @@ function compileMesher(options) {
 }
 module.exports = compileMesher
 
-},{"iota-array":153,"typedarray-pool":156,"uniq":157}],153:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],154:[function(require,module,exports){
-/**
- * Bit twiddling hacks for JavaScript.
- *
- * Author: Mikola Lysenko
- *
- * Ported from Stanford bit twiddling hack library:
- *    http://graphics.stanford.edu/~seander/bithacks.html
- */
-
-"use strict"; "use restrict";
-
-//Number of bits in an integer
-var INT_BITS = 32;
-
-//Constants
-exports.INT_BITS  = INT_BITS;
-exports.INT_MAX   =  0x7fffffff;
-exports.INT_MIN   = -1<<(INT_BITS-1);
-
-//Returns -1, 0, +1 depending on sign of x
-exports.sign = function(v) {
-  return (v > 0) - (v < 0);
-}
-
-//Computes absolute value of integer
-exports.abs = function(v) {
-  var mask = v >> (INT_BITS-1);
-  return (v ^ mask) - mask;
-}
-
-//Computes minimum of integers x and y
-exports.min = function(x, y) {
-  return y ^ ((x ^ y) & -(x < y));
-}
-
-//Computes maximum of integers x and y
-exports.max = function(x, y) {
-  return x ^ ((x ^ y) & -(x < y));
-}
-
-//Checks if a number is a power of two
-exports.isPow2 = function(v) {
-  return !(v & (v-1)) && (!!v);
-}
-
-//Computes log base 2 of v
-exports.log2 = function(v) {
-  var r, shift;
-  r =     (v > 0xFFFF) << 4; v >>>= r;
-  shift = (v > 0xFF  ) << 3; v >>>= shift; r |= shift;
-  shift = (v > 0xF   ) << 2; v >>>= shift; r |= shift;
-  shift = (v > 0x3   ) << 1; v >>>= shift; r |= shift;
-  return r | (v >> 1);
-}
-
-//Computes log base 10 of v
-exports.log10 = function(v) {
-  return  (v >= 1000000000) ? 9 : (v >= 100000000) ? 8 : (v >= 10000000) ? 7 :
-          (v >= 1000000) ? 6 : (v >= 100000) ? 5 : (v >= 10000) ? 4 :
-          (v >= 1000) ? 3 : (v >= 100) ? 2 : (v >= 10) ? 1 : 0;
-}
-
-//Counts number of bits
-exports.popCount = function(v) {
-  v = v - ((v >>> 1) & 0x55555555);
-  v = (v & 0x33333333) + ((v >>> 2) & 0x33333333);
-  return ((v + (v >>> 4) & 0xF0F0F0F) * 0x1010101) >>> 24;
-}
-
-//Counts number of trailing zeros
-function countTrailingZeros(v) {
-  var c = 32;
-  v &= -v;
-  if (v) c--;
-  if (v & 0x0000FFFF) c -= 16;
-  if (v & 0x00FF00FF) c -= 8;
-  if (v & 0x0F0F0F0F) c -= 4;
-  if (v & 0x33333333) c -= 2;
-  if (v & 0x55555555) c -= 1;
-  return c;
-}
-exports.countTrailingZeros = countTrailingZeros;
-
-//Rounds to next power of 2
-exports.nextPow2 = function(v) {
-  v += v === 0;
-  --v;
-  v |= v >>> 1;
-  v |= v >>> 2;
-  v |= v >>> 4;
-  v |= v >>> 8;
-  v |= v >>> 16;
-  return v + 1;
-}
-
-//Rounds down to previous power of 2
-exports.prevPow2 = function(v) {
-  v |= v >>> 1;
-  v |= v >>> 2;
-  v |= v >>> 4;
-  v |= v >>> 8;
-  v |= v >>> 16;
-  return v - (v>>>1);
-}
-
-//Computes parity of word
-exports.parity = function(v) {
-  v ^= v >>> 16;
-  v ^= v >>> 8;
-  v ^= v >>> 4;
-  v &= 0xf;
-  return (0x6996 >>> v) & 1;
-}
-
-var REVERSE_TABLE = new Array(256);
-
-(function(tab) {
-  for(var i=0; i<256; ++i) {
-    var v = i, r = i, s = 7;
-    for (v >>>= 1; v; v >>>= 1) {
-      r <<= 1;
-      r |= v & 1;
-      --s;
-    }
-    tab[i] = (r << s) & 0xff;
-  }
-})(REVERSE_TABLE);
-
-//Reverse bits in a 32 bit word
-exports.reverse = function(v) {
-  return  (REVERSE_TABLE[ v         & 0xff] << 24) |
-          (REVERSE_TABLE[(v >>> 8)  & 0xff] << 16) |
-          (REVERSE_TABLE[(v >>> 16) & 0xff] << 8)  |
-           REVERSE_TABLE[(v >>> 24) & 0xff];
-}
-
-//Interleave bits of 2 coordinates with 16 bits.  Useful for fast quadtree codes
-exports.interleave2 = function(x, y) {
-  x &= 0xFFFF;
-  x = (x | (x << 8)) & 0x00FF00FF;
-  x = (x | (x << 4)) & 0x0F0F0F0F;
-  x = (x | (x << 2)) & 0x33333333;
-  x = (x | (x << 1)) & 0x55555555;
-
-  y &= 0xFFFF;
-  y = (y | (y << 8)) & 0x00FF00FF;
-  y = (y | (y << 4)) & 0x0F0F0F0F;
-  y = (y | (y << 2)) & 0x33333333;
-  y = (y | (y << 1)) & 0x55555555;
-
-  return x | (y << 1);
-}
-
-//Extracts the nth interleaved component
-exports.deinterleave2 = function(v, n) {
-  v = (v >>> n) & 0x55555555;
-  v = (v | (v >>> 1))  & 0x33333333;
-  v = (v | (v >>> 2))  & 0x0F0F0F0F;
-  v = (v | (v >>> 4))  & 0x00FF00FF;
-  v = (v | (v >>> 16)) & 0x000FFFF;
-  return (v << 16) >> 16;
-}
-
-
-//Interleave bits of 3 coordinates, each with 10 bits.  Useful for fast octree codes
-exports.interleave3 = function(x, y, z) {
-  x &= 0x3FF;
-  x  = (x | (x<<16)) & 4278190335;
-  x  = (x | (x<<8))  & 251719695;
-  x  = (x | (x<<4))  & 3272356035;
-  x  = (x | (x<<2))  & 1227133513;
-
-  y &= 0x3FF;
-  y  = (y | (y<<16)) & 4278190335;
-  y  = (y | (y<<8))  & 251719695;
-  y  = (y | (y<<4))  & 3272356035;
-  y  = (y | (y<<2))  & 1227133513;
-  x |= (y << 1);
-  
-  z &= 0x3FF;
-  z  = (z | (z<<16)) & 4278190335;
-  z  = (z | (z<<8))  & 251719695;
-  z  = (z | (z<<4))  & 3272356035;
-  z  = (z | (z<<2))  & 1227133513;
-  
-  return x | (z << 2);
-}
-
-//Extracts nth interleaved component of a 3-tuple
-exports.deinterleave3 = function(v, n) {
-  v = (v >>> n)       & 1227133513;
-  v = (v | (v>>>2))   & 3272356035;
-  v = (v | (v>>>4))   & 251719695;
-  v = (v | (v>>>8))   & 4278190335;
-  v = (v | (v>>>16))  & 0x3FF;
-  return (v<<22)>>22;
-}
-
-//Computes next combination in colexicographic order (this is mistakenly called nextPermutation on the bit twiddling hacks page)
-exports.nextCombination = function(v) {
-  var t = v | (v - 1);
-  return (t + 1) | (((~t & -~t) - 1) >>> (countTrailingZeros(v) + 1));
-}
-
-
-},{}],155:[function(require,module,exports){
-"use strict"
-
-function dupe_array(count, value, i) {
-  var c = count[i]|0
-  if(c <= 0) {
-    return []
-  }
-  var result = new Array(c), j
-  if(i === count.length-1) {
-    for(j=0; j<c; ++j) {
-      result[j] = value
-    }
-  } else {
-    for(j=0; j<c; ++j) {
-      result[j] = dupe_array(count, value, i+1)
-    }
-  }
-  return result
-}
-
-function dupe_number(count, value) {
-  var result, i
-  result = new Array(count)
-  for(i=0; i<count; ++i) {
-    result[i] = value
-  }
-  return result
-}
-
-function dupe(count, value) {
-  if(typeof value === "undefined") {
-    value = 0
-  }
-  switch(typeof count) {
-    case "number":
-      if(count > 0) {
-        return dupe_number(count|0, value)
-      }
-    break
-    case "object":
-      if(typeof (count.length) === "number") {
-        return dupe_array(count, value, 0)
-      }
-    break
-  }
-  return []
-}
-
-module.exports = dupe
-},{}],156:[function(require,module,exports){
-(function (global,Buffer){
-var bits = require("bit-twiddle")
-var dup = require("dup")
-if(!global.__TYPEDARRAY_POOL) {
-  global.__TYPEDARRAY_POOL = {
-      UINT8   : dup([32, 0])
-    , UINT16  : dup([32, 0])
-    , UINT32  : dup([32, 0])
-    , INT8    : dup([32, 0])
-    , INT16   : dup([32, 0])
-    , INT32   : dup([32, 0])
-    , FLOAT   : dup([32, 0])
-    , DOUBLE  : dup([32, 0])
-    , DATA    : dup([32, 0])
-    , UINT8C  : dup([32, 0])
-    , BUFFER  : dup([32, 0])
-  }
-}
-var hasUint8C = (typeof Uint8ClampedArray) !== "undefined"
-var POOL = global.__TYPEDARRAY_POOL
-if(!POOL.UINT8C) {
-  POOL.UINT8C = dup([32, 0])
-}
-if(!POOL.BUFFER) {
-  POOL.BUFFER = dup([32, 0])
-}
-var UINT8   = POOL.UINT8
-  , UINT16  = POOL.UINT16
-  , UINT32  = POOL.UINT32
-  , INT8    = POOL.INT8
-  , INT16   = POOL.INT16
-  , INT32   = POOL.INT32
-  , FLOAT   = POOL.FLOAT
-  , DOUBLE  = POOL.DOUBLE
-  , DATA    = POOL.DATA
-  , UINT8C  = POOL.UINT8C
-  , BUFFER  = POOL.BUFFER
-
-exports.free = function free(array) {
-  var n = array.length|0
-    , log_n = bits.log2(n)
-  if(Buffer.isBuffer(array)) {
-    BUFFER[log_n].push(array)
-  } else {
-    switch(Object.prototype.toString.call(array)) {
-      case "[object Uint8Array]":
-        UINT8[log_n].push(array)
-      break
-      case "[object Uint16Array]":
-        UINT16[log_n].push(array)
-      break
-      case "[object Uint32Array]":
-        UINT32[log_n].push(array)
-      break
-      case "[object Int8Array]":
-        INT8[log_n].push(array)
-      break
-      case "[object Int16Array]":
-        INT16[log_n].push(array)
-      break
-      case "[object Int32Array]":
-        INT32[log_n].push(array)
-      break
-      case "[object Uint8ClampedArray]":
-        UINT8C[log_n].push(array)
-      break
-      case "[object Float32Array]":
-        FLOAT[log_n].push(array)
-      break
-      case "[object Float64Array]":
-        DOUBLE[log_n].push(array)
-      break
-      case "[object ArrayBuffer]":
-        DATA[log_n].push(array)
-      break
-      default:
-        throw new Error("typedarray-pool: Unspecified array type")
-    }
-  }
-}
-
-exports.freeUint8 = function freeUint8(array) {
-  UINT8[bits.log2(array.length)].push(array)
-}
-
-exports.freeUint16 = function freeUint16(array) {
-  UINT16[bits.log2(array.length)].push(array)
-}
-
-exports.freeUint32 = function freeUint32(array) {
-  UINT32[bits.log2(array.length)].push(array)
-}
-
-exports.freeInt8 = function freeInt8(array) {
-  INT8[bits.log2(array.length)].push(array)
-}
-
-exports.freeInt16 = function freeInt16(array) {
-  INT16[bits.log2(array.length)].push(array)
-}
-
-exports.freeInt32 = function freeInt32(array) {
-  INT32[bits.log2(array.length)].push(array)
-}
-
-exports.freeFloat32 = exports.freeFloat = function freeFloat(array) {
-  FLOAT[bits.log2(array.length)].push(array)
-}
-
-exports.freeFloat64 = exports.freeDouble = function freeDouble(array) {
-  DOUBLE[bits.log2(array.length)].push(array)
-}
-
-exports.freeArrayBuffer = function freeArrayBuffer(array) {
-  DATA[bits.log2(array.length)].push(array)
-}
-
-if(hasUint8C) {
-  exports.freeUint8Clamped = function freeUint8Clamped(array) {
-    UINT8C[bits.log2(array.length)].push(array)
-  }
-} else {
-  exports.freeUint8Clamped = exports.freeUint8
-}
-
-exports.freeBuffer = function freeBuffer(array) {
-  BUFFER[bits.log2(array.length)].push(array)
-}
-
-exports.malloc = function malloc(n, dtype) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  if(dtype === undefined || dtype === "arraybuffer") {
-    var d = DATA[log_n]
-    if(d.length > 0) {
-      var r = d[d.length-1]
-      d.pop()
-      return r
-    }
-    return new ArrayBuffer(n)
-  } else {
-    switch(dtype) {
-      case "uint8":
-        var u8 = UINT8[log_n]
-        if(u8.length > 0) {
-          return u8.pop()
-        }
-        return new Uint8Array(n)
-      break
-
-      case "uint16":
-        var u16 = UINT16[log_n]
-        if(u16.length > 0) {
-          return u16.pop()
-        }
-        return new Uint16Array(n)
-      break
-
-      case "uint32":
-        var u32 = UINT32[log_n]
-        if(u32.length > 0) {
-          return u32.pop()
-        }
-        return new Uint32Array(n)
-      break
-
-      case "int8":
-        var i8 = INT8[log_n]
-        if(i8.length > 0) {
-          return i8.pop()
-        }
-        return new Int8Array(n)
-      break
-
-      case "int16":
-        var i16 = INT16[log_n]
-        if(i16.length > 0) {
-          return i16.pop()
-        }
-        return new Int16Array(n)
-      break
-
-      case "int32":
-        var i32 = INT32[log_n]
-        if(i32.length > 0) {
-          return i32.pop()
-        }
-        return new Int32Array(n)
-      break
-
-      case "float":
-      case "float32":
-        var f = FLOAT[log_n]
-        if(f.length > 0) {
-          return f.pop()
-        }
-        return new Float32Array(n)
-      break
-
-      case "double":
-      case "float64":
-        var dd = DOUBLE[log_n]
-        if(dd.length > 0) {
-          return dd.pop()
-        }
-        return new Float64Array(n)
-      break
-
-      case "uint8_clamped":
-        if(hasUint8C) {
-          var u8c = UINT8C[log_n]
-          if(u8c.length > 0) {
-            return u8c.pop()
-          }
-          return new Uint8ClampedArray(n)
-        } else {
-          var u8 = UINT8[log_n]
-          if(u8.length > 0) {
-            return u8.pop()
-          }
-          return new Uint8Array(n)
-        }
-      break
-
-      case "buffer":
-        var buf = BUFFER[log_n]
-        if(buf.length > 0) {
-          return buf.pop()
-        }
-        return new Buffer(n)
-      break
-
-      default:
-        return null
-    }
-  }
-  return null
-}
-
-exports.mallocUint8 = function mallocUint8(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = UINT8[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Uint8Array(n)
-}
-
-exports.mallocUint16 = function mallocUint16(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = UINT16[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Uint16Array(n)
-}
-
-exports.mallocUint32 = function mallocUint32(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = UINT32[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Uint32Array(n)
-}
-
-exports.mallocInt8 = function mallocInt8(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = INT8[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Int8Array(n)
-}
-
-exports.mallocInt16 = function mallocInt16(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = INT16[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Int16Array(n)
-}
-
-exports.mallocInt32 = function mallocInt32(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = INT32[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Int32Array(n)
-}
-
-exports.mallocFloat32 = exports.mallocFloat = function mallocFloat(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = FLOAT[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Float32Array(n)
-}
-
-exports.mallocFloat64 = exports.mallocDouble = function mallocDouble(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = DOUBLE[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Float64Array(n)
-}
-
-exports.mallocArrayBuffer = function mallocArrayBuffer(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = DATA[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new ArrayBuffer(n)
-}
-
-if(hasUint8C) {
-  exports.mallocUint8Clamped = function mallocUint8Clamped(n) {
-    n = bits.nextPow2(n)
-    var log_n = bits.log2(n)
-    var cache = UINT8C[log_n]
-    if(cache.length > 0) {
-      return cache.pop()
-    }
-    return new Uint8ClampedArray(n)
-  }
-} else {
-  exports.mallocUint8Clamped = exports.mallocUint8
-}
-
-exports.mallocBuffer = function mallocBuffer(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = BUFFER[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Buffer(n)
-}
-
-exports.clearCache = function clearCache() {
-  for(var i=0; i<32; ++i) {
-    UINT8[i].length = 0
-    UINT16[i].length = 0
-    UINT32[i].length = 0
-    INT8[i].length = 0
-    INT16[i].length = 0
-    INT32[i].length = 0
-    FLOAT[i].length = 0
-    DOUBLE[i].length = 0
-    DATA[i].length = 0
-    UINT8C[i].length = 0
-    BUFFER[i].length = 0
-  }
-}
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"bit-twiddle":154,"buffer":17,"dup":155}],157:[function(require,module,exports){
-arguments[4][64][0].apply(exports,arguments)
-},{"dup":64}],158:[function(require,module,exports){
-arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}],159:[function(require,module,exports){
+},{"iota-array":168,"typedarray-pool":173,"uniq":169}],168:[function(require,module,exports){
+arguments[4][81][0].apply(exports,arguments)
+},{"dup":81}],169:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"dup":82}],170:[function(require,module,exports){
 "use strict"
 
 var compile = require("cwise-compiler")
@@ -24899,25 +25462,480 @@ exports.equals = compile({
 
 
 
-},{"cwise-compiler":160}],160:[function(require,module,exports){
-arguments[4][115][0].apply(exports,arguments)
-},{"./lib/thunk.js":162,"dup":115}],161:[function(require,module,exports){
-arguments[4][116][0].apply(exports,arguments)
-},{"dup":116,"uniq":163}],162:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":161,"dup":117}],163:[function(require,module,exports){
-arguments[4][64][0].apply(exports,arguments)
-},{"dup":64}],164:[function(require,module,exports){
-arguments[4][104][0].apply(exports,arguments)
-},{"buffer":17,"dup":104,"iota-array":165}],165:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],166:[function(require,module,exports){
-arguments[4][154][0].apply(exports,arguments)
-},{"dup":154}],167:[function(require,module,exports){
-arguments[4][155][0].apply(exports,arguments)
-},{"dup":155}],168:[function(require,module,exports){
-arguments[4][156][0].apply(exports,arguments)
-},{"bit-twiddle":166,"buffer":17,"dup":156}],169:[function(require,module,exports){
+},{"cwise-compiler":134}],171:[function(require,module,exports){
+/**
+ * Bit twiddling hacks for JavaScript.
+ *
+ * Author: Mikola Lysenko
+ *
+ * Ported from Stanford bit twiddling hack library:
+ *    http://graphics.stanford.edu/~seander/bithacks.html
+ */
+
+"use strict"; "use restrict";
+
+//Number of bits in an integer
+var INT_BITS = 32;
+
+//Constants
+exports.INT_BITS  = INT_BITS;
+exports.INT_MAX   =  0x7fffffff;
+exports.INT_MIN   = -1<<(INT_BITS-1);
+
+//Returns -1, 0, +1 depending on sign of x
+exports.sign = function(v) {
+  return (v > 0) - (v < 0);
+}
+
+//Computes absolute value of integer
+exports.abs = function(v) {
+  var mask = v >> (INT_BITS-1);
+  return (v ^ mask) - mask;
+}
+
+//Computes minimum of integers x and y
+exports.min = function(x, y) {
+  return y ^ ((x ^ y) & -(x < y));
+}
+
+//Computes maximum of integers x and y
+exports.max = function(x, y) {
+  return x ^ ((x ^ y) & -(x < y));
+}
+
+//Checks if a number is a power of two
+exports.isPow2 = function(v) {
+  return !(v & (v-1)) && (!!v);
+}
+
+//Computes log base 2 of v
+exports.log2 = function(v) {
+  var r, shift;
+  r =     (v > 0xFFFF) << 4; v >>>= r;
+  shift = (v > 0xFF  ) << 3; v >>>= shift; r |= shift;
+  shift = (v > 0xF   ) << 2; v >>>= shift; r |= shift;
+  shift = (v > 0x3   ) << 1; v >>>= shift; r |= shift;
+  return r | (v >> 1);
+}
+
+//Computes log base 10 of v
+exports.log10 = function(v) {
+  return  (v >= 1000000000) ? 9 : (v >= 100000000) ? 8 : (v >= 10000000) ? 7 :
+          (v >= 1000000) ? 6 : (v >= 100000) ? 5 : (v >= 10000) ? 4 :
+          (v >= 1000) ? 3 : (v >= 100) ? 2 : (v >= 10) ? 1 : 0;
+}
+
+//Counts number of bits
+exports.popCount = function(v) {
+  v = v - ((v >>> 1) & 0x55555555);
+  v = (v & 0x33333333) + ((v >>> 2) & 0x33333333);
+  return ((v + (v >>> 4) & 0xF0F0F0F) * 0x1010101) >>> 24;
+}
+
+//Counts number of trailing zeros
+function countTrailingZeros(v) {
+  var c = 32;
+  v &= -v;
+  if (v) c--;
+  if (v & 0x0000FFFF) c -= 16;
+  if (v & 0x00FF00FF) c -= 8;
+  if (v & 0x0F0F0F0F) c -= 4;
+  if (v & 0x33333333) c -= 2;
+  if (v & 0x55555555) c -= 1;
+  return c;
+}
+exports.countTrailingZeros = countTrailingZeros;
+
+//Rounds to next power of 2
+exports.nextPow2 = function(v) {
+  v += v === 0;
+  --v;
+  v |= v >>> 1;
+  v |= v >>> 2;
+  v |= v >>> 4;
+  v |= v >>> 8;
+  v |= v >>> 16;
+  return v + 1;
+}
+
+//Rounds down to previous power of 2
+exports.prevPow2 = function(v) {
+  v |= v >>> 1;
+  v |= v >>> 2;
+  v |= v >>> 4;
+  v |= v >>> 8;
+  v |= v >>> 16;
+  return v - (v>>>1);
+}
+
+//Computes parity of word
+exports.parity = function(v) {
+  v ^= v >>> 16;
+  v ^= v >>> 8;
+  v ^= v >>> 4;
+  v &= 0xf;
+  return (0x6996 >>> v) & 1;
+}
+
+var REVERSE_TABLE = new Array(256);
+
+(function(tab) {
+  for(var i=0; i<256; ++i) {
+    var v = i, r = i, s = 7;
+    for (v >>>= 1; v; v >>>= 1) {
+      r <<= 1;
+      r |= v & 1;
+      --s;
+    }
+    tab[i] = (r << s) & 0xff;
+  }
+})(REVERSE_TABLE);
+
+//Reverse bits in a 32 bit word
+exports.reverse = function(v) {
+  return  (REVERSE_TABLE[ v         & 0xff] << 24) |
+          (REVERSE_TABLE[(v >>> 8)  & 0xff] << 16) |
+          (REVERSE_TABLE[(v >>> 16) & 0xff] << 8)  |
+           REVERSE_TABLE[(v >>> 24) & 0xff];
+}
+
+//Interleave bits of 2 coordinates with 16 bits.  Useful for fast quadtree codes
+exports.interleave2 = function(x, y) {
+  x &= 0xFFFF;
+  x = (x | (x << 8)) & 0x00FF00FF;
+  x = (x | (x << 4)) & 0x0F0F0F0F;
+  x = (x | (x << 2)) & 0x33333333;
+  x = (x | (x << 1)) & 0x55555555;
+
+  y &= 0xFFFF;
+  y = (y | (y << 8)) & 0x00FF00FF;
+  y = (y | (y << 4)) & 0x0F0F0F0F;
+  y = (y | (y << 2)) & 0x33333333;
+  y = (y | (y << 1)) & 0x55555555;
+
+  return x | (y << 1);
+}
+
+//Extracts the nth interleaved component
+exports.deinterleave2 = function(v, n) {
+  v = (v >>> n) & 0x55555555;
+  v = (v | (v >>> 1))  & 0x33333333;
+  v = (v | (v >>> 2))  & 0x0F0F0F0F;
+  v = (v | (v >>> 4))  & 0x00FF00FF;
+  v = (v | (v >>> 16)) & 0x000FFFF;
+  return (v << 16) >> 16;
+}
+
+
+//Interleave bits of 3 coordinates, each with 10 bits.  Useful for fast octree codes
+exports.interleave3 = function(x, y, z) {
+  x &= 0x3FF;
+  x  = (x | (x<<16)) & 4278190335;
+  x  = (x | (x<<8))  & 251719695;
+  x  = (x | (x<<4))  & 3272356035;
+  x  = (x | (x<<2))  & 1227133513;
+
+  y &= 0x3FF;
+  y  = (y | (y<<16)) & 4278190335;
+  y  = (y | (y<<8))  & 251719695;
+  y  = (y | (y<<4))  & 3272356035;
+  y  = (y | (y<<2))  & 1227133513;
+  x |= (y << 1);
+  
+  z &= 0x3FF;
+  z  = (z | (z<<16)) & 4278190335;
+  z  = (z | (z<<8))  & 251719695;
+  z  = (z | (z<<4))  & 3272356035;
+  z  = (z | (z<<2))  & 1227133513;
+  
+  return x | (z << 2);
+}
+
+//Extracts nth interleaved component of a 3-tuple
+exports.deinterleave3 = function(v, n) {
+  v = (v >>> n)       & 1227133513;
+  v = (v | (v>>>2))   & 3272356035;
+  v = (v | (v>>>4))   & 251719695;
+  v = (v | (v>>>8))   & 4278190335;
+  v = (v | (v>>>16))  & 0x3FF;
+  return (v<<22)>>22;
+}
+
+//Computes next combination in colexicographic order (this is mistakenly called nextPermutation on the bit twiddling hacks page)
+exports.nextCombination = function(v) {
+  var t = v | (v - 1);
+  return (t + 1) | (((~t & -~t) - 1) >>> (countTrailingZeros(v) + 1));
+}
+
+
+},{}],172:[function(require,module,exports){
+"use strict"
+
+function dupe_array(count, value, i) {
+  var c = count[i]|0
+  if(c <= 0) {
+    return []
+  }
+  var result = new Array(c), j
+  if(i === count.length-1) {
+    for(j=0; j<c; ++j) {
+      result[j] = value
+    }
+  } else {
+    for(j=0; j<c; ++j) {
+      result[j] = dupe_array(count, value, i+1)
+    }
+  }
+  return result
+}
+
+function dupe_number(count, value) {
+  var result, i
+  result = new Array(count)
+  for(i=0; i<count; ++i) {
+    result[i] = value
+  }
+  return result
+}
+
+function dupe(count, value) {
+  if(typeof value === "undefined") {
+    value = 0
+  }
+  switch(typeof count) {
+    case "number":
+      if(count > 0) {
+        return dupe_number(count|0, value)
+      }
+    break
+    case "object":
+      if(typeof (count.length) === "number") {
+        return dupe_array(count, value, 0)
+      }
+    break
+  }
+  return []
+}
+
+module.exports = dupe
+},{}],173:[function(require,module,exports){
+(function (global,Buffer){
+'use strict'
+
+var bits = require('bit-twiddle')
+var dup = require('dup')
+
+//Legacy pool support
+if(!global.__TYPEDARRAY_POOL) {
+  global.__TYPEDARRAY_POOL = {
+      UINT8   : dup([32, 0])
+    , UINT16  : dup([32, 0])
+    , UINT32  : dup([32, 0])
+    , INT8    : dup([32, 0])
+    , INT16   : dup([32, 0])
+    , INT32   : dup([32, 0])
+    , FLOAT   : dup([32, 0])
+    , DOUBLE  : dup([32, 0])
+    , DATA    : dup([32, 0])
+    , UINT8C  : dup([32, 0])
+    , BUFFER  : dup([32, 0])
+  }
+}
+
+var hasUint8C = (typeof Uint8ClampedArray) !== 'undefined'
+var POOL = global.__TYPEDARRAY_POOL
+
+//Upgrade pool
+if(!POOL.UINT8C) {
+  POOL.UINT8C = dup([32, 0])
+}
+if(!POOL.BUFFER) {
+  POOL.BUFFER = dup([32, 0])
+}
+
+//New technique: Only allocate from ArrayBufferView and Buffer
+var DATA    = POOL.DATA
+  , BUFFER  = POOL.BUFFER
+
+exports.free = function free(array) {
+  if(Buffer.isBuffer(array)) {
+    BUFFER[bits.log2(array.length)].push(array)
+  } else {
+    if(Object.prototype.toString.call(array) !== '[object ArrayBuffer]') {
+      array = array.buffer
+    }
+    if(!array) {
+      return
+    }
+    var n = array.length || array.byteLength
+    var log_n = bits.log2(n)|0
+    DATA[log_n].push(array)
+  }
+}
+
+function freeArrayBuffer(buffer) {
+  if(!buffer) {
+    return
+  }
+  var n = buffer.length || buffer.byteLength
+  var log_n = bits.log2(n)
+  DATA[log_n].push(buffer)
+}
+
+function freeTypedArray(array) {
+  freeArrayBuffer(array.buffer)
+}
+
+exports.freeUint8 =
+exports.freeUint16 =
+exports.freeUint32 =
+exports.freeInt8 =
+exports.freeInt16 =
+exports.freeInt32 =
+exports.freeFloat32 = 
+exports.freeFloat =
+exports.freeFloat64 = 
+exports.freeDouble = 
+exports.freeUint8Clamped = 
+exports.freeDataView = freeTypedArray
+
+exports.freeArrayBuffer = freeArrayBuffer
+
+exports.freeBuffer = function freeBuffer(array) {
+  BUFFER[bits.log2(array.length)].push(array)
+}
+
+exports.malloc = function malloc(n, dtype) {
+  if(dtype === undefined || dtype === 'arraybuffer') {
+    return mallocArrayBuffer(n)
+  } else {
+    switch(dtype) {
+      case 'uint8':
+        return mallocUint8(n)
+      case 'uint16':
+        return mallocUint16(n)
+      case 'uint32':
+        return mallocUint32(n)
+      case 'int8':
+        return mallocInt8(n)
+      case 'int16':
+        return mallocInt16(n)
+      case 'int32':
+        return mallocInt32(n)
+      case 'float':
+      case 'float32':
+        return mallocFloat(n)
+      case 'double':
+      case 'float64':
+        return mallocDouble(n)
+      case 'uint8_clamped':
+        return mallocUint8Clamped(n)
+      case 'buffer':
+        return mallocBuffer(n)
+      case 'data':
+      case 'dataview':
+        return mallocDataView(n)
+
+      default:
+        return null
+    }
+  }
+  return null
+}
+
+function mallocArrayBuffer(n) {
+  var n = bits.nextPow2(n)
+  var log_n = bits.log2(n)
+  var d = DATA[log_n]
+  if(d.length > 0) {
+    return d.pop()
+  }
+  return new ArrayBuffer(n)
+}
+exports.mallocArrayBuffer = mallocArrayBuffer
+
+function mallocUint8(n) {
+  return new Uint8Array(mallocArrayBuffer(n), 0, n)
+}
+exports.mallocUint8 = mallocUint8
+
+function mallocUint16(n) {
+  return new Uint16Array(mallocArrayBuffer(2*n), 0, n)
+}
+exports.mallocUint16 = mallocUint16
+
+function mallocUint32(n) {
+  return new Uint32Array(mallocArrayBuffer(4*n), 0, n)
+}
+exports.mallocUint32 = mallocUint32
+
+function mallocInt8(n) {
+  return new Int8Array(mallocArrayBuffer(n), 0, n)
+}
+exports.mallocInt8 = mallocInt8
+
+function mallocInt16(n) {
+  return new Int16Array(mallocArrayBuffer(2*n), 0, n)
+}
+exports.mallocInt16 = mallocInt16
+
+function mallocInt32(n) {
+  return new Int32Array(mallocArrayBuffer(4*n), 0, n)
+}
+exports.mallocInt32 = mallocInt32
+
+function mallocFloat(n) {
+  return new Float32Array(mallocArrayBuffer(4*n), 0, n)
+}
+exports.mallocFloat32 = exports.mallocFloat = mallocFloat
+
+function mallocDouble(n) {
+  return new Float64Array(mallocArrayBuffer(8*n), 0, n)
+}
+exports.mallocFloat64 = exports.mallocDouble = mallocDouble
+
+function mallocUint8Clamped(n) {
+  if(hasUint8C) {
+    return new Uint8ClampedArray(mallocArrayBuffer(n), 0, n)
+  } else {
+    return mallocUint8(n)
+  }
+}
+exports.mallocUint8Clamped = mallocUint8Clamped
+
+function mallocDataView(n) {
+  return new DataView(mallocArrayBuffer(n), 0, n)
+}
+exports.mallocDataView = mallocDataView
+
+function mallocBuffer(n) {
+  n = bits.nextPow2(n)
+  var log_n = bits.log2(n)
+  var cache = BUFFER[log_n]
+  if(cache.length > 0) {
+    return cache.pop()
+  }
+  return new Buffer(n)
+}
+exports.mallocBuffer = mallocBuffer
+
+exports.clearCache = function clearCache() {
+  for(var i=0; i<32; ++i) {
+    POOL.UINT8[i].length = 0
+    POOL.UINT16[i].length = 0
+    POOL.UINT32[i].length = 0
+    POOL.INT8[i].length = 0
+    POOL.INT16[i].length = 0
+    POOL.INT32[i].length = 0
+    POOL.FLOAT[i].length = 0
+    POOL.DOUBLE[i].length = 0
+    POOL.UINT8C[i].length = 0
+    DATA[i].length = 0
+    BUFFER[i].length = 0
+  }
+}
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
+},{"bit-twiddle":171,"buffer":17,"dup":172}],174:[function(require,module,exports){
 module.exports = AABB
 
 var vec3 = require('gl-matrix').vec3
@@ -25016,9 +26034,27 @@ proto.union = function(aabb) {
   return new AABB([base_x, base_y, base_z], [max_x - base_x, max_y - base_y, max_z - base_z])
 }
 
-},{"gl-matrix":170}],170:[function(require,module,exports){
-arguments[4][48][0].apply(exports,arguments)
-},{"dup":48}],171:[function(require,module,exports){
+},{"gl-matrix":175}],175:[function(require,module,exports){
+arguments[4][49][0].apply(exports,arguments)
+},{"./gl-matrix/common.js":176,"./gl-matrix/mat2.js":177,"./gl-matrix/mat2d.js":178,"./gl-matrix/mat3.js":179,"./gl-matrix/mat4.js":180,"./gl-matrix/quat.js":181,"./gl-matrix/vec2.js":182,"./gl-matrix/vec3.js":183,"./gl-matrix/vec4.js":184,"dup":49}],176:[function(require,module,exports){
+arguments[4][50][0].apply(exports,arguments)
+},{"dup":50}],177:[function(require,module,exports){
+arguments[4][51][0].apply(exports,arguments)
+},{"./common.js":176,"dup":51}],178:[function(require,module,exports){
+arguments[4][52][0].apply(exports,arguments)
+},{"./common.js":176,"dup":52}],179:[function(require,module,exports){
+arguments[4][53][0].apply(exports,arguments)
+},{"./common.js":176,"dup":53}],180:[function(require,module,exports){
+arguments[4][54][0].apply(exports,arguments)
+},{"./common.js":176,"dup":54}],181:[function(require,module,exports){
+arguments[4][55][0].apply(exports,arguments)
+},{"./common.js":176,"./mat3.js":179,"./vec3.js":183,"./vec4.js":184,"dup":55}],182:[function(require,module,exports){
+arguments[4][56][0].apply(exports,arguments)
+},{"./common.js":176,"dup":56}],183:[function(require,module,exports){
+arguments[4][57][0].apply(exports,arguments)
+},{"./common.js":176,"dup":57}],184:[function(require,module,exports){
+arguments[4][58][0].apply(exports,arguments)
+},{"./common.js":176,"dup":58}],185:[function(require,module,exports){
 module.exports = physical
 
 var aabb = require('aabb-3d')
@@ -25278,7 +26314,407 @@ proto.fell = function(distance) {
   return
 }
 
-},{"aabb-3d":169,"gl-matrix":170}],172:[function(require,module,exports){
+},{"aabb-3d":174,"gl-matrix":175}],186:[function(require,module,exports){
+var util = require('util');
+
+module.exports = function tsort(initial) {
+  var graph = new Graph();
+
+  if (initial) {
+    initial.forEach(function(entry) {
+      Graph.prototype.add.apply(graph, entry);
+    });
+  }
+
+  return graph;
+}
+
+function Graph() {
+  this.nodes = {};
+}
+
+// Add sorted items to the graph
+Graph.prototype.add = function() {
+  var self = this;
+  var items = [].slice.call(arguments);
+
+  if (items.length == 1 && util.isArray(items[0]))
+    items = items[0];
+
+  items.forEach(function(item) {
+    if (!self.nodes[item])
+      self.nodes[item] = [];
+  });
+
+  for (var i = 1; i < items.length; i++) {
+    var from = items[i];
+    var to = items[i - 1];
+
+    self.nodes[from].push(to);
+  }
+
+  return self;
+};
+
+// Depth first search
+// As given in http://en.wikipedia.org/wiki/Topological_sorting
+Graph.prototype.sort = function() {
+  var self = this;
+  var nodes = Object.keys(this.nodes);
+
+  var sorted = [];
+  var marks = {};
+
+  for (var i = 0; i < nodes.length; i++) {
+    var node = nodes[i];
+
+    if (!marks[node])
+      visit(node);
+  }
+
+  return sorted;
+
+  function visit(node) {
+    if (marks[node] === 'temp')
+      throw new Error("There is a cycle in the graph. It is not possible to derive a topological sort.");
+    else if (marks[node])
+      return;
+
+    marks[node] = 'temp';
+    self.nodes[node].forEach(visit);
+    marks[node] = 'perm';
+
+    sorted.push(node);
+  }
+};
+
+},{"util":43}],187:[function(require,module,exports){
+(function (process){
+'use strict';
+var EventEmitter = require('events').EventEmitter;
+var inherits = require('inherits');
+var tsort = require('tsort');
+
+module.exports = function(game, opts) {
+  return new Plugins(game, opts);
+};
+
+function Plugins(game, opts) {
+  EventEmitter.call(this);
+
+  this.game = game;
+  if (this.game) this.game.plugins = this;
+
+  opts = opts || {};
+  this.loaders = opts.loaders || {};
+  this.require = opts.require || require;
+  this.catchExceptions = false;
+  this.masterPluginName = opts.masterPluginName || 'voxel-engine'; // synthetic 'plugin' created as parent of all
+
+  // map plugin name to instances
+  this.all = {};
+
+  this.savedOpts = {};
+  this.graph = tsort();
+}
+
+inherits(Plugins, EventEmitter);
+
+Plugins.prototype.wrapExceptions = function(f) {
+  var ret;
+
+  if (!this.catchExceptions) {
+    ret = f();
+    return ret === undefined ? true : ret; // undefined ok
+  }
+
+  try {
+    ret = f();
+  } catch (e) {
+    console.log('caught exception:',e,'calling',f);
+    console.trace();
+    return false;
+  }
+  return ret === undefined ? true : ret;
+}
+
+// Require the plugin module and return its factory constructor
+// This does not construct the plugin instance, for that see instantiate()
+Plugins.prototype.scan = function(name) {
+  var createPlugin; // factory for constructor
+
+  if (name in this.loaders) {
+    createPlugin = this.loaders[name];
+  } else {
+    createPlugin = this.require(name);
+  }
+
+  return createPlugin;
+};
+
+// Scan then instantiate a plugin by name, creating its instance (starts out enabled)
+Plugins.prototype.scanAndInstantiate = function(name, opts) {
+  if (this.get(name)) {
+    console.log("plugin already instantiated: ", name);
+    return false;
+  }
+
+  opts = opts || {};
+ 
+  var createPlugin = this.scan(name);
+
+  if (createPlugin.pluginInfo && createPlugin.pluginInfo.clientOnly) {
+    if (!this.game.isClient) {
+      console.log("Skipping client-only plugin ("+name+"), in non-client environment");
+      return false;
+    }
+  }
+
+  if (this.game && this.masterPluginName === name) {
+    console.log("Skipping already-loaded master plugin: " + this.masterPluginName);
+    return false;
+  }
+
+  if (!createPlugin) {
+    console.log("plugin not found: ",name);
+    return false;
+  }
+
+  var self = this;
+  if (!this.wrapExceptions(function() {
+    return self.instantiate(createPlugin, name, opts);
+  })) {
+    console.log("failed to instantiate ",name);
+  }
+
+  return true;
+};
+
+// Instantiate a plugin given factory constructor, creating its instance (starts out enabled)
+Plugins.prototype.instantiate = function(createPlugin, name, opts) {
+  var plugin;
+  if (!this.game && name === this.masterPluginName) {
+    // the 'master' plugin is the game object itself
+    this.game = plugin = createPlugin(opts);
+    this.game.plugins = this;
+    if (process.browser && this.game.notCapable()) {
+      if (window.document) window.document.body.appendChild(this.game.notCapableMessage()); // TODO: find out why notCapable() isn't showing up
+      throw new Error('[voxel-plugins] fatal error: your system is not capable of running voxel-engine (game.notCapable)');
+    }
+  } else {
+    plugin = createPlugin(this.game, opts); // requires (game, opts) convention
+    if (!plugin) {
+      console.log("create plugin failed:",name,createPlugin,plugin);
+      return false;
+    }
+  }
+
+  plugin.pluginName = name;
+  this.emit('new plugin', name);
+
+  // plugins are enabled on instantiation -- assumed constructor calls its own enable() method (if present)
+  plugin.pluginEnabled = true;
+  this.emit('plugin enabled', name);
+
+  this.all[name] = plugin;
+
+  //console.log("Instantiated plugin:",name,plugin);
+  console.log("Instantiated plugin:",name);
+
+
+  return plugin;
+};
+
+// Mark a plugin for on-demand loading in enable(), with given preconfigured options
+// (The plugin does not have to exist yet)
+// The saved configuration is also used in add(), if available
+Plugins.prototype.preconfigure = function(name, opts) {
+  this.savedOpts[name] = opts;
+  
+  if (!this.get(name)) 
+    this.emit('new plugin', name);
+};
+
+// Add a plugin for loading: scan for ordered loading and preconfigure with given options
+// Special case: if the 'onDemand' option is set, the plugin won't be scanned at all, instead the pass configuration will be saved
+Plugins.prototype.add = function(name, opts) {
+  if (!opts && !this.savedOpts[name]) throw new Error('voxel-plugins preload('+name+'): missing required options and not preconfigured');
+  if (opts.onDemand) return this.preconfigure(name, opts);
+
+  var createPlugin = this.scan(name);
+  if (!createPlugin)
+    return false;
+
+  this.buildGraph(createPlugin, name);
+
+  // save options to load with
+  this.preconfigure(name, opts);
+};
+
+Plugins.prototype.buildGraph = function(createPlugin, name) {
+  var loadAfter = [];
+
+  if (createPlugin.pluginInfo) {
+    loadAfter = createPlugin.pluginInfo.loadAfter;
+
+    if (!loadAfter) loadAfter = [];
+  }
+
+  // special master plugin, everything always loads after
+  // (mainly added so all plugins are in the graph, even with empty loadAfter)
+  if (name !== this.masterPluginName) loadAfter.unshift(this.masterPluginName);
+
+  // add edges for each plugin required to load before us
+  for (var i = 0; i < loadAfter.length; ++i)
+    this.graph.add(loadAfter[i], name);
+};
+
+// Load add()'d plugins in order sorted by pluginInfo
+Plugins.prototype.loadAll = function() {
+  // topological sort by loadAfter dependency order
+  var sortedPluginNames = this.graph.sort();
+
+  console.log('sortedPluginNames:'+JSON.stringify(sortedPluginNames));
+  for (var i = 0; i < sortedPluginNames.length; ++i) {
+    var name = sortedPluginNames[i];
+
+    if (!this.isEnabled(name))
+      this.enable(name); // will instantiate() since preconfigured
+  }
+};
+
+
+// Get an instantiated plugin instance by name or instance
+Plugins.prototype.get = function(name) {
+  if (typeof name === "string")
+    return this.all[name];
+  else
+    // assume it is a plugin instance already, return as-is
+    return name;
+};
+
+Plugins.prototype.isEnabled = function(name) {
+  var plugin = this.get(name);
+
+  return !!(plugin && plugin.pluginEnabled);
+};
+
+Plugins.prototype.isLoaded = function(name) {
+  var plugin = this.get(name);
+
+  return !!(plugin && plugin.pluginName && this.all[plugin.pluginName]);
+};
+
+// Get list of enabled plugins
+Plugins.prototype.list = function() {
+  return this.listAll().filter(this.isEnabled.bind(this));
+};
+
+// Get list of all plugins
+Plugins.prototype.listAll = function() {
+  var loaded = Object.keys(this.all);
+  var unloaded = Object.keys(this.savedOpts).filter(function(x) {
+    return loaded.indexOf(x) == -1;
+  });
+
+  return loaded.concat(unloaded);
+};
+
+
+Plugins.prototype.enable = function(name) {
+  var plugin = this.get(name);
+
+  if (!plugin) {
+    if (this.savedOpts[name]) {
+      // on-demand instantiation, with prespecified options
+      return this.scanAndInstantiate(name, this.savedOpts[name]);
+    } else {
+      if (name !== this.masterPluginName) // ignore missing master plugin, as it is optional
+        console.log("no such plugin loaded to enable: ",plugin,name);
+    }
+
+    return false;
+  } else {
+    if (plugin.pluginEnabled) {
+      console.log("already enabled: ",plugin,name);
+      return false;
+    }
+
+    if (plugin.enable) {
+      if (!this.wrapExceptions(function() {
+        plugin.enable();
+      })) {
+        console.log("failed to enable:",plugin,name);
+        return false;
+      }
+    }
+    plugin.pluginEnabled = true;
+    this.emit('plugin enabled', name);
+  }
+  return true;
+};
+
+Plugins.prototype.disable = function(name) {
+  console.log("disabling plugin ",name);
+  var plugin = this.get(name);
+
+  if (!plugin) {
+    console.log("no such plugin loaded to disable: ",plugin,name);
+    return false;
+  }
+  if (!this.isEnabled(plugin)) {
+    console.log("already disabled: ",plugin,name);
+    return false;
+  }
+
+  if (plugin.disable) {
+    if (!this.wrapExceptions(function() {
+      plugin.disable(); 
+    })) {
+      console.log("failed to disable:",plugin,name);
+      return false;
+    }
+  }
+
+  plugin.pluginEnabled = false;
+  this.emit('plugin disabled', name);
+
+  // TODO: recursively disable dependants? or refuse to disable if has enabled dependants?
+  return true;
+};
+
+Plugins.prototype.toggle = function(name) {
+  if (this.isEnabled(name)) {
+    return this.disable(name);
+  } else {
+    return this.enable(name);
+  }
+};
+
+Plugins.prototype.destroy = function(name) {
+  var plugin = this.get(name);
+
+  if (!plugin) {
+    console.log("no plugin",plugin,name);
+    return false;
+  }
+
+  if (!this.all[plugin.pluginName]) {
+    console.log("no such plugin to destroy: ",plugin);
+    return false;
+  }
+
+  if (this.isEnabled(plugin))
+    this.disable(plugin);
+
+  delete this.all[plugin.pluginName];
+  console.log("destroyed  ",plugin);
+
+  return true;
+};
+
+}).call(this,require('_process'))
+},{"_process":26,"events":21,"inherits":120,"tsort":186}],188:[function(require,module,exports){
 "use strict"
 
 function traceRay_impl(
@@ -25500,7 +26936,7 @@ function traceRay(voxels, origin, direction, max_d, hit_pos, hit_norm, EPSILON) 
 }
 
 module.exports = traceRay
-},{}],173:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 module.exports = coordinates
 
 var aabb = require('aabb-3d')
@@ -25528,3882 +26964,29 @@ function coordinates(spatial, box, regionWidth) {
  
   return emitter
 }
-},{"aabb-3d":174,"events":21}],174:[function(require,module,exports){
-arguments[4][169][0].apply(exports,arguments)
-},{"dup":169,"gl-matrix":175}],175:[function(require,module,exports){
-/**
- * @fileoverview gl-matrix - High performance matrix and vector operations
- * @author Brandon Jones
- * @author Colin MacKenzie IV
- * @version 2.1.0
- */
-
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-
-(function() {
-  "use strict";
-
-  var shim = {};
-  if (typeof(exports) === 'undefined') {
-    if(typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-      shim.exports = {};
-      define(function() {
-        return shim.exports;
-      });
-    } else {
-      // gl-matrix lives in a browser, define its namespaces in global
-      shim.exports = window;
-    }    
-  }
-  else {
-    // gl-matrix lives in commonjs, define its namespaces in exports
-    shim.exports = exports;
-  }
-
-  (function(exports) {
-    /* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-
-if(!GLMAT_EPSILON) {
-    var GLMAT_EPSILON = 0.000001;
-}
-
-if(!GLMAT_ARRAY_TYPE) {
-    var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
-}
-
-/**
- * @class Common utilities
- * @name glMatrix
- */
-var glMatrix = {};
-
-/**
- * Sets the type of array used when creating new vectors and matricies
- *
- * @param {Type} type Array type, such as Float32Array or Array
- */
-glMatrix.setMatrixArrayType = function(type) {
-    GLMAT_ARRAY_TYPE = type;
-}
-
-if(typeof(exports) !== 'undefined') {
-    exports.glMatrix = glMatrix;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 2 Dimensional Vector
- * @name vec2
- */
-
-var vec2 = {};
-
-/**
- * Creates a new, empty vec2
- *
- * @returns {vec2} a new 2D vector
- */
-vec2.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(2);
-    out[0] = 0;
-    out[1] = 0;
-    return out;
-};
-
-/**
- * Creates a new vec2 initialized with values from an existing vector
- *
- * @param {vec2} a vector to clone
- * @returns {vec2} a new 2D vector
- */
-vec2.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(2);
-    out[0] = a[0];
-    out[1] = a[1];
-    return out;
-};
-
-/**
- * Creates a new vec2 initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @returns {vec2} a new 2D vector
- */
-vec2.fromValues = function(x, y) {
-    var out = new GLMAT_ARRAY_TYPE(2);
-    out[0] = x;
-    out[1] = y;
-    return out;
-};
-
-/**
- * Copy the values from one vec2 to another
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the source vector
- * @returns {vec2} out
- */
-vec2.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    return out;
-};
-
-/**
- * Set the components of a vec2 to the given values
- *
- * @param {vec2} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @returns {vec2} out
- */
-vec2.set = function(out, x, y) {
-    out[0] = x;
-    out[1] = y;
-    return out;
-};
-
-/**
- * Adds two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.add = function(out, a, b) {
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    return out;
-};
-
-/**
- * Subtracts two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.subtract = function(out, a, b) {
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    return out;
-};
-
-/**
- * Alias for {@link vec2.subtract}
- * @function
- */
-vec2.sub = vec2.subtract;
-
-/**
- * Multiplies two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.multiply = function(out, a, b) {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    return out;
-};
-
-/**
- * Alias for {@link vec2.multiply}
- * @function
- */
-vec2.mul = vec2.multiply;
-
-/**
- * Divides two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.divide = function(out, a, b) {
-    out[0] = a[0] / b[0];
-    out[1] = a[1] / b[1];
-    return out;
-};
-
-/**
- * Alias for {@link vec2.divide}
- * @function
- */
-vec2.div = vec2.divide;
-
-/**
- * Returns the minimum of two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.min = function(out, a, b) {
-    out[0] = Math.min(a[0], b[0]);
-    out[1] = Math.min(a[1], b[1]);
-    return out;
-};
-
-/**
- * Returns the maximum of two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec2} out
- */
-vec2.max = function(out, a, b) {
-    out[0] = Math.max(a[0], b[0]);
-    out[1] = Math.max(a[1], b[1]);
-    return out;
-};
-
-/**
- * Scales a vec2 by a scalar number
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {vec2} out
- */
-vec2.scale = function(out, a, b) {
-    out[0] = a[0] * b;
-    out[1] = a[1] * b;
-    return out;
-};
-
-/**
- * Calculates the euclidian distance between two vec2's
- *
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {Number} distance between a and b
- */
-vec2.distance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1];
-    return Math.sqrt(x*x + y*y);
-};
-
-/**
- * Alias for {@link vec2.distance}
- * @function
- */
-vec2.dist = vec2.distance;
-
-/**
- * Calculates the squared euclidian distance between two vec2's
- *
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {Number} squared distance between a and b
- */
-vec2.squaredDistance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1];
-    return x*x + y*y;
-};
-
-/**
- * Alias for {@link vec2.squaredDistance}
- * @function
- */
-vec2.sqrDist = vec2.squaredDistance;
-
-/**
- * Calculates the length of a vec2
- *
- * @param {vec2} a vector to calculate length of
- * @returns {Number} length of a
- */
-vec2.length = function (a) {
-    var x = a[0],
-        y = a[1];
-    return Math.sqrt(x*x + y*y);
-};
-
-/**
- * Alias for {@link vec2.length}
- * @function
- */
-vec2.len = vec2.length;
-
-/**
- * Calculates the squared length of a vec2
- *
- * @param {vec2} a vector to calculate squared length of
- * @returns {Number} squared length of a
- */
-vec2.squaredLength = function (a) {
-    var x = a[0],
-        y = a[1];
-    return x*x + y*y;
-};
-
-/**
- * Alias for {@link vec2.squaredLength}
- * @function
- */
-vec2.sqrLen = vec2.squaredLength;
-
-/**
- * Negates the components of a vec2
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a vector to negate
- * @returns {vec2} out
- */
-vec2.negate = function(out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    return out;
-};
-
-/**
- * Normalize a vec2
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a vector to normalize
- * @returns {vec2} out
- */
-vec2.normalize = function(out, a) {
-    var x = a[0],
-        y = a[1];
-    var len = x*x + y*y;
-    if (len > 0) {
-        //TODO: evaluate use of glm_invsqrt here?
-        len = 1 / Math.sqrt(len);
-        out[0] = a[0] * len;
-        out[1] = a[1] * len;
-    }
-    return out;
-};
-
-/**
- * Calculates the dot product of two vec2's
- *
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {Number} dot product of a and b
- */
-vec2.dot = function (a, b) {
-    return a[0] * b[0] + a[1] * b[1];
-};
-
-/**
- * Computes the cross product of two vec2's
- * Note that the cross product must by definition produce a 3D vector
- *
- * @param {vec3} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @returns {vec3} out
- */
-vec2.cross = function(out, a, b) {
-    var z = a[0] * b[1] - a[1] * b[0];
-    out[0] = out[1] = 0;
-    out[2] = z;
-    return out;
-};
-
-/**
- * Performs a linear interpolation between two vec2's
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the first operand
- * @param {vec2} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {vec2} out
- */
-vec2.lerp = function (out, a, b, t) {
-    var ax = a[0],
-        ay = a[1];
-    out[0] = ax + t * (b[0] - ax);
-    out[1] = ay + t * (b[1] - ay);
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat2
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat2} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat2 = function(out, a, m) {
-    var x = a[0],
-        y = a[1];
-    out[0] = m[0] * x + m[2] * y;
-    out[1] = m[1] * x + m[3] * y;
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat2d
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat2d} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat2d = function(out, a, m) {
-    var x = a[0],
-        y = a[1];
-    out[0] = m[0] * x + m[2] * y + m[4];
-    out[1] = m[1] * x + m[3] * y + m[5];
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat3
- * 3rd vector component is implicitly '1'
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat3} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat3 = function(out, a, m) {
-    var x = a[0],
-        y = a[1];
-    out[0] = m[0] * x + m[3] * y + m[6];
-    out[1] = m[1] * x + m[4] * y + m[7];
-    return out;
-};
-
-/**
- * Transforms the vec2 with a mat4
- * 3rd vector component is implicitly '0'
- * 4th vector component is implicitly '1'
- *
- * @param {vec2} out the receiving vector
- * @param {vec2} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec2} out
- */
-vec2.transformMat4 = function(out, a, m) {
-    var x = a[0], 
-        y = a[1];
-    out[0] = m[0] * x + m[4] * y + m[12];
-    out[1] = m[1] * x + m[5] * y + m[13];
-    return out;
-};
-
-/**
- * Perform some operation over an array of vec2s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec2. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec2s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-vec2.forEach = (function() {
-    var vec = vec2.create();
-
-    return function(a, stride, offset, count, fn, arg) {
-        var i, l;
-        if(!stride) {
-            stride = 2;
-        }
-
-        if(!offset) {
-            offset = 0;
-        }
-        
-        if(count) {
-            l = Math.min((count * stride) + offset, a.length);
-        } else {
-            l = a.length;
-        }
-
-        for(i = offset; i < l; i += stride) {
-            vec[0] = a[i]; vec[1] = a[i+1];
-            fn(vec, vec, arg);
-            a[i] = vec[0]; a[i+1] = vec[1];
-        }
-        
-        return a;
-    };
-})();
-
-/**
- * Returns a string representation of a vector
- *
- * @param {vec2} vec vector to represent as a string
- * @returns {String} string representation of the vector
- */
-vec2.str = function (a) {
-    return 'vec2(' + a[0] + ', ' + a[1] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.vec2 = vec2;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 3 Dimensional Vector
- * @name vec3
- */
-
-var vec3 = {};
-
-/**
- * Creates a new, empty vec3
- *
- * @returns {vec3} a new 3D vector
- */
-vec3.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(3);
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    return out;
-};
-
-/**
- * Creates a new vec3 initialized with values from an existing vector
- *
- * @param {vec3} a vector to clone
- * @returns {vec3} a new 3D vector
- */
-vec3.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(3);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    return out;
-};
-
-/**
- * Creates a new vec3 initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @returns {vec3} a new 3D vector
- */
-vec3.fromValues = function(x, y, z) {
-    var out = new GLMAT_ARRAY_TYPE(3);
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    return out;
-};
-
-/**
- * Copy the values from one vec3 to another
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the source vector
- * @returns {vec3} out
- */
-vec3.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    return out;
-};
-
-/**
- * Set the components of a vec3 to the given values
- *
- * @param {vec3} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @returns {vec3} out
- */
-vec3.set = function(out, x, y, z) {
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    return out;
-};
-
-/**
- * Adds two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.add = function(out, a, b) {
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    out[2] = a[2] + b[2];
-    return out;
-};
-
-/**
- * Subtracts two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.subtract = function(out, a, b) {
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    out[2] = a[2] - b[2];
-    return out;
-};
-
-/**
- * Alias for {@link vec3.subtract}
- * @function
- */
-vec3.sub = vec3.subtract;
-
-/**
- * Multiplies two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.multiply = function(out, a, b) {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    out[2] = a[2] * b[2];
-    return out;
-};
-
-/**
- * Alias for {@link vec3.multiply}
- * @function
- */
-vec3.mul = vec3.multiply;
-
-/**
- * Divides two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.divide = function(out, a, b) {
-    out[0] = a[0] / b[0];
-    out[1] = a[1] / b[1];
-    out[2] = a[2] / b[2];
-    return out;
-};
-
-/**
- * Alias for {@link vec3.divide}
- * @function
- */
-vec3.div = vec3.divide;
-
-/**
- * Returns the minimum of two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.min = function(out, a, b) {
-    out[0] = Math.min(a[0], b[0]);
-    out[1] = Math.min(a[1], b[1]);
-    out[2] = Math.min(a[2], b[2]);
-    return out;
-};
-
-/**
- * Returns the maximum of two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.max = function(out, a, b) {
-    out[0] = Math.max(a[0], b[0]);
-    out[1] = Math.max(a[1], b[1]);
-    out[2] = Math.max(a[2], b[2]);
-    return out;
-};
-
-/**
- * Scales a vec3 by a scalar number
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {vec3} out
- */
-vec3.scale = function(out, a, b) {
-    out[0] = a[0] * b;
-    out[1] = a[1] * b;
-    out[2] = a[2] * b;
-    return out;
-};
-
-/**
- * Calculates the euclidian distance between two vec3's
- *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {Number} distance between a and b
- */
-vec3.distance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2];
-    return Math.sqrt(x*x + y*y + z*z);
-};
-
-/**
- * Alias for {@link vec3.distance}
- * @function
- */
-vec3.dist = vec3.distance;
-
-/**
- * Calculates the squared euclidian distance between two vec3's
- *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {Number} squared distance between a and b
- */
-vec3.squaredDistance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2];
-    return x*x + y*y + z*z;
-};
-
-/**
- * Alias for {@link vec3.squaredDistance}
- * @function
- */
-vec3.sqrDist = vec3.squaredDistance;
-
-/**
- * Calculates the length of a vec3
- *
- * @param {vec3} a vector to calculate length of
- * @returns {Number} length of a
- */
-vec3.length = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2];
-    return Math.sqrt(x*x + y*y + z*z);
-};
-
-/**
- * Alias for {@link vec3.length}
- * @function
- */
-vec3.len = vec3.length;
-
-/**
- * Calculates the squared length of a vec3
- *
- * @param {vec3} a vector to calculate squared length of
- * @returns {Number} squared length of a
- */
-vec3.squaredLength = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2];
-    return x*x + y*y + z*z;
-};
-
-/**
- * Alias for {@link vec3.squaredLength}
- * @function
- */
-vec3.sqrLen = vec3.squaredLength;
-
-/**
- * Negates the components of a vec3
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a vector to negate
- * @returns {vec3} out
- */
-vec3.negate = function(out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    out[2] = -a[2];
-    return out;
-};
-
-/**
- * Normalize a vec3
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a vector to normalize
- * @returns {vec3} out
- */
-vec3.normalize = function(out, a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2];
-    var len = x*x + y*y + z*z;
-    if (len > 0) {
-        //TODO: evaluate use of glm_invsqrt here?
-        len = 1 / Math.sqrt(len);
-        out[0] = a[0] * len;
-        out[1] = a[1] * len;
-        out[2] = a[2] * len;
-    }
-    return out;
-};
-
-/**
- * Calculates the dot product of two vec3's
- *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {Number} dot product of a and b
- */
-vec3.dot = function (a, b) {
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-};
-
-/**
- * Computes the cross product of two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- */
-vec3.cross = function(out, a, b) {
-    var ax = a[0], ay = a[1], az = a[2],
-        bx = b[0], by = b[1], bz = b[2];
-
-    out[0] = ay * bz - az * by;
-    out[1] = az * bx - ax * bz;
-    out[2] = ax * by - ay * bx;
-    return out;
-};
-
-/**
- * Performs a linear interpolation between two vec3's
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {vec3} out
- */
-vec3.lerp = function (out, a, b, t) {
-    var ax = a[0],
-        ay = a[1],
-        az = a[2];
-    out[0] = ax + t * (b[0] - ax);
-    out[1] = ay + t * (b[1] - ay);
-    out[2] = az + t * (b[2] - az);
-    return out;
-};
-
-/**
- * Transforms the vec3 with a mat4.
- * 4th vector component is implicitly '1'
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec3} out
- */
-vec3.transformMat4 = function(out, a, m) {
-    var x = a[0], y = a[1], z = a[2];
-    out[0] = m[0] * x + m[4] * y + m[8] * z + m[12];
-    out[1] = m[1] * x + m[5] * y + m[9] * z + m[13];
-    out[2] = m[2] * x + m[6] * y + m[10] * z + m[14];
-    return out;
-};
-
-/**
- * Transforms the vec3 with a quat
- *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec3} out
- */
-vec3.transformQuat = function(out, a, q) {
-    var x = a[0], y = a[1], z = a[2],
-        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
-
-        // calculate quat * vec
-        ix = qw * x + qy * z - qz * y,
-        iy = qw * y + qz * x - qx * z,
-        iz = qw * z + qx * y - qy * x,
-        iw = -qx * x - qy * y - qz * z;
-
-    // calculate result * inverse quat
-    out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-    return out;
-};
-
-/**
- * Perform some operation over an array of vec3s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec3. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec3s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-vec3.forEach = (function() {
-    var vec = vec3.create();
-
-    return function(a, stride, offset, count, fn, arg) {
-        var i, l;
-        if(!stride) {
-            stride = 3;
-        }
-
-        if(!offset) {
-            offset = 0;
-        }
-        
-        if(count) {
-            l = Math.min((count * stride) + offset, a.length);
-        } else {
-            l = a.length;
-        }
-
-        for(i = offset; i < l; i += stride) {
-            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2];
-            fn(vec, vec, arg);
-            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2];
-        }
-        
-        return a;
-    };
-})();
-
-/**
- * Returns a string representation of a vector
- *
- * @param {vec3} vec vector to represent as a string
- * @returns {String} string representation of the vector
- */
-vec3.str = function (a) {
-    return 'vec3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.vec3 = vec3;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 4 Dimensional Vector
- * @name vec4
- */
-
-var vec4 = {};
-
-/**
- * Creates a new, empty vec4
- *
- * @returns {vec4} a new 4D vector
- */
-vec4.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    return out;
-};
-
-/**
- * Creates a new vec4 initialized with values from an existing vector
- *
- * @param {vec4} a vector to clone
- * @returns {vec4} a new 4D vector
- */
-vec4.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-};
-
-/**
- * Creates a new vec4 initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {vec4} a new 4D vector
- */
-vec4.fromValues = function(x, y, z, w) {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    out[3] = w;
-    return out;
-};
-
-/**
- * Copy the values from one vec4 to another
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the source vector
- * @returns {vec4} out
- */
-vec4.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-};
-
-/**
- * Set the components of a vec4 to the given values
- *
- * @param {vec4} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {vec4} out
- */
-vec4.set = function(out, x, y, z, w) {
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    out[3] = w;
-    return out;
-};
-
-/**
- * Adds two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.add = function(out, a, b) {
-    out[0] = a[0] + b[0];
-    out[1] = a[1] + b[1];
-    out[2] = a[2] + b[2];
-    out[3] = a[3] + b[3];
-    return out;
-};
-
-/**
- * Subtracts two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.subtract = function(out, a, b) {
-    out[0] = a[0] - b[0];
-    out[1] = a[1] - b[1];
-    out[2] = a[2] - b[2];
-    out[3] = a[3] - b[3];
-    return out;
-};
-
-/**
- * Alias for {@link vec4.subtract}
- * @function
- */
-vec4.sub = vec4.subtract;
-
-/**
- * Multiplies two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.multiply = function(out, a, b) {
-    out[0] = a[0] * b[0];
-    out[1] = a[1] * b[1];
-    out[2] = a[2] * b[2];
-    out[3] = a[3] * b[3];
-    return out;
-};
-
-/**
- * Alias for {@link vec4.multiply}
- * @function
- */
-vec4.mul = vec4.multiply;
-
-/**
- * Divides two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.divide = function(out, a, b) {
-    out[0] = a[0] / b[0];
-    out[1] = a[1] / b[1];
-    out[2] = a[2] / b[2];
-    out[3] = a[3] / b[3];
-    return out;
-};
-
-/**
- * Alias for {@link vec4.divide}
- * @function
- */
-vec4.div = vec4.divide;
-
-/**
- * Returns the minimum of two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.min = function(out, a, b) {
-    out[0] = Math.min(a[0], b[0]);
-    out[1] = Math.min(a[1], b[1]);
-    out[2] = Math.min(a[2], b[2]);
-    out[3] = Math.min(a[3], b[3]);
-    return out;
-};
-
-/**
- * Returns the maximum of two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- */
-vec4.max = function(out, a, b) {
-    out[0] = Math.max(a[0], b[0]);
-    out[1] = Math.max(a[1], b[1]);
-    out[2] = Math.max(a[2], b[2]);
-    out[3] = Math.max(a[3], b[3]);
-    return out;
-};
-
-/**
- * Scales a vec4 by a scalar number
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {vec4} out
- */
-vec4.scale = function(out, a, b) {
-    out[0] = a[0] * b;
-    out[1] = a[1] * b;
-    out[2] = a[2] * b;
-    out[3] = a[3] * b;
-    return out;
-};
-
-/**
- * Calculates the euclidian distance between two vec4's
- *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {Number} distance between a and b
- */
-vec4.distance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2],
-        w = b[3] - a[3];
-    return Math.sqrt(x*x + y*y + z*z + w*w);
-};
-
-/**
- * Alias for {@link vec4.distance}
- * @function
- */
-vec4.dist = vec4.distance;
-
-/**
- * Calculates the squared euclidian distance between two vec4's
- *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {Number} squared distance between a and b
- */
-vec4.squaredDistance = function(a, b) {
-    var x = b[0] - a[0],
-        y = b[1] - a[1],
-        z = b[2] - a[2],
-        w = b[3] - a[3];
-    return x*x + y*y + z*z + w*w;
-};
-
-/**
- * Alias for {@link vec4.squaredDistance}
- * @function
- */
-vec4.sqrDist = vec4.squaredDistance;
-
-/**
- * Calculates the length of a vec4
- *
- * @param {vec4} a vector to calculate length of
- * @returns {Number} length of a
- */
-vec4.length = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2],
-        w = a[3];
-    return Math.sqrt(x*x + y*y + z*z + w*w);
-};
-
-/**
- * Alias for {@link vec4.length}
- * @function
- */
-vec4.len = vec4.length;
-
-/**
- * Calculates the squared length of a vec4
- *
- * @param {vec4} a vector to calculate squared length of
- * @returns {Number} squared length of a
- */
-vec4.squaredLength = function (a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2],
-        w = a[3];
-    return x*x + y*y + z*z + w*w;
-};
-
-/**
- * Alias for {@link vec4.squaredLength}
- * @function
- */
-vec4.sqrLen = vec4.squaredLength;
-
-/**
- * Negates the components of a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a vector to negate
- * @returns {vec4} out
- */
-vec4.negate = function(out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    out[2] = -a[2];
-    out[3] = -a[3];
-    return out;
-};
-
-/**
- * Normalize a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a vector to normalize
- * @returns {vec4} out
- */
-vec4.normalize = function(out, a) {
-    var x = a[0],
-        y = a[1],
-        z = a[2],
-        w = a[3];
-    var len = x*x + y*y + z*z + w*w;
-    if (len > 0) {
-        len = 1 / Math.sqrt(len);
-        out[0] = a[0] * len;
-        out[1] = a[1] * len;
-        out[2] = a[2] * len;
-        out[3] = a[3] * len;
-    }
-    return out;
-};
-
-/**
- * Calculates the dot product of two vec4's
- *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {Number} dot product of a and b
- */
-vec4.dot = function (a, b) {
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
-};
-
-/**
- * Performs a linear interpolation between two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {vec4} out
- */
-vec4.lerp = function (out, a, b, t) {
-    var ax = a[0],
-        ay = a[1],
-        az = a[2],
-        aw = a[3];
-    out[0] = ax + t * (b[0] - ax);
-    out[1] = ay + t * (b[1] - ay);
-    out[2] = az + t * (b[2] - az);
-    out[3] = aw + t * (b[3] - aw);
-    return out;
-};
-
-/**
- * Transforms the vec4 with a mat4.
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec4} out
- */
-vec4.transformMat4 = function(out, a, m) {
-    var x = a[0], y = a[1], z = a[2], w = a[3];
-    out[0] = m[0] * x + m[4] * y + m[8] * z + m[12] * w;
-    out[1] = m[1] * x + m[5] * y + m[9] * z + m[13] * w;
-    out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w;
-    out[3] = m[3] * x + m[7] * y + m[11] * z + m[15] * w;
-    return out;
-};
-
-/**
- * Transforms the vec4 with a quat
- *
- * @param {vec4} out the receiving vector
- * @param {vec4} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec4} out
- */
-vec4.transformQuat = function(out, a, q) {
-    var x = a[0], y = a[1], z = a[2],
-        qx = q[0], qy = q[1], qz = q[2], qw = q[3],
-
-        // calculate quat * vec
-        ix = qw * x + qy * z - qz * y,
-        iy = qw * y + qz * x - qx * z,
-        iz = qw * z + qx * y - qy * x,
-        iw = -qx * x - qy * y - qz * z;
-
-    // calculate result * inverse quat
-    out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-    out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-    out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-    return out;
-};
-
-/**
- * Perform some operation over an array of vec4s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec4. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec2s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-vec4.forEach = (function() {
-    var vec = vec4.create();
-
-    return function(a, stride, offset, count, fn, arg) {
-        var i, l;
-        if(!stride) {
-            stride = 4;
-        }
-
-        if(!offset) {
-            offset = 0;
-        }
-        
-        if(count) {
-            l = Math.min((count * stride) + offset, a.length);
-        } else {
-            l = a.length;
-        }
-
-        for(i = offset; i < l; i += stride) {
-            vec[0] = a[i]; vec[1] = a[i+1]; vec[2] = a[i+2]; vec[3] = a[i+3];
-            fn(vec, vec, arg);
-            a[i] = vec[0]; a[i+1] = vec[1]; a[i+2] = vec[2]; a[i+3] = vec[3];
-        }
-        
-        return a;
-    };
-})();
-
-/**
- * Returns a string representation of a vector
- *
- * @param {vec4} vec vector to represent as a string
- * @returns {String} string representation of the vector
- */
-vec4.str = function (a) {
-    return 'vec4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.vec4 = vec4;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 2x2 Matrix
- * @name mat2
- */
-
-var mat2 = {};
-
-var mat2Identity = new Float32Array([
-    1, 0,
-    0, 1
-]);
-
-/**
- * Creates a new identity mat2
- *
- * @returns {mat2} a new 2x2 matrix
- */
-mat2.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 1;
-    return out;
-};
-
-/**
- * Creates a new mat2 initialized with values from an existing matrix
- *
- * @param {mat2} a matrix to clone
- * @returns {mat2} a new 2x2 matrix
- */
-mat2.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-};
-
-/**
- * Copy the values from one mat2 to another
- *
- * @param {mat2} out the receiving matrix
- * @param {mat2} a the source matrix
- * @returns {mat2} out
- */
-mat2.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    return out;
-};
-
-/**
- * Set a mat2 to the identity matrix
- *
- * @param {mat2} out the receiving matrix
- * @returns {mat2} out
- */
-mat2.identity = function(out) {
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 1;
-    return out;
-};
-
-/**
- * Transpose the values of a mat2
- *
- * @param {mat2} out the receiving matrix
- * @param {mat2} a the source matrix
- * @returns {mat2} out
- */
-mat2.transpose = function(out, a) {
-    // If we are transposing ourselves we can skip a few steps but have to cache some values
-    if (out === a) {
-        var a1 = a[1];
-        out[1] = a[2];
-        out[2] = a1;
-    } else {
-        out[0] = a[0];
-        out[1] = a[2];
-        out[2] = a[1];
-        out[3] = a[3];
-    }
-    
-    return out;
-};
-
-/**
- * Inverts a mat2
- *
- * @param {mat2} out the receiving matrix
- * @param {mat2} a the source matrix
- * @returns {mat2} out
- */
-mat2.invert = function(out, a) {
-    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
-
-        // Calculate the determinant
-        det = a0 * a3 - a2 * a1;
-
-    if (!det) {
-        return null;
-    }
-    det = 1.0 / det;
-    
-    out[0] =  a3 * det;
-    out[1] = -a1 * det;
-    out[2] = -a2 * det;
-    out[3] =  a0 * det;
-
-    return out;
-};
-
-/**
- * Calculates the adjugate of a mat2
- *
- * @param {mat2} out the receiving matrix
- * @param {mat2} a the source matrix
- * @returns {mat2} out
- */
-mat2.adjoint = function(out, a) {
-    // Caching this value is nessecary if out == a
-    var a0 = a[0];
-    out[0] =  a[3];
-    out[1] = -a[1];
-    out[2] = -a[2];
-    out[3] =  a0;
-
-    return out;
-};
-
-/**
- * Calculates the determinant of a mat2
- *
- * @param {mat2} a the source matrix
- * @returns {Number} determinant of a
- */
-mat2.determinant = function (a) {
-    return a[0] * a[3] - a[2] * a[1];
-};
-
-/**
- * Multiplies two mat2's
- *
- * @param {mat2} out the receiving matrix
- * @param {mat2} a the first operand
- * @param {mat2} b the second operand
- * @returns {mat2} out
- */
-mat2.multiply = function (out, a, b) {
-    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3];
-    var b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
-    out[0] = a0 * b0 + a1 * b2;
-    out[1] = a0 * b1 + a1 * b3;
-    out[2] = a2 * b0 + a3 * b2;
-    out[3] = a2 * b1 + a3 * b3;
-    return out;
-};
-
-/**
- * Alias for {@link mat2.multiply}
- * @function
- */
-mat2.mul = mat2.multiply;
-
-/**
- * Rotates a mat2 by the given angle
- *
- * @param {mat2} out the receiving matrix
- * @param {mat2} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat2} out
- */
-mat2.rotate = function (out, a, rad) {
-    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
-        s = Math.sin(rad),
-        c = Math.cos(rad);
-    out[0] = a0 *  c + a1 * s;
-    out[1] = a0 * -s + a1 * c;
-    out[2] = a2 *  c + a3 * s;
-    out[3] = a2 * -s + a3 * c;
-    return out;
-};
-
-/**
- * Scales the mat2 by the dimensions in the given vec2
- *
- * @param {mat2} out the receiving matrix
- * @param {mat2} a the matrix to rotate
- * @param {vec2} v the vec2 to scale the matrix by
- * @returns {mat2} out
- **/
-mat2.scale = function(out, a, v) {
-    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
-        v0 = v[0], v1 = v[1];
-    out[0] = a0 * v0;
-    out[1] = a1 * v1;
-    out[2] = a2 * v0;
-    out[3] = a3 * v1;
-    return out;
-};
-
-/**
- * Returns a string representation of a mat2
- *
- * @param {mat2} mat matrix to represent as a string
- * @returns {String} string representation of the matrix
- */
-mat2.str = function (a) {
-    return 'mat2(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.mat2 = mat2;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 2x3 Matrix
- * @name mat2d
- * 
- * @description 
- * A mat2d contains six elements defined as:
- * <pre>
- * [a, b,
- *  c, d,
- *  tx,ty]
- * </pre>
- * This is a short form for the 3x3 matrix:
- * <pre>
- * [a, b, 0
- *  c, d, 0
- *  tx,ty,1]
- * </pre>
- * The last column is ignored so the array is shorter and operations are faster.
- */
-
-var mat2d = {};
-
-var mat2dIdentity = new Float32Array([
-    1, 0,
-    0, 1,
-    0, 0
-]);
-
-/**
- * Creates a new identity mat2d
- *
- * @returns {mat2d} a new 2x3 matrix
- */
-mat2d.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(6);
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 1;
-    out[4] = 0;
-    out[5] = 0;
-    return out;
-};
-
-/**
- * Creates a new mat2d initialized with values from an existing matrix
- *
- * @param {mat2d} a matrix to clone
- * @returns {mat2d} a new 2x3 matrix
- */
-mat2d.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(6);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    return out;
-};
-
-/**
- * Copy the values from one mat2d to another
- *
- * @param {mat2d} out the receiving matrix
- * @param {mat2d} a the source matrix
- * @returns {mat2d} out
- */
-mat2d.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    return out;
-};
-
-/**
- * Set a mat2d to the identity matrix
- *
- * @param {mat2d} out the receiving matrix
- * @returns {mat2d} out
- */
-mat2d.identity = function(out) {
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 1;
-    out[4] = 0;
-    out[5] = 0;
-    return out;
-};
-
-/**
- * Inverts a mat2d
- *
- * @param {mat2d} out the receiving matrix
- * @param {mat2d} a the source matrix
- * @returns {mat2d} out
- */
-mat2d.invert = function(out, a) {
-    var aa = a[0], ab = a[1], ac = a[2], ad = a[3],
-        atx = a[4], aty = a[5];
-
-    var det = aa * ad - ab * ac;
-    if(!det){
-        return null;
-    }
-    det = 1.0 / det;
-
-    out[0] = ad * det;
-    out[1] = -ab * det;
-    out[2] = -ac * det;
-    out[3] = aa * det;
-    out[4] = (ac * aty - ad * atx) * det;
-    out[5] = (ab * atx - aa * aty) * det;
-    return out;
-};
-
-/**
- * Calculates the determinant of a mat2d
- *
- * @param {mat2d} a the source matrix
- * @returns {Number} determinant of a
- */
-mat2d.determinant = function (a) {
-    return a[0] * a[3] - a[1] * a[2];
-};
-
-/**
- * Multiplies two mat2d's
- *
- * @param {mat2d} out the receiving matrix
- * @param {mat2d} a the first operand
- * @param {mat2d} b the second operand
- * @returns {mat2d} out
- */
-mat2d.multiply = function (out, a, b) {
-    var aa = a[0], ab = a[1], ac = a[2], ad = a[3],
-        atx = a[4], aty = a[5],
-        ba = b[0], bb = b[1], bc = b[2], bd = b[3],
-        btx = b[4], bty = b[5];
-
-    out[0] = aa*ba + ab*bc;
-    out[1] = aa*bb + ab*bd;
-    out[2] = ac*ba + ad*bc;
-    out[3] = ac*bb + ad*bd;
-    out[4] = ba*atx + bc*aty + btx;
-    out[5] = bb*atx + bd*aty + bty;
-    return out;
-};
-
-/**
- * Alias for {@link mat2d.multiply}
- * @function
- */
-mat2d.mul = mat2d.multiply;
-
-
-/**
- * Rotates a mat2d by the given angle
- *
- * @param {mat2d} out the receiving matrix
- * @param {mat2d} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat2d} out
- */
-mat2d.rotate = function (out, a, rad) {
-    var aa = a[0],
-        ab = a[1],
-        ac = a[2],
-        ad = a[3],
-        atx = a[4],
-        aty = a[5],
-        st = Math.sin(rad),
-        ct = Math.cos(rad);
-
-    out[0] = aa*ct + ab*st;
-    out[1] = -aa*st + ab*ct;
-    out[2] = ac*ct + ad*st;
-    out[3] = -ac*st + ct*ad;
-    out[4] = ct*atx + st*aty;
-    out[5] = ct*aty - st*atx;
-    return out;
-};
-
-/**
- * Scales the mat2d by the dimensions in the given vec2
- *
- * @param {mat2d} out the receiving matrix
- * @param {mat2d} a the matrix to translate
- * @param {mat2d} v the vec2 to scale the matrix by
- * @returns {mat2d} out
- **/
-mat2d.scale = function(out, a, v) {
-    var vx = v[0], vy = v[1];
-    out[0] = a[0] * vx;
-    out[1] = a[1] * vy;
-    out[2] = a[2] * vx;
-    out[3] = a[3] * vy;
-    out[4] = a[4] * vx;
-    out[5] = a[5] * vy;
-    return out;
-};
-
-/**
- * Translates the mat2d by the dimensions in the given vec2
- *
- * @param {mat2d} out the receiving matrix
- * @param {mat2d} a the matrix to translate
- * @param {mat2d} v the vec2 to translate the matrix by
- * @returns {mat2d} out
- **/
-mat2d.translate = function(out, a, v) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4] + v[0];
-    out[5] = a[5] + v[1];
-    return out;
-};
-
-/**
- * Returns a string representation of a mat2d
- *
- * @param {mat2d} a matrix to represent as a string
- * @returns {String} string representation of the matrix
- */
-mat2d.str = function (a) {
-    return 'mat2d(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + 
-                    a[3] + ', ' + a[4] + ', ' + a[5] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.mat2d = mat2d;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 3x3 Matrix
- * @name mat3
- */
-
-var mat3 = {};
-
-var mat3Identity = new Float32Array([
-    1, 0, 0,
-    0, 1, 0,
-    0, 0, 1
-]);
-
-/**
- * Creates a new identity mat3
- *
- * @returns {mat3} a new 3x3 matrix
- */
-mat3.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(9);
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 1;
-    out[5] = 0;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 1;
-    return out;
-};
-
-/**
- * Creates a new mat3 initialized with values from an existing matrix
- *
- * @param {mat3} a matrix to clone
- * @returns {mat3} a new 3x3 matrix
- */
-mat3.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(9);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    return out;
-};
-
-/**
- * Copy the values from one mat3 to another
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- */
-mat3.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    return out;
-};
-
-/**
- * Set a mat3 to the identity matrix
- *
- * @param {mat3} out the receiving matrix
- * @returns {mat3} out
- */
-mat3.identity = function(out) {
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 1;
-    out[5] = 0;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 1;
-    return out;
-};
-
-/**
- * Transpose the values of a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- */
-mat3.transpose = function(out, a) {
-    // If we are transposing ourselves we can skip a few steps but have to cache some values
-    if (out === a) {
-        var a01 = a[1], a02 = a[2], a12 = a[5];
-        out[1] = a[3];
-        out[2] = a[6];
-        out[3] = a01;
-        out[5] = a[7];
-        out[6] = a02;
-        out[7] = a12;
-    } else {
-        out[0] = a[0];
-        out[1] = a[3];
-        out[2] = a[6];
-        out[3] = a[1];
-        out[4] = a[4];
-        out[5] = a[7];
-        out[6] = a[2];
-        out[7] = a[5];
-        out[8] = a[8];
-    }
-    
-    return out;
-};
-
-/**
- * Inverts a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- */
-mat3.invert = function(out, a) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-
-        b01 = a22 * a11 - a12 * a21,
-        b11 = -a22 * a10 + a12 * a20,
-        b21 = a21 * a10 - a11 * a20,
-
-        // Calculate the determinant
-        det = a00 * b01 + a01 * b11 + a02 * b21;
-
-    if (!det) { 
-        return null; 
-    }
-    det = 1.0 / det;
-
-    out[0] = b01 * det;
-    out[1] = (-a22 * a01 + a02 * a21) * det;
-    out[2] = (a12 * a01 - a02 * a11) * det;
-    out[3] = b11 * det;
-    out[4] = (a22 * a00 - a02 * a20) * det;
-    out[5] = (-a12 * a00 + a02 * a10) * det;
-    out[6] = b21 * det;
-    out[7] = (-a21 * a00 + a01 * a20) * det;
-    out[8] = (a11 * a00 - a01 * a10) * det;
-    return out;
-};
-
-/**
- * Calculates the adjugate of a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- */
-mat3.adjoint = function(out, a) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8];
-
-    out[0] = (a11 * a22 - a12 * a21);
-    out[1] = (a02 * a21 - a01 * a22);
-    out[2] = (a01 * a12 - a02 * a11);
-    out[3] = (a12 * a20 - a10 * a22);
-    out[4] = (a00 * a22 - a02 * a20);
-    out[5] = (a02 * a10 - a00 * a12);
-    out[6] = (a10 * a21 - a11 * a20);
-    out[7] = (a01 * a20 - a00 * a21);
-    out[8] = (a00 * a11 - a01 * a10);
-    return out;
-};
-
-/**
- * Calculates the determinant of a mat3
- *
- * @param {mat3} a the source matrix
- * @returns {Number} determinant of a
- */
-mat3.determinant = function (a) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8];
-
-    return a00 * (a22 * a11 - a12 * a21) + a01 * (-a22 * a10 + a12 * a20) + a02 * (a21 * a10 - a11 * a20);
-};
-
-/**
- * Multiplies two mat3's
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the first operand
- * @param {mat3} b the second operand
- * @returns {mat3} out
- */
-mat3.multiply = function (out, a, b) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-
-        b00 = b[0], b01 = b[1], b02 = b[2],
-        b10 = b[3], b11 = b[4], b12 = b[5],
-        b20 = b[6], b21 = b[7], b22 = b[8];
-
-    out[0] = b00 * a00 + b01 * a10 + b02 * a20;
-    out[1] = b00 * a01 + b01 * a11 + b02 * a21;
-    out[2] = b00 * a02 + b01 * a12 + b02 * a22;
-
-    out[3] = b10 * a00 + b11 * a10 + b12 * a20;
-    out[4] = b10 * a01 + b11 * a11 + b12 * a21;
-    out[5] = b10 * a02 + b11 * a12 + b12 * a22;
-
-    out[6] = b20 * a00 + b21 * a10 + b22 * a20;
-    out[7] = b20 * a01 + b21 * a11 + b22 * a21;
-    out[8] = b20 * a02 + b21 * a12 + b22 * a22;
-    return out;
-};
-
-/**
- * Alias for {@link mat3.multiply}
- * @function
- */
-mat3.mul = mat3.multiply;
-
-/**
- * Translate a mat3 by the given vector
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the matrix to translate
- * @param {vec2} v vector to translate by
- * @returns {mat3} out
- */
-mat3.translate = function(out, a, v) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-        x = v[0], y = v[1];
-
-    out[0] = a00;
-    out[1] = a01;
-    out[2] = a02;
-
-    out[3] = a10;
-    out[4] = a11;
-    out[5] = a12;
-
-    out[6] = x * a00 + y * a10 + a20;
-    out[7] = x * a01 + y * a11 + a21;
-    out[8] = x * a02 + y * a12 + a22;
-    return out;
-};
-
-/**
- * Rotates a mat3 by the given angle
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat3} out
- */
-mat3.rotate = function (out, a, rad) {
-    var a00 = a[0], a01 = a[1], a02 = a[2],
-        a10 = a[3], a11 = a[4], a12 = a[5],
-        a20 = a[6], a21 = a[7], a22 = a[8],
-
-        s = Math.sin(rad),
-        c = Math.cos(rad);
-
-    out[0] = c * a00 + s * a10;
-    out[1] = c * a01 + s * a11;
-    out[2] = c * a02 + s * a12;
-
-    out[3] = c * a10 - s * a00;
-    out[4] = c * a11 - s * a01;
-    out[5] = c * a12 - s * a02;
-
-    out[6] = a20;
-    out[7] = a21;
-    out[8] = a22;
-    return out;
-};
-
-/**
- * Scales the mat3 by the dimensions in the given vec2
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the matrix to rotate
- * @param {vec2} v the vec2 to scale the matrix by
- * @returns {mat3} out
- **/
-mat3.scale = function(out, a, v) {
-    var x = v[0], y = v[2];
-
-    out[0] = x * a[0];
-    out[1] = x * a[1];
-    out[2] = x * a[2];
-
-    out[3] = y * a[3];
-    out[4] = y * a[4];
-    out[5] = y * a[5];
-
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    return out;
-};
-
-/**
- * Copies the values from a mat2d into a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {mat3} a the matrix to rotate
- * @param {vec2} v the vec2 to scale the matrix by
- * @returns {mat3} out
- **/
-mat3.fromMat2d = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = 0;
-
-    out[3] = a[2];
-    out[4] = a[3];
-    out[5] = 0;
-
-    out[6] = a[4];
-    out[7] = a[5];
-    out[8] = 1;
-    return out;
-};
-
-/**
-* Calculates a 3x3 matrix from the given quaternion
-*
-* @param {mat3} out mat3 receiving operation result
-* @param {quat} q Quaternion to create matrix from
-*
-* @returns {mat3} out
-*/
-mat3.fromQuat = function (out, q) {
-    var x = q[0], y = q[1], z = q[2], w = q[3],
-        x2 = x + x,
-        y2 = y + y,
-        z2 = z + z,
-
-        xx = x * x2,
-        xy = x * y2,
-        xz = x * z2,
-        yy = y * y2,
-        yz = y * z2,
-        zz = z * z2,
-        wx = w * x2,
-        wy = w * y2,
-        wz = w * z2;
-
-    out[0] = 1 - (yy + zz);
-    out[1] = xy + wz;
-    out[2] = xz - wy;
-
-    out[3] = xy - wz;
-    out[4] = 1 - (xx + zz);
-    out[5] = yz + wx;
-
-    out[6] = xz + wy;
-    out[7] = yz - wx;
-    out[8] = 1 - (xx + yy);
-
-    return out;
-};
-
-/**
- * Returns a string representation of a mat3
- *
- * @param {mat3} mat matrix to represent as a string
- * @returns {String} string representation of the matrix
- */
-mat3.str = function (a) {
-    return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + 
-                    a[3] + ', ' + a[4] + ', ' + a[5] + ', ' + 
-                    a[6] + ', ' + a[7] + ', ' + a[8] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.mat3 = mat3;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class 4x4 Matrix
- * @name mat4
- */
-
-var mat4 = {};
-
-var mat4Identity = new Float32Array([
-    1, 0, 0, 0,
-    0, 1, 0, 0,
-    0, 0, 1, 0,
-    0, 0, 0, 1
-]);
-
-/**
- * Creates a new identity mat4
- *
- * @returns {mat4} a new 4x4 matrix
- */
-mat4.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(16);
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = 1;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 0;
-    out[9] = 0;
-    out[10] = 1;
-    out[11] = 0;
-    out[12] = 0;
-    out[13] = 0;
-    out[14] = 0;
-    out[15] = 1;
-    return out;
-};
-
-/**
- * Creates a new mat4 initialized with values from an existing matrix
- *
- * @param {mat4} a matrix to clone
- * @returns {mat4} a new 4x4 matrix
- */
-mat4.clone = function(a) {
-    var out = new GLMAT_ARRAY_TYPE(16);
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    out[9] = a[9];
-    out[10] = a[10];
-    out[11] = a[11];
-    out[12] = a[12];
-    out[13] = a[13];
-    out[14] = a[14];
-    out[15] = a[15];
-    return out;
-};
-
-/**
- * Copy the values from one mat4 to another
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- */
-mat4.copy = function(out, a) {
-    out[0] = a[0];
-    out[1] = a[1];
-    out[2] = a[2];
-    out[3] = a[3];
-    out[4] = a[4];
-    out[5] = a[5];
-    out[6] = a[6];
-    out[7] = a[7];
-    out[8] = a[8];
-    out[9] = a[9];
-    out[10] = a[10];
-    out[11] = a[11];
-    out[12] = a[12];
-    out[13] = a[13];
-    out[14] = a[14];
-    out[15] = a[15];
-    return out;
-};
-
-/**
- * Set a mat4 to the identity matrix
- *
- * @param {mat4} out the receiving matrix
- * @returns {mat4} out
- */
-mat4.identity = function(out) {
-    out[0] = 1;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = 1;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 0;
-    out[9] = 0;
-    out[10] = 1;
-    out[11] = 0;
-    out[12] = 0;
-    out[13] = 0;
-    out[14] = 0;
-    out[15] = 1;
-    return out;
-};
-
-/**
- * Transpose the values of a mat4
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- */
-mat4.transpose = function(out, a) {
-    // If we are transposing ourselves we can skip a few steps but have to cache some values
-    if (out === a) {
-        var a01 = a[1], a02 = a[2], a03 = a[3],
-            a12 = a[6], a13 = a[7],
-            a23 = a[11];
-
-        out[1] = a[4];
-        out[2] = a[8];
-        out[3] = a[12];
-        out[4] = a01;
-        out[6] = a[9];
-        out[7] = a[13];
-        out[8] = a02;
-        out[9] = a12;
-        out[11] = a[14];
-        out[12] = a03;
-        out[13] = a13;
-        out[14] = a23;
-    } else {
-        out[0] = a[0];
-        out[1] = a[4];
-        out[2] = a[8];
-        out[3] = a[12];
-        out[4] = a[1];
-        out[5] = a[5];
-        out[6] = a[9];
-        out[7] = a[13];
-        out[8] = a[2];
-        out[9] = a[6];
-        out[10] = a[10];
-        out[11] = a[14];
-        out[12] = a[3];
-        out[13] = a[7];
-        out[14] = a[11];
-        out[15] = a[15];
-    }
-    
-    return out;
-};
-
-/**
- * Inverts a mat4
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- */
-mat4.invert = function(out, a) {
-    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
-        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
-        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
-        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15],
-
-        b00 = a00 * a11 - a01 * a10,
-        b01 = a00 * a12 - a02 * a10,
-        b02 = a00 * a13 - a03 * a10,
-        b03 = a01 * a12 - a02 * a11,
-        b04 = a01 * a13 - a03 * a11,
-        b05 = a02 * a13 - a03 * a12,
-        b06 = a20 * a31 - a21 * a30,
-        b07 = a20 * a32 - a22 * a30,
-        b08 = a20 * a33 - a23 * a30,
-        b09 = a21 * a32 - a22 * a31,
-        b10 = a21 * a33 - a23 * a31,
-        b11 = a22 * a33 - a23 * a32,
-
-        // Calculate the determinant
-        det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
-
-    if (!det) { 
-        return null; 
-    }
-    det = 1.0 / det;
-
-    out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det;
-    out[1] = (a02 * b10 - a01 * b11 - a03 * b09) * det;
-    out[2] = (a31 * b05 - a32 * b04 + a33 * b03) * det;
-    out[3] = (a22 * b04 - a21 * b05 - a23 * b03) * det;
-    out[4] = (a12 * b08 - a10 * b11 - a13 * b07) * det;
-    out[5] = (a00 * b11 - a02 * b08 + a03 * b07) * det;
-    out[6] = (a32 * b02 - a30 * b05 - a33 * b01) * det;
-    out[7] = (a20 * b05 - a22 * b02 + a23 * b01) * det;
-    out[8] = (a10 * b10 - a11 * b08 + a13 * b06) * det;
-    out[9] = (a01 * b08 - a00 * b10 - a03 * b06) * det;
-    out[10] = (a30 * b04 - a31 * b02 + a33 * b00) * det;
-    out[11] = (a21 * b02 - a20 * b04 - a23 * b00) * det;
-    out[12] = (a11 * b07 - a10 * b09 - a12 * b06) * det;
-    out[13] = (a00 * b09 - a01 * b07 + a02 * b06) * det;
-    out[14] = (a31 * b01 - a30 * b03 - a32 * b00) * det;
-    out[15] = (a20 * b03 - a21 * b01 + a22 * b00) * det;
-
-    return out;
-};
-
-/**
- * Calculates the adjugate of a mat4
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- */
-mat4.adjoint = function(out, a) {
-    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
-        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
-        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
-        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
-
-    out[0]  =  (a11 * (a22 * a33 - a23 * a32) - a21 * (a12 * a33 - a13 * a32) + a31 * (a12 * a23 - a13 * a22));
-    out[1]  = -(a01 * (a22 * a33 - a23 * a32) - a21 * (a02 * a33 - a03 * a32) + a31 * (a02 * a23 - a03 * a22));
-    out[2]  =  (a01 * (a12 * a33 - a13 * a32) - a11 * (a02 * a33 - a03 * a32) + a31 * (a02 * a13 - a03 * a12));
-    out[3]  = -(a01 * (a12 * a23 - a13 * a22) - a11 * (a02 * a23 - a03 * a22) + a21 * (a02 * a13 - a03 * a12));
-    out[4]  = -(a10 * (a22 * a33 - a23 * a32) - a20 * (a12 * a33 - a13 * a32) + a30 * (a12 * a23 - a13 * a22));
-    out[5]  =  (a00 * (a22 * a33 - a23 * a32) - a20 * (a02 * a33 - a03 * a32) + a30 * (a02 * a23 - a03 * a22));
-    out[6]  = -(a00 * (a12 * a33 - a13 * a32) - a10 * (a02 * a33 - a03 * a32) + a30 * (a02 * a13 - a03 * a12));
-    out[7]  =  (a00 * (a12 * a23 - a13 * a22) - a10 * (a02 * a23 - a03 * a22) + a20 * (a02 * a13 - a03 * a12));
-    out[8]  =  (a10 * (a21 * a33 - a23 * a31) - a20 * (a11 * a33 - a13 * a31) + a30 * (a11 * a23 - a13 * a21));
-    out[9]  = -(a00 * (a21 * a33 - a23 * a31) - a20 * (a01 * a33 - a03 * a31) + a30 * (a01 * a23 - a03 * a21));
-    out[10] =  (a00 * (a11 * a33 - a13 * a31) - a10 * (a01 * a33 - a03 * a31) + a30 * (a01 * a13 - a03 * a11));
-    out[11] = -(a00 * (a11 * a23 - a13 * a21) - a10 * (a01 * a23 - a03 * a21) + a20 * (a01 * a13 - a03 * a11));
-    out[12] = -(a10 * (a21 * a32 - a22 * a31) - a20 * (a11 * a32 - a12 * a31) + a30 * (a11 * a22 - a12 * a21));
-    out[13] =  (a00 * (a21 * a32 - a22 * a31) - a20 * (a01 * a32 - a02 * a31) + a30 * (a01 * a22 - a02 * a21));
-    out[14] = -(a00 * (a11 * a32 - a12 * a31) - a10 * (a01 * a32 - a02 * a31) + a30 * (a01 * a12 - a02 * a11));
-    out[15] =  (a00 * (a11 * a22 - a12 * a21) - a10 * (a01 * a22 - a02 * a21) + a20 * (a01 * a12 - a02 * a11));
-    return out;
-};
-
-/**
- * Calculates the determinant of a mat4
- *
- * @param {mat4} a the source matrix
- * @returns {Number} determinant of a
- */
-mat4.determinant = function (a) {
-    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
-        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
-        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
-        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15],
-
-        b00 = a00 * a11 - a01 * a10,
-        b01 = a00 * a12 - a02 * a10,
-        b02 = a00 * a13 - a03 * a10,
-        b03 = a01 * a12 - a02 * a11,
-        b04 = a01 * a13 - a03 * a11,
-        b05 = a02 * a13 - a03 * a12,
-        b06 = a20 * a31 - a21 * a30,
-        b07 = a20 * a32 - a22 * a30,
-        b08 = a20 * a33 - a23 * a30,
-        b09 = a21 * a32 - a22 * a31,
-        b10 = a21 * a33 - a23 * a31,
-        b11 = a22 * a33 - a23 * a32;
-
-    // Calculate the determinant
-    return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
-};
-
-/**
- * Multiplies two mat4's
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the first operand
- * @param {mat4} b the second operand
- * @returns {mat4} out
- */
-mat4.multiply = function (out, a, b) {
-    var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
-        a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
-        a20 = a[8], a21 = a[9], a22 = a[10], a23 = a[11],
-        a30 = a[12], a31 = a[13], a32 = a[14], a33 = a[15];
-
-    // Cache only the current line of the second matrix
-    var b0  = b[0], b1 = b[1], b2 = b[2], b3 = b[3];  
-    out[0] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-    out[1] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-    out[2] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-    out[3] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
-
-    b0 = b[4]; b1 = b[5]; b2 = b[6]; b3 = b[7];
-    out[4] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-    out[5] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-    out[6] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-    out[7] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
-
-    b0 = b[8]; b1 = b[9]; b2 = b[10]; b3 = b[11];
-    out[8] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-    out[9] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-    out[10] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-    out[11] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
-
-    b0 = b[12]; b1 = b[13]; b2 = b[14]; b3 = b[15];
-    out[12] = b0*a00 + b1*a10 + b2*a20 + b3*a30;
-    out[13] = b0*a01 + b1*a11 + b2*a21 + b3*a31;
-    out[14] = b0*a02 + b1*a12 + b2*a22 + b3*a32;
-    out[15] = b0*a03 + b1*a13 + b2*a23 + b3*a33;
-    return out;
-};
-
-/**
- * Alias for {@link mat4.multiply}
- * @function
- */
-mat4.mul = mat4.multiply;
-
-/**
- * Translate a mat4 by the given vector
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the matrix to translate
- * @param {vec3} v vector to translate by
- * @returns {mat4} out
- */
-mat4.translate = function (out, a, v) {
-    var x = v[0], y = v[1], z = v[2],
-        a00, a01, a02, a03,
-        a10, a11, a12, a13,
-        a20, a21, a22, a23;
-
-    if (a === out) {
-        out[12] = a[0] * x + a[4] * y + a[8] * z + a[12];
-        out[13] = a[1] * x + a[5] * y + a[9] * z + a[13];
-        out[14] = a[2] * x + a[6] * y + a[10] * z + a[14];
-        out[15] = a[3] * x + a[7] * y + a[11] * z + a[15];
-    } else {
-        a00 = a[0]; a01 = a[1]; a02 = a[2]; a03 = a[3];
-        a10 = a[4]; a11 = a[5]; a12 = a[6]; a13 = a[7];
-        a20 = a[8]; a21 = a[9]; a22 = a[10]; a23 = a[11];
-
-        out[0] = a00; out[1] = a01; out[2] = a02; out[3] = a03;
-        out[4] = a10; out[5] = a11; out[6] = a12; out[7] = a13;
-        out[8] = a20; out[9] = a21; out[10] = a22; out[11] = a23;
-
-        out[12] = a00 * x + a10 * y + a20 * z + a[12];
-        out[13] = a01 * x + a11 * y + a21 * z + a[13];
-        out[14] = a02 * x + a12 * y + a22 * z + a[14];
-        out[15] = a03 * x + a13 * y + a23 * z + a[15];
-    }
-
-    return out;
-};
-
-/**
- * Scales the mat4 by the dimensions in the given vec3
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the matrix to scale
- * @param {vec3} v the vec3 to scale the matrix by
- * @returns {mat4} out
- **/
-mat4.scale = function(out, a, v) {
-    var x = v[0], y = v[1], z = v[2];
-
-    out[0] = a[0] * x;
-    out[1] = a[1] * x;
-    out[2] = a[2] * x;
-    out[3] = a[3] * x;
-    out[4] = a[4] * y;
-    out[5] = a[5] * y;
-    out[6] = a[6] * y;
-    out[7] = a[7] * y;
-    out[8] = a[8] * z;
-    out[9] = a[9] * z;
-    out[10] = a[10] * z;
-    out[11] = a[11] * z;
-    out[12] = a[12];
-    out[13] = a[13];
-    out[14] = a[14];
-    out[15] = a[15];
-    return out;
-};
-
-/**
- * Rotates a mat4 by the given angle
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @param {vec3} axis the axis to rotate around
- * @returns {mat4} out
- */
-mat4.rotate = function (out, a, rad, axis) {
-    var x = axis[0], y = axis[1], z = axis[2],
-        len = Math.sqrt(x * x + y * y + z * z),
-        s, c, t,
-        a00, a01, a02, a03,
-        a10, a11, a12, a13,
-        a20, a21, a22, a23,
-        b00, b01, b02,
-        b10, b11, b12,
-        b20, b21, b22;
-
-    if (Math.abs(len) < GLMAT_EPSILON) { return null; }
-    
-    len = 1 / len;
-    x *= len;
-    y *= len;
-    z *= len;
-
-    s = Math.sin(rad);
-    c = Math.cos(rad);
-    t = 1 - c;
-
-    a00 = a[0]; a01 = a[1]; a02 = a[2]; a03 = a[3];
-    a10 = a[4]; a11 = a[5]; a12 = a[6]; a13 = a[7];
-    a20 = a[8]; a21 = a[9]; a22 = a[10]; a23 = a[11];
-
-    // Construct the elements of the rotation matrix
-    b00 = x * x * t + c; b01 = y * x * t + z * s; b02 = z * x * t - y * s;
-    b10 = x * y * t - z * s; b11 = y * y * t + c; b12 = z * y * t + x * s;
-    b20 = x * z * t + y * s; b21 = y * z * t - x * s; b22 = z * z * t + c;
-
-    // Perform rotation-specific matrix multiplication
-    out[0] = a00 * b00 + a10 * b01 + a20 * b02;
-    out[1] = a01 * b00 + a11 * b01 + a21 * b02;
-    out[2] = a02 * b00 + a12 * b01 + a22 * b02;
-    out[3] = a03 * b00 + a13 * b01 + a23 * b02;
-    out[4] = a00 * b10 + a10 * b11 + a20 * b12;
-    out[5] = a01 * b10 + a11 * b11 + a21 * b12;
-    out[6] = a02 * b10 + a12 * b11 + a22 * b12;
-    out[7] = a03 * b10 + a13 * b11 + a23 * b12;
-    out[8] = a00 * b20 + a10 * b21 + a20 * b22;
-    out[9] = a01 * b20 + a11 * b21 + a21 * b22;
-    out[10] = a02 * b20 + a12 * b21 + a22 * b22;
-    out[11] = a03 * b20 + a13 * b21 + a23 * b22;
-
-    if (a !== out) { // If the source and destination differ, copy the unchanged last row
-        out[12] = a[12];
-        out[13] = a[13];
-        out[14] = a[14];
-        out[15] = a[15];
-    }
-    return out;
-};
-
-/**
- * Rotates a matrix by the given angle around the X axis
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- */
-mat4.rotateX = function (out, a, rad) {
-    var s = Math.sin(rad),
-        c = Math.cos(rad),
-        a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7],
-        a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
-
-    if (a !== out) { // If the source and destination differ, copy the unchanged rows
-        out[0]  = a[0];
-        out[1]  = a[1];
-        out[2]  = a[2];
-        out[3]  = a[3];
-        out[12] = a[12];
-        out[13] = a[13];
-        out[14] = a[14];
-        out[15] = a[15];
-    }
-
-    // Perform axis-specific matrix multiplication
-    out[4] = a10 * c + a20 * s;
-    out[5] = a11 * c + a21 * s;
-    out[6] = a12 * c + a22 * s;
-    out[7] = a13 * c + a23 * s;
-    out[8] = a20 * c - a10 * s;
-    out[9] = a21 * c - a11 * s;
-    out[10] = a22 * c - a12 * s;
-    out[11] = a23 * c - a13 * s;
-    return out;
-};
-
-/**
- * Rotates a matrix by the given angle around the Y axis
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- */
-mat4.rotateY = function (out, a, rad) {
-    var s = Math.sin(rad),
-        c = Math.cos(rad),
-        a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3],
-        a20 = a[8],
-        a21 = a[9],
-        a22 = a[10],
-        a23 = a[11];
-
-    if (a !== out) { // If the source and destination differ, copy the unchanged rows
-        out[4]  = a[4];
-        out[5]  = a[5];
-        out[6]  = a[6];
-        out[7]  = a[7];
-        out[12] = a[12];
-        out[13] = a[13];
-        out[14] = a[14];
-        out[15] = a[15];
-    }
-
-    // Perform axis-specific matrix multiplication
-    out[0] = a00 * c - a20 * s;
-    out[1] = a01 * c - a21 * s;
-    out[2] = a02 * c - a22 * s;
-    out[3] = a03 * c - a23 * s;
-    out[8] = a00 * s + a20 * c;
-    out[9] = a01 * s + a21 * c;
-    out[10] = a02 * s + a22 * c;
-    out[11] = a03 * s + a23 * c;
-    return out;
-};
-
-/**
- * Rotates a matrix by the given angle around the Z axis
- *
- * @param {mat4} out the receiving matrix
- * @param {mat4} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- */
-mat4.rotateZ = function (out, a, rad) {
-    var s = Math.sin(rad),
-        c = Math.cos(rad),
-        a00 = a[0],
-        a01 = a[1],
-        a02 = a[2],
-        a03 = a[3],
-        a10 = a[4],
-        a11 = a[5],
-        a12 = a[6],
-        a13 = a[7];
-
-    if (a !== out) { // If the source and destination differ, copy the unchanged last row
-        out[8]  = a[8];
-        out[9]  = a[9];
-        out[10] = a[10];
-        out[11] = a[11];
-        out[12] = a[12];
-        out[13] = a[13];
-        out[14] = a[14];
-        out[15] = a[15];
-    }
-
-    // Perform axis-specific matrix multiplication
-    out[0] = a00 * c + a10 * s;
-    out[1] = a01 * c + a11 * s;
-    out[2] = a02 * c + a12 * s;
-    out[3] = a03 * c + a13 * s;
-    out[4] = a10 * c - a00 * s;
-    out[5] = a11 * c - a01 * s;
-    out[6] = a12 * c - a02 * s;
-    out[7] = a13 * c - a03 * s;
-    return out;
-};
-
-/**
- * Creates a matrix from a quaternion rotation and vector translation
- * This is equivalent to (but much faster than):
- *
- *     mat4.identity(dest);
- *     mat4.translate(dest, vec);
- *     var quatMat = mat4.create();
- *     quat4.toMat4(quat, quatMat);
- *     mat4.multiply(dest, quatMat);
- *
- * @param {mat4} out mat4 receiving operation result
- * @param {quat4} q Rotation quaternion
- * @param {vec3} v Translation vector
- * @returns {mat4} out
- */
-mat4.fromRotationTranslation = function (out, q, v) {
-    // Quaternion math
-    var x = q[0], y = q[1], z = q[2], w = q[3],
-        x2 = x + x,
-        y2 = y + y,
-        z2 = z + z,
-
-        xx = x * x2,
-        xy = x * y2,
-        xz = x * z2,
-        yy = y * y2,
-        yz = y * z2,
-        zz = z * z2,
-        wx = w * x2,
-        wy = w * y2,
-        wz = w * z2;
-
-    out[0] = 1 - (yy + zz);
-    out[1] = xy + wz;
-    out[2] = xz - wy;
-    out[3] = 0;
-    out[4] = xy - wz;
-    out[5] = 1 - (xx + zz);
-    out[6] = yz + wx;
-    out[7] = 0;
-    out[8] = xz + wy;
-    out[9] = yz - wx;
-    out[10] = 1 - (xx + yy);
-    out[11] = 0;
-    out[12] = v[0];
-    out[13] = v[1];
-    out[14] = v[2];
-    out[15] = 1;
-    
-    return out;
-};
-
-/**
-* Calculates a 4x4 matrix from the given quaternion
-*
-* @param {mat4} out mat4 receiving operation result
-* @param {quat} q Quaternion to create matrix from
-*
-* @returns {mat4} out
-*/
-mat4.fromQuat = function (out, q) {
-    var x = q[0], y = q[1], z = q[2], w = q[3],
-        x2 = x + x,
-        y2 = y + y,
-        z2 = z + z,
-
-        xx = x * x2,
-        xy = x * y2,
-        xz = x * z2,
-        yy = y * y2,
-        yz = y * z2,
-        zz = z * z2,
-        wx = w * x2,
-        wy = w * y2,
-        wz = w * z2;
-
-    out[0] = 1 - (yy + zz);
-    out[1] = xy + wz;
-    out[2] = xz - wy;
-    out[3] = 0;
-
-    out[4] = xy - wz;
-    out[5] = 1 - (xx + zz);
-    out[6] = yz + wx;
-    out[7] = 0;
-
-    out[8] = xz + wy;
-    out[9] = yz - wx;
-    out[10] = 1 - (xx + yy);
-    out[11] = 0;
-
-    out[12] = 0;
-    out[13] = 0;
-    out[14] = 0;
-    out[15] = 1;
-
-    return out;
-};
-
-/**
- * Generates a frustum matrix with the given bounds
- *
- * @param {mat4} out mat4 frustum matrix will be written into
- * @param {Number} left Left bound of the frustum
- * @param {Number} right Right bound of the frustum
- * @param {Number} bottom Bottom bound of the frustum
- * @param {Number} top Top bound of the frustum
- * @param {Number} near Near bound of the frustum
- * @param {Number} far Far bound of the frustum
- * @returns {mat4} out
- */
-mat4.frustum = function (out, left, right, bottom, top, near, far) {
-    var rl = 1 / (right - left),
-        tb = 1 / (top - bottom),
-        nf = 1 / (near - far);
-    out[0] = (near * 2) * rl;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = (near * 2) * tb;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = (right + left) * rl;
-    out[9] = (top + bottom) * tb;
-    out[10] = (far + near) * nf;
-    out[11] = -1;
-    out[12] = 0;
-    out[13] = 0;
-    out[14] = (far * near * 2) * nf;
-    out[15] = 0;
-    return out;
-};
-
-/**
- * Generates a perspective projection matrix with the given bounds
- *
- * @param {mat4} out mat4 frustum matrix will be written into
- * @param {number} fovy Vertical field of view in radians
- * @param {number} aspect Aspect ratio. typically viewport width/height
- * @param {number} near Near bound of the frustum
- * @param {number} far Far bound of the frustum
- * @returns {mat4} out
- */
-mat4.perspective = function (out, fovy, aspect, near, far) {
-    var f = 1.0 / Math.tan(fovy / 2),
-        nf = 1 / (near - far);
-    out[0] = f / aspect;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = f;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 0;
-    out[9] = 0;
-    out[10] = (far + near) * nf;
-    out[11] = -1;
-    out[12] = 0;
-    out[13] = 0;
-    out[14] = (2 * far * near) * nf;
-    out[15] = 0;
-    return out;
-};
-
-/**
- * Generates a orthogonal projection matrix with the given bounds
- *
- * @param {mat4} out mat4 frustum matrix will be written into
- * @param {number} left Left bound of the frustum
- * @param {number} right Right bound of the frustum
- * @param {number} bottom Bottom bound of the frustum
- * @param {number} top Top bound of the frustum
- * @param {number} near Near bound of the frustum
- * @param {number} far Far bound of the frustum
- * @returns {mat4} out
- */
-mat4.ortho = function (out, left, right, bottom, top, near, far) {
-    var lr = 1 / (left - right),
-        bt = 1 / (bottom - top),
-        nf = 1 / (near - far);
-    out[0] = -2 * lr;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[4] = 0;
-    out[5] = -2 * bt;
-    out[6] = 0;
-    out[7] = 0;
-    out[8] = 0;
-    out[9] = 0;
-    out[10] = 2 * nf;
-    out[11] = 0;
-    out[12] = (left + right) * lr;
-    out[13] = (top + bottom) * bt;
-    out[14] = (far + near) * nf;
-    out[15] = 1;
-    return out;
-};
-
-/**
- * Generates a look-at matrix with the given eye position, focal point, and up axis
- *
- * @param {mat4} out mat4 frustum matrix will be written into
- * @param {vec3} eye Position of the viewer
- * @param {vec3} center Point the viewer is looking at
- * @param {vec3} up vec3 pointing up
- * @returns {mat4} out
- */
-mat4.lookAt = function (out, eye, center, up) {
-    var x0, x1, x2, y0, y1, y2, z0, z1, z2, len,
-        eyex = eye[0],
-        eyey = eye[1],
-        eyez = eye[2],
-        upx = up[0],
-        upy = up[1],
-        upz = up[2],
-        centerx = center[0],
-        centery = center[1],
-        centerz = center[2];
-
-    if (Math.abs(eyex - centerx) < GLMAT_EPSILON &&
-        Math.abs(eyey - centery) < GLMAT_EPSILON &&
-        Math.abs(eyez - centerz) < GLMAT_EPSILON) {
-        return mat4.identity(out);
-    }
-
-    z0 = eyex - centerx;
-    z1 = eyey - centery;
-    z2 = eyez - centerz;
-
-    len = 1 / Math.sqrt(z0 * z0 + z1 * z1 + z2 * z2);
-    z0 *= len;
-    z1 *= len;
-    z2 *= len;
-
-    x0 = upy * z2 - upz * z1;
-    x1 = upz * z0 - upx * z2;
-    x2 = upx * z1 - upy * z0;
-    len = Math.sqrt(x0 * x0 + x1 * x1 + x2 * x2);
-    if (!len) {
-        x0 = 0;
-        x1 = 0;
-        x2 = 0;
-    } else {
-        len = 1 / len;
-        x0 *= len;
-        x1 *= len;
-        x2 *= len;
-    }
-
-    y0 = z1 * x2 - z2 * x1;
-    y1 = z2 * x0 - z0 * x2;
-    y2 = z0 * x1 - z1 * x0;
-
-    len = Math.sqrt(y0 * y0 + y1 * y1 + y2 * y2);
-    if (!len) {
-        y0 = 0;
-        y1 = 0;
-        y2 = 0;
-    } else {
-        len = 1 / len;
-        y0 *= len;
-        y1 *= len;
-        y2 *= len;
-    }
-
-    out[0] = x0;
-    out[1] = y0;
-    out[2] = z0;
-    out[3] = 0;
-    out[4] = x1;
-    out[5] = y1;
-    out[6] = z1;
-    out[7] = 0;
-    out[8] = x2;
-    out[9] = y2;
-    out[10] = z2;
-    out[11] = 0;
-    out[12] = -(x0 * eyex + x1 * eyey + x2 * eyez);
-    out[13] = -(y0 * eyex + y1 * eyey + y2 * eyez);
-    out[14] = -(z0 * eyex + z1 * eyey + z2 * eyez);
-    out[15] = 1;
-
-    return out;
-};
-
-/**
- * Returns a string representation of a mat4
- *
- * @param {mat4} mat matrix to represent as a string
- * @returns {String} string representation of the matrix
- */
-mat4.str = function (a) {
-    return 'mat4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' +
-                    a[4] + ', ' + a[5] + ', ' + a[6] + ', ' + a[7] + ', ' +
-                    a[8] + ', ' + a[9] + ', ' + a[10] + ', ' + a[11] + ', ' + 
-                    a[12] + ', ' + a[13] + ', ' + a[14] + ', ' + a[15] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.mat4 = mat4;
-}
-;
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
-
-/**
- * @class Quaternion
- * @name quat
- */
-
-var quat = {};
-
-var quatIdentity = new Float32Array([0, 0, 0, 1]);
-
-/**
- * Creates a new identity quat
- *
- * @returns {quat} a new quaternion
- */
-quat.create = function() {
-    var out = new GLMAT_ARRAY_TYPE(4);
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 1;
-    return out;
-};
-
-/**
- * Creates a new quat initialized with values from an existing quaternion
- *
- * @param {quat} a quaternion to clone
- * @returns {quat} a new quaternion
- * @function
- */
-quat.clone = vec4.clone;
-
-/**
- * Creates a new quat initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {quat} a new quaternion
- * @function
- */
-quat.fromValues = vec4.fromValues;
-
-/**
- * Copy the values from one quat to another
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a the source quaternion
- * @returns {quat} out
- * @function
- */
-quat.copy = vec4.copy;
-
-/**
- * Set the components of a quat to the given values
- *
- * @param {quat} out the receiving quaternion
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {quat} out
- * @function
- */
-quat.set = vec4.set;
-
-/**
- * Set a quat to the identity quaternion
- *
- * @param {quat} out the receiving quaternion
- * @returns {quat} out
- */
-quat.identity = function(out) {
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 1;
-    return out;
-};
-
-/**
- * Sets a quat from the given angle and rotation axis,
- * then returns it.
- *
- * @param {quat} out the receiving quaternion
- * @param {vec3} axis the axis around which to rotate
- * @param {Number} rad the angle in radians
- * @returns {quat} out
- **/
-quat.setAxisAngle = function(out, axis, rad) {
-    rad = rad * 0.5;
-    var s = Math.sin(rad);
-    out[0] = s * axis[0];
-    out[1] = s * axis[1];
-    out[2] = s * axis[2];
-    out[3] = Math.cos(rad);
-    return out;
-};
-
-/**
- * Adds two quat's
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a the first operand
- * @param {quat} b the second operand
- * @returns {quat} out
- * @function
- */
-quat.add = vec4.add;
-
-/**
- * Multiplies two quat's
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a the first operand
- * @param {quat} b the second operand
- * @returns {quat} out
- */
-quat.multiply = function(out, a, b) {
-    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
-        bx = b[0], by = b[1], bz = b[2], bw = b[3];
-
-    out[0] = ax * bw + aw * bx + ay * bz - az * by;
-    out[1] = ay * bw + aw * by + az * bx - ax * bz;
-    out[2] = az * bw + aw * bz + ax * by - ay * bx;
-    out[3] = aw * bw - ax * bx - ay * by - az * bz;
-    return out;
-};
-
-/**
- * Alias for {@link quat.multiply}
- * @function
- */
-quat.mul = quat.multiply;
-
-/**
- * Scales a quat by a scalar number
- *
- * @param {quat} out the receiving vector
- * @param {quat} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {quat} out
- * @function
- */
-quat.scale = vec4.scale;
-
-/**
- * Rotates a quaternion by the given angle around the X axis
- *
- * @param {quat} out quat receiving operation result
- * @param {quat} a quat to rotate
- * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- */
-quat.rotateX = function (out, a, rad) {
-    rad *= 0.5; 
-
-    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
-        bx = Math.sin(rad), bw = Math.cos(rad);
-
-    out[0] = ax * bw + aw * bx;
-    out[1] = ay * bw + az * bx;
-    out[2] = az * bw - ay * bx;
-    out[3] = aw * bw - ax * bx;
-    return out;
-};
-
-/**
- * Rotates a quaternion by the given angle around the Y axis
- *
- * @param {quat} out quat receiving operation result
- * @param {quat} a quat to rotate
- * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- */
-quat.rotateY = function (out, a, rad) {
-    rad *= 0.5; 
-
-    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
-        by = Math.sin(rad), bw = Math.cos(rad);
-
-    out[0] = ax * bw - az * by;
-    out[1] = ay * bw + aw * by;
-    out[2] = az * bw + ax * by;
-    out[3] = aw * bw - ay * by;
-    return out;
-};
-
-/**
- * Rotates a quaternion by the given angle around the Z axis
- *
- * @param {quat} out quat receiving operation result
- * @param {quat} a quat to rotate
- * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- */
-quat.rotateZ = function (out, a, rad) {
-    rad *= 0.5; 
-
-    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
-        bz = Math.sin(rad), bw = Math.cos(rad);
-
-    out[0] = ax * bw + ay * bz;
-    out[1] = ay * bw - ax * bz;
-    out[2] = az * bw + aw * bz;
-    out[3] = aw * bw - az * bz;
-    return out;
-};
-
-/**
- * Calculates the W component of a quat from the X, Y, and Z components.
- * Assumes that quaternion is 1 unit in length.
- * Any existing W component will be ignored.
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a quat to calculate W component of
- * @returns {quat} out
- */
-quat.calculateW = function (out, a) {
-    var x = a[0], y = a[1], z = a[2];
-
-    out[0] = x;
-    out[1] = y;
-    out[2] = z;
-    out[3] = -Math.sqrt(Math.abs(1.0 - x * x - y * y - z * z));
-    return out;
-};
-
-/**
- * Calculates the dot product of two quat's
- *
- * @param {quat} a the first operand
- * @param {quat} b the second operand
- * @returns {Number} dot product of a and b
- * @function
- */
-quat.dot = vec4.dot;
-
-/**
- * Performs a linear interpolation between two quat's
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a the first operand
- * @param {quat} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {quat} out
- * @function
- */
-quat.lerp = vec4.lerp;
-
-/**
- * Performs a spherical linear interpolation between two quat
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a the first operand
- * @param {quat} b the second operand
- * @param {Number} t interpolation amount between the two inputs
- * @returns {quat} out
- */
-quat.slerp = function (out, a, b, t) {
-    var ax = a[0], ay = a[1], az = a[2], aw = a[3],
-        bx = b[0], by = b[1], bz = b[2], bw = b[3];
-
-    var cosHalfTheta = ax * bx + ay * by + az * bz + aw * bw,
-        halfTheta,
-        sinHalfTheta,
-        ratioA,
-        ratioB;
-
-    if (Math.abs(cosHalfTheta) >= 1.0) {
-        if (out !== a) {
-            out[0] = ax;
-            out[1] = ay;
-            out[2] = az;
-            out[3] = aw;
-        }
-        return out;
-    }
-
-    halfTheta = Math.acos(cosHalfTheta);
-    sinHalfTheta = Math.sqrt(1.0 - cosHalfTheta * cosHalfTheta);
-
-    if (Math.abs(sinHalfTheta) < 0.001) {
-        out[0] = (ax * 0.5 + bx * 0.5);
-        out[1] = (ay * 0.5 + by * 0.5);
-        out[2] = (az * 0.5 + bz * 0.5);
-        out[3] = (aw * 0.5 + bw * 0.5);
-        return out;
-    }
-
-    ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta;
-    ratioB = Math.sin(t * halfTheta) / sinHalfTheta;
-
-    out[0] = (ax * ratioA + bx * ratioB);
-    out[1] = (ay * ratioA + by * ratioB);
-    out[2] = (az * ratioA + bz * ratioB);
-    out[3] = (aw * ratioA + bw * ratioB);
-
-    return out;
-};
-
-/**
- * Calculates the inverse of a quat
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a quat to calculate inverse of
- * @returns {quat} out
- */
-quat.invert = function(out, a) {
-    var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
-        dot = a0*a0 + a1*a1 + a2*a2 + a3*a3,
-        invDot = dot ? 1.0/dot : 0;
-    
-    // TODO: Would be faster to return [0,0,0,0] immediately if dot == 0
-
-    out[0] = -a0*invDot;
-    out[1] = -a1*invDot;
-    out[2] = -a2*invDot;
-    out[3] = a3*invDot;
-    return out;
-};
-
-/**
- * Calculates the conjugate of a quat
- * If the quaternion is normalized, this function is faster than quat.inverse and produces the same result.
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a quat to calculate conjugate of
- * @returns {quat} out
- */
-quat.conjugate = function (out, a) {
-    out[0] = -a[0];
-    out[1] = -a[1];
-    out[2] = -a[2];
-    out[3] = a[3];
-    return out;
-};
-
-/**
- * Calculates the length of a quat
- *
- * @param {quat} a vector to calculate length of
- * @returns {Number} length of a
- * @function
- */
-quat.length = vec4.length;
-
-/**
- * Alias for {@link quat.length}
- * @function
- */
-quat.len = quat.length;
-
-/**
- * Calculates the squared length of a quat
- *
- * @param {quat} a vector to calculate squared length of
- * @returns {Number} squared length of a
- * @function
- */
-quat.squaredLength = vec4.squaredLength;
-
-/**
- * Alias for {@link quat.squaredLength}
- * @function
- */
-quat.sqrLen = quat.squaredLength;
-
-/**
- * Normalize a quat
- *
- * @param {quat} out the receiving quaternion
- * @param {quat} a quaternion to normalize
- * @returns {quat} out
- * @function
- */
-quat.normalize = vec4.normalize;
-
-/**
- * Creates a quaternion from the given 3x3 rotation matrix.
- *
- * @param {quat} out the receiving quaternion
- * @param {mat3} m rotation matrix
- * @returns {quat} out
- * @function
- */
-quat.fromMat3 = (function() {
-    var s_iNext = [1,2,0];
-    return function(out, m) {
-        // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
-        // article "Quaternion Calculus and Fast Animation".
-        var fTrace = m[0] + m[4] + m[8];
-        var fRoot;
-
-        if ( fTrace > 0.0 ) {
-            // |w| > 1/2, may as well choose w > 1/2
-            fRoot = Math.sqrt(fTrace + 1.0);  // 2w
-            out[3] = 0.5 * fRoot;
-            fRoot = 0.5/fRoot;  // 1/(4w)
-            out[0] = (m[7]-m[5])*fRoot;
-            out[1] = (m[2]-m[6])*fRoot;
-            out[2] = (m[3]-m[1])*fRoot;
-        } else {
-            // |w| <= 1/2
-            var i = 0;
-            if ( m[4] > m[0] )
-              i = 1;
-            if ( m[8] > m[i*3+i] )
-              i = 2;
-            var j = s_iNext[i];
-            var k = s_iNext[j];
-            
-            fRoot = Math.sqrt(m[i*3+i]-m[j*3+j]-m[k*3+k] + 1.0);
-            out[i] = 0.5 * fRoot;
-            fRoot = 0.5 / fRoot;
-            out[3] = (m[k*3+j] - m[j*3+k]) * fRoot;
-            out[j] = (m[j*3+i] + m[i*3+j]) * fRoot;
-            out[k] = (m[k*3+i] + m[i*3+k]) * fRoot;
-        }
-        
-        return out;
-    };
-})();
-
-/**
- * Returns a string representation of a quatenion
- *
- * @param {quat} vec vector to represent as a string
- * @returns {String} string representation of the vector
- */
-quat.str = function (a) {
-    return 'quat(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
-};
-
-if(typeof(exports) !== 'undefined') {
-    exports.quat = quat;
-}
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-  })(shim.exports);
-})();
-
-},{}],176:[function(require,module,exports){
+},{"aabb-3d":190,"events":21}],190:[function(require,module,exports){
+arguments[4][174][0].apply(exports,arguments)
+},{"dup":174,"gl-matrix":191}],191:[function(require,module,exports){
+arguments[4][49][0].apply(exports,arguments)
+},{"./gl-matrix/common.js":192,"./gl-matrix/mat2.js":193,"./gl-matrix/mat2d.js":194,"./gl-matrix/mat3.js":195,"./gl-matrix/mat4.js":196,"./gl-matrix/quat.js":197,"./gl-matrix/vec2.js":198,"./gl-matrix/vec3.js":199,"./gl-matrix/vec4.js":200,"dup":49}],192:[function(require,module,exports){
+arguments[4][50][0].apply(exports,arguments)
+},{"dup":50}],193:[function(require,module,exports){
+arguments[4][51][0].apply(exports,arguments)
+},{"./common.js":192,"dup":51}],194:[function(require,module,exports){
+arguments[4][52][0].apply(exports,arguments)
+},{"./common.js":192,"dup":52}],195:[function(require,module,exports){
+arguments[4][53][0].apply(exports,arguments)
+},{"./common.js":192,"dup":53}],196:[function(require,module,exports){
+arguments[4][54][0].apply(exports,arguments)
+},{"./common.js":192,"dup":54}],197:[function(require,module,exports){
+arguments[4][55][0].apply(exports,arguments)
+},{"./common.js":192,"./mat3.js":195,"./vec3.js":199,"./vec4.js":200,"dup":55}],198:[function(require,module,exports){
+arguments[4][56][0].apply(exports,arguments)
+},{"./common.js":192,"dup":56}],199:[function(require,module,exports){
+arguments[4][57][0].apply(exports,arguments)
+},{"./common.js":192,"dup":57}],200:[function(require,module,exports){
+arguments[4][58][0].apply(exports,arguments)
+},{"./common.js":192,"dup":58}],201:[function(require,module,exports){
 'use strict';
 
 module.exports = function(game, opts) {
@@ -29661,7 +27244,2627 @@ Registry.prototype.getTextureURL = function(name) {
 
 
 
-},{}],177:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
+
+var fs = require("fs")
+var glShader = require('gl-shader')
+var mat4 = require('gl-mat4')
+var inherits = require('inherits');
+var EventEmitter = require('events').EventEmitter;
+
+module.exports = function(game, opts) {
+  return new ShaderPlugin(game, opts);
+};
+module.exports.pluginInfo = {
+  clientOnly: true,
+  loadAfter: ['voxel-stitch', 'game-shell-fps-camera'],
+};
+
+function ShaderPlugin(game, opts) {
+  this.shell = game.shell;
+
+  this.stitcher = game.plugins.get('voxel-stitch');
+  if (!this.stitcher) throw new Error('voxel-shader requires voxel-stitch plugin'); // for tileCount uniform and updateTexture event
+
+  this.meshes = opts.meshes || game.voxels.meshes
+  if (!this.meshes) throw new Error('voxel-shader requires "meshes" option or game.voxels.meshes set to array of voxel-mesher meshes')
+
+  if (game.getCamera) {
+    this.camera = game.getCamera()
+    if (!(this.camera && this.camera.view)) throw new Error('voxel-shader requires a camera with a view matrix'); // for camera view matrix
+  } else {
+    this.camera = game.plugins.get('game-shell-fps-camera');
+    if (!this.camera) throw new Error('voxel-shader requires game-shell-fps-camera plugin'); // for camera view matrix
+  }
+
+  this.perspectiveResize = opts.perspectiveResize !== undefined ? opts.perspectiveResize : true;
+  this.cameraNear = opts.cameraNear !== undefined ? opts.cameraNear : 0.1;
+  this.cameraFar = opts.cameraFar !== undefined ? opts.cameraFar : 200.0;
+  this.cameraFOV = opts.cameraFOV !== undefined ? opts.cameraFOV : 45.0;
+
+  this.projectionMatrix = mat4.create();
+
+  this.enable();
+}
+inherits(ShaderPlugin, EventEmitter);
+
+ShaderPlugin.prototype.enable = function() {
+  this.on('updateProjectionMatrix', this.perspective.bind(this));
+  this.shell.on('gl-init', this.onInit = this.ginit.bind(this));
+  this.shell.on('gl-render', this.onRender = this.render.bind(this));
+  if (this.perspectiveResize) this.shell.on('gl-resize', this.onResize = this.updateProjectionMatrix.bind(this));
+  this.stitcher.on('updateTexture', this.onUpdateTexture = this.texturesReady.bind(this));
+};
+
+ShaderPlugin.prototype.disable = function() {
+  this.shell.removeListener('gl-init', this.onInit);
+  this.shell.removeListener('gl-render', this.onRender);
+  if (this.onResize) this.shell.removeListener('gl-resize', this.onResize);
+  this.stitcher.removeListener('updateTexture', this.onUpdateTexture);
+};
+
+ShaderPlugin.prototype.texturesReady = function(texture) {
+  this.texture = texture; // used in tileMap uniform
+}
+
+ShaderPlugin.prototype.ginit = function() {
+  this.shader = this.createAOShader();
+  this.shader2 = this.createCustomModelShader();
+  this.updateProjectionMatrix();
+  this.viewMatrix = mat4.create();
+
+};
+
+ShaderPlugin.prototype.perspective = function(out) {
+  mat4.perspective(out, this.cameraFOV*Math.PI/180, this.shell.width/this.shell.height, this.cameraNear, this.cameraFar)
+};
+
+ShaderPlugin.prototype.updateProjectionMatrix = function() {
+  this.emit('updateProjectionMatrix', this.projectionMatrix);
+};
+
+ShaderPlugin.prototype.render = function() {
+  var gl = this.shell.gl
+
+  this.camera.view(this.viewMatrix)
+
+  gl.enable(gl.CULL_FACE)
+  gl.enable(gl.DEPTH_TEST)
+
+  //Bind the shader
+  // phase 1 - solid blocks
+  gl.disable(gl.BLEND)
+  var shader = this.shader
+  if (!shader) throw new Error('voxel-shader render() called before gl-init, shader=', this.shader)
+  shader.bind()
+  shader.attributes.attrib0.location = 0
+  shader.attributes.attrib1.location = 1
+  shader.uniforms.projection = this.projectionMatrix
+  shader.uniforms.view = this.viewMatrix
+  shader.uniforms.tileCount = this.stitcher.tileCount
+
+  if (this.texture) shader.uniforms.tileMap = this.texture.bind() // if a texture is loaded
+
+  var keys = Object.keys(this.meshes)
+  var length = keys.length
+
+  for (var k = 0; k < length; ++k) {
+    var chunkIndex = keys[k]
+    var mesh = this.meshes[chunkIndex]
+
+    var triangleVAO = mesh.vertexArrayObjects.surface
+    if (triangleVAO) {  // if there are triangles to render
+      shader.uniforms.model = mesh.modelMatrix
+      triangleVAO.bind()
+      gl.drawArrays(gl.TRIANGLES, 0, triangleVAO.length)
+      triangleVAO.unbind()
+    }
+  }
+
+  // phase 2 - "porous" blocks
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)  // TODO: premult alpha? https://github.com/deathcap/voxel-stitch/issues/6
+  gl.enable(gl.BLEND)
+  var shader2 = this.shader2
+  shader2.bind()
+  shader2.attributes.position.location = 0
+  shader2.uniforms.view = this.viewMatrix
+  shader2.uniforms.projection = this.projectionMatrix
+  if (this.texture) shader2.uniforms.texture = this.texture.bind()
+
+  for (k = 0; k < length; ++k) {
+    var chunkIndex = keys[k]
+    var mesh = this.meshes[chunkIndex]
+
+    var blockMesh = mesh.vertexArrayObjects.porous
+    if (blockMesh) {
+      shader2.uniforms.model = this.meshes[chunkIndex].modelMatrix
+
+      blockMesh.bind()
+      blockMesh.draw(gl.TRIANGLES, blockMesh.length)
+      blockMesh.unbind()
+    }
+  }
+};
+
+ShaderPlugin.prototype.createAOShader = function() {
+    return glShader(this.shell.gl ,
+    "#define GLSLIFY 1\nattribute vec4 attrib0;\nattribute vec4 attrib1;\n\nuniform mat4 projection;\nuniform mat4 view;\nuniform mat4 model;\nuniform float tileCount;\n\nvarying vec3  normal;\nvarying vec2  tileCoord;\nvarying float tileSize;\nvarying vec2  texCoord;\nvarying float ambientOcclusion;\n\nmat4 translate(float x, float y, float z) { // TODO: @import glslify? same as in avatar\n    return mat4(1.0, 0.0, 0.0, 0.0,\n                0.0, 1.0, 0.0, 0.0,\n                0.0, 0.0, 1.0, 0.0,\n                  x,   y,   z, 1.0);\n}\n\nvoid main() {\n  //Compute position\n  vec3 position = attrib0.xyz;\n  \n  //Compute ambient occlusion\n  ambientOcclusion = attrib0.w / 255.0;\n  \n  //Extracted packed bits of normal. GLSL 1.0 doesn't support bitfieldExtract or even bitwise operations :(\n  int packedNormal = int(attrib1.x);\n  int nx = packedNormal / 16;               // xx____\n  int ny = packedNormal / 4 - nx * 4;       // __xx__\n  int nz = packedNormal - nx * 16 - ny * 4; // ____xx\n\n  normal = 128.0 - vec3(nx + 127, ny + 127, nz + 127);\n  \n  //Compute texture coordinate\n  texCoord = vec2(dot(position, vec3(normal.y-normal.z, 0, normal.x)),\n                  dot(position, vec3(0, -abs(normal.x+normal.z), normal.y)));\n  \n  //Compute tile coordinate\n  tileSize    = exp2(attrib1.y);\n  float tx    = (attrib1.z * 256.0 + attrib1.w) / tileCount; // 16-bit\n  tileCoord.x = floor(tx);\n  tileCoord.y = fract(tx) * tileCount;\n\n  // Offset to account for air padding (separate from other matrices so they can be reused)\n  mat4 shift = translate(-1.0, -1.0, -1.0);\n\n  gl_Position = projection * view * model * shift * vec4(position, 1.0);\n}\n",
+    "#define GLSLIFY 1\nprecision highp float;\n\nuniform sampler2D tileMap;\nuniform float tileCount;\n\nvarying vec3  normal;\nvarying vec2  tileCoord;\nvarying float tileSize;\nvarying vec2  texCoord;\nvarying float ambientOcclusion;\n\nvoid main() {\n\n  vec2 uv      = texCoord;\n  vec4 color   = vec4(0,0,0,0);\n  float weight = 0.0;\n\n  vec2 tileOffset = 2.0 * pow(2.0, 4.0) * tileCoord;\n  float denom     = 2.0 * pow(2.0, 4.0) * tileCount;\n\n  for(int dx=0; dx<2; ++dx) {\n    for(int dy=0; dy<2; ++dy) {\n      vec2 offset = 2.0 * fract(0.5 * (uv + vec2(dx, dy)));\n      float w = pow(1.0 - max(abs(offset.x-1.0), abs(offset.y-1.0)), 16.0);\n      \n      vec2 tc = (tileOffset + tileSize * offset) / denom;\n      color  += w * texture2D(tileMap, tc);\n      weight += w;\n    }\n  }\n  color /= weight;\n  \n  if(color.w < 0.5) {\n    discard;\n  }\n  \n  float light = ambientOcclusion + max(0.15*dot(normal, vec3(1,1,1)), 0.0);\n  \n  gl_FragColor = vec4(color.xyz * light, color.w);\n}\n"
+    )
+  // return glslify({
+  //   vertex: './lib/ao.vsh',
+  //   fragment: './lib/ao.fsh'
+  // })(this.shell.gl)
+};
+
+ShaderPlugin.prototype.createCustomModelShader = function() {
+  // TODO: refactor with voxel-decals, voxel-chunkborder?
+  return glShader(this.shell.gl,
+                 "#define GLSLIFY 1\n                        attribute vec3 position;                        attribute vec2 uv;                                                uniform mat4 projection;                        uniform mat4 view;                        uniform mat4 model;                        varying vec2 vUv;                                                void main() {                        gl_Position = projection * view * model * vec4(position, 1.0);                        vUv = uv;                        }",
+                "#define GLSLIFY 1\n                        precision highp float;                                                uniform sampler2D texture;                        varying vec2 vUv;                                                void main() {                        gl_FragColor = texture2D(texture, vUv);                        }");
+};
+
+},{"events":21,"fs":1,"gl-mat4":212,"gl-shader":227,"inherits":120}],203:[function(require,module,exports){
+arguments[4][139][0].apply(exports,arguments)
+},{"dup":139}],204:[function(require,module,exports){
+arguments[4][140][0].apply(exports,arguments)
+},{"dup":140}],205:[function(require,module,exports){
+arguments[4][141][0].apply(exports,arguments)
+},{"dup":141}],206:[function(require,module,exports){
+arguments[4][142][0].apply(exports,arguments)
+},{"dup":142}],207:[function(require,module,exports){
+arguments[4][143][0].apply(exports,arguments)
+},{"dup":143}],208:[function(require,module,exports){
+arguments[4][144][0].apply(exports,arguments)
+},{"dup":144}],209:[function(require,module,exports){
+arguments[4][145][0].apply(exports,arguments)
+},{"dup":145}],210:[function(require,module,exports){
+arguments[4][146][0].apply(exports,arguments)
+},{"dup":146}],211:[function(require,module,exports){
+arguments[4][147][0].apply(exports,arguments)
+},{"dup":147}],212:[function(require,module,exports){
+arguments[4][148][0].apply(exports,arguments)
+},{"./adjoint":203,"./clone":204,"./copy":205,"./create":206,"./determinant":207,"./fromQuat":208,"./fromRotationTranslation":209,"./frustum":210,"./identity":211,"./invert":213,"./lookAt":214,"./multiply":215,"./ortho":216,"./perspective":217,"./perspectiveFromFieldOfView":218,"./rotate":219,"./rotateX":220,"./rotateY":221,"./rotateZ":222,"./scale":223,"./str":224,"./translate":225,"./transpose":226,"dup":148}],213:[function(require,module,exports){
+arguments[4][149][0].apply(exports,arguments)
+},{"dup":149}],214:[function(require,module,exports){
+arguments[4][150][0].apply(exports,arguments)
+},{"./identity":211,"dup":150}],215:[function(require,module,exports){
+arguments[4][151][0].apply(exports,arguments)
+},{"dup":151}],216:[function(require,module,exports){
+arguments[4][152][0].apply(exports,arguments)
+},{"dup":152}],217:[function(require,module,exports){
+arguments[4][153][0].apply(exports,arguments)
+},{"dup":153}],218:[function(require,module,exports){
+arguments[4][154][0].apply(exports,arguments)
+},{"dup":154}],219:[function(require,module,exports){
+arguments[4][155][0].apply(exports,arguments)
+},{"dup":155}],220:[function(require,module,exports){
+arguments[4][156][0].apply(exports,arguments)
+},{"dup":156}],221:[function(require,module,exports){
+arguments[4][157][0].apply(exports,arguments)
+},{"dup":157}],222:[function(require,module,exports){
+arguments[4][158][0].apply(exports,arguments)
+},{"dup":158}],223:[function(require,module,exports){
+arguments[4][159][0].apply(exports,arguments)
+},{"dup":159}],224:[function(require,module,exports){
+arguments[4][160][0].apply(exports,arguments)
+},{"dup":160}],225:[function(require,module,exports){
+arguments[4][161][0].apply(exports,arguments)
+},{"dup":161}],226:[function(require,module,exports){
+arguments[4][162][0].apply(exports,arguments)
+},{"dup":162}],227:[function(require,module,exports){
+'use strict'
+
+var createUniformWrapper   = require('./lib/create-uniforms')
+var createAttributeWrapper = require('./lib/create-attributes')
+var makeReflect            = require('./lib/reflect')
+var shaderCache            = require('./lib/shader-cache')
+var runtime                = require('./lib/runtime-reflect')
+var GLError                = require("./lib/GLError")
+
+//Shader object
+function Shader(gl) {
+  this.gl         = gl
+
+  //Default initialize these to null
+  this._vref      =
+  this._fref      =
+  this._relink    =
+  this.vertShader =
+  this.fragShader =
+  this.program    =
+  this.attributes =
+  this.uniforms   =
+  this.types      = null
+}
+
+var proto = Shader.prototype
+
+proto.bind = function() {
+  if(!this.program) {
+    this._relink()
+  }
+  this.gl.useProgram(this.program)
+}
+
+proto.dispose = function() {
+  if(this._fref) {
+    this._fref.dispose()
+  }
+  if(this._vref) {
+    this._vref.dispose()
+  }
+  this.attributes =
+  this.types      =
+  this.vertShader =
+  this.fragShader =
+  this.program    =
+  this._relink    =
+  this._fref      =
+  this._vref      = null
+}
+
+function compareAttributes(a, b) {
+  if(a.name < b.name) {
+    return -1
+  }
+  return 1
+}
+
+//Update export hook for glslify-live
+proto.update = function(
+    vertSource
+  , fragSource
+  , uniforms
+  , attributes) {
+
+  //If only one object passed, assume glslify style output
+  if(!fragSource || arguments.length === 1) {
+    var obj = vertSource
+    vertSource = obj.vertex
+    fragSource = obj.fragment
+    uniforms   = obj.uniforms
+    attributes = obj.attributes
+  }
+
+  var wrapper = this
+  var gl      = wrapper.gl
+
+  //Compile vertex and fragment shaders
+  var pvref = wrapper._vref
+  wrapper._vref = shaderCache.shader(gl, gl.VERTEX_SHADER, vertSource)
+  if(pvref) {
+    pvref.dispose()
+  }
+  wrapper.vertShader = wrapper._vref.shader
+  var pfref = this._fref
+  wrapper._fref = shaderCache.shader(gl, gl.FRAGMENT_SHADER, fragSource)
+  if(pfref) {
+    pfref.dispose()
+  }
+  wrapper.fragShader = wrapper._fref.shader
+
+  //If uniforms/attributes is not specified, use RT reflection
+  if(!uniforms || !attributes) {
+
+    //Create initial test program
+    var testProgram = gl.createProgram()
+    gl.attachShader(testProgram, wrapper.fragShader)
+    gl.attachShader(testProgram, wrapper.vertShader)
+    gl.linkProgram(testProgram)
+    if(!gl.getProgramParameter(testProgram, gl.LINK_STATUS)) {
+      var errLog = gl.getProgramInfoLog(testProgram)
+      throw new GLError(errLog, 'Error linking program:' + errLog)
+    }
+
+    //Load data from runtime
+    uniforms   = uniforms   || runtime.uniforms(gl, testProgram)
+    attributes = attributes || runtime.attributes(gl, testProgram)
+
+    //Release test program
+    gl.deleteProgram(testProgram)
+  }
+
+  //Sort attributes lexicographically
+  // overrides undefined WebGL behavior for attribute locations
+  attributes = attributes.slice()
+  attributes.sort(compareAttributes)
+
+  //Convert attribute types, read out locations
+  var attributeUnpacked  = []
+  var attributeNames     = []
+  var attributeLocations = []
+  for(var i=0; i<attributes.length; ++i) {
+    var attr = attributes[i]
+    if(attr.type.indexOf('mat') >= 0) {
+      var size = attr.type.charAt(attr.type.length-1)|0
+      var locVector = new Array(size)
+      for(var j=0; j<size; ++j) {
+        locVector[j] = attributeLocations.length
+        attributeNames.push(attr.name + '[' + j + ']')
+        if(typeof attr.location === 'number') {
+          attributeLocations.push(attr.location + j)
+        } else if(Array.isArray(attr.location) &&
+                  attr.location.length === size &&
+                  typeof attr.location[j] === 'number') {
+          attributeLocations.push(attr.location[j]|0)
+        } else {
+          attributeLocations.push(-1)
+        }
+      }
+      attributeUnpacked.push({
+        name: attr.name,
+        type: attr.type,
+        locations: locVector
+      })
+    } else {
+      attributeUnpacked.push({
+        name: attr.name,
+        type: attr.type,
+        locations: [ attributeLocations.length ]
+      })
+      attributeNames.push(attr.name)
+      if(typeof attr.location === 'number') {
+        attributeLocations.push(attr.location|0)
+      } else {
+        attributeLocations.push(-1)
+      }
+    }
+  }
+
+  //For all unspecified attributes, assign them lexicographically min attribute
+  var curLocation = 0
+  for(var i=0; i<attributeLocations.length; ++i) {
+    if(attributeLocations[i] < 0) {
+      while(attributeLocations.indexOf(curLocation) >= 0) {
+        curLocation += 1
+      }
+      attributeLocations[i] = curLocation
+    }
+  }
+
+  //Rebuild program and recompute all uniform locations
+  var uniformLocations = new Array(uniforms.length)
+  function relink() {
+    wrapper.program = shaderCache.program(
+        gl
+      , wrapper._vref
+      , wrapper._fref
+      , attributeNames
+      , attributeLocations)
+
+    for(var i=0; i<uniforms.length; ++i) {
+      uniformLocations[i] = gl.getUniformLocation(
+          wrapper.program
+        , uniforms[i].name)
+    }
+  }
+
+  //Perform initial linking, reuse program used for reflection
+  relink()
+
+  //Save relinking procedure, defer until runtime
+  wrapper._relink = relink
+
+  //Generate type info
+  wrapper.types = {
+    uniforms:   makeReflect(uniforms),
+    attributes: makeReflect(attributes)
+  }
+
+  //Generate attribute wrappers
+  wrapper.attributes = createAttributeWrapper(
+      gl
+    , wrapper
+    , attributeUnpacked
+    , attributeLocations)
+
+  //Generate uniform wrappers
+  Object.defineProperty(wrapper, 'uniforms', createUniformWrapper(
+      gl
+    , wrapper
+    , uniforms
+    , uniformLocations))
+}
+
+//Compiles and links a shader program with the given attribute and vertex list
+function createShader(
+    gl
+  , vertSource
+  , fragSource
+  , uniforms
+  , attributes) {
+
+  var shader = new Shader(gl)
+
+  shader.update(
+      vertSource
+    , fragSource
+    , uniforms
+    , attributes)
+
+  return shader
+}
+
+module.exports = createShader
+
+},{"./lib/GLError":228,"./lib/create-attributes":229,"./lib/create-uniforms":230,"./lib/reflect":231,"./lib/runtime-reflect":232,"./lib/shader-cache":233}],228:[function(require,module,exports){
+function GLError (rawError, shortMessage, longMessage) {
+    this.shortMessage = shortMessage || ''
+    this.longMessage = longMessage || ''
+    this.rawError = rawError || ''
+    this.message =
+      'gl-shader: ' + (shortMessage || rawError || '') +
+      (longMessage ? '\n'+longMessage : '')
+    this.stack = (new Error()).stack
+}
+GLError.prototype = new Error
+GLError.prototype.name = 'GLError'
+GLError.prototype.constructor = GLError
+module.exports = GLError
+
+},{}],229:[function(require,module,exports){
+'use strict'
+
+module.exports = createAttributeWrapper
+
+var GLError = require("./GLError")
+
+function ShaderAttribute(
+    gl
+  , wrapper
+  , index
+  , locations
+  , dimension
+  , constFunc) {
+  this._gl        = gl
+  this._wrapper   = wrapper
+  this._index     = index
+  this._locations = locations
+  this._dimension = dimension
+  this._constFunc = constFunc
+}
+
+var proto = ShaderAttribute.prototype
+
+proto.pointer = function setAttribPointer(
+    type
+  , normalized
+  , stride
+  , offset) {
+
+  var self      = this
+  var gl        = self._gl
+  var location  = self._locations[self._index]
+
+  gl.vertexAttribPointer(
+      location
+    , self._dimension
+    , type || gl.FLOAT
+    , !!normalized
+    , stride || 0
+    , offset || 0)
+  gl.enableVertexAttribArray(location)
+}
+
+proto.set = function(x0, x1, x2, x3) {
+  return this._constFunc(this._locations[this._index], x0, x1, x2, x3)
+}
+
+Object.defineProperty(proto, 'location', {
+  get: function() {
+    return this._locations[this._index]
+  }
+  , set: function(v) {
+    if(v !== this._locations[this._index]) {
+      this._locations[this._index] = v|0
+      this._wrapper.program = null
+    }
+    return v|0
+  }
+})
+
+//Adds a vector attribute to obj
+function addVectorAttribute(
+    gl
+  , wrapper
+  , index
+  , locations
+  , dimension
+  , obj
+  , name) {
+
+  //Construct constant function
+  var constFuncArgs = [ 'gl', 'v' ]
+  var varNames = []
+  for(var i=0; i<dimension; ++i) {
+    constFuncArgs.push('x'+i)
+    varNames.push('x'+i)
+  }
+  constFuncArgs.push(
+    'if(x0.length===void 0){return gl.vertexAttrib' +
+    dimension + 'f(v,' +
+    varNames.join() +
+    ')}else{return gl.vertexAttrib' +
+    dimension +
+    'fv(v,x0)}')
+  var constFunc = Function.apply(null, constFuncArgs)
+
+  //Create attribute wrapper
+  var attr = new ShaderAttribute(
+      gl
+    , wrapper
+    , index
+    , locations
+    , dimension
+    , constFunc)
+
+  //Create accessor
+  Object.defineProperty(obj, name, {
+    set: function(x) {
+      gl.disableVertexAttribArray(locations[index])
+      constFunc(gl, locations[index], x)
+      return x
+    }
+    , get: function() {
+      return attr
+    }
+    , enumerable: true
+  })
+}
+
+function addMatrixAttribute(
+    gl
+  , wrapper
+  , index
+  , locations
+  , dimension
+  , obj
+  , name) {
+
+  var parts = new Array(dimension)
+  var attrs = new Array(dimension)
+  for(var i=0; i<dimension; ++i) {
+    addVectorAttribute(
+        gl
+      , wrapper
+      , index[i]
+      , locations
+      , dimension
+      , parts
+      , i)
+    attrs[i] = parts[i]
+  }
+
+  Object.defineProperty(parts, 'location', {
+    set: function(v) {
+      if(Array.isArray(v)) {
+        for(var i=0; i<dimension; ++i) {
+          attrs[i].location = v[i]
+        }
+      } else {
+        for(var i=0; i<dimension; ++i) {
+          attrs[i].location = v + i
+        }
+      }
+      return v
+    }
+    , get: function() {
+      var result = new Array(dimension)
+      for(var i=0; i<dimension; ++i) {
+        result[i] = locations[index[i]]
+      }
+      return result
+    }
+    , enumerable: true
+  })
+
+  parts.pointer = function(type, normalized, stride, offset) {
+    type       = type || gl.FLOAT
+    normalized = !!normalized
+    stride     = stride || (dimension * dimension)
+    offset     = offset || 0
+    for(var i=0; i<dimension; ++i) {
+      var location = locations[index[i]]
+      gl.vertexAttribPointer(
+            location
+          , dimension
+          , type
+          , normalized
+          , stride
+          , offset + i * dimension)
+      gl.enableVertexAttribArray(location)
+    }
+  }
+
+  var scratch = new Array(dimension)
+  var vertexAttrib = gl['vertexAttrib' + dimension + 'fv']
+
+  Object.defineProperty(obj, name, {
+    set: function(x) {
+      for(var i=0; i<dimension; ++i) {
+        var loc = locations[index[i]]
+        gl.disableVertexAttribArray(loc)
+        if(Array.isArray(x[0])) {
+          vertexAttrib.call(gl, loc, x[i])
+        } else {
+          for(var j=0; j<dimension; ++j) {
+            scratch[j] = x[dimension*i + j]
+          }
+          vertexAttrib.call(gl, loc, scratch)
+        }
+      }
+      return x
+    }
+    , get: function() {
+      return parts
+    }
+    , enumerable: true
+  })
+}
+
+//Create shims for attributes
+function createAttributeWrapper(
+    gl
+  , wrapper
+  , attributes
+  , locations) {
+
+  var obj = {}
+  for(var i=0, n=attributes.length; i<n; ++i) {
+
+    var a = attributes[i]
+    var name = a.name
+    var type = a.type
+    var locs = a.locations
+
+    switch(type) {
+      case 'bool':
+      case 'int':
+      case 'float':
+        addVectorAttribute(
+            gl
+          , wrapper
+          , locs[0]
+          , locations
+          , 1
+          , obj
+          , name)
+      break
+
+      default:
+        if(type.indexOf('vec') >= 0) {
+          var d = type.charCodeAt(type.length-1) - 48
+          if(d < 2 || d > 4) {
+            throw new GLError('', 'Invalid data type for attribute ' + name + ': ' + type)
+          }
+          addVectorAttribute(
+              gl
+            , wrapper
+            , locs[0]
+            , locations
+            , d
+            , obj
+            , name)
+        } else if(type.indexOf('mat') >= 0) {
+          var d = type.charCodeAt(type.length-1) - 48
+          if(d < 2 || d > 4) {
+            throw new GLError('', 'Invalid data type for attribute ' + name + ': ' + type)
+          }
+          addMatrixAttribute(
+              gl
+            , wrapper
+            , locs
+            , locations
+            , d
+            , obj
+            , name)
+        } else {
+          throw new GLError('', 'Unknown data type for attribute ' + name + ': ' + type)
+        }
+      break
+    }
+  }
+  return obj
+}
+
+},{"./GLError":228}],230:[function(require,module,exports){
+'use strict'
+
+var coallesceUniforms = require('./reflect')
+var GLError = require("./GLError")
+
+module.exports = createUniformWrapper
+
+//Binds a function and returns a value
+function identity(x) {
+  var c = new Function('y', 'return function(){return y}')
+  return c(x)
+}
+
+function makeVector(length, fill) {
+  var result = new Array(length)
+  for(var i=0; i<length; ++i) {
+    result[i] = fill
+  }
+  return result
+}
+
+//Create shims for uniforms
+function createUniformWrapper(gl, wrapper, uniforms, locations) {
+
+  function makeGetter(index) {
+    var proc = new Function(
+        'gl'
+      , 'wrapper'
+      , 'locations'
+      , 'return function(){return gl.getUniform(wrapper.program,locations[' + index + '])}')
+    return proc(gl, wrapper, locations)
+  }
+
+  function makePropSetter(path, index, type) {
+    switch(type) {
+      case 'bool':
+      case 'int':
+      case 'sampler2D':
+      case 'samplerCube':
+        return 'gl.uniform1i(locations[' + index + '],obj' + path + ')'
+      case 'float':
+        return 'gl.uniform1f(locations[' + index + '],obj' + path + ')'
+      default:
+        var vidx = type.indexOf('vec')
+        if(0 <= vidx && vidx <= 1 && type.length === 4 + vidx) {
+          var d = type.charCodeAt(type.length-1) - 48
+          if(d < 2 || d > 4) {
+            throw new GLError('', 'Invalid data type')
+          }
+          switch(type.charAt(0)) {
+            case 'b':
+            case 'i':
+              return 'gl.uniform' + d + 'iv(locations[' + index + '],obj' + path + ')'
+            case 'v':
+              return 'gl.uniform' + d + 'fv(locations[' + index + '],obj' + path + ')'
+            default:
+              throw new GLError('', 'Unrecognized data type for vector ' + name + ': ' + type)
+          }
+        } else if(type.indexOf('mat') === 0 && type.length === 4) {
+          var d = type.charCodeAt(type.length-1) - 48
+          if(d < 2 || d > 4) {
+            throw new GLError('', 'Invalid uniform dimension type for matrix ' + name + ': ' + type)
+          }
+          return 'gl.uniformMatrix' + d + 'fv(locations[' + index + '],false,obj' + path + ')'
+        } else {
+          throw new GLError('', 'Unknown uniform data type for ' + name + ': ' + type)
+        }
+      break
+    }
+  }
+
+  function enumerateIndices(prefix, type) {
+    if(typeof type !== 'object') {
+      return [ [prefix, type] ]
+    }
+    var indices = []
+    for(var id in type) {
+      var prop = type[id]
+      var tprefix = prefix
+      if(parseInt(id) + '' === id) {
+        tprefix += '[' + id + ']'
+      } else {
+        tprefix += '.' + id
+      }
+      if(typeof prop === 'object') {
+        indices.push.apply(indices, enumerateIndices(tprefix, prop))
+      } else {
+        indices.push([tprefix, prop])
+      }
+    }
+    return indices
+  }
+
+  function makeSetter(type) {
+    var code = [ 'return function updateProperty(obj){' ]
+    var indices = enumerateIndices('', type)
+    for(var i=0; i<indices.length; ++i) {
+      var item = indices[i]
+      var path = item[0]
+      var idx  = item[1]
+      if(locations[idx]) {
+        code.push(makePropSetter(path, idx, uniforms[idx].type))
+      }
+    }
+    code.push('return obj}')
+    var proc = new Function('gl', 'locations', code.join('\n'))
+    return proc(gl, locations)
+  }
+
+  function defaultValue(type) {
+    switch(type) {
+      case 'bool':
+        return false
+      case 'int':
+      case 'sampler2D':
+      case 'samplerCube':
+        return 0
+      case 'float':
+        return 0.0
+      default:
+        var vidx = type.indexOf('vec')
+        if(0 <= vidx && vidx <= 1 && type.length === 4 + vidx) {
+          var d = type.charCodeAt(type.length-1) - 48
+          if(d < 2 || d > 4) {
+            throw new GLError('', 'Invalid data type')
+          }
+          if(type.charAt(0) === 'b') {
+            return makeVector(d, false)
+          }
+          return makeVector(d, 0)
+        } else if(type.indexOf('mat') === 0 && type.length === 4) {
+          var d = type.charCodeAt(type.length-1) - 48
+          if(d < 2 || d > 4) {
+            throw new GLError('', 'Invalid uniform dimension type for matrix ' + name + ': ' + type)
+          }
+          return makeVector(d*d, 0)
+        } else {
+          throw new GLError('', 'Unknown uniform data type for ' + name + ': ' + type)
+        }
+      break
+    }
+  }
+
+  function storeProperty(obj, prop, type) {
+    if(typeof type === 'object') {
+      var child = processObject(type)
+      Object.defineProperty(obj, prop, {
+        get: identity(child),
+        set: makeSetter(type),
+        enumerable: true,
+        configurable: false
+      })
+    } else {
+      if(locations[type]) {
+        Object.defineProperty(obj, prop, {
+          get: makeGetter(type),
+          set: makeSetter(type),
+          enumerable: true,
+          configurable: false
+        })
+      } else {
+        obj[prop] = defaultValue(uniforms[type].type)
+      }
+    }
+  }
+
+  function processObject(obj) {
+    var result
+    if(Array.isArray(obj)) {
+      result = new Array(obj.length)
+      for(var i=0; i<obj.length; ++i) {
+        storeProperty(result, i, obj[i])
+      }
+    } else {
+      result = {}
+      for(var id in obj) {
+        storeProperty(result, id, obj[id])
+      }
+    }
+    return result
+  }
+
+  //Return data
+  var coallesced = coallesceUniforms(uniforms, true)
+  return {
+    get: identity(processObject(coallesced)),
+    set: makeSetter(coallesced),
+    enumerable: true,
+    configurable: true
+  }
+}
+
+},{"./GLError":228,"./reflect":231}],231:[function(require,module,exports){
+'use strict'
+
+module.exports = makeReflectTypes
+
+//Construct type info for reflection.
+//
+// This iterates over the flattened list of uniform type values and smashes them into a JSON object.
+//
+// The leaves of the resulting object are either indices or type strings representing primitive glslify types
+function makeReflectTypes(uniforms, useIndex) {
+  var obj = {}
+  for(var i=0; i<uniforms.length; ++i) {
+    var n = uniforms[i].name
+    var parts = n.split(".")
+    var o = obj
+    for(var j=0; j<parts.length; ++j) {
+      var x = parts[j].split("[")
+      if(x.length > 1) {
+        if(!(x[0] in o)) {
+          o[x[0]] = []
+        }
+        o = o[x[0]]
+        for(var k=1; k<x.length; ++k) {
+          var y = parseInt(x[k])
+          if(k<x.length-1 || j<parts.length-1) {
+            if(!(y in o)) {
+              if(k < x.length-1) {
+                o[y] = []
+              } else {
+                o[y] = {}
+              }
+            }
+            o = o[y]
+          } else {
+            if(useIndex) {
+              o[y] = i
+            } else {
+              o[y] = uniforms[i].type
+            }
+          }
+        }
+      } else if(j < parts.length-1) {
+        if(!(x[0] in o)) {
+          o[x[0]] = {}
+        }
+        o = o[x[0]]
+      } else {
+        if(useIndex) {
+          o[x[0]] = i
+        } else {
+          o[x[0]] = uniforms[i].type
+        }
+      }
+    }
+  }
+  return obj
+}
+},{}],232:[function(require,module,exports){
+'use strict'
+
+exports.uniforms    = runtimeUniforms
+exports.attributes  = runtimeAttributes
+
+var GL_TO_GLSL_TYPES = {
+  'FLOAT':       'float',
+  'FLOAT_VEC2':  'vec2',
+  'FLOAT_VEC3':  'vec3',
+  'FLOAT_VEC4':  'vec4',
+  'INT':         'int',
+  'INT_VEC2':    'ivec2',
+  'INT_VEC3':    'ivec3',
+  'INT_VEC4':    'ivec4',
+  'BOOL':        'bool',
+  'BOOL_VEC2':   'bvec2',
+  'BOOL_VEC3':   'bvec3',
+  'BOOL_VEC4':   'bvec4',
+  'FLOAT_MAT2':  'mat2',
+  'FLOAT_MAT3':  'mat3',
+  'FLOAT_MAT4':  'mat4',
+  'SAMPLER_2D':  'sampler2D',
+  'SAMPLER_CUBE':'samplerCube'
+}
+
+var GL_TABLE = null
+
+function getType(gl, type) {
+  if(!GL_TABLE) {
+    var typeNames = Object.keys(GL_TO_GLSL_TYPES)
+    GL_TABLE = {}
+    for(var i=0; i<typeNames.length; ++i) {
+      var tn = typeNames[i]
+      GL_TABLE[gl[tn]] = GL_TO_GLSL_TYPES[tn]
+    }
+  }
+  return GL_TABLE[type]
+}
+
+function runtimeUniforms(gl, program) {
+  var numUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
+  var result = []
+  for(var i=0; i<numUniforms; ++i) {
+    var info = gl.getActiveUniform(program, i)
+    if(info) {
+      var type = getType(gl, info.type)
+      if(info.size > 1) {
+        for(var j=0; j<info.size; ++j) {
+          result.push({
+            name: info.name.replace('[0]', '[' + j + ']'),
+            type: type
+          })
+        }
+      } else {
+        result.push({
+          name: info.name,
+          type: type
+        })
+      }
+    }
+  }
+  return result
+}
+
+function runtimeAttributes(gl, program) {
+  var numAttributes = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)
+  var result = []
+  for(var i=0; i<numAttributes; ++i) {
+    var info = gl.getActiveAttrib(program, i)
+    if(info) {
+      result.push({
+        name: info.name,
+        type: getType(gl, info.type)
+      })
+    }
+  }
+  return result
+}
+
+},{}],233:[function(require,module,exports){
+'use strict'
+
+exports.shader   = getShaderReference
+exports.program  = createProgram
+
+var GLError = require("./GLError")
+var formatCompilerError = require('gl-format-compiler-error');
+
+var weakMap = typeof WeakMap === 'undefined' ? require('weakmap-shim') : WeakMap
+var CACHE = new weakMap()
+
+var SHADER_COUNTER = 0
+
+function ShaderReference(id, src, type, shader, programs, count, cache) {
+  this.id       = id
+  this.src      = src
+  this.type     = type
+  this.shader   = shader
+  this.count    = count
+  this.programs = []
+  this.cache    = cache
+}
+
+ShaderReference.prototype.dispose = function() {
+  if(--this.count === 0) {
+    var cache    = this.cache
+    var gl       = cache.gl
+
+    //Remove program references
+    var programs = this.programs
+    for(var i=0, n=programs.length; i<n; ++i) {
+      var p = cache.programs[programs[i]]
+      if(p) {
+        delete cache.programs[i]
+        gl.deleteProgram(p)
+      }
+    }
+
+    //Remove shader reference
+    gl.deleteShader(this.shader)
+    delete cache.shaders[(this.type === gl.FRAGMENT_SHADER)|0][this.src]
+  }
+}
+
+function ContextCache(gl) {
+  this.gl       = gl
+  this.shaders  = [{}, {}]
+  this.programs = {}
+}
+
+var proto = ContextCache.prototype
+
+function compileShader(gl, type, src) {
+  var shader = gl.createShader(type)
+  gl.shaderSource(shader, src)
+  gl.compileShader(shader)
+  if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    var errLog = gl.getShaderInfoLog(shader)
+    try {
+        var fmt = formatCompilerError(errLog, src, type);
+    } catch (e){
+        console.warn('Failed to format compiler error: ' + e);
+        throw new GLError(errLog, 'Error compiling shader:\n' + errLog)
+    }
+    throw new GLError(errLog, fmt.short, fmt.long)
+  }
+  return shader
+}
+
+proto.getShaderReference = function(type, src) {
+  var gl      = this.gl
+  var shaders = this.shaders[(type === gl.FRAGMENT_SHADER)|0]
+  var shader  = shaders[src]
+  if(!shader || !gl.isShader(shader.shader)) {
+    var shaderObj = compileShader(gl, type, src)
+    shader = shaders[src] = new ShaderReference(
+      SHADER_COUNTER++,
+      src,
+      type,
+      shaderObj,
+      [],
+      1,
+      this)
+  } else {
+    shader.count += 1
+  }
+  return shader
+}
+
+function linkProgram(gl, vshader, fshader, attribs, locations) {
+  var program = gl.createProgram()
+  gl.attachShader(program, vshader)
+  gl.attachShader(program, fshader)
+  for(var i=0; i<attribs.length; ++i) {
+    gl.bindAttribLocation(program, locations[i], attribs[i])
+  }
+  gl.linkProgram(program)
+  if(!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    var errLog = gl.getProgramInfoLog(program)
+    throw new GLError(errLog, 'Error linking program: ' + errLog)
+  }
+  return program
+}
+
+proto.getProgram = function(vref, fref, attribs, locations) {
+  var token = [vref.id, fref.id, attribs.join(':'), locations.join(':')].join('@')
+  var prog  = this.programs[token]
+  if(!prog || !this.gl.isProgram(prog)) {
+    this.programs[token] = prog = linkProgram(
+      this.gl,
+      vref.shader,
+      fref.shader,
+      attribs,
+      locations)
+    vref.programs.push(token)
+    fref.programs.push(token)
+  }
+  return prog
+}
+
+function getCache(gl) {
+  var ctxCache = CACHE.get(gl)
+  if(!ctxCache) {
+    ctxCache = new ContextCache(gl)
+    CACHE.set(gl, ctxCache)
+  }
+  return ctxCache
+}
+
+function getShaderReference(gl, type, src) {
+  return getCache(gl).getShaderReference(type, src)
+}
+
+function createProgram(gl, vref, fref, attribs, locations) {
+  return getCache(gl).getProgram(vref, fref, attribs, locations)
+}
+
+},{"./GLError":228,"gl-format-compiler-error":234,"weakmap-shim":250}],234:[function(require,module,exports){
+
+var sprintf = require('sprintf-js').sprintf;
+var glConstants = require('gl-constants/lookup');
+var shaderName = require('glsl-shader-name');
+var addLineNumbers = require('add-line-numbers');
+
+module.exports = formatCompilerError;
+
+function formatCompilerError(errLog, src, type) {
+    "use strict";
+
+    var name = shaderName(src) || 'of unknown name (see npm glsl-shader-name)';
+
+    var typeName = 'unknown type';
+    if (type !== undefined) {
+        typeName = type === glConstants.FRAGMENT_SHADER ? 'fragment' : 'vertex'
+    }
+
+    var longForm = sprintf('Error compiling %s shader %s:\n', typeName, name);
+    var shortForm = sprintf("%s%s", longForm, errLog);
+
+    var errorStrings = errLog.split('\n');
+    var errors = {};
+
+    for (var i = 0; i < errorStrings.length; i++) {
+        var errorString = errorStrings[i];
+        if (errorString === '') continue;
+        var lineNo = parseInt(errorString.split(':')[2]);
+        if (isNaN(lineNo)) {
+            throw new Error(sprintf('Could not parse error: %s', errorString));
+        }
+        errors[lineNo] = errorString;
+    }
+
+    var lines = addLineNumbers(src).split('\n');
+
+    for (var i = 0; i < lines.length; i++) {
+        if (!errors[i+3] && !errors[i+2] && !errors[i+1]) continue;
+        var line = lines[i];
+        longForm += line + '\n';
+        if (errors[i+1]) {
+            var e = errors[i+1];
+            e = e.substr(e.split(':', 3).join(':').length + 1).trim();
+            longForm += sprintf('^^^ %s\n\n', e);
+        }
+    }
+
+    return {
+        long: longForm.trim(),
+        short: shortForm.trim()
+    };
+}
+
+
+},{"add-line-numbers":235,"gl-constants/lookup":239,"glsl-shader-name":240,"sprintf-js":247}],235:[function(require,module,exports){
+var padLeft = require('pad-left')
+
+module.exports = addLineNumbers
+function addLineNumbers (string, start, delim) {
+  start = typeof start === 'number' ? start : 1
+  delim = delim || ': '
+
+  var lines = string.split(/\r?\n/)
+  var totalDigits = String(lines.length + start - 1).length
+  return lines.map(function (line, i) {
+    var c = i + start
+    var digits = String(c).length
+    var prefix = padLeft(c, totalDigits - digits)
+    return prefix + delim + line
+  }).join('\n')
+}
+
+},{"pad-left":236}],236:[function(require,module,exports){
+/*!
+ * pad-left <https://github.com/jonschlinkert/pad-left>
+ *
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT license.
+ */
+
+'use strict';
+
+var repeat = require('repeat-string');
+
+module.exports = function padLeft(str, num, ch) {
+  ch = typeof ch !== 'undefined' ? (ch + '') : ' ';
+  return repeat(ch, num) + str;
+};
+},{"repeat-string":237}],237:[function(require,module,exports){
+/*!
+ * repeat-string <https://github.com/jonschlinkert/repeat-string>
+ *
+ * Copyright (c) 2014-2015, Jon Schlinkert.
+ * Licensed under the MIT License.
+ */
+
+'use strict';
+
+/**
+ * Expose `repeat`
+ */
+
+module.exports = repeat;
+
+/**
+ * Repeat the given `string` the specified `number`
+ * of times.
+ *
+ * **Example:**
+ *
+ * ```js
+ * var repeat = require('repeat-string');
+ * repeat('A', 5);
+ * //=> AAAAA
+ * ```
+ *
+ * @param {String} `string` The string to repeat
+ * @param {Number} `number` The number of times to repeat the string
+ * @return {String} Repeated string
+ * @api public
+ */
+
+function repeat(str, num) {
+  if (typeof str !== 'string') {
+    throw new TypeError('repeat-string expects a string.');
+  }
+
+  if (num === 1) return str;
+  if (num === 2) return str + str;
+
+  var max = str.length * num;
+  if (cache !== str || typeof cache === 'undefined') {
+    cache = str;
+    res = '';
+  }
+
+  while (max > res.length && num > 0) {
+    if (num & 1) {
+      res += str;
+    }
+
+    num >>= 1;
+    if (!num) break;
+    str += str;
+  }
+
+  return res.substr(0, max);
+}
+
+/**
+ * Results cache
+ */
+
+var res = '';
+var cache;
+
+},{}],238:[function(require,module,exports){
+module.exports = {
+  0: 'NONE',
+  1: 'ONE',
+  2: 'LINE_LOOP',
+  3: 'LINE_STRIP',
+  4: 'TRIANGLES',
+  5: 'TRIANGLE_STRIP',
+  6: 'TRIANGLE_FAN',
+  256: 'DEPTH_BUFFER_BIT',
+  512: 'NEVER',
+  513: 'LESS',
+  514: 'EQUAL',
+  515: 'LEQUAL',
+  516: 'GREATER',
+  517: 'NOTEQUAL',
+  518: 'GEQUAL',
+  519: 'ALWAYS',
+  768: 'SRC_COLOR',
+  769: 'ONE_MINUS_SRC_COLOR',
+  770: 'SRC_ALPHA',
+  771: 'ONE_MINUS_SRC_ALPHA',
+  772: 'DST_ALPHA',
+  773: 'ONE_MINUS_DST_ALPHA',
+  774: 'DST_COLOR',
+  775: 'ONE_MINUS_DST_COLOR',
+  776: 'SRC_ALPHA_SATURATE',
+  1024: 'STENCIL_BUFFER_BIT',
+  1028: 'FRONT',
+  1029: 'BACK',
+  1032: 'FRONT_AND_BACK',
+  1280: 'INVALID_ENUM',
+  1281: 'INVALID_VALUE',
+  1282: 'INVALID_OPERATION',
+  1285: 'OUT_OF_MEMORY',
+  1286: 'INVALID_FRAMEBUFFER_OPERATION',
+  2304: 'CW',
+  2305: 'CCW',
+  2849: 'LINE_WIDTH',
+  2884: 'CULL_FACE',
+  2885: 'CULL_FACE_MODE',
+  2886: 'FRONT_FACE',
+  2928: 'DEPTH_RANGE',
+  2929: 'DEPTH_TEST',
+  2930: 'DEPTH_WRITEMASK',
+  2931: 'DEPTH_CLEAR_VALUE',
+  2932: 'DEPTH_FUNC',
+  2960: 'STENCIL_TEST',
+  2961: 'STENCIL_CLEAR_VALUE',
+  2962: 'STENCIL_FUNC',
+  2963: 'STENCIL_VALUE_MASK',
+  2964: 'STENCIL_FAIL',
+  2965: 'STENCIL_PASS_DEPTH_FAIL',
+  2966: 'STENCIL_PASS_DEPTH_PASS',
+  2967: 'STENCIL_REF',
+  2968: 'STENCIL_WRITEMASK',
+  2978: 'VIEWPORT',
+  3024: 'DITHER',
+  3042: 'BLEND',
+  3088: 'SCISSOR_BOX',
+  3089: 'SCISSOR_TEST',
+  3106: 'COLOR_CLEAR_VALUE',
+  3107: 'COLOR_WRITEMASK',
+  3317: 'UNPACK_ALIGNMENT',
+  3333: 'PACK_ALIGNMENT',
+  3379: 'MAX_TEXTURE_SIZE',
+  3386: 'MAX_VIEWPORT_DIMS',
+  3408: 'SUBPIXEL_BITS',
+  3410: 'RED_BITS',
+  3411: 'GREEN_BITS',
+  3412: 'BLUE_BITS',
+  3413: 'ALPHA_BITS',
+  3414: 'DEPTH_BITS',
+  3415: 'STENCIL_BITS',
+  3553: 'TEXTURE_2D',
+  4352: 'DONT_CARE',
+  4353: 'FASTEST',
+  4354: 'NICEST',
+  5120: 'BYTE',
+  5121: 'UNSIGNED_BYTE',
+  5122: 'SHORT',
+  5123: 'UNSIGNED_SHORT',
+  5124: 'INT',
+  5125: 'UNSIGNED_INT',
+  5126: 'FLOAT',
+  5386: 'INVERT',
+  5890: 'TEXTURE',
+  6401: 'STENCIL_INDEX',
+  6402: 'DEPTH_COMPONENT',
+  6406: 'ALPHA',
+  6407: 'RGB',
+  6408: 'RGBA',
+  6409: 'LUMINANCE',
+  6410: 'LUMINANCE_ALPHA',
+  7680: 'KEEP',
+  7681: 'REPLACE',
+  7682: 'INCR',
+  7683: 'DECR',
+  7936: 'VENDOR',
+  7937: 'RENDERER',
+  7938: 'VERSION',
+  9728: 'NEAREST',
+  9729: 'LINEAR',
+  9984: 'NEAREST_MIPMAP_NEAREST',
+  9985: 'LINEAR_MIPMAP_NEAREST',
+  9986: 'NEAREST_MIPMAP_LINEAR',
+  9987: 'LINEAR_MIPMAP_LINEAR',
+  10240: 'TEXTURE_MAG_FILTER',
+  10241: 'TEXTURE_MIN_FILTER',
+  10242: 'TEXTURE_WRAP_S',
+  10243: 'TEXTURE_WRAP_T',
+  10497: 'REPEAT',
+  10752: 'POLYGON_OFFSET_UNITS',
+  16384: 'COLOR_BUFFER_BIT',
+  32769: 'CONSTANT_COLOR',
+  32770: 'ONE_MINUS_CONSTANT_COLOR',
+  32771: 'CONSTANT_ALPHA',
+  32772: 'ONE_MINUS_CONSTANT_ALPHA',
+  32773: 'BLEND_COLOR',
+  32774: 'FUNC_ADD',
+  32777: 'BLEND_EQUATION_RGB',
+  32778: 'FUNC_SUBTRACT',
+  32779: 'FUNC_REVERSE_SUBTRACT',
+  32819: 'UNSIGNED_SHORT_4_4_4_4',
+  32820: 'UNSIGNED_SHORT_5_5_5_1',
+  32823: 'POLYGON_OFFSET_FILL',
+  32824: 'POLYGON_OFFSET_FACTOR',
+  32854: 'RGBA4',
+  32855: 'RGB5_A1',
+  32873: 'TEXTURE_BINDING_2D',
+  32926: 'SAMPLE_ALPHA_TO_COVERAGE',
+  32928: 'SAMPLE_COVERAGE',
+  32936: 'SAMPLE_BUFFERS',
+  32937: 'SAMPLES',
+  32938: 'SAMPLE_COVERAGE_VALUE',
+  32939: 'SAMPLE_COVERAGE_INVERT',
+  32968: 'BLEND_DST_RGB',
+  32969: 'BLEND_SRC_RGB',
+  32970: 'BLEND_DST_ALPHA',
+  32971: 'BLEND_SRC_ALPHA',
+  33071: 'CLAMP_TO_EDGE',
+  33170: 'GENERATE_MIPMAP_HINT',
+  33189: 'DEPTH_COMPONENT16',
+  33306: 'DEPTH_STENCIL_ATTACHMENT',
+  33635: 'UNSIGNED_SHORT_5_6_5',
+  33648: 'MIRRORED_REPEAT',
+  33901: 'ALIASED_POINT_SIZE_RANGE',
+  33902: 'ALIASED_LINE_WIDTH_RANGE',
+  33984: 'TEXTURE0',
+  33985: 'TEXTURE1',
+  33986: 'TEXTURE2',
+  33987: 'TEXTURE3',
+  33988: 'TEXTURE4',
+  33989: 'TEXTURE5',
+  33990: 'TEXTURE6',
+  33991: 'TEXTURE7',
+  33992: 'TEXTURE8',
+  33993: 'TEXTURE9',
+  33994: 'TEXTURE10',
+  33995: 'TEXTURE11',
+  33996: 'TEXTURE12',
+  33997: 'TEXTURE13',
+  33998: 'TEXTURE14',
+  33999: 'TEXTURE15',
+  34000: 'TEXTURE16',
+  34001: 'TEXTURE17',
+  34002: 'TEXTURE18',
+  34003: 'TEXTURE19',
+  34004: 'TEXTURE20',
+  34005: 'TEXTURE21',
+  34006: 'TEXTURE22',
+  34007: 'TEXTURE23',
+  34008: 'TEXTURE24',
+  34009: 'TEXTURE25',
+  34010: 'TEXTURE26',
+  34011: 'TEXTURE27',
+  34012: 'TEXTURE28',
+  34013: 'TEXTURE29',
+  34014: 'TEXTURE30',
+  34015: 'TEXTURE31',
+  34016: 'ACTIVE_TEXTURE',
+  34024: 'MAX_RENDERBUFFER_SIZE',
+  34041: 'DEPTH_STENCIL',
+  34055: 'INCR_WRAP',
+  34056: 'DECR_WRAP',
+  34067: 'TEXTURE_CUBE_MAP',
+  34068: 'TEXTURE_BINDING_CUBE_MAP',
+  34069: 'TEXTURE_CUBE_MAP_POSITIVE_X',
+  34070: 'TEXTURE_CUBE_MAP_NEGATIVE_X',
+  34071: 'TEXTURE_CUBE_MAP_POSITIVE_Y',
+  34072: 'TEXTURE_CUBE_MAP_NEGATIVE_Y',
+  34073: 'TEXTURE_CUBE_MAP_POSITIVE_Z',
+  34074: 'TEXTURE_CUBE_MAP_NEGATIVE_Z',
+  34076: 'MAX_CUBE_MAP_TEXTURE_SIZE',
+  34338: 'VERTEX_ATTRIB_ARRAY_ENABLED',
+  34339: 'VERTEX_ATTRIB_ARRAY_SIZE',
+  34340: 'VERTEX_ATTRIB_ARRAY_STRIDE',
+  34341: 'VERTEX_ATTRIB_ARRAY_TYPE',
+  34342: 'CURRENT_VERTEX_ATTRIB',
+  34373: 'VERTEX_ATTRIB_ARRAY_POINTER',
+  34466: 'NUM_COMPRESSED_TEXTURE_FORMATS',
+  34467: 'COMPRESSED_TEXTURE_FORMATS',
+  34660: 'BUFFER_SIZE',
+  34661: 'BUFFER_USAGE',
+  34816: 'STENCIL_BACK_FUNC',
+  34817: 'STENCIL_BACK_FAIL',
+  34818: 'STENCIL_BACK_PASS_DEPTH_FAIL',
+  34819: 'STENCIL_BACK_PASS_DEPTH_PASS',
+  34877: 'BLEND_EQUATION_ALPHA',
+  34921: 'MAX_VERTEX_ATTRIBS',
+  34922: 'VERTEX_ATTRIB_ARRAY_NORMALIZED',
+  34930: 'MAX_TEXTURE_IMAGE_UNITS',
+  34962: 'ARRAY_BUFFER',
+  34963: 'ELEMENT_ARRAY_BUFFER',
+  34964: 'ARRAY_BUFFER_BINDING',
+  34965: 'ELEMENT_ARRAY_BUFFER_BINDING',
+  34975: 'VERTEX_ATTRIB_ARRAY_BUFFER_BINDING',
+  35040: 'STREAM_DRAW',
+  35044: 'STATIC_DRAW',
+  35048: 'DYNAMIC_DRAW',
+  35632: 'FRAGMENT_SHADER',
+  35633: 'VERTEX_SHADER',
+  35660: 'MAX_VERTEX_TEXTURE_IMAGE_UNITS',
+  35661: 'MAX_COMBINED_TEXTURE_IMAGE_UNITS',
+  35663: 'SHADER_TYPE',
+  35664: 'FLOAT_VEC2',
+  35665: 'FLOAT_VEC3',
+  35666: 'FLOAT_VEC4',
+  35667: 'INT_VEC2',
+  35668: 'INT_VEC3',
+  35669: 'INT_VEC4',
+  35670: 'BOOL',
+  35671: 'BOOL_VEC2',
+  35672: 'BOOL_VEC3',
+  35673: 'BOOL_VEC4',
+  35674: 'FLOAT_MAT2',
+  35675: 'FLOAT_MAT3',
+  35676: 'FLOAT_MAT4',
+  35678: 'SAMPLER_2D',
+  35680: 'SAMPLER_CUBE',
+  35712: 'DELETE_STATUS',
+  35713: 'COMPILE_STATUS',
+  35714: 'LINK_STATUS',
+  35715: 'VALIDATE_STATUS',
+  35716: 'INFO_LOG_LENGTH',
+  35717: 'ATTACHED_SHADERS',
+  35718: 'ACTIVE_UNIFORMS',
+  35719: 'ACTIVE_UNIFORM_MAX_LENGTH',
+  35720: 'SHADER_SOURCE_LENGTH',
+  35721: 'ACTIVE_ATTRIBUTES',
+  35722: 'ACTIVE_ATTRIBUTE_MAX_LENGTH',
+  35724: 'SHADING_LANGUAGE_VERSION',
+  35725: 'CURRENT_PROGRAM',
+  36003: 'STENCIL_BACK_REF',
+  36004: 'STENCIL_BACK_VALUE_MASK',
+  36005: 'STENCIL_BACK_WRITEMASK',
+  36006: 'FRAMEBUFFER_BINDING',
+  36007: 'RENDERBUFFER_BINDING',
+  36048: 'FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE',
+  36049: 'FRAMEBUFFER_ATTACHMENT_OBJECT_NAME',
+  36050: 'FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL',
+  36051: 'FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE',
+  36053: 'FRAMEBUFFER_COMPLETE',
+  36054: 'FRAMEBUFFER_INCOMPLETE_ATTACHMENT',
+  36055: 'FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT',
+  36057: 'FRAMEBUFFER_INCOMPLETE_DIMENSIONS',
+  36061: 'FRAMEBUFFER_UNSUPPORTED',
+  36064: 'COLOR_ATTACHMENT0',
+  36096: 'DEPTH_ATTACHMENT',
+  36128: 'STENCIL_ATTACHMENT',
+  36160: 'FRAMEBUFFER',
+  36161: 'RENDERBUFFER',
+  36162: 'RENDERBUFFER_WIDTH',
+  36163: 'RENDERBUFFER_HEIGHT',
+  36164: 'RENDERBUFFER_INTERNAL_FORMAT',
+  36168: 'STENCIL_INDEX8',
+  36176: 'RENDERBUFFER_RED_SIZE',
+  36177: 'RENDERBUFFER_GREEN_SIZE',
+  36178: 'RENDERBUFFER_BLUE_SIZE',
+  36179: 'RENDERBUFFER_ALPHA_SIZE',
+  36180: 'RENDERBUFFER_DEPTH_SIZE',
+  36181: 'RENDERBUFFER_STENCIL_SIZE',
+  36194: 'RGB565',
+  36336: 'LOW_FLOAT',
+  36337: 'MEDIUM_FLOAT',
+  36338: 'HIGH_FLOAT',
+  36339: 'LOW_INT',
+  36340: 'MEDIUM_INT',
+  36341: 'HIGH_INT',
+  36346: 'SHADER_COMPILER',
+  36347: 'MAX_VERTEX_UNIFORM_VECTORS',
+  36348: 'MAX_VARYING_VECTORS',
+  36349: 'MAX_FRAGMENT_UNIFORM_VECTORS',
+  37440: 'UNPACK_FLIP_Y_WEBGL',
+  37441: 'UNPACK_PREMULTIPLY_ALPHA_WEBGL',
+  37442: 'CONTEXT_LOST_WEBGL',
+  37443: 'UNPACK_COLORSPACE_CONVERSION_WEBGL',
+  37444: 'BROWSER_DEFAULT_WEBGL'
+}
+
+},{}],239:[function(require,module,exports){
+var gl10 = require('./1.0/numbers')
+
+module.exports = function lookupConstant (number) {
+  return gl10[number]
+}
+
+},{"./1.0/numbers":238}],240:[function(require,module,exports){
+var tokenize = require('glsl-tokenizer')
+var atob     = require('atob-lite')
+
+module.exports = getName
+
+function getName(src) {
+  var tokens = Array.isArray(src)
+    ? src
+    : tokenize(src)
+
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i]
+    if (token.type !== 'preprocessor') continue
+    var match = token.data.match(/\#define\s+SHADER_NAME(_B64)?\s+(.+)$/)
+    if (!match) continue
+    if (!match[2]) continue
+
+    var b64  = match[1]
+    var name = match[2]
+
+    return (b64 ? atob(name) : name).trim()
+  }
+}
+
+},{"atob-lite":241,"glsl-tokenizer":246}],241:[function(require,module,exports){
+module.exports = function _atob(str) {
+  return atob(str)
+}
+
+},{}],242:[function(require,module,exports){
+module.exports = tokenize
+
+var literals = require('./lib/literals')
+  , operators = require('./lib/operators')
+  , builtins = require('./lib/builtins')
+
+var NORMAL = 999          // <-- never emitted
+  , TOKEN = 9999          // <-- never emitted
+  , BLOCK_COMMENT = 0
+  , LINE_COMMENT = 1
+  , PREPROCESSOR = 2
+  , OPERATOR = 3
+  , INTEGER = 4
+  , FLOAT = 5
+  , IDENT = 6
+  , BUILTIN = 7
+  , KEYWORD = 8
+  , WHITESPACE = 9
+  , EOF = 10
+  , HEX = 11
+
+var map = [
+    'block-comment'
+  , 'line-comment'
+  , 'preprocessor'
+  , 'operator'
+  , 'integer'
+  , 'float'
+  , 'ident'
+  , 'builtin'
+  , 'keyword'
+  , 'whitespace'
+  , 'eof'
+  , 'integer'
+]
+
+function tokenize() {
+  var i = 0
+    , total = 0
+    , mode = NORMAL
+    , c
+    , last
+    , content = []
+    , tokens = []
+    , token_idx = 0
+    , token_offs = 0
+    , line = 1
+    , col = 0
+    , start = 0
+    , isnum = false
+    , isoperator = false
+    , input = ''
+    , len
+
+  return function(data) {
+    tokens = []
+    if (data !== null) return write(data)
+    return end()
+  }
+
+  function token(data) {
+    if (data.length) {
+      tokens.push({
+        type: map[mode]
+      , data: data
+      , position: start
+      , line: line
+      , column: col
+      })
+    }
+  }
+
+  function write(chunk) {
+    i = 0
+    input += chunk
+    len = input.length
+
+    var last
+
+    while(c = input[i], i < len) {
+      last = i
+
+      switch(mode) {
+        case BLOCK_COMMENT: i = block_comment(); break
+        case LINE_COMMENT: i = line_comment(); break
+        case PREPROCESSOR: i = preprocessor(); break
+        case OPERATOR: i = operator(); break
+        case INTEGER: i = integer(); break
+        case HEX: i = hex(); break
+        case FLOAT: i = decimal(); break
+        case TOKEN: i = readtoken(); break
+        case WHITESPACE: i = whitespace(); break
+        case NORMAL: i = normal(); break
+      }
+
+      if(last !== i) {
+        switch(input[last]) {
+          case '\n': col = 0; ++line; break
+          default: ++col; break
+        }
+      }
+    }
+
+    total += i
+    input = input.slice(i)
+    return tokens
+  }
+
+  function end(chunk) {
+    if(content.length) {
+      token(content.join(''))
+    }
+
+    mode = EOF
+    token('(eof)')
+    return tokens
+  }
+
+  function normal() {
+    content = content.length ? [] : content
+
+    if(last === '/' && c === '*') {
+      start = total + i - 1
+      mode = BLOCK_COMMENT
+      last = c
+      return i + 1
+    }
+
+    if(last === '/' && c === '/') {
+      start = total + i - 1
+      mode = LINE_COMMENT
+      last = c
+      return i + 1
+    }
+
+    if(c === '#') {
+      mode = PREPROCESSOR
+      start = total + i
+      return i
+    }
+
+    if(/\s/.test(c)) {
+      mode = WHITESPACE
+      start = total + i
+      return i
+    }
+
+    isnum = /\d/.test(c)
+    isoperator = /[^\w_]/.test(c)
+
+    start = total + i
+    mode = isnum ? INTEGER : isoperator ? OPERATOR : TOKEN
+    return i
+  }
+
+  function whitespace() {
+    if(/[^\s]/g.test(c)) {
+      token(content.join(''))
+      mode = NORMAL
+      return i
+    }
+    content.push(c)
+    last = c
+    return i + 1
+  }
+
+  function preprocessor() {
+    if(c === '\n' && last !== '\\') {
+      token(content.join(''))
+      mode = NORMAL
+      return i
+    }
+    content.push(c)
+    last = c
+    return i + 1
+  }
+
+  function line_comment() {
+    return preprocessor()
+  }
+
+  function block_comment() {
+    if(c === '/' && last === '*') {
+      content.push(c)
+      token(content.join(''))
+      mode = NORMAL
+      return i + 1
+    }
+
+    content.push(c)
+    last = c
+    return i + 1
+  }
+
+  function operator() {
+    if(last === '.' && /\d/.test(c)) {
+      mode = FLOAT
+      return i
+    }
+
+    if(last === '/' && c === '*') {
+      mode = BLOCK_COMMENT
+      return i
+    }
+
+    if(last === '/' && c === '/') {
+      mode = LINE_COMMENT
+      return i
+    }
+
+    if(c === '.' && content.length) {
+      while(determine_operator(content));
+
+      mode = FLOAT
+      return i
+    }
+
+    if(c === ';' || c === ')' || c === '(') {
+      if(content.length) while(determine_operator(content));
+      token(c)
+      mode = NORMAL
+      return i + 1
+    }
+
+    var is_composite_operator = content.length === 2 && c !== '='
+    if(/[\w_\d\s]/.test(c) || is_composite_operator) {
+      while(determine_operator(content));
+      mode = NORMAL
+      return i
+    }
+
+    content.push(c)
+    last = c
+    return i + 1
+  }
+
+  function determine_operator(buf) {
+    var j = 0
+      , idx
+      , res
+
+    do {
+      idx = operators.indexOf(buf.slice(0, buf.length + j).join(''))
+      res = operators[idx]
+
+      if(idx === -1) {
+        if(j-- + buf.length > 0) continue
+        res = buf.slice(0, 1).join('')
+      }
+
+      token(res)
+
+      start += res.length
+      content = content.slice(res.length)
+      return content.length
+    } while(1)
+  }
+
+  function hex() {
+    if(/[^a-fA-F0-9]/.test(c)) {
+      token(content.join(''))
+      mode = NORMAL
+      return i
+    }
+
+    content.push(c)
+    last = c
+    return i + 1
+  }
+
+  function integer() {
+    if(c === '.') {
+      content.push(c)
+      mode = FLOAT
+      last = c
+      return i + 1
+    }
+
+    if(/[eE]/.test(c)) {
+      content.push(c)
+      mode = FLOAT
+      last = c
+      return i + 1
+    }
+
+    if(c === 'x' && content.length === 1 && content[0] === '0') {
+      mode = HEX
+      content.push(c)
+      last = c
+      return i + 1
+    }
+
+    if(/[^\d]/.test(c)) {
+      token(content.join(''))
+      mode = NORMAL
+      return i
+    }
+
+    content.push(c)
+    last = c
+    return i + 1
+  }
+
+  function decimal() {
+    if(c === 'f') {
+      content.push(c)
+      last = c
+      i += 1
+    }
+
+    if(/[eE]/.test(c)) {
+      content.push(c)
+      last = c
+      return i + 1
+    }
+
+    if(/[^\d]/.test(c)) {
+      token(content.join(''))
+      mode = NORMAL
+      return i
+    }
+    content.push(c)
+    last = c
+    return i + 1
+  }
+
+  function readtoken() {
+    if(/[^\d\w_]/.test(c)) {
+      var contentstr = content.join('')
+      if(literals.indexOf(contentstr) > -1) {
+        mode = KEYWORD
+      } else if(builtins.indexOf(contentstr) > -1) {
+        mode = BUILTIN
+      } else {
+        mode = IDENT
+      }
+      token(content.join(''))
+      mode = NORMAL
+      return i
+    }
+    content.push(c)
+    last = c
+    return i + 1
+  }
+}
+
+},{"./lib/builtins":243,"./lib/literals":244,"./lib/operators":245}],243:[function(require,module,exports){
+module.exports = [
+    'gl_Position'
+  , 'gl_PointSize'
+  , 'gl_ClipVertex'
+  , 'gl_FragCoord'
+  , 'gl_FrontFacing'
+  , 'gl_FragColor'
+  , 'gl_FragData'
+  , 'gl_FragDepth'
+  , 'gl_Color'
+  , 'gl_SecondaryColor'
+  , 'gl_Normal'
+  , 'gl_Vertex'
+  , 'gl_MultiTexCoord0'
+  , 'gl_MultiTexCoord1'
+  , 'gl_MultiTexCoord2'
+  , 'gl_MultiTexCoord3'
+  , 'gl_MultiTexCoord4'
+  , 'gl_MultiTexCoord5'
+  , 'gl_MultiTexCoord6'
+  , 'gl_MultiTexCoord7'
+  , 'gl_FogCoord'
+  , 'gl_MaxLights'
+  , 'gl_MaxClipPlanes'
+  , 'gl_MaxTextureUnits'
+  , 'gl_MaxTextureCoords'
+  , 'gl_MaxVertexAttribs'
+  , 'gl_MaxVertexUniformComponents'
+  , 'gl_MaxVaryingFloats'
+  , 'gl_MaxVertexTextureImageUnits'
+  , 'gl_MaxCombinedTextureImageUnits'
+  , 'gl_MaxTextureImageUnits'
+  , 'gl_MaxFragmentUniformComponents'
+  , 'gl_MaxDrawBuffers'
+  , 'gl_ModelViewMatrix'
+  , 'gl_ProjectionMatrix'
+  , 'gl_ModelViewProjectionMatrix'
+  , 'gl_TextureMatrix'
+  , 'gl_NormalMatrix'
+  , 'gl_ModelViewMatrixInverse'
+  , 'gl_ProjectionMatrixInverse'
+  , 'gl_ModelViewProjectionMatrixInverse'
+  , 'gl_TextureMatrixInverse'
+  , 'gl_ModelViewMatrixTranspose'
+  , 'gl_ProjectionMatrixTranspose'
+  , 'gl_ModelViewProjectionMatrixTranspose'
+  , 'gl_TextureMatrixTranspose'
+  , 'gl_ModelViewMatrixInverseTranspose'
+  , 'gl_ProjectionMatrixInverseTranspose'
+  , 'gl_ModelViewProjectionMatrixInverseTranspose'
+  , 'gl_TextureMatrixInverseTranspose'
+  , 'gl_NormalScale'
+  , 'gl_DepthRangeParameters'
+  , 'gl_DepthRange'
+  , 'gl_ClipPlane'
+  , 'gl_PointParameters'
+  , 'gl_Point'
+  , 'gl_MaterialParameters'
+  , 'gl_FrontMaterial'
+  , 'gl_BackMaterial'
+  , 'gl_LightSourceParameters'
+  , 'gl_LightSource'
+  , 'gl_LightModelParameters'
+  , 'gl_LightModel'
+  , 'gl_LightModelProducts'
+  , 'gl_FrontLightModelProduct'
+  , 'gl_BackLightModelProduct'
+  , 'gl_LightProducts'
+  , 'gl_FrontLightProduct'
+  , 'gl_BackLightProduct'
+  , 'gl_FogParameters'
+  , 'gl_Fog'
+  , 'gl_TextureEnvColor'
+  , 'gl_EyePlaneS'
+  , 'gl_EyePlaneT'
+  , 'gl_EyePlaneR'
+  , 'gl_EyePlaneQ'
+  , 'gl_ObjectPlaneS'
+  , 'gl_ObjectPlaneT'
+  , 'gl_ObjectPlaneR'
+  , 'gl_ObjectPlaneQ'
+  , 'gl_FrontColor'
+  , 'gl_BackColor'
+  , 'gl_FrontSecondaryColor'
+  , 'gl_BackSecondaryColor'
+  , 'gl_TexCoord'
+  , 'gl_FogFragCoord'
+  , 'gl_Color'
+  , 'gl_SecondaryColor'
+  , 'gl_TexCoord'
+  , 'gl_FogFragCoord'
+  , 'gl_PointCoord'
+  , 'radians'
+  , 'degrees'
+  , 'sin'
+  , 'cos'
+  , 'tan'
+  , 'asin'
+  , 'acos'
+  , 'atan'
+  , 'pow'
+  , 'exp'
+  , 'log'
+  , 'exp2'
+  , 'log2'
+  , 'sqrt'
+  , 'inversesqrt'
+  , 'abs'
+  , 'sign'
+  , 'floor'
+  , 'ceil'
+  , 'fract'
+  , 'mod'
+  , 'min'
+  , 'max'
+  , 'clamp'
+  , 'mix'
+  , 'step'
+  , 'smoothstep'
+  , 'length'
+  , 'distance'
+  , 'dot'
+  , 'cross'
+  , 'normalize'
+  , 'faceforward'
+  , 'reflect'
+  , 'refract'
+  , 'matrixCompMult'
+  , 'lessThan'
+  , 'lessThanEqual'
+  , 'greaterThan'
+  , 'greaterThanEqual'
+  , 'equal'
+  , 'notEqual'
+  , 'any'
+  , 'all'
+  , 'not'
+  , 'texture2D'
+  , 'texture2DProj'
+  , 'texture2DLod'
+  , 'texture2DProjLod'
+  , 'textureCube'
+  , 'textureCubeLod'
+  , 'dFdx'
+  , 'dFdy'
+]
+
+},{}],244:[function(require,module,exports){
+module.exports = [
+  // current
+    'precision'
+  , 'highp'
+  , 'mediump'
+  , 'lowp'
+  , 'attribute'
+  , 'const'
+  , 'uniform'
+  , 'varying'
+  , 'break'
+  , 'continue'
+  , 'do'
+  , 'for'
+  , 'while'
+  , 'if'
+  , 'else'
+  , 'in'
+  , 'out'
+  , 'inout'
+  , 'float'
+  , 'int'
+  , 'void'
+  , 'bool'
+  , 'true'
+  , 'false'
+  , 'discard'
+  , 'return'
+  , 'mat2'
+  , 'mat3'
+  , 'mat4'
+  , 'vec2'
+  , 'vec3'
+  , 'vec4'
+  , 'ivec2'
+  , 'ivec3'
+  , 'ivec4'
+  , 'bvec2'
+  , 'bvec3'
+  , 'bvec4'
+  , 'sampler1D'
+  , 'sampler2D'
+  , 'sampler3D'
+  , 'samplerCube'
+  , 'sampler1DShadow'
+  , 'sampler2DShadow'
+  , 'struct'
+
+  // future
+  , 'asm'
+  , 'class'
+  , 'union'
+  , 'enum'
+  , 'typedef'
+  , 'template'
+  , 'this'
+  , 'packed'
+  , 'goto'
+  , 'switch'
+  , 'default'
+  , 'inline'
+  , 'noinline'
+  , 'volatile'
+  , 'public'
+  , 'static'
+  , 'extern'
+  , 'external'
+  , 'interface'
+  , 'long'
+  , 'short'
+  , 'double'
+  , 'half'
+  , 'fixed'
+  , 'unsigned'
+  , 'input'
+  , 'output'
+  , 'hvec2'
+  , 'hvec3'
+  , 'hvec4'
+  , 'dvec2'
+  , 'dvec3'
+  , 'dvec4'
+  , 'fvec2'
+  , 'fvec3'
+  , 'fvec4'
+  , 'sampler2DRect'
+  , 'sampler3DRect'
+  , 'sampler2DRectShadow'
+  , 'sizeof'
+  , 'cast'
+  , 'namespace'
+  , 'using'
+]
+
+},{}],245:[function(require,module,exports){
+module.exports = [
+    '<<='
+  , '>>='
+  , '++'
+  , '--'
+  , '<<'
+  , '>>'
+  , '<='
+  , '>='
+  , '=='
+  , '!='
+  , '&&'
+  , '||'
+  , '+='
+  , '-='
+  , '*='
+  , '/='
+  , '%='
+  , '&='
+  , '^^'
+  , '^='
+  , '|='
+  , '('
+  , ')'
+  , '['
+  , ']'
+  , '.'
+  , '!'
+  , '~'
+  , '*'
+  , '/'
+  , '%'
+  , '+'
+  , '-'
+  , '<'
+  , '>'
+  , '&'
+  , '^'
+  , '|'
+  , '?'
+  , ':'
+  , '='
+  , ','
+  , ';'
+  , '{'
+  , '}'
+]
+
+},{}],246:[function(require,module,exports){
+var tokenize = require('./index')
+
+module.exports = tokenizeString
+
+function tokenizeString(str) {
+  var generator = tokenize()
+  var tokens = []
+
+  tokens = tokens.concat(generator(str))
+  tokens = tokens.concat(generator(null))
+
+  return tokens
+}
+
+},{"./index":242}],247:[function(require,module,exports){
+(function(window) {
+    var re = {
+        not_string: /[^s]/,
+        number: /[diefg]/,
+        json: /[j]/,
+        not_json: /[^j]/,
+        text: /^[^\x25]+/,
+        modulo: /^\x25{2}/,
+        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijosuxX])/,
+        key: /^([a-z_][a-z_\d]*)/i,
+        key_access: /^\.([a-z_][a-z_\d]*)/i,
+        index_access: /^\[(\d+)\]/,
+        sign: /^[\+\-]/
+    }
+
+    function sprintf() {
+        var key = arguments[0], cache = sprintf.cache
+        if (!(cache[key] && cache.hasOwnProperty(key))) {
+            cache[key] = sprintf.parse(key)
+        }
+        return sprintf.format.call(null, cache[key], arguments)
+    }
+
+    sprintf.format = function(parse_tree, argv) {
+        var cursor = 1, tree_length = parse_tree.length, node_type = "", arg, output = [], i, k, match, pad, pad_character, pad_length, is_positive = true, sign = ""
+        for (i = 0; i < tree_length; i++) {
+            node_type = get_type(parse_tree[i])
+            if (node_type === "string") {
+                output[output.length] = parse_tree[i]
+            }
+            else if (node_type === "array") {
+                match = parse_tree[i] // convenience purposes only
+                if (match[2]) { // keyword argument
+                    arg = argv[cursor]
+                    for (k = 0; k < match[2].length; k++) {
+                        if (!arg.hasOwnProperty(match[2][k])) {
+                            throw new Error(sprintf("[sprintf] property '%s' does not exist", match[2][k]))
+                        }
+                        arg = arg[match[2][k]]
+                    }
+                }
+                else if (match[1]) { // positional argument (explicit)
+                    arg = argv[match[1]]
+                }
+                else { // positional argument (implicit)
+                    arg = argv[cursor++]
+                }
+
+                if (get_type(arg) == "function") {
+                    arg = arg()
+                }
+
+                if (re.not_string.test(match[8]) && re.not_json.test(match[8]) && (get_type(arg) != "number" && isNaN(arg))) {
+                    throw new TypeError(sprintf("[sprintf] expecting number but found %s", get_type(arg)))
+                }
+
+                if (re.number.test(match[8])) {
+                    is_positive = arg >= 0
+                }
+
+                switch (match[8]) {
+                    case "b":
+                        arg = arg.toString(2)
+                    break
+                    case "c":
+                        arg = String.fromCharCode(arg)
+                    break
+                    case "d":
+                    case "i":
+                        arg = parseInt(arg, 10)
+                    break
+                    case "j":
+                        arg = JSON.stringify(arg, null, match[6] ? parseInt(match[6]) : 0)
+                    break
+                    case "e":
+                        arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential()
+                    break
+                    case "f":
+                        arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg)
+                    break
+                    case "g":
+                        arg = match[7] ? parseFloat(arg).toPrecision(match[7]) : parseFloat(arg)
+                    break
+                    case "o":
+                        arg = arg.toString(8)
+                    break
+                    case "s":
+                        arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg)
+                    break
+                    case "u":
+                        arg = arg >>> 0
+                    break
+                    case "x":
+                        arg = arg.toString(16)
+                    break
+                    case "X":
+                        arg = arg.toString(16).toUpperCase()
+                    break
+                }
+                if (re.json.test(match[8])) {
+                    output[output.length] = arg
+                }
+                else {
+                    if (re.number.test(match[8]) && (!is_positive || match[3])) {
+                        sign = is_positive ? "+" : "-"
+                        arg = arg.toString().replace(re.sign, "")
+                    }
+                    else {
+                        sign = ""
+                    }
+                    pad_character = match[4] ? match[4] === "0" ? "0" : match[4].charAt(1) : " "
+                    pad_length = match[6] - (sign + arg).length
+                    pad = match[6] ? (pad_length > 0 ? str_repeat(pad_character, pad_length) : "") : ""
+                    output[output.length] = match[5] ? sign + arg + pad : (pad_character === "0" ? sign + pad + arg : pad + sign + arg)
+                }
+            }
+        }
+        return output.join("")
+    }
+
+    sprintf.cache = {}
+
+    sprintf.parse = function(fmt) {
+        var _fmt = fmt, match = [], parse_tree = [], arg_names = 0
+        while (_fmt) {
+            if ((match = re.text.exec(_fmt)) !== null) {
+                parse_tree[parse_tree.length] = match[0]
+            }
+            else if ((match = re.modulo.exec(_fmt)) !== null) {
+                parse_tree[parse_tree.length] = "%"
+            }
+            else if ((match = re.placeholder.exec(_fmt)) !== null) {
+                if (match[2]) {
+                    arg_names |= 1
+                    var field_list = [], replacement_field = match[2], field_match = []
+                    if ((field_match = re.key.exec(replacement_field)) !== null) {
+                        field_list[field_list.length] = field_match[1]
+                        while ((replacement_field = replacement_field.substring(field_match[0].length)) !== "") {
+                            if ((field_match = re.key_access.exec(replacement_field)) !== null) {
+                                field_list[field_list.length] = field_match[1]
+                            }
+                            else if ((field_match = re.index_access.exec(replacement_field)) !== null) {
+                                field_list[field_list.length] = field_match[1]
+                            }
+                            else {
+                                throw new SyntaxError("[sprintf] failed to parse named argument key")
+                            }
+                        }
+                    }
+                    else {
+                        throw new SyntaxError("[sprintf] failed to parse named argument key")
+                    }
+                    match[2] = field_list
+                }
+                else {
+                    arg_names |= 2
+                }
+                if (arg_names === 3) {
+                    throw new Error("[sprintf] mixing positional and named placeholders is not (yet) supported")
+                }
+                parse_tree[parse_tree.length] = match
+            }
+            else {
+                throw new SyntaxError("[sprintf] unexpected placeholder")
+            }
+            _fmt = _fmt.substring(match[0].length)
+        }
+        return parse_tree
+    }
+
+    var vsprintf = function(fmt, argv, _argv) {
+        _argv = (argv || []).slice(0)
+        _argv.splice(0, 0, fmt)
+        return sprintf.apply(null, _argv)
+    }
+
+    /**
+     * helpers
+     */
+    function get_type(variable) {
+        return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase()
+    }
+
+    function str_repeat(input, multiplier) {
+        return Array(multiplier + 1).join(input)
+    }
+
+    /**
+     * export to either browser or node.js
+     */
+    if (typeof exports !== "undefined") {
+        exports.sprintf = sprintf
+        exports.vsprintf = vsprintf
+    }
+    else {
+        window.sprintf = sprintf
+        window.vsprintf = vsprintf
+
+        if (typeof define === "function" && define.amd) {
+            define(function() {
+                return {
+                    sprintf: sprintf,
+                    vsprintf: vsprintf
+                }
+            })
+        }
+    }
+})(typeof window === "undefined" ? this : window);
+
+},{}],248:[function(require,module,exports){
+var hiddenStore = require('./hidden-store.js');
+
+module.exports = createStore;
+
+function createStore() {
+    var key = {};
+
+    return function (obj) {
+        if ((typeof obj !== 'object' || obj === null) &&
+            typeof obj !== 'function'
+        ) {
+            throw new Error('Weakmap-shim: Key must be object')
+        }
+
+        var store = obj.valueOf(key);
+        return store && store.identity === key ?
+            store : hiddenStore(obj, key);
+    };
+}
+
+},{"./hidden-store.js":249}],249:[function(require,module,exports){
+module.exports = hiddenStore;
+
+function hiddenStore(obj, key) {
+    var store = { identity: key };
+    var valueOf = obj.valueOf;
+
+    Object.defineProperty(obj, "valueOf", {
+        value: function (value) {
+            return value !== key ?
+                valueOf.apply(this, arguments) : store;
+        },
+        writable: true
+    });
+
+    return store;
+}
+
+},{}],250:[function(require,module,exports){
+// Original - @Gozola. 
+// https://gist.github.com/Gozala/1269991
+// This is a reimplemented version (with a few bug fixes).
+
+var createStore = require('./create-store.js');
+
+module.exports = weakMap;
+
+function weakMap() {
+    var privates = createStore();
+
+    return {
+        'get': function (key, fallback) {
+            var store = privates(key)
+            return store.hasOwnProperty('value') ?
+                store.value : fallback
+        },
+        'set': function (key, value) {
+            privates(key).value = value;
+        },
+        'has': function(key) {
+            return 'value' in privates(key);
+        },
+        'delete': function (key) {
+            return delete privates(key).value;
+        }
+    }
+}
+
+},{"./create-store.js":248}],251:[function(require,module,exports){
 var ArtPackArchive, ArtPacks, EventEmitter, ZIP, arrayBufferToString, binaryXHR, fs, getFrames, getPixels, graycolorize, path, savePixels, splitNamespace,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -30144,7 +30347,7 @@ module.exports = function(opts) {
   return new ArtPacks(opts);
 };
 
-},{"binary-xhr":178,"events":21,"fs":1,"get-pixels":180,"graycolorize":193,"mcmeta":197,"path":25,"save-pixels":218,"zip":234}],178:[function(require,module,exports){
+},{"binary-xhr":252,"events":21,"fs":1,"get-pixels":254,"graycolorize":265,"mcmeta":267,"path":25,"save-pixels":328,"zip":284}],252:[function(require,module,exports){
 var inherits = require('inherits')
 
 module.exports = function(url, cb) {
@@ -30172,7 +30375,7 @@ function BinaryXHR(url, cb) {
   xhr.send(null)
 }
 
-},{"inherits":179}],179:[function(require,module,exports){
+},{"inherits":253}],253:[function(require,module,exports){
 module.exports = inherits
 
 function inherits (c, p, proto) {
@@ -30203,7 +30406,7 @@ function inherits (c, p, proto) {
 //inherits(Child, Parent)
 //new Child
 
-},{}],180:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 "use strict"
 
 var path = require("path")
@@ -30330,7 +30533,7 @@ module.exports = function getPixels(url, cb) {
   }
 }
 
-},{"ndarray":187,"ndarray-pack":181,"omggif":189,"path":25,"ppm":191,"through":192}],181:[function(require,module,exports){
+},{"ndarray":122,"ndarray-pack":255,"omggif":261,"path":25,"ppm":263,"through":264}],255:[function(require,module,exports){
 "use strict"
 
 var ndarray = require("ndarray")
@@ -30353,10 +30556,10 @@ module.exports = function convert(arr, result) {
   return result
 }
 
-},{"./doConvert.js":182,"ndarray":187}],182:[function(require,module,exports){
+},{"./doConvert.js":256,"ndarray":122}],256:[function(require,module,exports){
 module.exports=require('cwise-compiler')({"args":["array","scalar","index"],"pre":{"body":"{}","args":[],"thisVars":[],"localVars":[]},"body":{"body":"{\nvar _inline_1_v=_inline_1_arg1_,_inline_1_i\nfor(_inline_1_i=0;_inline_1_i<_inline_1_arg2_.length-1;++_inline_1_i) {\n_inline_1_v=_inline_1_v[_inline_1_arg2_[_inline_1_i]]\n}\n_inline_1_arg0_=_inline_1_v[_inline_1_arg2_[_inline_1_arg2_.length-1]]\n}","args":[{"name":"_inline_1_arg0_","lvalue":true,"rvalue":false,"count":1},{"name":"_inline_1_arg1_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_1_arg2_","lvalue":false,"rvalue":true,"count":4}],"thisVars":[],"localVars":["_inline_1_i","_inline_1_v"]},"post":{"body":"{}","args":[],"thisVars":[],"localVars":[]},"funcName":"convert","blockSize":64})
 
-},{"cwise-compiler":183}],183:[function(require,module,exports){
+},{"cwise-compiler":257}],257:[function(require,module,exports){
 "use strict"
 
 var createThunk = require("./lib/thunk.js")
@@ -30365,6 +30568,7 @@ function Procedure() {
   this.argTypes = []
   this.shimArgs = []
   this.arrayArgs = []
+  this.arrayBlockIndices = []
   this.scalarArgs = []
   this.offsetArgs = []
   this.offsetArgIndex = []
@@ -30388,11 +30592,13 @@ function compileCwise(user_args) {
 
   //Parse arguments
   var proc_args = user_args.args.slice(0)
-  proc.argTypes = proc_args.slice(0)
+  proc.argTypes = proc_args
   for(var i=0; i<proc_args.length; ++i) {
     var arg_type = proc_args[i]
-    if(arg_type === "array") {
+    if(arg_type === "array" || (typeof arg_type === "object" && arg_type.blockIndices)) {
+      proc.argTypes[i] = "array"
       proc.arrayArgs.push(i)
+      proc.arrayBlockIndices.push(arg_type.blockIndices ? arg_type.blockIndices : 0)
       proc.shimArgs.push("array" + i)
       if(i < proc.pre.args.length && proc.pre.args[i].count>0) {
         throw new Error("cwise: pre() block may not reference array args")
@@ -30464,11 +30670,13 @@ function compileCwise(user_args) {
 
 module.exports = compileCwise
 
-},{"./lib/thunk.js":185}],184:[function(require,module,exports){
+},{"./lib/thunk.js":259}],258:[function(require,module,exports){
 "use strict"
 
 var uniq = require("uniq")
 
+// This function generates very simple loops analogous to how you typically traverse arrays (the outermost loop corresponds to the slowest changing index, the innermost loop to the fastest changing index)
+// TODO: If two arrays have the same strides (and offsets) there is potential for decreasing the number of "pointers" and related variables. The drawback is that the type signature would become more specific and that there would thus be less potential for caching, but it might still be worth it, especially when dealing with large numbers of arguments.
 function innerFill(order, proc, body) {
   var dimension = order.length
     , nargs = proc.arrayArgs.length
@@ -30476,7 +30684,7 @@ function innerFill(order, proc, body) {
     , code = []
     , vars = []
     , idx=0, pidx=0, i, j
-  for(i=0; i<dimension; ++i) {
+  for(i=0; i<dimension; ++i) { // Iteration variables
     vars.push(["i",i,"=0"].join(""))
   }
   //Compute scan deltas
@@ -30484,16 +30692,16 @@ function innerFill(order, proc, body) {
     for(i=0; i<dimension; ++i) {
       pidx = idx
       idx = order[i]
-      if(i === 0) {
-        vars.push(["d",j,"s",i,"=t",j,"[",idx,"]"].join(""))
-      } else {
-        vars.push(["d",j,"s",i,"=(t",j,"[",idx,"]-s",pidx,"*t",j,"[",pidx,"])"].join(""))
+      if(i === 0) { // The innermost/fastest dimension's delta is simply its stride
+        vars.push(["d",j,"s",i,"=t",j,"p",idx].join(""))
+      } else { // For other dimensions the delta is basically the stride minus something which essentially "rewinds" the previous (more inner) dimension
+        vars.push(["d",j,"s",i,"=(t",j,"p",idx,"-s",pidx,"*t",j,"p",pidx,")"].join(""))
       }
     }
   }
   code.push("var " + vars.join(","))
   //Scan loop
-  for(i=dimension-1; i>=0; --i) {
+  for(i=dimension-1; i>=0; --i) { // Start at largest stride and work your way inwards
     idx = order[i]
     code.push(["for(i",i,"=0;i",i,"<s",idx,";++i",i,"){"].join(""))
   }
@@ -30517,6 +30725,9 @@ function innerFill(order, proc, body) {
   return code.join("\n")
 }
 
+// Generate "outer" loops that loop over blocks of data, applying "inner" loops to the blocks by manipulating the local variables in such a way that the inner loop only "sees" the current block.
+// TODO: If this is used, then the previous declaration (done by generateCwiseOp) of s* is essentially unnecessary.
+//       I believe the s* are not used elsewhere (in particular, I don't think they're used in the pre/post parts and "shape" is defined independently), so it would be possible to make defining the s* dependent on what loop method is being used.
 function outerFill(matched, order, proc, body) {
   var dimension = order.length
     , nargs = proc.arrayArgs.length
@@ -30526,10 +30737,12 @@ function outerFill(matched, order, proc, body) {
   for(var i=0; i<nargs; ++i) {
     code.push(["var offset",i,"=p",i].join(""))
   }
-  //Generate matched loops
+  //Generate loops for unmatched dimensions
+  // The order in which these dimensions are traversed is fairly arbitrary (from small stride to large stride, for the first argument)
+  // TODO: It would be nice if the order in which these loops are placed would also be somehow "optimal" (at the very least we should check that it really doesn't hurt us if they're not).
   for(var i=matched; i<dimension; ++i) {
-    code.push(["for(var j"+i+"=SS[", order[i], "]|0;j", i, ">0;){"].join(""))
-    code.push(["if(j",i,"<",blockSize,"){"].join(""))
+    code.push(["for(var j"+i+"=SS[", order[i], "]|0;j", i, ">0;){"].join("")) // Iterate back to front
+    code.push(["if(j",i,"<",blockSize,"){"].join("")) // Either decrease j by blockSize (s = blockSize), or set it to zero (after setting s = j).
     code.push(["s",order[i],"=j",i].join(""))
     code.push(["j",i,"=0"].join(""))
     code.push(["}else{s",order[i],"=",blockSize].join(""))
@@ -30541,7 +30754,7 @@ function outerFill(matched, order, proc, body) {
   for(var i=0; i<nargs; ++i) {
     var indexStr = ["offset"+i]
     for(var j=matched; j<dimension; ++j) {
-      indexStr.push(["j",j,"*t",i,"[",order[j],"]"].join(""))
+      indexStr.push(["j",j,"*t",i,"p",order[j]].join(""))
     }
     code.push(["p",i,"=(",indexStr.join("+"),")"].join(""))
   }
@@ -30553,6 +30766,9 @@ function outerFill(matched, order, proc, body) {
 }
 
 //Count the number of compatible inner orders
+// This is the length of the longest common prefix of the arrays in orders.
+// Each array in orders lists the dimensions of the correspond ndarray in order of increasing stride.
+// This is thus the maximum number of dimensions that can be efficiently traversed by simple nested loops for all arrays.
 function countMatches(orders) {
   var matched = 0, dimension = orders[0].length
   while(matched < dimension) {
@@ -30567,6 +30783,7 @@ function countMatches(orders) {
 }
 
 //Processes a block according to the given data types
+// Replaces variable names by different ones, either "local" ones (that are then ferried in and out of the given array) or ones matching the arguments that the function performing the ultimate loop will accept.
 function processBlock(block, proc, dtypes) {
   var code = block.body
   var pre = []
@@ -30584,34 +30801,57 @@ function processBlock(block, proc, dtypes) {
         var offArgIndex = proc.offsetArgIndex.indexOf(i)
         var offArg = proc.offsetArgs[offArgIndex]
         arrNum = offArg.array
-        ptrStr = "+q" + offArgIndex
+        ptrStr = "+q" + offArgIndex // Adds offset to the "pointer" in the array
       case "array":
         ptrStr = "p" + arrNum + ptrStr
         var localStr = "l" + i
         var arrStr = "a" + arrNum
-        if(carg.count === 1) {
-          if(dtypes[arrNum] === "generic") {
+        if (proc.arrayBlockIndices[arrNum] === 0) { // Argument to body is just a single value from this array
+          if(carg.count === 1) { // Argument/array used only once(?)
+            if(dtypes[arrNum] === "generic") {
+              if(carg.lvalue) {
+                pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join("")) // Is this necessary if the argument is ONLY used as an lvalue? (keep in mind that we can have a += something, so we would actually need to check carg.rvalue)
+                code = code.replace(re, localStr)
+                post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
+              } else {
+                code = code.replace(re, [arrStr, ".get(", ptrStr, ")"].join(""))
+              }
+            } else {
+              code = code.replace(re, [arrStr, "[", ptrStr, "]"].join(""))
+            }
+          } else if(dtypes[arrNum] === "generic") {
+            pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join("")) // TODO: Could we optimize by checking for carg.rvalue?
+            code = code.replace(re, localStr)
             if(carg.lvalue) {
-              pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join(""))
+              post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
+            }
+          } else {
+            pre.push(["var ", localStr, "=", arrStr, "[", ptrStr, "]"].join("")) // TODO: Could we optimize by checking for carg.rvalue?
+            code = code.replace(re, localStr)
+            if(carg.lvalue) {
+              post.push([arrStr, "[", ptrStr, "]=", localStr].join(""))
+            }
+          }
+        } else { // Argument to body is a "block"
+          var reStrArr = [carg.name], ptrStrArr = [ptrStr]
+          for(var j=0; j<Math.abs(proc.arrayBlockIndices[arrNum]); j++) {
+            reStrArr.push("\\s*\\[([^\\]]+)\\]")
+            ptrStrArr.push("$" + (j+1) + "*t" + arrNum + "b" + j) // Matched index times stride
+          }
+          re = new RegExp(reStrArr.join(""), "g")
+          ptrStr = ptrStrArr.join("+")
+          if(dtypes[arrNum] === "generic") {
+            /*if(carg.lvalue) {
+              pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join("")) // Is this necessary if the argument is ONLY used as an lvalue? (keep in mind that we can have a += something, so we would actually need to check carg.rvalue)
               code = code.replace(re, localStr)
               post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
             } else {
               code = code.replace(re, [arrStr, ".get(", ptrStr, ")"].join(""))
-            }
+            }*/
+            throw new Error("cwise: Generic arrays not supported in combination with blocks!")
           } else {
+            // This does not produce any local variables, even if variables are used multiple times. It would be possible to do so, but it would complicate things quite a bit.
             code = code.replace(re, [arrStr, "[", ptrStr, "]"].join(""))
-          }
-        } else if(dtypes[arrNum] === "generic") {
-          pre.push(["var ", localStr, "=", arrStr, ".get(", ptrStr, ")"].join(""))
-          code = code.replace(re, localStr)
-          if(carg.lvalue) {
-            post.push([arrStr, ".set(", ptrStr, ",", localStr,")"].join(""))
-          }
-        } else {
-          pre.push(["var ", localStr, "=", arrStr, "[", ptrStr, "]"].join(""))
-          code = code.replace(re, localStr)
-          if(carg.lvalue) {
-            post.push([arrStr, "[", ptrStr, "]=", localStr].join(""))
           }
         }
       break
@@ -30659,54 +30899,91 @@ function typeSummary(dtypes) {
 function generateCWiseOp(proc, typesig) {
 
   //Compute dimension
-  var dimension = typesig[1].length|0
+  // Arrays get put first in typesig, and there are two entries per array (dtype and order), so this gets the number of dimensions in the first array arg.
+  var dimension = (typesig[1].length - Math.abs(proc.arrayBlockIndices[0]))|0
   var orders = new Array(proc.arrayArgs.length)
   var dtypes = new Array(proc.arrayArgs.length)
+  for(var i=0; i<proc.arrayArgs.length; ++i) {
+    dtypes[i] = typesig[2*i]
+    orders[i] = typesig[2*i+1]
+  }
+  
+  //Determine where block and loop indices start and end
+  var blockBegin = [], blockEnd = [] // These indices are exposed as blocks
+  var loopBegin = [], loopEnd = [] // These indices are iterated over
+  var loopOrders = [] // orders restricted to the loop indices
+  for(var i=0; i<proc.arrayArgs.length; ++i) {
+    if (proc.arrayBlockIndices[i]<0) {
+      loopBegin.push(0)
+      loopEnd.push(dimension)
+      blockBegin.push(dimension)
+      blockEnd.push(dimension+proc.arrayBlockIndices[i])
+    } else {
+      loopBegin.push(proc.arrayBlockIndices[i]) // Non-negative
+      loopEnd.push(proc.arrayBlockIndices[i]+dimension)
+      blockBegin.push(0)
+      blockEnd.push(proc.arrayBlockIndices[i])
+    }
+    var newOrder = []
+    for(var j=0; j<orders[i].length; j++) {
+      if (loopBegin[i]<=orders[i][j] && orders[i][j]<loopEnd[i]) {
+        newOrder.push(orders[i][j]-loopBegin[i]) // If this is a loop index, put it in newOrder, subtracting loopBegin, to make sure that all loopOrders are using a common set of indices.
+      }
+    }
+    loopOrders.push(newOrder)
+  }
 
   //First create arguments for procedure
-  var arglist = ["SS"]
+  var arglist = ["SS"] // SS is the overall shape over which we iterate
   var code = ["'use strict'"]
   var vars = []
   
   for(var j=0; j<dimension; ++j) {
-    vars.push(["s", j, "=SS[", j, "]"].join(""))
+    vars.push(["s", j, "=SS[", j, "]"].join("")) // The limits for each dimension.
   }
   for(var i=0; i<proc.arrayArgs.length; ++i) {
-    arglist.push("a"+i)
-    arglist.push("t"+i)
-    arglist.push("p"+i)
-    dtypes[i] = typesig[2*i]
-    orders[i] = typesig[2*i+1]
+    arglist.push("a"+i) // Actual data array
+    arglist.push("t"+i) // Strides
+    arglist.push("p"+i) // Offset in the array at which the data starts (also used for iterating over the data)
+    
+    for(var j=0; j<dimension; ++j) { // Unpack the strides into vars for looping
+      vars.push(["t",i,"p",j,"=t",i,"[",loopBegin[i]+j,"]"].join(""))
+    }
+    
+    for(var j=0; j<Math.abs(proc.arrayBlockIndices[i]); ++j) { // Unpack the strides into vars for block iteration
+      vars.push(["t",i,"b",j,"=t",i,"[",blockBegin[i]+j,"]"].join(""))
+    }
   }
   for(var i=0; i<proc.scalarArgs.length; ++i) {
     arglist.push("Y" + i)
   }
   if(proc.shapeArgs.length > 0) {
-    vars.push("shape=SS.slice(0)")
+    vars.push("shape=SS.slice(0)") // Makes the shape over which we iterate available to the user defined functions (so you can use width/height for example)
   }
   if(proc.indexArgs.length > 0) {
+    // Prepare an array to keep track of the (logical) indices, initialized to dimension zeroes.
     var zeros = new Array(dimension)
     for(var i=0; i<dimension; ++i) {
       zeros[i] = "0"
     }
     vars.push(["index=[", zeros.join(","), "]"].join(""))
   }
-  for(var i=0; i<proc.offsetArgs.length; ++i) {
+  for(var i=0; i<proc.offsetArgs.length; ++i) { // Offset arguments used for stencil operations
     var off_arg = proc.offsetArgs[i]
     var init_string = []
     for(var j=0; j<off_arg.offset.length; ++j) {
       if(off_arg.offset[j] === 0) {
         continue
       } else if(off_arg.offset[j] === 1) {
-        init_string.push(["t", off_arg.array, "[", j, "]"].join(""))      
+        init_string.push(["t", off_arg.array, "p", j].join(""))      
       } else {
-        init_string.push([off_arg.offset[j], "*t", off_arg.array, "[", j, "]"].join(""))
+        init_string.push([off_arg.offset[j], "*t", off_arg.array, "p", j].join(""))
       }
     }
     if(init_string.length === 0) {
       vars.push("q" + i + "=0")
     } else {
-      vars.push(["q", i, "=(", init_string.join("+"),")|0"].join(""))
+      vars.push(["q", i, "=", init_string.join("+")].join(""))
     }
   }
 
@@ -30727,11 +31004,11 @@ function generateCWiseOp(proc, typesig) {
 
   //Process body
   var body = processBlock(proc.body, proc, dtypes)
-  var matched = countMatches(orders)
+  var matched = countMatches(loopOrders)
   if(matched < dimension) {
-    code.push(outerFill(matched, orders[0], proc, body))
+    code.push(outerFill(matched, loopOrders[0], proc, body)) // TODO: Rather than passing loopOrders[0], it might be interesting to look at passing an order that represents the majority of the arguments for example.
   } else {
-    code.push(innerFill(orders[0], proc, body))
+    code.push(innerFill(loopOrders[0], proc, body))
   }
 
   //Inline epilog
@@ -30740,7 +31017,7 @@ function generateCWiseOp(proc, typesig) {
   }
   
   if(proc.debug) {
-    console.log("Generated cwise routine for ", typesig, ":\n\n", code.join("\n"))
+    console.log("-----Generated cwise routine for ", typesig, ":\n" + code.join("\n") + "\n----------")
   }
   
   var loopName = [(proc.funcName||"unnamed"), "_cwise_loop_", orders[0].join("s"),"m",matched,typeSummary(dtypes)].join("")
@@ -30748,417 +31025,98 @@ function generateCWiseOp(proc, typesig) {
   return f()
 }
 module.exports = generateCWiseOp
-},{"uniq":186}],185:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":184,"dup":117}],186:[function(require,module,exports){
+
+},{"uniq":260}],259:[function(require,module,exports){
 "use strict"
 
-function unique_pred(list, compare) {
-  var ptr = 1
-    , len = list.length
-    , a=list[0], b=list[0]
-  for(var i=1; i<len; ++i) {
-    b = a
-    a = list[i]
-    if(compare(a, b)) {
-      if(i === ptr) {
-        ptr++
-        continue
-      }
-      list[ptr++] = a
+// The function below is called when constructing a cwise function object, and does the following:
+// A function object is constructed which accepts as argument a compilation function and returns another function.
+// It is this other function that is eventually returned by createThunk, and this function is the one that actually
+// checks whether a certain pattern of arguments has already been used before and compiles new loops as needed.
+// The compilation passed to the first function object is used for compiling new functions.
+// Once this function object is created, it is called with compile as argument, where the first argument of compile
+// is bound to "proc" (essentially containing a preprocessed version of the user arguments to cwise).
+// So createThunk roughly works like this:
+// function createThunk(proc) {
+//   var thunk = function(compileBound) {
+//     var CACHED = {}
+//     return function(arrays and scalars) {
+//       if (dtype and order of arrays in CACHED) {
+//         var func = CACHED[dtype and order of arrays]
+//       } else {
+//         var func = CACHED[dtype and order of arrays] = compileBound(dtype and order of arrays)
+//       }
+//       return func(arrays and scalars)
+//     }
+//   }
+//   return thunk(compile.bind1(proc))
+// }
+
+var compile = require("./compile.js")
+
+function createThunk(proc) {
+  var code = ["'use strict'", "var CACHED={}"]
+  var vars = []
+  var thunkName = proc.funcName + "_cwise_thunk"
+  
+  //Build thunk
+  code.push(["return function ", thunkName, "(", proc.shimArgs.join(","), "){"].join(""))
+  var typesig = []
+  var string_typesig = []
+  var proc_args = [["array",proc.arrayArgs[0],".shape.slice(", // Slice shape so that we only retain the shape over which we iterate (which gets passed to the cwise operator as SS).
+                    Math.max(0,proc.arrayBlockIndices[0]),proc.arrayBlockIndices[0]<0?(","+proc.arrayBlockIndices[0]+")"):")"].join("")]
+  var shapeLengthConditions = [], shapeConditions = []
+  // Process array arguments
+  for(var i=0; i<proc.arrayArgs.length; ++i) {
+    var j = proc.arrayArgs[i]
+    vars.push(["t", j, "=array", j, ".dtype,",
+               "r", j, "=array", j, ".order"].join(""))
+    typesig.push("t" + j)
+    typesig.push("r" + j)
+    string_typesig.push("t"+j)
+    string_typesig.push("r"+j+".join()")
+    proc_args.push("array" + j + ".data")
+    proc_args.push("array" + j + ".stride")
+    proc_args.push("array" + j + ".offset|0")
+    if (i>0) { // Gather conditions to check for shape equality (ignoring block indices)
+      shapeLengthConditions.push("array" + proc.arrayArgs[0] + ".shape.length===array" + j + ".shape.length+" + (Math.abs(proc.arrayBlockIndices[0])-Math.abs(proc.arrayBlockIndices[i])))
+      shapeConditions.push("array" + proc.arrayArgs[0] + ".shape[shapeIndex+" + Math.max(0,proc.arrayBlockIndices[0]) + "]===array" + j + ".shape[shapeIndex+" + Math.max(0,proc.arrayBlockIndices[i]) + "]")
     }
   }
-  list.length = ptr
-  return list
-}
-
-function unique_eq(list) {
-  var ptr = 1
-    , len = list.length
-    , a=list[0], b = list[0]
-  for(var i=1; i<len; ++i, b=a) {
-    b = a
-    a = list[i]
-    if(a !== b) {
-      if(i === ptr) {
-        ptr++
-        continue
-      }
-      list[ptr++] = a
-    }
+  // Check for shape equality
+  if (proc.arrayArgs.length > 1) {
+    code.push("if (!(" + shapeLengthConditions.join(" && ") + ")) throw new Error('cwise: Arrays do not all have the same dimensionality!')")
+    code.push("for(var shapeIndex=array" + proc.arrayArgs[0] + ".shape.length-" + Math.abs(proc.arrayBlockIndices[0]) + "; shapeIndex-->0;) {")
+    code.push("if (!(" + shapeConditions.join(" && ") + ")) throw new Error('cwise: Arrays do not all have the same shape!')")
+    code.push("}")
   }
-  list.length = ptr
-  return list
-}
-
-function unique(list, compare, sorted) {
-  if(list.length === 0) {
-    return []
+  // Process scalar arguments
+  for(var i=0; i<proc.scalarArgs.length; ++i) {
+    proc_args.push("scalar" + proc.scalarArgs[i])
   }
-  if(compare) {
-    if(!sorted) {
-      list.sort(compare)
-    }
-    return unique_pred(list, compare)
-  }
-  if(!sorted) {
-    list.sort()
-  }
-  return unique_eq(list)
-}
-
-module.exports = unique
-},{}],187:[function(require,module,exports){
-(function (Buffer){
-var iota = require("iota-array")
-
-var hasTypedArrays  = ((typeof Float64Array) !== "undefined")
-var hasBuffer       = ((typeof Buffer) !== "undefined")
-
-function compare1st(a, b) {
-  return a[0] - b[0]
-}
-
-function order() {
-  var stride = this.stride
-  var terms = new Array(stride.length)
-  var i
-  for(i=0; i<terms.length; ++i) {
-    terms[i] = [Math.abs(stride[i]), i]
-  }
-  terms.sort(compare1st)
-  var result = new Array(terms.length)
-  for(i=0; i<result.length; ++i) {
-    result[i] = terms[i][1]
-  }
-  return result
-}
-
-function compileConstructor(dtype, dimension) {
-  var className = ["View", dimension, "d", dtype].join("")
-  if(dimension < 0) {
-    className = "View_Nil" + dtype
-  }
-  var useGetters = (dtype === "generic")
+  // Check for cached function (and if not present, generate it)
+  vars.push(["type=[", string_typesig.join(","), "].join()"].join(""))
+  vars.push("proc=CACHED[type]")
+  code.push("var " + vars.join(","))
   
-  if(dimension === -1) {
-    //Special case for trivial arrays
-    var code = 
-      "function "+className+"(a){this.data=a;};\
-var proto="+className+".prototype;\
-proto.dtype='"+dtype+"';\
-proto.index=function(){return -1};\
-proto.size=0;\
-proto.dimension=-1;\
-proto.shape=proto.stride=proto.order=[];\
-proto.lo=proto.hi=proto.transpose=proto.step=\
-function(){return new "+className+"(this.data);};\
-proto.get=proto.set=function(){};\
-proto.pick=function(){return null};\
-return function construct_"+className+"(a){return new "+className+"(a);}"
-    var procedure = new Function(code)
-    return procedure()
-  } else if(dimension === 0) {
-    //Special case for 0d arrays
-    var code =
-      "function "+className+"(a,d) {\
-this.data = a;\
-this.offset = d\
-};\
-var proto="+className+".prototype;\
-proto.dtype='"+dtype+"';\
-proto.index=function(){return this.offset};\
-proto.dimension=0;\
-proto.size=1;\
-proto.shape=\
-proto.stride=\
-proto.order=[];\
-proto.lo=\
-proto.hi=\
-proto.transpose=\
-proto.step=function "+className+"_copy() {\
-return new "+className+"(this.data,this.offset)\
-};\
-proto.pick=function "+className+"_pick(){\
-return TrivialArray(this.data);\
-};\
-proto.valueOf=proto.get=function "+className+"_get(){\
-return "+(useGetters ? "this.data.get(this.offset)" : "this.data[this.offset]")+
-"};\
-proto.set=function "+className+"_set(v){\
-return "+(useGetters ? "this.data.set(this.offset,v)" : "this.data[this.offset]=v")+"\
-};\
-return function construct_"+className+"(a,b,c,d){return new "+className+"(a,d)}"
-    var procedure = new Function("TrivialArray", code)
-    return procedure(CACHED_CONSTRUCTORS[dtype][0])
-  }
+  code.push(["if(!proc){",
+             "CACHED[type]=proc=compile([", typesig.join(","), "])}",
+             "return proc(", proc_args.join(","), ")}"].join(""))
 
-  var code = ["'use strict'"]
-    
-  //Create constructor for view
-  var indices = iota(dimension)
-  var args = indices.map(function(i) { return "i"+i })
-  var index_str = "this.offset+" + indices.map(function(i) {
-        return "this.stride[" + i + "]*i" + i
-      }).join("+")
-  var shapeArg = indices.map(function(i) {
-      return "b"+i
-    }).join(",")
-  var strideArg = indices.map(function(i) {
-      return "c"+i
-    }).join(",")
-  code.push(
-    "function "+className+"(a," + shapeArg + "," + strideArg + ",d){this.data=a",
-      "this.shape=[" + shapeArg + "]",
-      "this.stride=[" + strideArg + "]",
-      "this.offset=d|0}",
-    "var proto="+className+".prototype",
-    "proto.dtype='"+dtype+"'",
-    "proto.dimension="+dimension)
-  
-  //view.size:
-  code.push("Object.defineProperty(proto,'size',{get:function "+className+"_size(){\
-return "+indices.map(function(i) { return "this.shape["+i+"]" }).join("*"),
-"}})")
-
-  //view.order:
-  if(dimension === 1) {
-    code.push("proto.order=[0]")
-  } else {
-    code.push("Object.defineProperty(proto,'order',{get:")
-    if(dimension < 4) {
-      code.push("function "+className+"_order(){")
-      if(dimension === 2) {
-        code.push("return (Math.abs(this.stride[0])>Math.abs(this.stride[1]))?[1,0]:[0,1]}})")
-      } else if(dimension === 3) {
-        code.push(
-"var s0=Math.abs(this.stride[0]),s1=Math.abs(this.stride[1]),s2=Math.abs(this.stride[2]);\
-if(s0>s1){\
-if(s1>s2){\
-return [2,1,0];\
-}else if(s0>s2){\
-return [1,2,0];\
-}else{\
-return [1,0,2];\
-}\
-}else if(s0>s2){\
-return [2,0,1];\
-}else if(s2>s1){\
-return [0,1,2];\
-}else{\
-return [0,2,1];\
-}}})")
-      }
-    } else {
-      code.push("ORDER})")
-    }
+  if(proc.debug) {
+    console.log("-----Generated thunk:\n" + code.join("\n") + "\n----------")
   }
   
-  //view.set(i0, ..., v):
-  code.push(
-"proto.set=function "+className+"_set("+args.join(",")+",v){")
-  if(useGetters) {
-    code.push("return this.data.set("+index_str+",v)}")
-  } else {
-    code.push("return this.data["+index_str+"]=v}")
-  }
-  
-  //view.get(i0, ...):
-  code.push("proto.get=function "+className+"_get("+args.join(",")+"){")
-  if(useGetters) {
-    code.push("return this.data.get("+index_str+")}")
-  } else {
-    code.push("return this.data["+index_str+"]}")
-  }
-  
-  //view.index:
-  code.push(
-    "proto.index=function "+className+"_index(", args.join(), "){return "+index_str+"}")
-
-  //view.hi():
-  code.push("proto.hi=function "+className+"_hi("+args.join(",")+"){return new "+className+"(this.data,"+
-    indices.map(function(i) {
-      return ["(typeof i",i,"!=='number'||i",i,"<0)?this.shape[", i, "]:i", i,"|0"].join("")
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "this.stride["+i + "]"
-    }).join(",")+",this.offset)}")
-  
-  //view.lo():
-  var a_vars = indices.map(function(i) { return "a"+i+"=this.shape["+i+"]" })
-  var c_vars = indices.map(function(i) { return "c"+i+"=this.stride["+i+"]" })
-  code.push("proto.lo=function "+className+"_lo("+args.join(",")+"){var b=this.offset,d=0,"+a_vars.join(",")+","+c_vars.join(","))
-  for(var i=0; i<dimension; ++i) {
-    code.push(
-"if(typeof i"+i+"==='number'&&i"+i+">=0){\
-d=i"+i+"|0;\
-b+=c"+i+"*d;\
-a"+i+"-=d}")
-  }
-  code.push("return new "+className+"(this.data,"+
-    indices.map(function(i) {
-      return "a"+i
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "c"+i
-    }).join(",")+",b)}")
-  
-  //view.step():
-  code.push("proto.step=function "+className+"_step("+args.join(",")+"){var "+
-    indices.map(function(i) {
-      return "a"+i+"=this.shape["+i+"]"
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "b"+i+"=this.stride["+i+"]"
-    }).join(",")+",c=this.offset,d=0,ceil=Math.ceil")
-  for(var i=0; i<dimension; ++i) {
-    code.push(
-"if(typeof i"+i+"==='number'){\
-d=i"+i+"|0;\
-if(d<0){\
-c+=b"+i+"*(a"+i+"-1);\
-a"+i+"=ceil(-a"+i+"/d)\
-}else{\
-a"+i+"=ceil(a"+i+"/d)\
-}\
-b"+i+"*=d\
-}")
-  }
-  code.push("return new "+className+"(this.data,"+
-    indices.map(function(i) {
-      return "a" + i
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "b" + i
-    }).join(",")+",c)}")
-  
-  //view.transpose():
-  var tShape = new Array(dimension)
-  var tStride = new Array(dimension)
-  for(var i=0; i<dimension; ++i) {
-    tShape[i] = "a[i"+i+"]"
-    tStride[i] = "b[i"+i+"]"
-  }
-  code.push("proto.transpose=function "+className+"_transpose("+args+"){"+
-    args.map(function(n,idx) { return n + "=(" + n + "===undefined?" + idx + ":" + n + "|0)"}).join(";"),
-    "var a=this.shape,b=this.stride;return new "+className+"(this.data,"+tShape.join(",")+","+tStride.join(",")+",this.offset)}")
-  
-  //view.pick():
-  code.push("proto.pick=function "+className+"_pick("+args+"){var a=[],b=[],c=this.offset")
-  for(var i=0; i<dimension; ++i) {
-    code.push("if(typeof i"+i+"==='number'&&i"+i+">=0){c=(c+this.stride["+i+"]*i"+i+")|0}else{a.push(this.shape["+i+"]);b.push(this.stride["+i+"])}")
-  }
-  code.push("var ctor=CTOR_LIST[a.length+1];return ctor(this.data,a,b,c)}")
-    
-  //Add return statement
-  code.push("return function construct_"+className+"(data,shape,stride,offset){return new "+className+"(data,"+
-    indices.map(function(i) {
-      return "shape["+i+"]"
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "stride["+i+"]"
-    }).join(",")+",offset)}")
-
-  //Compile procedure
-  var procedure = new Function("CTOR_LIST", "ORDER", code.join("\n"))
-  return procedure(CACHED_CONSTRUCTORS[dtype], order)
+  //Compile thunk
+  var thunk = new Function("compile", code.join("\n"))
+  return thunk(compile.bind(undefined, proc))
 }
 
-function arrayDType(data) {
-  if(hasBuffer) {
-    if(Buffer.isBuffer(data)) {
-      return "buffer"
-    }
-  }
-  if(hasTypedArrays) {
-    switch(Object.prototype.toString.call(data)) {
-      case "[object Float64Array]":
-        return "float64"
-      case "[object Float32Array]":
-        return "float32"
-      case "[object Int8Array]":
-        return "int8"
-      case "[object Int16Array]":
-        return "int16"
-      case "[object Int32Array]":
-        return "int32"
-      case "[object Uint8Array]":
-        return "uint8"
-      case "[object Uint16Array]":
-        return "uint16"
-      case "[object Uint32Array]":
-        return "uint32"
-      case "[object Uint8ClampedArray]":
-        return "uint8_clamped"
-    }
-  }
-  if(Array.isArray(data)) {
-    return "array"
-  }
-  return "generic"
-}
+module.exports = createThunk
 
-var CACHED_CONSTRUCTORS = {
-  "float32":[],
-  "float64":[],
-  "int8":[],
-  "int16":[],
-  "int32":[],
-  "uint8":[],
-  "uint16":[],
-  "uint32":[],
-  "array":[],
-  "uint8_clamped":[],
-  "buffer":[],
-  "generic":[]
-}
-
-;(function() {
-  for(var id in CACHED_CONSTRUCTORS) {
-    CACHED_CONSTRUCTORS[id].push(compileConstructor(id, -1))
-  }
-});
-
-function wrappedNDArrayCtor(data, shape, stride, offset) {
-  if(data === undefined) {
-    var ctor = CACHED_CONSTRUCTORS.array[0]
-    return ctor([])
-  } else if(typeof data === "number") {
-    data = [data]
-  }
-  if(shape === undefined) {
-    shape = [ data.length ]
-  }
-  var d = shape.length
-  if(stride === undefined) {
-    stride = new Array(d)
-    for(var i=d-1, sz=1; i>=0; --i) {
-      stride[i] = sz
-      sz *= shape[i]
-    }
-  }
-  if(offset === undefined) {
-    offset = 0
-    for(var i=0; i<d; ++i) {
-      if(stride[i] < 0) {
-        offset -= (shape[i]-1)*stride[i]
-      }
-    }
-  }
-  var dtype = arrayDType(data)
-  var ctor_list = CACHED_CONSTRUCTORS[dtype]
-  while(ctor_list.length <= d+1) {
-    ctor_list.push(compileConstructor(dtype, ctor_list.length-1))
-  }
-  var ctor = ctor_list[d+1]
-  return ctor(data, shape, stride, offset)
-}
-
-module.exports = wrappedNDArrayCtor
-}).call(this,require("buffer").Buffer)
-},{"buffer":17,"iota-array":188}],188:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],189:[function(require,module,exports){
+},{"./compile.js":258}],260:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"dup":82}],261:[function(require,module,exports){
 // (c) Dean McNamee <dean@gmail.com>, 2013.
 //
 // https://github.com/deanm/omggif
@@ -31515,10 +31473,10 @@ function GifWriterOutputLZWCodeStream(buf, p, min_code_size, index_stream) {
 function GifReader(buf) {
   var p = 0;
 
-  // - Header.
-  if (buf[p++] !== 0x47 || buf[p++] !== 0x49 || buf[p++] !== 0x46 ||  // GIF
-      buf[p++] !== 0x38 || buf[p++] !== 0x39 || buf[p++] !== 0x61) {  // 89a
-    throw "Invalid GIF 89a header.";
+  // - Header (GIF87a or GIF89a).
+  if (buf[p++] !== 0x47 ||            buf[p++] !== 0x49 || buf[p++] !== 0x46 ||
+      buf[p++] !== 0x38 || (buf[p++]+1 & 0xfd) !== 0x38 || buf[p++] !== 0x61) {
+    throw "Invalid GIF 87a/89a header.";
   }
 
   // - Logical Screen Descriptor.
@@ -31537,8 +31495,6 @@ function GifReader(buf) {
     global_palette_offset = p;
     p += num_global_colors * 3;  // Seek past palette.
   }
-
-  var loop_count = null;
 
   var no_eof = true;
 
@@ -31611,6 +31567,7 @@ function GifReader(buf) {
         var h = buf[p++] | buf[p++] << 8;
         var pf2 = buf[p++];
         var local_palette_flag = pf2 >> 7;
+        var interlace_flag = pf2 >> 6 & 1;
         var num_local_colors_pow2 = pf2 & 0x7;
         var num_local_colors = 1 << (num_local_colors_pow2 + 1);
         var palette_offset = global_palette_offset;
@@ -31636,6 +31593,7 @@ function GifReader(buf) {
                      data_offset: data_offset,
                      data_length: p - data_offset,
                      transparent_index: transparent_index,
+                     interlaced: !!interlace_flag,
                      delay: delay,
                      disposal: disposal});
         break;
@@ -31654,6 +31612,10 @@ function GifReader(buf) {
     return frames.length;
   };
 
+  this.loopCount = function() {
+    return loop_count;
+  };
+
   this.frameInfo = function(frame_num) {
     if (frame_num < 0 || frame_num >= frames.length)
       throw "Frame index out of range.";
@@ -31663,7 +31625,7 @@ function GifReader(buf) {
   this.decodeAndBlitFrameBGRA = function(frame_num, pixels) {
     var frame = this.frameInfo(frame_num);
     var num_pixels = frame.width * frame.height;
-    var index_stream = new Uint8Array(num_pixels);  // Atmost 8-bit indices.
+    var index_stream = new Uint8Array(num_pixels);  // At most 8-bit indices.
     GifReaderLZWOutputIndexStream(
         buf, frame.data_offset, index_stream, num_pixels);
     var palette_offset = frame.palette_offset;
@@ -31674,12 +31636,41 @@ function GifReader(buf) {
     var trans = frame.transparent_index;
     if (trans === null) trans = 256;
 
-    var wstride = (width - frame.width) * 4;
-    var op = ((frame.y * width) + frame.x) * 4;  // output pointer.
-    var linex = frame.width;
+    // We are possibly just blitting to a portion of the entire frame.
+    // That is a subrect within the framerect, so the additional pixels
+    // must be skipped over after we finished a scanline.
+    var framewidth  = frame.width;
+    var framestride = width - framewidth;
+    var xleft       = framewidth;  // Number of subrect pixels left in scanline.
+
+    // Output indicies of the top left and bottom right corners of the subrect.
+    var opbeg = ((frame.y * width) + frame.x) * 4;
+    var opend = ((frame.y + frame.height) * width + frame.x) * 4;
+    var op    = opbeg;
+
+    var scanstride = framestride * 4;
+
+    // Use scanstride to skip past the rows when interlacing.  This is skipping
+    // 7 rows for the first two passes, then 3 then 1.
+    if (frame.interlaced === true) {
+      scanstride += width * 4 * 7;  // Pass 1.
+    }
+
+    var interlaceskip = 8;  // Tracking the row interval in the current pass.
 
     for (var i = 0, il = index_stream.length; i < il; ++i) {
       var index = index_stream[i];
+
+      if (xleft === 0) {  // Beginning of new scan line
+        op += scanstride;
+        xleft = framewidth;
+        if (op >= opend) { // Catch the wrap to switch passes when interlacing.
+          scanstride = framestride * 4 + width * 4 * (interlaceskip-1);
+          // interlaceskip / 2 * 4 is interlaceskip << 1.
+          op = opbeg + (framewidth + framestride) * (interlaceskip << 1);
+          interlaceskip >>= 1;
+        }
+      }
 
       if (index === trans) {
         op += 4;
@@ -31692,11 +31683,7 @@ function GifReader(buf) {
         pixels[op++] = r;
         pixels[op++] = 255;
       }
-
-      if (--linex === 0) {
-        op += wstride;
-        linex = frame.width;
-      }
+      --xleft;
     }
   };
 
@@ -31704,10 +31691,9 @@ function GifReader(buf) {
   this.decodeAndBlitFrameRGBA = function(frame_num, pixels) {
     var frame = this.frameInfo(frame_num);
     var num_pixels = frame.width * frame.height;
-    var index_stream = new Uint8Array(num_pixels);  // Atmost 8-bit indices.
+    var index_stream = new Uint8Array(num_pixels);  // At most 8-bit indices.
     GifReaderLZWOutputIndexStream(
         buf, frame.data_offset, index_stream, num_pixels);
-    var op = 0;  // output pointer.
     var palette_offset = frame.palette_offset;
 
     // NOTE(deanm): It seems to be much faster to compare index to 256 than
@@ -31716,12 +31702,41 @@ function GifReader(buf) {
     var trans = frame.transparent_index;
     if (trans === null) trans = 256;
 
-    var wstride = (width - frame.width) * 4;
-    var op = ((frame.y * width) + frame.x) * 4;  // output pointer.
-    var linex = frame.width;
+    // We are possibly just blitting to a portion of the entire frame.
+    // That is a subrect within the framerect, so the additional pixels
+    // must be skipped over after we finished a scanline.
+    var framewidth  = frame.width;
+    var framestride = width - framewidth;
+    var xleft       = framewidth;  // Number of subrect pixels left in scanline.
+
+    // Output indicies of the top left and bottom right corners of the subrect.
+    var opbeg = ((frame.y * width) + frame.x) * 4;
+    var opend = ((frame.y + frame.height) * width + frame.x) * 4;
+    var op    = opbeg;
+
+    var scanstride = framestride * 4;
+
+    // Use scanstride to skip past the rows when interlacing.  This is skipping
+    // 7 rows for the first two passes, then 3 then 1.
+    if (frame.interlaced === true) {
+      scanstride += width * 4 * 7;  // Pass 1.
+    }
+
+    var interlaceskip = 8;  // Tracking the row interval in the current pass.
 
     for (var i = 0, il = index_stream.length; i < il; ++i) {
       var index = index_stream[i];
+
+      if (xleft === 0) {  // Beginning of new scan line
+        op += scanstride;
+        xleft = framewidth;
+        if (op >= opend) { // Catch the wrap to switch passes when interlacing.
+          scanstride = framestride * 4 + width * 4 * (interlaceskip-1);
+          // interlaceskip / 2 * 4 is interlaceskip << 1.
+          op = opbeg + (framewidth + framestride) * (interlaceskip << 1);
+          interlaceskip >>= 1;
+        }
+      }
 
       if (index === trans) {
         op += 4;
@@ -31734,11 +31749,7 @@ function GifReader(buf) {
         pixels[op++] = b;
         pixels[op++] = 255;
       }
-
-      if (--linex === 0) {
-        op += wstride;
-        linex = frame.width;
-      }
+      --xleft;
     }
   };
 }
@@ -31889,7 +31900,7 @@ function GifReaderLZWOutputIndexStream(code_stream, p, output, output_length) {
 
 try { exports.GifWriter = GifWriter; exports.GifReader = GifReader } catch(e) { }  // CommonJS.
 
-},{}],190:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -31996,7 +32007,7 @@ function through (write, end) {
 
 
 }).call(this,require('_process'))
-},{"_process":26,"stream":40}],191:[function(require,module,exports){
+},{"_process":26,"stream":40}],263:[function(require,module,exports){
 (function (process,Buffer){
 "use strict";
 var through = require("through");
@@ -32318,7 +32329,7 @@ exports.serialize = function(image) {
 }
 
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":26,"buffer":17,"through":190}],192:[function(require,module,exports){
+},{"_process":26,"buffer":17,"through":262}],264:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -32362,7 +32373,7 @@ function through (write, end, opts) {
   stream.queue = stream.push = function (data) {
 //    console.error(ended)
     if(_ended) return stream
-    if(data == null) _ended = true
+    if(data === null) _ended = true
     buffer.push(data)
     drain()
     return stream
@@ -32430,7 +32441,7 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":26,"stream":40}],193:[function(require,module,exports){
+},{"_process":26,"stream":40}],265:[function(require,module,exports){
 'use strict';
 
 var color = require('onecolor');
@@ -32514,11 +32525,7 @@ var graycolorize = function(pixels, colors) {
 module.exports = graycolorize;
 module.exports.generateMap = generateMap;
 
-},{"ndarray":194,"onecolor":196}],194:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":195}],195:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],196:[function(require,module,exports){
+},{"ndarray":122,"onecolor":266}],266:[function(require,module,exports){
 /*jshint evil:true, onevar:false*/
 /*global define*/
 var installedColorSpaces = [],
@@ -32527,6 +32534,7 @@ var installedColorSpaces = [],
         return typeof obj === 'undefined';
     },
     channelRegExp = /\s*(\.\d+|\d+(?:\.\d+)?)(%)?\s*/,
+    percentageChannelRegExp = /\s*(\.\d+|100|\d?\d(?:\.\d+)?)%\s*/,
     alphaChannelRegExp = /\s*(\.\d+|\d+(?:\.\d+)?)\s*/,
     cssColorRegExp = new RegExp(
                          "^(rgb|hsl|hsv)a?" +
@@ -32586,6 +32594,26 @@ function ONECOLOR(obj) {
                 parseInt(hexMatch[2], 16) / 255,
                 parseInt(hexMatch[3], 16) / 255
             );
+        }
+
+        // No match so far. Lets try the less likely ones
+        if (ONECOLOR.CMYK) {
+            var cmykMatch = obj.match(new RegExp(
+                             "^cmyk" +
+                             "\\(" +
+                                 percentageChannelRegExp.source + "," +
+                                 percentageChannelRegExp.source + "," +
+                                 percentageChannelRegExp.source + "," +
+                                 percentageChannelRegExp.source +
+                             "\\)$", "i"));
+            if (cmykMatch) {
+                return new ONECOLOR.CMYK(
+                    parseFloat(cmykMatch[1]) / 100,
+                    parseFloat(cmykMatch[2]) / 100,
+                    parseFloat(cmykMatch[3]) / 100,
+                    parseFloat(cmykMatch[4]) / 100
+                );
+            }
         }
     } else if (typeof obj === 'object' && obj.isColor) {
         return obj;
@@ -32734,14 +32762,13 @@ installColorSpace('RGB', ['red', 'green', 'blue', 'alpha'], {
         return "rgba(" + Math.round(255 * this._red) + "," + Math.round(255 * this._green) + "," + Math.round(255 * this._blue) + "," + this._alpha + ")";
     }
 });
-
-if (typeof module !== 'undefined') {
-    // Node module export
-    module.exports = ONECOLOR;
-} else if (typeof define === 'function' && !undef(define.amd)) {
-    define([], function () {
+if (typeof define === 'function' && !undef(define.amd)) {
+    define(function () {
         return ONECOLOR;
     });
+} else if (typeof exports === 'object') {
+    // Node module export
+    module.exports = ONECOLOR;
 } else {
     one = window.one || {};
     one.color = ONECOLOR;
@@ -32872,6 +32899,7 @@ namedColors = {
     plum: 'dda0dd',
     powderblue: 'b0e0e6',
     purple: '800080',
+    rebeccapurple: '639',
     red: 'f00',
     rosybrown: 'bc8f8f',
     royalblue: '4169e1',
@@ -33274,7 +33302,7 @@ ONECOLOR.installMethod('toAlpha', function (color) {
 // Convenience functions
 
 
-},{}],197:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 'use strict';
 
 var getPixels = require('get-pixels');
@@ -33416,7 +33444,7 @@ module.exports.getFrames = getFrames;
 module.exports.parseFramesInfo = parseFramesInfo;
 module.exports.splitTiles = splitTiles;
 
-},{"get-pixels":198,"save-pixels":209}],198:[function(require,module,exports){
+},{"get-pixels":268,"save-pixels":328}],268:[function(require,module,exports){
 "use strict"
 
 var ndarray = require("ndarray")
@@ -33438,1392 +33466,7 @@ module.exports = function getPixels(url, cb) {
   img.src = url
 }
 
-},{"ndarray":199}],199:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":200}],200:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],201:[function(require,module,exports){
-(function (Buffer){
-// Copyright (c) 2012 Kuba Niegowski
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-'use strict';
-
-
-var util = require('util'),
-    Stream = require('stream');
-
-
-var ChunkStream = module.exports = function() {
-    Stream.call(this);
-
-    this._buffers = [];
-    this._buffered = 0;
-
-    this._reads = [];
-    this._paused = false;
-
-    this._encoding = 'utf8';
-    this.writable = true;
-};
-util.inherits(ChunkStream, Stream);
-
-
-ChunkStream.prototype.read = function(length, callback) {
-
-    this._reads.push({
-        length: Math.abs(length),  // if length < 0 then at most this length
-        allowLess: length < 0,
-        func: callback
-    });
-
-    this._process();
-
-    // its paused and there is not enought data then ask for more
-    if (this._paused && this._reads.length > 0) {
-        this._paused = false;
-
-        this.emit('drain');
-    }
-};
-
-ChunkStream.prototype.write = function(data, encoding) {
-
-    if (!this.writable) {
-        this.emit('error', new Error('Stream not writable'));
-        return false;
-    }
-
-    if (!Buffer.isBuffer(data))
-        data = new Buffer(data, encoding || this._encoding);
-
-    this._buffers.push(data);
-    this._buffered += data.length;
-
-    this._process();
-
-    // ok if there are no more read requests
-    if (this._reads && this._reads.length == 0)
-        this._paused = true;
-
-    return this.writable && !this._paused;
-};
-
-ChunkStream.prototype.end = function(data, encoding) {
-
-    if (data) this.write(data, encoding);
-
-    this.writable = false;
-
-    // already destroyed
-    if (!this._buffers) return;
-
-    // enqueue or handle end
-    if (this._buffers.length == 0) {
-        this._end();
-    } else {
-        this._buffers.push(null);
-        this._process();
-    }
-};
-
-ChunkStream.prototype.destroySoon = ChunkStream.prototype.end;
-
-ChunkStream.prototype._end = function() {
-
-    if (this._reads.length > 0) {
-        this.emit('error',
-            new Error('There are some read requests waitng on finished stream')
-        );
-    }
-
-    this.destroy();
-};
-
-ChunkStream.prototype.destroy = function() {
-
-    if (!this._buffers) return;
-
-    this.writable = false;
-    this._reads = null;
-    this._buffers = null;
-
-    this.emit('close');
-};
-
-ChunkStream.prototype._process = function() {
-
-    // as long as there is any data and read requests
-    while (this._buffered > 0 && this._reads && this._reads.length > 0) {
-
-        var read = this._reads[0];
-
-        // read any data (but no more than length)
-        if (read.allowLess) {
-
-            // ok there is any data so that we can satisfy this request
-            this._reads.shift(); // == read
-
-            // first we need to peek into first buffer
-            var buf = this._buffers[0];
-
-            // ok there is more data than we need
-            if (buf.length > read.length) {
-
-                this._buffered -= read.length;
-                this._buffers[0] = buf.slice(read.length);
-
-                read.func.call(this, buf.slice(0, read.length));
-
-            } else {
-                // ok this is less than maximum length so use it all
-                this._buffered -= buf.length;
-                this._buffers.shift(); // == buf
-
-                read.func.call(this, buf);
-            }
-
-        } else if (this._buffered >= read.length) {
-            // ok we can meet some expectations
-
-            this._reads.shift(); // == read
-
-            var pos = 0,
-                count = 0,
-                data = new Buffer(read.length);
-
-            // create buffer for all data
-            while (pos < read.length) {
-
-                var buf = this._buffers[count++],
-                    len = Math.min(buf.length, read.length - pos);
-
-                buf.copy(data, pos, 0, len);
-                pos += len;
-
-                // last buffer wasn't used all so just slice it and leave
-                if (len != buf.length)
-                    this._buffers[--count] = buf.slice(len);
-            }
-
-            // remove all used buffers
-            if (count > 0)
-                this._buffers.splice(0, count);
-
-            this._buffered -= read.length;
-
-            read.func.call(this, data);
-
-        } else {
-            // not enought data to satisfy first request in queue
-            // so we need to wait for more
-            break;
-        }
-    }
-
-    if (this._buffers && this._buffers.length > 0 && this._buffers[0] == null) {
-        this._end();
-    }
-};
-
-}).call(this,require("buffer").Buffer)
-},{"buffer":17,"stream":40,"util":43}],202:[function(require,module,exports){
-// Copyright (c) 2012 Kuba Niegowski
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-'use strict';
-
-
-module.exports = {
-
-    PNG_SIGNATURE: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
-
-    TYPE_IHDR: 0x49484452,
-    TYPE_IEND: 0x49454e44,
-    TYPE_IDAT: 0x49444154,
-    TYPE_PLTE: 0x504c5445,
-    TYPE_tRNS: 0x74524e53,
-    TYPE_gAMA: 0x67414d41,
-
-    COLOR_PALETTE: 1,
-    COLOR_COLOR: 2,
-    COLOR_ALPHA: 4
-};
-
-},{}],203:[function(require,module,exports){
-// Copyright (c) 2012 Kuba Niegowski
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-'use strict';
-
-var util = require('util'),
-    Stream = require('stream');
-
-
-var CrcStream = module.exports = function() {
-    Stream.call(this);
-
-    this._crc = -1;
-
-    this.writable = true;
-};
-util.inherits(CrcStream, Stream);
-
-
-CrcStream.prototype.write = function(data) {
-
-    for (var i = 0; i < data.length; i++) {
-        this._crc = crcTable[(this._crc ^ data[i]) & 0xff] ^ (this._crc >>> 8);
-    }
-    return true;
-};
-
-CrcStream.prototype.end = function(data) {
-    if (data) this.write(data);
-
-    this.emit('crc', this.crc32());
-};
-
-CrcStream.prototype.crc32 = function() {
-    return this._crc ^ -1;
-};
-
-
-CrcStream.crc32 = function(buf) {
-
-    var crc = -1;
-    for (var i = 0; i < buf.length; i++) {
-        crc = crcTable[(crc ^ buf[i]) & 0xff] ^ (crc >>> 8);
-    }
-    return crc ^ -1;
-};
-
-
-
-var crcTable = [];
-
-for (var i = 0; i < 256; i++) {
-    var c = i;
-    for (var j = 0; j < 8; j++) {
-        if (c & 1) {
-            c = 0xedb88320 ^ (c >>> 1);
-        } else {
-            c = c >>> 1;
-        }
-    }
-    crcTable[i] = c;
-}
-
-},{"stream":40,"util":43}],204:[function(require,module,exports){
-(function (Buffer){
-// Copyright (c) 2012 Kuba Niegowski
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-'use strict';
-
-var util = require('util'),
-    zlib = require('zlib'),
-    ChunkStream = require('./chunkstream');
-
-
-var Filter = module.exports = function(width, height, Bpp, data, options) {
-    ChunkStream.call(this);
-
-    this._width = width;
-    this._height = height;
-    this._Bpp = Bpp;
-    this._data = data;
-    this._options = options;
-
-    this._line = 0;
-
-    if (!('filterType' in options) || options.filterType == -1) {
-        options.filterType = [0, 1, 2, 3, 4];
-    } else if (typeof options.filterType == 'number') {
-        options.filterType = [options.filterType];
-    }
-
-    this._filters = {
-        0: this._filterNone.bind(this),
-        1: this._filterSub.bind(this),
-        2: this._filterUp.bind(this),
-        3: this._filterAvg.bind(this),
-        4: this._filterPaeth.bind(this)
-    };
-
-    this.read(this._width * Bpp + 1, this._reverseFilterLine.bind(this));
-};
-util.inherits(Filter, ChunkStream);
-
-
-var pixelBppMap = {
-    1: { // L
-        0: 0,
-        1: 0,
-        2: 0,
-        3: 0xff
-    },
-    2: { // LA
-        0: 0,
-        1: 0,
-        2: 0,
-        3: 1
-    },
-    3: { // RGB
-        0: 0,
-        1: 1,
-        2: 2,
-        3: 0xff
-    },
-    4: { // RGBA
-        0: 0,
-        1: 1,
-        2: 2,
-        3: 3
-    }
-};
-
-Filter.prototype._reverseFilterLine = function(rawData) {
-
-    var pxData = this._data,
-        pxLineLength = this._width << 2,
-        pxRowPos = this._line * pxLineLength,
-        filter = rawData[0];
-
-    if (filter == 0) {
-        for (var x = 0; x < this._width; x++) {
-            var pxPos = pxRowPos + (x << 2),
-                rawPos = 1 + x * this._Bpp;
-
-            for (var i = 0; i < 4; i++) {
-                var idx = pixelBppMap[this._Bpp][i];
-                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] : 0xff;
-            }
-        }
-
-    } else if (filter == 1) {
-        for (var x = 0; x < this._width; x++) {
-            var pxPos = pxRowPos + (x << 2),
-                rawPos = 1 + x * this._Bpp;
-
-            for (var i = 0; i < 4; i++) {
-                var idx = pixelBppMap[this._Bpp][i],
-                    left = x > 0 ? pxData[pxPos + i - 4] : 0;
-
-                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + left : 0xff;
-            }
-        }
-
-    } else if (filter == 2) {
-        for (var x = 0; x < this._width; x++) {
-            var pxPos = pxRowPos + (x << 2),
-                rawPos = 1 + x * this._Bpp;
-
-            for (var i = 0; i < 4; i++) {
-                var idx = pixelBppMap[this._Bpp][i],
-                    up = this._line > 0 ? pxData[pxPos - pxLineLength + i] : 0;
-
-                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + up : 0xff;
-            }
-
-        }
-
-    } else if (filter == 3) {
-        for (var x = 0; x < this._width; x++) {
-            var pxPos = pxRowPos + (x << 2),
-                rawPos = 1 + x * this._Bpp;
-
-            for (var i = 0; i < 4; i++) {
-                var idx = pixelBppMap[this._Bpp][i],
-                    left = x > 0 ? pxData[pxPos + i - 4] : 0,
-                    up = this._line > 0 ? pxData[pxPos - pxLineLength + i] : 0,
-                    add = Math.floor((left + up) / 2);
-
-                 pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + add : 0xff;
-            }
-
-        }
-
-    } else if (filter == 4) {
-        for (var x = 0; x < this._width; x++) {
-            var pxPos = pxRowPos + (x << 2),
-                rawPos = 1 + x * this._Bpp;
-
-            for (var i = 0; i < 4; i++) {
-                var idx = pixelBppMap[this._Bpp][i],
-                    left = x > 0 ? pxData[pxPos + i - 4] : 0,
-                    up = this._line > 0 ? pxData[pxPos - pxLineLength + i] : 0,
-                    upLeft = x > 0 && this._line > 0
-                            ? pxData[pxPos - pxLineLength + i - 4] : 0,
-                    add = PaethPredictor(left, up, upLeft);
-
-                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + add : 0xff;
-            }
-        }
-    }
-
-
-    this._line++;
-
-    if (this._line < this._height)
-        this.read(this._width * this._Bpp + 1, this._reverseFilterLine.bind(this));
-    else
-        this.emit('complete', this._data, this._width, this._height);
-};
-
-
-
-
-Filter.prototype.filter = function() {
-
-    var pxData = this._data,
-        rawData = new Buffer(((this._width << 2) + 1) * this._height);
-
-    for (var y = 0; y < this._height; y++) {
-
-        // find best filter for this line (with lowest sum of values)
-        var filterTypes = this._options.filterType,
-            min = Infinity,
-            sel = 0;
-
-        for (var i = 0; i < filterTypes.length; i++) {
-            var sum = this._filters[filterTypes[i]](pxData, y, null);
-            if (sum < min) {
-                sel = filterTypes[i];
-                min = sum;
-            }
-        }
-
-        this._filters[sel](pxData, y, rawData);
-    }
-    return rawData;
-};
-
-Filter.prototype._filterNone = function(pxData, y, rawData) {
-
-    var pxRowLength = this._width << 2,
-        rawRowLength = pxRowLength + 1,
-        sum = 0;
-
-    if (!rawData) {
-        for (var x = 0; x < pxRowLength; x++)
-            sum += Math.abs(pxData[y * pxRowLength + x]);
-
-    } else {
-        rawData[y * rawRowLength] = 0;
-        pxData.copy(rawData, rawRowLength * y + 1, pxRowLength * y, pxRowLength * (y + 1));
-    }
-
-    return sum;
-};
-
-Filter.prototype._filterSub = function(pxData, y, rawData) {
-
-    var pxRowLength = this._width << 2,
-        rawRowLength = pxRowLength + 1,
-        sum = 0;
-
-    if (rawData)
-        rawData[y * rawRowLength] = 1;
-
-    for (var x = 0; x < pxRowLength; x++) {
-
-        var left = x >= 4 ? pxData[y * pxRowLength + x - 4] : 0,
-            val = pxData[y * pxRowLength + x] - left;
-
-        if (!rawData) sum += Math.abs(val);
-        else rawData[y * rawRowLength + 1 + x] = val;
-    }
-    return sum;
-};
-
-Filter.prototype._filterUp = function(pxData, y, rawData) {
-
-    var pxRowLength = this._width << 2,
-        rawRowLength = pxRowLength + 1,
-        sum = 0;
-
-    if (rawData)
-        rawData[y * rawRowLength] = 2;
-
-    for (var x = 0; x < pxRowLength; x++) {
-
-        var up = y > 0 ? pxData[(y - 1) * pxRowLength + x] : 0,
-            val = pxData[y * pxRowLength + x] - up;
-
-        if (!rawData) sum += Math.abs(val);
-        else rawData[y * rawRowLength + 1 + x] = val;
-    }
-    return sum;
-};
-
-Filter.prototype._filterAvg = function(pxData, y, rawData) {
-
-    var pxRowLength = this._width << 2,
-        rawRowLength = pxRowLength + 1,
-        sum = 0;
-
-    if (rawData)
-        rawData[y * rawRowLength] = 3;
-
-    for (var x = 0; x < pxRowLength; x++) {
-
-        var left = x >= 4 ? pxData[y * pxRowLength + x - 4] : 0,
-            up = y > 0 ? pxData[(y - 1) * pxRowLength + x] : 0,
-            val = pxData[y * pxRowLength + x] - ((left + up) >> 1);
-
-        if (!rawData) sum += Math.abs(val);
-        else rawData[y * rawRowLength + 1 + x] = val;
-    }
-    return sum;
-};
-
-Filter.prototype._filterPaeth = function(pxData, y, rawData) {
-
-    var pxRowLength = this._width << 2,
-        rawRowLength = pxRowLength + 1,
-        sum = 0;
-
-    if (rawData)
-        rawData[y * rawRowLength] = 4;
-
-    for (var x = 0; x < pxRowLength; x++) {
-
-        var left = x >= 4 ? pxData[y * pxRowLength + x - 4] : 0,
-            up = y > 0 ? pxData[(y - 1) * pxRowLength + x] : 0,
-            upLeft = x >= 4 && y > 0 ? pxData[(y - 1) * pxRowLength + x - 4] : 0,
-            val = pxData[y * pxRowLength + x] - PaethPredictor(left, up, upLeft);
-
-        if (!rawData) sum += Math.abs(val);
-        else rawData[y * rawRowLength + 1 + x] = val;
-    }
-    return sum;
-};
-
-
-
-var PaethPredictor = function(left, above, upLeft) {
-
-    var p = left + above - upLeft,
-        pLeft = Math.abs(p - left),
-        pAbove = Math.abs(p - above),
-        pUpLeft = Math.abs(p - upLeft);
-
-    if (pLeft <= pAbove && pLeft <= pUpLeft) return left;
-    else if (pAbove <= pUpLeft) return above;
-    else return upLeft;
-};
-
-}).call(this,require("buffer").Buffer)
-},{"./chunkstream":201,"buffer":17,"util":43,"zlib":16}],205:[function(require,module,exports){
-(function (Buffer){
-// Copyright (c) 2012 Kuba Niegowski
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-'use strict';
-
-
-var util = require('util'),
-    Stream = require('stream'),
-    zlib = require('zlib'),
-    Filter = require('./filter'),
-    CrcStream = require('./crc'),
-    constants = require('./constants');
-
-
-var Packer = module.exports = function(options) {
-    Stream.call(this);
-
-    this._options = options;
-
-    options.deflateChunkSize = options.deflateChunkSize || 32 * 1024;
-    options.deflateLevel = options.deflateLevel || 9;
-    options.deflateStrategy = options.deflateStrategy || 3;
-
-    this.readable = true;
-};
-util.inherits(Packer, Stream);
-
-
-Packer.prototype.pack = function(data, width, height) {
-
-    // Signature
-    this.emit('data', new Buffer(constants.PNG_SIGNATURE));
-    this.emit('data', this._packIHDR(width, height));
-
-    // filter pixel data
-    var filter = new Filter(width, height, 4, data, this._options);
-    var data = filter.filter();
-
-    // compress it
-    var deflate = zlib.createDeflate({
-            chunkSize: this._options.deflateChunkSize,
-            level: this._options.deflateLevel,
-            strategy: this._options.deflateStrategy
-        });
-    deflate.on('error', this.emit.bind(this, 'error'));
-
-    deflate.on('data', function(data) {
-        this.emit('data', this._packIDAT(data));
-    }.bind(this));
-
-    deflate.on('end', function() {
-        this.emit('data', this._packIEND());
-        this.emit('end');
-    }.bind(this));
-
-    deflate.end(data);
-};
-
-Packer.prototype._packChunk = function(type, data) {
-
-    var len = (data ? data.length : 0),
-        buf = new Buffer(len + 12);
-
-    buf.writeUInt32BE(len, 0);
-    buf.writeUInt32BE(type, 4);
-
-    if (data) data.copy(buf, 8);
-
-    buf.writeInt32BE(CrcStream.crc32(buf.slice(4, buf.length - 4)), buf.length - 4);
-    return buf;
-};
-
-Packer.prototype._packIHDR = function(width, height) {
-
-    var buf = new Buffer(13);
-    buf.writeUInt32BE(width, 0);
-    buf.writeUInt32BE(height, 4);
-    buf[8] = 8;
-    buf[9] = 6; // colorType
-    buf[10] = 0; // compression
-    buf[11] = 0; // filter
-    buf[12] = 0; // interlace
-
-    return this._packChunk(constants.TYPE_IHDR, buf);
-};
-
-Packer.prototype._packIDAT = function(data) {
-    return this._packChunk(constants.TYPE_IDAT, data);
-};
-
-Packer.prototype._packIEND = function() {
-    return this._packChunk(constants.TYPE_IEND, null);
-};
-
-}).call(this,require("buffer").Buffer)
-},{"./constants":202,"./crc":203,"./filter":204,"buffer":17,"stream":40,"util":43,"zlib":16}],206:[function(require,module,exports){
-(function (Buffer){
-// Copyright (c) 2012 Kuba Niegowski
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-'use strict';
-
-
-var util = require('util'),
-    zlib = require('zlib'),
-    CrcStream = require('./crc'),
-    ChunkStream = require('./chunkstream'),
-    constants = require('./constants'),
-    Filter = require('./filter');
-
-
-var Parser = module.exports = function(options) {
-    ChunkStream.call(this);
-
-    this._options = options;
-    options.checkCRC = options.checkCRC !== false;
-
-    this._hasIHDR = false;
-    this._hasIEND = false;
-
-    this._inflate = null;
-    this._filter = null;
-    this._crc = null;
-
-    // input flags/metadata
-    this._palette = [];
-    this._colorType = 0;
-
-    this._chunks = {};
-    this._chunks[constants.TYPE_IHDR] = this._handleIHDR.bind(this);
-    this._chunks[constants.TYPE_IEND] = this._handleIEND.bind(this);
-    this._chunks[constants.TYPE_IDAT] = this._handleIDAT.bind(this);
-    this._chunks[constants.TYPE_PLTE] = this._handlePLTE.bind(this);
-    this._chunks[constants.TYPE_tRNS] = this._handleTRNS.bind(this);
-    this._chunks[constants.TYPE_gAMA] = this._handleGAMA.bind(this);
-
-    this.writable = true;
-
-    this.on('error', this._handleError.bind(this));
-    this._handleSignature();
-};
-util.inherits(Parser, ChunkStream);
-
-
-Parser.prototype._handleError = function() {
-
-    this.writable = false;
-
-    this.destroy();
-
-    if (this._inflate)
-        this._inflate.destroy();
-};
-
-Parser.prototype._handleSignature = function() {
-    this.read(constants.PNG_SIGNATURE.length,
-        this._parseSignature.bind(this)
-    );
-};
-
-Parser.prototype._parseSignature = function(data) {
-
-    var signature = constants.PNG_SIGNATURE;
-
-    for (var i = 0; i < signature.length; i++) {
-        if (data[i] != signature[i]) {
-            this.emit('error', new Error('Invalid file signature'));
-            return;
-        }
-    }
-    this.read(8, this._parseChunkBegin.bind(this));
-};
-
-Parser.prototype._parseChunkBegin = function(data) {
-
-    // chunk content length
-    var length = data.readUInt32BE(0);
-
-    // chunk type
-    var type = data.readUInt32BE(4),
-        name = '';
-    for (var i = 4; i < 8; i++)
-        name += String.fromCharCode(data[i]);
-
-    // console.log('chunk ', name, length);
-
-    // chunk flags
-    var ancillary  = !!(data[4] & 0x20),  // or critical
-        priv       = !!(data[5] & 0x20),  // or public
-        safeToCopy = !!(data[7] & 0x20);  // or unsafe
-
-    if (!this._hasIHDR && type != constants.TYPE_IHDR) {
-        this.emit('error', new Error('Expected IHDR on beggining'));
-        return;
-    }
-
-    this._crc = new CrcStream();
-    this._crc.write(new Buffer(name));
-
-    if (this._chunks[type]) {
-        return this._chunks[type](length);
-
-    } else if (!ancillary) {
-        this.emit('error', new Error('Unsupported critical chunk type ' + name));
-        return;
-    } else {
-        this.read(length + 4, this._skipChunk.bind(this));
-    }
-};
-
-Parser.prototype._skipChunk = function(data) {
-    this.read(8, this._parseChunkBegin.bind(this));
-};
-
-Parser.prototype._handleChunkEnd = function() {
-    this.read(4, this._parseChunkEnd.bind(this));
-};
-
-Parser.prototype._parseChunkEnd = function(data) {
-
-    var fileCrc = data.readInt32BE(0),
-        calcCrc = this._crc.crc32();
-
-    // check CRC
-    if (this._options.checkCRC && calcCrc != fileCrc) {
-        this.emit('error', new Error('Crc error'));
-        return;
-    }
-
-    if (this._hasIEND) {
-        this.destroySoon();
-
-    } else {
-        this.read(8, this._parseChunkBegin.bind(this));
-    }
-};
-
-
-Parser.prototype._handleIHDR = function(length) {
-    this.read(length, this._parseIHDR.bind(this));
-};
-Parser.prototype._parseIHDR = function(data) {
-
-    this._crc.write(data);
-
-    var width = data.readUInt32BE(0),
-        height = data.readUInt32BE(4),
-        depth = data[8],
-        colorType = data[9], // bits: 1 palette, 2 color, 4 alpha
-        compr = data[10],
-        filter = data[11],
-        interlace = data[12];
-
-    // console.log('    width', width, 'height', height,
-    //     'depth', depth, 'colorType', colorType,
-    //     'compr', compr, 'filter', filter, 'interlace', interlace
-    // );
-
-    if (depth != 8) {
-        this.emit('error', new Error('Unsupported bit depth ' + depth));
-        return;
-    }
-    if (!(colorType in colorTypeToBppMap)) {
-        this.emit('error', new Error('Unsupported color type'));
-        return;
-    }
-    if (compr != 0) {
-        this.emit('error', new Error('Unsupported compression method'));
-        return;
-    }
-    if (filter != 0) {
-        this.emit('error', new Error('Unsupported filter method'));
-        return;
-    }
-    if (interlace != 0) {
-        this.emit('error', new Error('Unsupported interlace method'));
-        return;
-    }
-
-    this._colorType = colorType;
-
-    this._data = new Buffer(width * height * 4);
-    this._filter = new Filter(
-        width, height,
-        colorTypeToBppMap[this._colorType],
-        this._data,
-        this._options
-    );
-
-    this._hasIHDR = true;
-
-    this.emit('metadata', {
-        width: width,
-        height: height,
-        palette: !!(colorType & constants.COLOR_PALETTE),
-        color: !!(colorType & constants.COLOR_COLOR),
-        alpha: !!(colorType & constants.COLOR_ALPHA),
-        data: this._data
-    });
-
-    this._handleChunkEnd();
-};
-
-
-Parser.prototype._handlePLTE = function(length) {
-    this.read(length, this._parsePLTE.bind(this));
-};
-Parser.prototype._parsePLTE = function(data) {
-
-    this._crc.write(data);
-
-    var entries = Math.floor(data.length / 3);
-    // console.log('Palette:', entries);
-
-    for (var i = 0; i < entries; i++) {
-        this._palette.push([
-            data.readUInt8(i * 3),
-            data.readUInt8(i * 3 + 1),
-            data.readUInt8(i * 3 + 2 ),
-            0xff
-        ]);
-    }
-
-    this._handleChunkEnd();
-};
-
-Parser.prototype._handleTRNS = function(length) {
-    this.read(length, this._parseTRNS.bind(this));
-};
-Parser.prototype._parseTRNS = function(data) {
-
-    this._crc.write(data);
-
-    // palette
-    if (this._colorType == 3) {
-        if (this._palette.length == 0) {
-            this.emit('error', new Error('Transparency chunk must be after palette'));
-            return;
-        }
-        if (data.length > this._palette.length) {
-            this.emit('error', new Error('More transparent colors than palette size'));
-            return;
-        }
-        for (var i = 0; i < this._palette.length; i++) {
-            this._palette[i][3] = i < data.length ? data.readUInt8(i) : 0xff;
-        }
-    }
-
-    // for colorType 0 (grayscale) and 2 (rgb)
-    // there might be one gray/color defined as transparent
-
-    this._handleChunkEnd();
-};
-
-Parser.prototype._handleGAMA = function(length) {
-    this.read(length, this._parseGAMA.bind(this));
-};
-Parser.prototype._parseGAMA = function(data) {
-
-    this._crc.write(data);
-    this.emit('gamma', data.readUInt32BE(0) / 100000);
-
-    this._handleChunkEnd();
-};
-
-Parser.prototype._handleIDAT = function(length) {
-    this.read(-length, this._parseIDAT.bind(this, length));
-};
-Parser.prototype._parseIDAT = function(length, data) {
-
-    this._crc.write(data);
-
-    if (this._colorType == 3 && this._palette.length == 0)
-        throw new Error('Expected palette not found');
-
-    if (!this._inflate) {
-        this._inflate = zlib.createInflate();
-
-        this._inflate.on('error', this.emit.bind(this, 'error'));
-        this._filter.on('complete', this._reverseFiltered.bind(this));
-
-        this._inflate.pipe(this._filter);
-    }
-
-    this._inflate.write(data);
-    length -= data.length;
-
-    if (length > 0)
-        this._handleIDAT(length);
-    else
-        this._handleChunkEnd();
-};
-
-
-Parser.prototype._handleIEND = function(length) {
-    this.read(length, this._parseIEND.bind(this));
-};
-Parser.prototype._parseIEND = function(data) {
-
-    this._crc.write(data);
-
-    // no more data to inflate
-    this._inflate.end();
-
-    this._hasIEND = true;
-    this._handleChunkEnd();
-};
-
-
-var colorTypeToBppMap = {
-    0: 1,
-    2: 3,
-    3: 1,
-    4: 2,
-    6: 4
-};
-
-Parser.prototype._reverseFiltered = function(data, width, height) {
-
-    if (this._colorType == 3) { // paletted
-
-        // use values from palette
-        var pxLineLength = width << 2;
-
-        for (var y = 0; y < height; y++) {
-            var pxRowPos = y * pxLineLength;
-
-            for (var x = 0; x < width; x++) {
-                var pxPos = pxRowPos + (x << 2),
-                    color = this._palette[data[pxPos]];
-
-                for (var i = 0; i < 4; i++)
-                    data[pxPos + i] = color[i];
-            }
-        }
-    }
-
-    this.emit('parsed', data);
-};
-
-}).call(this,require("buffer").Buffer)
-},{"./chunkstream":201,"./constants":202,"./crc":203,"./filter":204,"buffer":17,"util":43,"zlib":16}],207:[function(require,module,exports){
-(function (process,Buffer){
-// Copyright (c) 2012 Kuba Niegowski
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
-'use strict';
-
-
-var util = require('util'),
-    Stream = require('stream'),
-    Parser = require('./parser'),
-    Packer = require('./packer');
-
-
-var PNG = exports.PNG = function(options) {
-    Stream.call(this);
-
-    options = options || {};
-
-    this.width = options.width || 0;
-    this.height = options.height || 0;
-
-    this.data = this.width > 0 && this.height > 0
-            ? new Buffer(4 * this.width * this.height) : null;
-
-    this.gamma = 0;
-    this.readable = this.writable = true;
-
-    this._parser = new Parser(options || {});
-
-    this._parser.on('error', this.emit.bind(this, 'error'));
-    this._parser.on('close', this._handleClose.bind(this));
-    this._parser.on('metadata', this._metadata.bind(this));
-    this._parser.on('gamma', this._gamma.bind(this));
-    this._parser.on('parsed', function(data) {
-        this.data = data;
-        this.emit('parsed', data);
-    }.bind(this));
-
-    this._packer = new Packer(options);
-    this._packer.on('data', this.emit.bind(this, 'data'));
-    this._packer.on('end', this.emit.bind(this, 'end'));
-    this._parser.on('close', this._handleClose.bind(this));
-    this._packer.on('error', this.emit.bind(this, 'error'));
-
-};
-util.inherits(PNG, Stream);
-
-
-PNG.prototype.pack = function() {
-
-    process.nextTick(function() {
-        this._packer.pack(this.data, this.width, this.height);
-    }.bind(this));
-
-    return this;
-};
-
-
-PNG.prototype.parse = function(data, callback) {
-
-    if (callback) {
-        var onParsed = null, onError = null;
-
-        this.once('parsed', onParsed = function(data) {
-            this.removeListener('error', onError);
-
-            this.data = data;
-            callback(null, this);
-
-        }.bind(this));
-
-        this.once('error', onError = function(err) {
-            this.removeListener('parsed', onParsed);
-
-            callback(err, null);
-        }.bind(this));
-    }
-
-    this.end(data);
-    return this;
-};
-
-PNG.prototype.write = function(data) {
-    this._parser.write(data);
-    return true;
-};
-
-PNG.prototype.end = function(data) {
-    this._parser.end(data);
-};
-
-PNG.prototype._metadata = function(metadata) {
-    this.width = metadata.width;
-    this.height = metadata.height;
-    this.data = metadata.data;
-
-    delete metadata.data;
-    this.emit('metadata', metadata);
-};
-
-PNG.prototype._gamma = function(gamma) {
-    this.gamma = gamma;
-};
-
-PNG.prototype._handleClose = function() {
-    if (!this._parser.writable && !this._packer.readable)
-        this.emit('close');
-};
-
-
-PNG.prototype.bitblt = function(dst, sx, sy, w, h, dx, dy) {
-
-    var src = this;
-
-    if (sx > src.width || sy > src.height
-            || sx + w > src.width || sy + h > src.height)
-        throw new Error('bitblt reading outside image');
-    if (dx > dst.width || dy > dst.height
-            || dx + w > dst.width || dy + h > dst.height)
-        throw new Error('bitblt writing outside image');
-
-    for (var y = 0; y < h; y++) {
-        src.data.copy(dst.data,
-            ((dy + y) * dst.width + dx) << 2,
-            ((sy + y) * src.width + sx) << 2,
-            ((sy + y) * src.width + sx + w) << 2
-        );
-    }
-
-    return this;
-};
-
-}).call(this,require('_process'),require("buffer").Buffer)
-},{"./packer":205,"./parser":206,"_process":26,"buffer":17,"stream":40,"util":43}],208:[function(require,module,exports){
-arguments[4][192][0].apply(exports,arguments)
-},{"_process":26,"dup":192,"stream":40}],209:[function(require,module,exports){
-"use strict"
-
-var PNG = require("pngjs").PNG
-var through = require("through")
-
-function handleData(array, data) {
-  var i, j, ptr = 0, c
-  if(array.shape.length === 3) {
-    if(array.shape[2] === 3) {
-      for(i=0; i<array.shape[0]; ++i) {
-        for(j=0; j<array.shape[1]; ++j) {
-          data[ptr++] = array.get(i,j,0)>>>0
-          data[ptr++] = array.get(i,j,1)>>>0
-          data[ptr++] = array.get(i,j,2)>>>0
-          data[ptr++] = 255
-        }
-      }
-    } else if(array.shape[2] === 4) {
-      for(i=0; i<array.shape[0]; ++i) {
-        for(j=0; j<array.shape[1]; ++j) {
-          data[ptr++] = array.get(i,j,0)>>>0
-          data[ptr++] = array.get(i,j,1)>>>0
-          data[ptr++] = array.get(i,j,2)>>>0
-          data[ptr++] = array.get(i,j,3)>>>0
-        }
-      }
-    } else if(array.shape[3] === 1) {
-      for(i=0; i<array.shape[0]; ++i) {
-        for(j=0; j<array.shape[1]; ++j) {
-          var c = array.get(i,j,0)>>>0
-          data[ptr++] = c
-          data[ptr++] = c
-          data[ptr++] = c
-          data[ptr++] = 255
-        }
-      }
-    } else {
-      return new Error("Incompatible array shape")
-    }
-  } else if(array.shape.length === 2) {
-    for(i=0; i<array.shape[0]; ++i) {
-      for(j=0; j<array.shape[1]; ++j) {
-        var c = array.get(i,j,0)>>>0
-        data[ptr++] = c
-        data[ptr++] = c
-        data[ptr++] = c
-        data[ptr++] = 255
-      }
-    }
-  } else {
-    return new Error("Incompatible array shape")
-  }
-  return data
-}
-
-function haderror(err) {
-  var result = through()
-  result.emit("error", err)
-  return result
-}
-
-module.exports = function savePixels(array, type) {
-  switch(type.toUpperCase()) {
-    case "PNG":
-    case ".PNG":
-      var png = new PNG({
-        width: array.shape[1],
-        height: array.shape[0]
-      })
-      var data = handleData(array, png.data)
-      if (typeof data === "Error") return haderror(data)
-      png.data = data
-      return png.pack()
-
-    case "CANVAS":
-      var canvas = document.createElement("canvas")
-      var context = canvas.getContext("2d")
-      canvas.width = array.shape[1]
-      canvas.height = array.shape[0]
-      var imageData = context.getImageData(0, 0, canvas.width, canvas.height)
-      var data = imageData.data
-      data = handleData(array, data)
-      if (typeof data === "Error") return haderror(data)
-      context.putImageData(imageData, 0, 0)
-      return canvas
-    
-    default:
-      return haderror(new Error("Unsupported file type: " + type))
-  }
-}
-
-},{"pngjs":207,"through":208}],210:[function(require,module,exports){
-arguments[4][201][0].apply(exports,arguments)
-},{"buffer":17,"dup":201,"stream":40,"util":43}],211:[function(require,module,exports){
-arguments[4][202][0].apply(exports,arguments)
-},{"dup":202}],212:[function(require,module,exports){
-arguments[4][203][0].apply(exports,arguments)
-},{"dup":203,"stream":40,"util":43}],213:[function(require,module,exports){
-arguments[4][204][0].apply(exports,arguments)
-},{"./chunkstream":210,"buffer":17,"dup":204,"util":43,"zlib":16}],214:[function(require,module,exports){
-arguments[4][205][0].apply(exports,arguments)
-},{"./constants":211,"./crc":212,"./filter":213,"buffer":17,"dup":205,"stream":40,"util":43,"zlib":16}],215:[function(require,module,exports){
-arguments[4][206][0].apply(exports,arguments)
-},{"./chunkstream":210,"./constants":211,"./crc":212,"./filter":213,"buffer":17,"dup":206,"util":43,"zlib":16}],216:[function(require,module,exports){
-arguments[4][207][0].apply(exports,arguments)
-},{"./packer":214,"./parser":215,"_process":26,"buffer":17,"dup":207,"stream":40,"util":43}],217:[function(require,module,exports){
-arguments[4][192][0].apply(exports,arguments)
-},{"_process":26,"dup":192,"stream":40}],218:[function(require,module,exports){
-arguments[4][209][0].apply(exports,arguments)
-},{"dup":209,"pngjs":216,"through":217}],219:[function(require,module,exports){
+},{"ndarray":122}],269:[function(require,module,exports){
 
 var bops = require("bops");
 
@@ -34882,7 +33525,7 @@ function consolidate(buffers) {
 }
 
 
-},{"bops":221}],220:[function(require,module,exports){
+},{"bops":271}],270:[function(require,module,exports){
 /* Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
  * Version: 1.0.0.1
  * LastModified: Dec 25 1999
@@ -35638,7 +34281,7 @@ exports.inflate = function (input) {
 };
 
 
-},{"./buffer-io":219,"bops":221}],221:[function(require,module,exports){
+},{"./buffer-io":269,"bops":271}],271:[function(require,module,exports){
 var proto = {}
 module.exports = proto
 
@@ -35659,7 +34302,7 @@ function mix(from, into) {
   }
 }
 
-},{"./copy.js":224,"./create.js":225,"./from.js":226,"./is.js":227,"./join.js":228,"./read.js":230,"./subarray.js":231,"./to.js":232,"./write.js":233}],222:[function(require,module,exports){
+},{"./copy.js":274,"./create.js":275,"./from.js":276,"./is.js":277,"./join.js":278,"./read.js":280,"./subarray.js":281,"./to.js":282,"./write.js":283}],272:[function(require,module,exports){
 (function (exports) {
 	'use strict';
 
@@ -35745,7 +34388,7 @@ function mix(from, into) {
 	module.exports.fromByteArray = uint8ToBase64;
 }());
 
-},{}],223:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 module.exports = to_utf8
 
 var out = []
@@ -35820,7 +34463,7 @@ function reduced(list) {
   return out
 }
 
-},{}],224:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 module.exports = copy
 
 var slice = [].slice
@@ -35874,12 +34517,12 @@ function slow_copy(from, to, j, i, jend) {
   }
 }
 
-},{}],225:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 module.exports = function(size) {
   return new Uint8Array(size)
 }
 
-},{}],226:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 module.exports = from
 
 var base64 = require('base64-js')
@@ -36015,13 +34658,13 @@ function from_base64(str) {
   return new Uint8Array(base64.toByteArray(str)) 
 }
 
-},{"base64-js":222}],227:[function(require,module,exports){
+},{"base64-js":272}],277:[function(require,module,exports){
 
 module.exports = function(buffer) {
   return buffer instanceof Uint8Array;
 }
 
-},{}],228:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 module.exports = join
 
 function join(targets, hint) {
@@ -36059,7 +34702,7 @@ function get_length(targets) {
   return size
 }
 
-},{}],229:[function(require,module,exports){
+},{}],279:[function(require,module,exports){
 var proto
   , map
 
@@ -36081,7 +34724,7 @@ function get(target) {
   return out
 }
 
-},{}],230:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 module.exports = {
     readUInt8:      read_uint8
   , readInt8:       read_int8
@@ -36170,14 +34813,14 @@ function read_double_be(target, at) {
   return dv.getFloat64(at + target.byteOffset, false)
 }
 
-},{"./mapped.js":229}],231:[function(require,module,exports){
+},{"./mapped.js":279}],281:[function(require,module,exports){
 module.exports = subarray
 
 function subarray(buf, from, to) {
   return buf.subarray(from || 0, to || buf.length)
 }
 
-},{}],232:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 module.exports = to
 
 var base64 = require('base64-js')
@@ -36215,7 +34858,7 @@ function to_base64(buf) {
 }
 
 
-},{"base64-js":222,"to-utf8":223}],233:[function(require,module,exports){
+},{"base64-js":272,"to-utf8":273}],283:[function(require,module,exports){
 module.exports = {
     writeUInt8:      write_uint8
   , writeInt8:       write_int8
@@ -36303,7 +34946,7 @@ function write_double_be(target, value, at) {
   return dv.setFloat64(at + target.byteOffset, value, false)
 }
 
-},{"./mapped.js":229}],234:[function(require,module,exports){
+},{"./mapped.js":279}],284:[function(require,module,exports){
 (function (process){
 // Tom Robinson
 // Kris Kowal
@@ -36768,7 +35411,7 @@ var decodeDateTime = function (date, time) {
 
 
 }).call(this,require('_process'))
-},{"./inflate":220,"_process":26,"bops":221,"fs":1}],235:[function(require,module,exports){
+},{"./inflate":270,"_process":26,"bops":271,"fs":1}],285:[function(require,module,exports){
 (function (global){
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.atlaspack=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*
@@ -37030,7 +35673,7 @@ Atlas.prototype._debug = function() {
 });;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],236:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 'use strict';
 
 var expandName = function(name, order) {
@@ -37105,31 +35748,27 @@ var expandName = function(name, order) {
 module.exports = expandName;
 
 
-},{}],237:[function(require,module,exports){
-arguments[4][159][0].apply(exports,arguments)
-},{"cwise-compiler":238,"dup":159}],238:[function(require,module,exports){
-arguments[4][115][0].apply(exports,arguments)
-},{"./lib/thunk.js":240,"dup":115}],239:[function(require,module,exports){
-arguments[4][116][0].apply(exports,arguments)
-},{"dup":116,"uniq":241}],240:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":239,"dup":117}],241:[function(require,module,exports){
-arguments[4][64][0].apply(exports,arguments)
-},{"dup":64}],242:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":243}],243:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],244:[function(require,module,exports){
-arguments[4][154][0].apply(exports,arguments)
-},{"dup":154}],245:[function(require,module,exports){
-arguments[4][155][0].apply(exports,arguments)
-},{"dup":155}],246:[function(require,module,exports){
-arguments[4][156][0].apply(exports,arguments)
-},{"bit-twiddle":244,"buffer":17,"dup":156}],247:[function(require,module,exports){
-arguments[4][67][0].apply(exports,arguments)
-},{"dup":67}],248:[function(require,module,exports){
-arguments[4][68][0].apply(exports,arguments)
-},{"dup":68,"weakmap":247}],249:[function(require,module,exports){
+},{}],287:[function(require,module,exports){
+arguments[4][170][0].apply(exports,arguments)
+},{"cwise-compiler":288,"dup":170}],288:[function(require,module,exports){
+arguments[4][257][0].apply(exports,arguments)
+},{"./lib/thunk.js":290,"dup":257}],289:[function(require,module,exports){
+arguments[4][258][0].apply(exports,arguments)
+},{"dup":258,"uniq":291}],290:[function(require,module,exports){
+arguments[4][259][0].apply(exports,arguments)
+},{"./compile.js":289,"dup":259}],291:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"dup":82}],292:[function(require,module,exports){
+arguments[4][171][0].apply(exports,arguments)
+},{"dup":171}],293:[function(require,module,exports){
+arguments[4][172][0].apply(exports,arguments)
+},{"dup":172}],294:[function(require,module,exports){
+arguments[4][173][0].apply(exports,arguments)
+},{"bit-twiddle":292,"buffer":17,"dup":173}],295:[function(require,module,exports){
+arguments[4][85][0].apply(exports,arguments)
+},{"dup":85}],296:[function(require,module,exports){
+arguments[4][86][0].apply(exports,arguments)
+},{"dup":86,"weak-map":295}],297:[function(require,module,exports){
 "use strict"
 
 var ndarray = require("ndarray")
@@ -37624,9 +36263,7 @@ function createTexture2D(gl) {
 }
 module.exports = createTexture2D
 
-},{"ndarray":242,"ndarray-ops":237,"typedarray-pool":246,"webglew":248}],250:[function(require,module,exports){
-arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}],251:[function(require,module,exports){
+},{"ndarray":122,"ndarray-ops":287,"typedarray-pool":294,"webglew":296}],298:[function(require,module,exports){
 "use strict"
 
 var ndarray = require("ndarray")
@@ -37651,20 +36288,12 @@ function createNDHash(shape) {
 }
 
 module.exports = createNDHash
-},{"ndarray":252}],252:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":253}],253:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],254:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":255}],255:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],256:[function(require,module,exports){
+},{"ndarray":122}],299:[function(require,module,exports){
 'use strict';
 
 var ndarray = require('ndarray');
 var ops = require('ndarray-ops');
-var downsample = require('ndarray-downsample2x');
+var downsample = require('ndarray-resample');
 
 var makeMipMaps = function(array, rects, maxLevels) {
   var levels = [];
@@ -37775,4611 +36404,33 @@ var makeMipMaps = function(array, rects, maxLevels) {
 
 module.exports = makeMipMaps;
 
-},{"ndarray":302,"ndarray-downsample2x":257,"ndarray-ops":297}],257:[function(require,module,exports){
-"use strict"
-
-var fft = require("ndarray-fft")
-var pool = require("ndarray-scratch")
-var ops = require("ndarray-ops")
-var cwise = require("cwise")
-
-var clampScale = cwise({
-  args:["array", "array", "scalar", "scalar", "scalar"],
-  body: function clampScale(out, inp, s, l, h) {
-    var x = inp * s
-    if(x < l) { x = l }
-    if(x > h) { x = h }
-    out = x
-  }
-})
-
-
-function downsample2x(out, inp, clamp_lo, clamp_hi) {
-  if(typeof clamp_lo === "undefined") {
-    clamp_lo = -Infinity
-  }
-  if(typeof clamp_hi === "undefined") {
-    clamp_hi = Infinity
-  }
-  
-  var ishp = inp.shape
-  var oshp = out.shape
-  
-  if(out.size === 1) {
-    var v = ops.sum(inp)/inp.size
-    if(v < clamp_lo) { v = clamp_lo }
-    if(v > clamp_hi) { v = clamp_hi }
-    out.set(0,0,v)
-    return
-  }
-  
-  var d = ishp.length
-  var x = pool.malloc(ishp)
-    , y = pool.malloc(ishp)
-  
-  ops.assign(x, inp)
-  ops.assigns(y, 0.0)
-
-  fft(1, x, y)
-  
-  var lo = x.lo
-    , hi = x.hi
-  
-  var s = pool.malloc(oshp)
-    , t = pool.malloc(oshp)
-  
-  var nr = new Array(d)
-    , a = new Array(d)
-    , b = new Array(d)
-  for(var i=0; i<1<<d; ++i) {
-    for(var j=0; j<d; ++j) {
-      if(i&(1<<j)) {
-        nr[j] = oshp[j] - (oshp[j]>>1)
-        if(nr[j] === 0) {
-          continue
-        }
-        a[j] = oshp[j] - nr[j]
-        b[j] = ishp[j] - nr[j]
-      } else {
-        nr[j] = oshp[j]>>>1
-        a[j] = 0
-        b[j] = 0
-      }
-    }
-    ops.assign(hi.apply(lo.apply(s, a), nr), hi.apply(lo.apply(x, b), nr))
-    ops.assign(hi.apply(lo.apply(t, a), nr), hi.apply(lo.apply(y, b), nr))
-  }
-  
-  fft(-1, s, t)
-  clampScale(out, s, 1.0/(1<<d), clamp_lo, clamp_hi)
-  
-  pool.free(x)
-  pool.free(y)
-  pool.free(s)
-  pool.free(t)
-}
-
-module.exports = downsample2x
-},{"cwise":258,"ndarray-fft":266,"ndarray-ops":286,"ndarray-scratch":296}],258:[function(require,module,exports){
-"use strict"
-
-var parse   = require("cwise-parser")
-var compile = require("cwise-compiler")
-
-var REQUIRED_FIELDS = [ "args", "body" ]
-var OPTIONAL_FIELDS = [ "pre", "post", "printCode", "funcName", "blockSize" ]
-
-function createCWise(user_args) {
-  //Check parameters
-  for(var id in user_args) {
-    if(REQUIRED_FIELDS.indexOf(id) < 0 &&
-       OPTIONAL_FIELDS.indexOf(id) < 0) {
-      console.warn("cwise: Unknown argument '"+id+"' passed to expression compiler")
-    }
-  }
-  for(var i=0; i<REQUIRED_FIELDS.length; ++i) {
-    if(!user_args[REQUIRED_FIELDS[i]]) {
-      throw new Error("cwise: Missing argument: " + REQUIRED_FIELDS[i])
-    }
-  }
-  
-  //Parse blocks
-  return compile({
-    args:       user_args.args,
-    pre:        parse(user_args.pre || function(){}),
-    body:       parse(user_args.body),
-    post:       parse(user_args.post || function(){}),
-    debug:      !!user_args.printCode,
-    funcName:   user_args.funcName || user_args.body.name || "cwise",
-    blockSize:  user_args.blockSize || 64
-  })
-}
-
-module.exports = createCWise
-
-},{"cwise-compiler":259,"cwise-parser":263}],259:[function(require,module,exports){
-"use strict"
-
-var createThunk = require("./lib/thunk.js")
-
-function Procedure() {
-  this.argTypes = []
-  this.shimArgs = []
-  this.arrayArgs = []
-  this.scalarArgs = []
-  this.indexArgs = []
-  this.shapeArgs = []
-  this.funcName = ""
-  this.pre = null
-  this.body = null
-  this.post = null
-  this.debug = false
-}
-
-function compileCwise(user_args) {
-  //Create procedure
-  var proc = new Procedure()
-  
-  //Parse blocks
-  proc.pre    = user_args.pre
-  proc.body   = user_args.body
-  proc.post   = user_args.post
-
-  //Parse arguments
-  var proc_args = user_args.args.slice(0)
-  proc.argTypes = proc_args
-  for(var i=0; i<proc_args.length; ++i) {
-    switch(proc_args[i]) {
-      case "array":
-        proc.arrayArgs.push(i)
-        proc.shimArgs.push("array" + i)
-        if(i < proc.pre.args.length && proc.pre.args[i].count>0) {
-          throw new Error("cwise: pre() block may not reference array args")
-        }
-        if(i < proc.post.args.length && proc.post.args[i].count>0) {
-          throw new Error("cwise: post() block may not reference array args")
-        }
-      break
-      case "scalar":
-        proc.scalarArgs.push(i)
-        proc.shimArgs.push("scalar" + i)
-      break
-      case "index":
-        proc.indexArgs.push(i)
-        if(i < proc.pre.args.length && proc.pre.args[i].count > 0) {
-          throw new Error("cwise: pre() block may not reference array index")
-        }
-        if(i < proc.body.args.length && proc.body.args[i].lvalue) {
-          throw new Error("cwise: body() block may not write to array index")
-        }
-        if(i < proc.post.args.length && proc.post.args[i].count > 0) {
-          throw new Error("cwise: post() block may not reference array index")
-        }
-      break
-      case "shape":
-        proc.shapeArgs.push(i)
-        if(i < proc.pre.args.length && proc.pre.args[i].lvalue) {
-          throw new Error("cwise: pre() block may not write to array shape")
-        }
-        if(i < proc.body.args.length && proc.body.args[i].lvalue) {
-          throw new Error("cwise: body() block may not write to array shape")
-        }
-        if(i < proc.post.args.length && proc.post.args[i].lvalue) {
-          throw new Error("cwise: post() block may not write to array shape")
-        }
-      break
-      default:
-        throw new Error("cwise: Unknown argument type " + proc_args[i])
-    }
-  }
-  
-  //Make sure at least one array argument was specified
-  if(proc.arrayArgs.length <= 0) {
-    throw new Error("cwise: No array arguments specified")
-  }
-  
-  //Make sure arguments are correct
-  if(proc.pre.args.length > proc_args.length) {
-    throw new Error("cwise: Too many arguments in pre() block")
-  }
-  if(proc.body.args.length > proc_args.length) {
-    throw new Error("cwise: Too many arguments in body() block")
-  }
-  if(proc.post.args.length > proc_args.length) {
-    throw new Error("cwise: Too many arguments in post() block")
-  }
-
-  //Check debug flag
-  proc.debug = !!user_args.printCode || !!user_args.debug
-  
-  //Retrieve name
-  proc.funcName = user_args.funcName || "cwise"
-  
-  //Read in block size
-  proc.blockSize = user_args.blockSize || 64
-
-  return createThunk(proc)
-}
-
-module.exports = compileCwise
-
-},{"./lib/thunk.js":261}],260:[function(require,module,exports){
-"use strict"
-
-var uniq = require("uniq")
-
-function innerFill(order, proc, body) {
-  var dimension = order.length
-    , nargs = proc.arrayArgs.length
-    , has_index = proc.indexArgs.length>0
-    , code = []
-    , vars = []
-    , idx=0, pidx=0, i, j
-  for(i=0; i<dimension; ++i) {
-    vars.push(["i",i,"=0"].join(""))
-  }
-  //Compute scan deltas
-  for(j=0; j<nargs; ++j) {
-    for(i=0; i<dimension; ++i) {
-      pidx = idx
-      idx = order[i]
-      if(i === 0) {
-        vars.push(["d",j,"s",i,"=t",j,"[",idx,"]"].join(""))
-      } else {
-        vars.push(["d",j,"s",i,"=(t",j,"[",idx,"]-s",pidx,"*t",j,"[",pidx,"])"].join(""))
-      }
-    }
-  }
-  code.push("var " + vars.join(","))
-  //Scan loop
-  for(i=dimension-1; i>=0; --i) {
-    idx = order[i]
-    code.push(["for(i",i,"=0;i",i,"<s",idx,";++i",i,"){"].join(""))
-  }
-  //Push body of inner loop
-  code.push(body)
-  //Advance scan pointers
-  for(i=0; i<dimension; ++i) {
-    pidx = idx
-    idx = order[i]
-    for(j=0; j<nargs; ++j) {
-      code.push(["p",j,"+=d",j,"s",i].join(""))
-    }
-    if(has_index) {
-      if(i > 0) {
-        code.push(["index[",pidx,"]-=s",pidx].join(""))
-      }
-      code.push(["++index[",idx,"]"].join(""))
-    }
-    code.push("}")
-  }
-  return code.join("\n")
-}
-
-function outerFill(matched, order, proc, body) {
-  var dimension = order.length
-    , nargs = proc.arrayArgs.length
-    , blockSize = proc.blockSize
-    , has_index = proc.indexArgs.length > 0
-    , code = []
-  for(var i=0; i<nargs; ++i) {
-    code.push(["var offset",i,"=p",i].join(""))
-  }
-  //Generate matched loops
-  for(var i=matched; i<dimension; ++i) {
-    code.push(["for(var j"+i+"=SS[", order[i], "]|0;j", i, ">0;){"].join(""))
-    code.push(["if(j",i,"<",blockSize,"){"].join(""))
-    code.push(["s",order[i],"=j",i].join(""))
-    code.push(["j",i,"=0"].join(""))
-    code.push(["}else{s",order[i],"=",blockSize].join(""))
-    code.push(["j",i,"-=",blockSize,"}"].join(""))
-    if(has_index) {
-      code.push(["index[",order[i],"]=j",i].join(""))
-    }
-  }
-  for(var i=0; i<nargs; ++i) {
-    var indexStr = ["offset"+i]
-    for(var j=matched; j<dimension; ++j) {
-      indexStr.push(["j",j,"*t",i,"[",order[j],"]"].join(""))
-    }
-    code.push(["p",i,"=(",indexStr.join("+"),")"].join(""))
-  }
-  code.push(innerFill(order, proc, body))
-  for(var i=matched; i<dimension; ++i) {
-    code.push("}")
-  }
-  return code.join("\n")
-}
-
-//Count the number of compatible inner orders
-function countMatches(orders) {
-  var matched = 0, dimension = orders[0].length
-  while(matched < dimension) {
-    for(var j=1; j<orders.length; ++j) {
-      if(orders[j][matched] !== orders[0][matched]) {
-        return matched
-      }
-    }
-    ++matched
-  }
-  return matched
-}
-
-//Processes a block according to the given data types
-function processBlock(block, proc, dtypes) {
-  var code = block.body
-  var pre = []
-  var post = []
-  for(var i=0; i<block.args.length; ++i) {
-    var carg = block.args[i]
-    if(carg.count <= 0) {
-      continue
-    }
-    var re = new RegExp(carg.name, "g")
-    switch(proc.argTypes[i]) {
-      case "array":
-        var arrNum = proc.arrayArgs.indexOf(i)
-        if(carg.count === 1) {
-          if(dtypes[arrNum] === "generic") {
-            if(carg.lvalue) {
-              pre.push(["var l", arrNum, "=a", arrNum, ".get(p", arrNum, ")"].join(""))
-              code = code.replace(re, "l"+arrNum)
-              post.push(["a", arrNum, ".set(p", arrNum, ",l",arrNum,")"].join(""))
-            } else {
-              code = code.replace(re, ["a", arrNum, ".get(p", arrNum, ")"].join(""))
-            }
-          } else {
-            code = code.replace(re, ["a", arrNum, "[p", arrNum, "]"].join(""))
-          }
-        } else if(dtypes[arrNum] === "generic") {
-          pre.push(["var l", arrNum, "=a", arrNum, ".get(p", arrNum, ")"].join(""))
-          code = code.replace(re, "l"+arrNum)
-          if(carg.lvalue) {
-            post.push(["a", arrNum, ".set(p", arrNum, ",l",arrNum,")"].join(""))
-          }
-        } else {
-          pre.push(["var l", arrNum, "=a", arrNum, "[p", arrNum, "]"].join(""))
-          code = code.replace(re, "l"+arrNum)
-          if(carg.lvalue) {
-            post.push(["a", arrNum, "[p", arrNum, "]=l",arrNum].join(""))
-          }
-        }
-      break
-      case "scalar":
-        code = code.replace(re, "Y" + proc.scalarArgs.indexOf(i))
-      break
-      case "index":
-        code = code.replace(re, "index")
-      break
-      case "shape":
-        code = code.replace(re, "shape")
-      break
-    }
-  }
-  return [pre.join("\n"), code, post.join("\n")].join("\n").trim()
-}
-
-function typeSummary(dtypes) {
-  var summary = new Array(dtypes.length)
-  var allEqual = true
-  for(var i=0; i<dtypes.length; ++i) {
-    var t = dtypes[i]
-    var digits = t.match(/\d+/)
-    if(!digits) {
-      digits = ""
-    } else {
-      digits = digits[0]
-    }
-    if(t.charAt(0) === 0) {
-      summary[i] = "u" + t.charAt(1) + digits
-    } else {
-      summary[i] = t.charAt(0) + digits
-    }
-    if(i > 0) {
-      allEqual = allEqual && summary[i] === summary[i-1]
-    }
-  }
-  if(allEqual) {
-    return summary[0]
-  }
-  return summary.join("")
-}
-
-//Generates a cwise operator
-function generateCWiseOp(proc, typesig) {
-
-  //Compute dimension
-  var dimension = typesig[1].length|0
-  var orders = new Array(proc.arrayArgs.length)
-  var dtypes = new Array(proc.arrayArgs.length)
-
-  //First create arguments for procedure
-  var arglist = ["SS"]
-  var code = ["'use strict'"]
-  var vars = []
-  
-  for(var j=0; j<dimension; ++j) {
-    vars.push(["s", j, "=SS[", j, "]"].join(""))
-  }
-  for(var i=0; i<proc.arrayArgs.length; ++i) {
-    arglist.push("a"+i)
-    arglist.push("t"+i)
-    arglist.push("p"+i)
-    dtypes[i] = typesig[2*i]
-    orders[i] = typesig[2*i+1]
-  }
-  for(var i=0; i<proc.scalarArgs.length; ++i) {
-    arglist.push("Y" + i)
-  }
-  if(proc.shapeArgs.length > 0) {
-    vars.push("shape=SS.slice(0)")
-  }
-  if(proc.indexArgs.length > 0) {
-    var zeros = new Array(dimension)
-    for(var i=0; i<dimension; ++i) {
-      zeros[i] = "0"
-    }
-    vars.push(["index=[", zeros.join(","), "]"].join(""))
-  }
-
-  //Prepare this variables
-  var thisVars = uniq([].concat(proc.pre.thisVars)
-                      .concat(proc.body.thisVars)
-                      .concat(proc.post.thisVars))
-  vars = vars.concat(thisVars)
-  code.push("var " + vars.join(","))
-  for(var i=0; i<proc.arrayArgs.length; ++i) {
-    code.push("p"+i+"|=0")
-  }
-  
-  //Inline prelude
-  if(proc.pre.body.length > 3) {
-    code.push(processBlock(proc.pre, proc, dtypes))
-  }
-
-  //Process body
-  var body = processBlock(proc.body, proc, dtypes)
-  var matched = countMatches(orders)
-  if(matched < dimension) {
-    code.push(outerFill(matched, orders[0], proc, body))
-  } else {
-    code.push(innerFill(orders[0], proc, body))
-  }
-
-  //Inline epilog
-  if(proc.post.body.length > 3) {
-    code.push(processBlock(proc.post, proc, dtypes))
-  }
-  
-  if(proc.debug) {
-    console.log("Generated cwise routine for ", typesig, ":\n\n", code.join("\n"))
-  }
-  
-  var loopName = [(proc.funcName||"unnamed"), "_cwise_loop_", orders[0].join("s"),"m",matched,typeSummary(dtypes)].join("")
-  var f = new Function(["function ",loopName,"(", arglist.join(","),"){", code.join("\n"),"} return ", loopName].join(""))
-  return f()
-}
-module.exports = generateCWiseOp
-},{"uniq":262}],261:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":260,"dup":117}],262:[function(require,module,exports){
-arguments[4][186][0].apply(exports,arguments)
-},{"dup":186}],263:[function(require,module,exports){
-"use strict"
-
-var esprima = require("esprima")
-var uniq = require("uniq")
-
-var PREFIX_COUNTER = 0
-
-function CompiledArgument(name, lvalue, rvalue) {
-  this.name = name
-  this.lvalue = lvalue
-  this.rvalue = rvalue
-  this.count = 0
-}
-
-function CompiledRoutine(body, args, thisVars, localVars) {
-  this.body = body
-  this.args = args
-  this.thisVars = thisVars
-  this.localVars = localVars
-}
-
-function isGlobal(identifier) {
-  if(identifier === "eval") {
-    throw new Error("cwise-parser: eval() not allowed")
-  }
-  if(typeof window !== "undefined") {
-    return identifier in window
-  } else if(typeof GLOBAL !== "undefined") {
-    return identifier in GLOBAL
-  } else if(typeof self !== "undefined") {
-    return identifier in self
-  } else {
-    return false
-  }
-}
-
-function getArgNames(ast) {
-  var params = ast.body[0].expression.callee.params
-  var names = new Array(params.length)
-  for(var i=0; i<params.length; ++i) {
-    names[i] = params[i].name
-  }
-  return names
-}
-
-function preprocess(func) {
-  var src = ["(", func, ")()"].join("")
-  var ast = esprima.parse(src, { range: true })
-  
-  //Compute new prefix
-  var prefix = "_inline_" + (PREFIX_COUNTER++) + "_"
-  
-  //Parse out arguments
-  var argNames = getArgNames(ast)
-  var compiledArgs = new Array(argNames.length)
-  for(var i=0; i<argNames.length; ++i) {
-    compiledArgs[i] = new CompiledArgument([prefix, "arg", i, "_"].join(""), false, false)
-  }
-  
-  //Create temporary data structure for source rewriting
-  var exploded = new Array(src.length)
-  for(var i=0, n=src.length; i<n; ++i) {
-    exploded[i] = src.charAt(i)
-  }
-  
-  //Local variables
-  var localVars = []
-  var thisVars = []
-  var computedThis = false
-  
-  //Retrieves a local variable
-  function createLocal(id) {
-    var nstr = prefix + id.replace(/\_/g, "__")
-    localVars.push(nstr)
-    return nstr
-  }
-  
-  //Creates a this variable
-  function createThisVar(id) {
-    var nstr = "this_" + id.replace(/\_/g, "__")
-    thisVars.push(nstr)
-    return nstr
-  }
-  
-  //Rewrites an ast node
-  function rewrite(node, nstr) {
-    var lo = node.range[0], hi = node.range[1]
-    for(var i=lo+1; i<hi; ++i) {
-      exploded[i] = ""
-    }
-    exploded[lo] = nstr
-  }
-  
-  //Remove any underscores
-  function escapeString(str) {
-    return "'"+(str.replace(/\_/g, "\\_").replace(/\'/g, "\'"))+"'"
-  }
-  
-  //Returns the source of an identifier
-  function source(node) {
-    return exploded.slice(node.range[0], node.range[1]).join("")
-  }
-  
-  //Computes the usage of a node
-  var LVALUE = 1
-  var RVALUE = 2
-  function getUsage(node) {
-    if(node.parent.type === "AssignmentExpression") {
-      if(node.parent.left === node) {
-        if(node.parent.operator === "=") {
-          return LVALUE
-        }
-        return LVALUE|RVALUE
-      }
-    }
-    if(node.parent.type === "UpdateExpression") {
-      return LVALUE|RVALUE
-    }
-    return RVALUE
-  }
-  
-  //Handle visiting a node
-  (function visit(node, parent) {
-    node.parent = parent
-    if(node.type === "MemberExpression") {
-      //Handle member expression
-      if(node.computed) {
-        visit(node.object, node)
-        visit(node.property, node)
-      } else if(node.object.type === "ThisExpression") {
-        rewrite(node, createThisVar(node.property.name))
-      } else {
-        visit(node.object, node)
-      }
-    } else if(node.type === "ThisExpression") {
-      throw new Error("cwise-parser: Computed this is not allowed")
-    } else if(node.type === "Identifier") {
-      //Handle identifier
-      var name = node.name
-      var argNo = argNames.indexOf(name)
-      if(argNo >= 0) {
-        var carg = compiledArgs[argNo]
-        var usage = getUsage(node)
-        if(usage & LVALUE) {
-          carg.lvalue = true
-        }
-        if(usage & RVALUE) {
-          carg.rvalue = true
-        }
-        ++carg.count
-        rewrite(node, carg.name)
-      } else if(isGlobal(name)) {
-        //Don't rewrite globals
-      } else {
-        rewrite(node, createLocal(name))
-      }
-    } else if(node.type === "Literal") {
-      if(typeof node.value === "string") {
-        rewrite(node, escapeString(node.value))
-      }
-    } else if(node.type === "WithStatement") {
-      throw new Error("cwise-parser: with() statements not allowed")
-    } else {
-      //Visit all children
-      var keys = Object.keys(node)
-      for(var i=0, n=keys.length; i<n; ++i) {
-        if(keys[i] === "parent") {
-          continue
-        }
-        var value = node[keys[i]]
-        if(value) {
-          if(value instanceof Array) {
-            for(var j=0; j<value.length; ++j) {
-              if(value[j] && typeof value[j].type === "string") {
-                visit(value[j], node)
-              }
-            }
-          } else if(typeof value.type === "string") {
-            visit(value, node)
-          }
-        }
-      }
-    }
-  })(ast.body[0].expression.callee.body, undefined)
-  
-  //Remove duplicate variables
-  uniq(localVars)
-  uniq(thisVars)
-  
-  //Return body
-  var routine = new CompiledRoutine(source(ast.body[0].expression.callee.body), compiledArgs, thisVars, localVars)
-  return routine
-}
-
-module.exports = preprocess
-},{"esprima":264,"uniq":265}],264:[function(require,module,exports){
-/*
-  Copyright (C) 2012 Ariya Hidayat <ariya.hidayat@gmail.com>
-  Copyright (C) 2012 Mathias Bynens <mathias@qiwi.be>
-  Copyright (C) 2012 Joost-Wim Boekesteijn <joost-wim@boekesteijn.nl>
-  Copyright (C) 2012 Kris Kowal <kris.kowal@cixar.com>
-  Copyright (C) 2012 Yusuke Suzuki <utatane.tea@gmail.com>
-  Copyright (C) 2012 Arpad Borsos <arpad.borsos@googlemail.com>
-  Copyright (C) 2011 Ariya Hidayat <ariya.hidayat@gmail.com>
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-  ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
-
-/*jslint bitwise:true plusplus:true */
-/*global esprima:true, define:true, exports:true, window: true,
-throwError: true, createLiteral: true, generateStatement: true,
-parseAssignmentExpression: true, parseBlock: true, parseExpression: true,
-parseFunctionDeclaration: true, parseFunctionExpression: true,
-parseFunctionSourceElements: true, parseVariableIdentifier: true,
-parseLeftHandSideExpression: true,
-parseStatement: true, parseSourceElement: true */
-
-(function (root, factory) {
-    'use strict';
-
-    // Universal Module Definition (UMD) to support AMD, CommonJS/Node.js,
-    // Rhino, and plain browser loading.
-    if (typeof define === 'function' && define.amd) {
-        define(['exports'], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(exports);
-    } else {
-        factory((root.esprima = {}));
-    }
-}(this, function (exports) {
-    'use strict';
-
-    var Token,
-        TokenName,
-        Syntax,
-        PropertyKind,
-        Messages,
-        Regex,
-        source,
-        strict,
-        index,
-        lineNumber,
-        lineStart,
-        length,
-        buffer,
-        state,
-        extra;
-
-    Token = {
-        BooleanLiteral: 1,
-        EOF: 2,
-        Identifier: 3,
-        Keyword: 4,
-        NullLiteral: 5,
-        NumericLiteral: 6,
-        Punctuator: 7,
-        StringLiteral: 8
-    };
-
-    TokenName = {};
-    TokenName[Token.BooleanLiteral] = 'Boolean';
-    TokenName[Token.EOF] = '<end>';
-    TokenName[Token.Identifier] = 'Identifier';
-    TokenName[Token.Keyword] = 'Keyword';
-    TokenName[Token.NullLiteral] = 'Null';
-    TokenName[Token.NumericLiteral] = 'Numeric';
-    TokenName[Token.Punctuator] = 'Punctuator';
-    TokenName[Token.StringLiteral] = 'String';
-
-    Syntax = {
-        AssignmentExpression: 'AssignmentExpression',
-        ArrayExpression: 'ArrayExpression',
-        BlockStatement: 'BlockStatement',
-        BinaryExpression: 'BinaryExpression',
-        BreakStatement: 'BreakStatement',
-        CallExpression: 'CallExpression',
-        CatchClause: 'CatchClause',
-        ConditionalExpression: 'ConditionalExpression',
-        ContinueStatement: 'ContinueStatement',
-        DoWhileStatement: 'DoWhileStatement',
-        DebuggerStatement: 'DebuggerStatement',
-        EmptyStatement: 'EmptyStatement',
-        ExpressionStatement: 'ExpressionStatement',
-        ForStatement: 'ForStatement',
-        ForInStatement: 'ForInStatement',
-        FunctionDeclaration: 'FunctionDeclaration',
-        FunctionExpression: 'FunctionExpression',
-        Identifier: 'Identifier',
-        IfStatement: 'IfStatement',
-        Literal: 'Literal',
-        LabeledStatement: 'LabeledStatement',
-        LogicalExpression: 'LogicalExpression',
-        MemberExpression: 'MemberExpression',
-        NewExpression: 'NewExpression',
-        ObjectExpression: 'ObjectExpression',
-        Program: 'Program',
-        Property: 'Property',
-        ReturnStatement: 'ReturnStatement',
-        SequenceExpression: 'SequenceExpression',
-        SwitchStatement: 'SwitchStatement',
-        SwitchCase: 'SwitchCase',
-        ThisExpression: 'ThisExpression',
-        ThrowStatement: 'ThrowStatement',
-        TryStatement: 'TryStatement',
-        UnaryExpression: 'UnaryExpression',
-        UpdateExpression: 'UpdateExpression',
-        VariableDeclaration: 'VariableDeclaration',
-        VariableDeclarator: 'VariableDeclarator',
-        WhileStatement: 'WhileStatement',
-        WithStatement: 'WithStatement'
-    };
-
-    PropertyKind = {
-        Data: 1,
-        Get: 2,
-        Set: 4
-    };
-
-    // Error messages should be identical to V8.
-    Messages = {
-        UnexpectedToken:  'Unexpected token %0',
-        UnexpectedNumber:  'Unexpected number',
-        UnexpectedString:  'Unexpected string',
-        UnexpectedIdentifier:  'Unexpected identifier',
-        UnexpectedReserved:  'Unexpected reserved word',
-        UnexpectedEOS:  'Unexpected end of input',
-        NewlineAfterThrow:  'Illegal newline after throw',
-        InvalidRegExp: 'Invalid regular expression',
-        UnterminatedRegExp:  'Invalid regular expression: missing /',
-        InvalidLHSInAssignment:  'Invalid left-hand side in assignment',
-        InvalidLHSInForIn:  'Invalid left-hand side in for-in',
-        MultipleDefaultsInSwitch: 'More than one default clause in switch statement',
-        NoCatchOrFinally:  'Missing catch or finally after try',
-        UnknownLabel: 'Undefined label \'%0\'',
-        Redeclaration: '%0 \'%1\' has already been declared',
-        IllegalContinue: 'Illegal continue statement',
-        IllegalBreak: 'Illegal break statement',
-        IllegalReturn: 'Illegal return statement',
-        StrictModeWith:  'Strict mode code may not include a with statement',
-        StrictCatchVariable:  'Catch variable may not be eval or arguments in strict mode',
-        StrictVarName:  'Variable name may not be eval or arguments in strict mode',
-        StrictParamName:  'Parameter name eval or arguments is not allowed in strict mode',
-        StrictParamDupe: 'Strict mode function may not have duplicate parameter names',
-        StrictFunctionName:  'Function name may not be eval or arguments in strict mode',
-        StrictOctalLiteral:  'Octal literals are not allowed in strict mode.',
-        StrictDelete:  'Delete of an unqualified identifier in strict mode.',
-        StrictDuplicateProperty:  'Duplicate data property in object literal not allowed in strict mode',
-        AccessorDataProperty:  'Object literal may not have data and accessor property with the same name',
-        AccessorGetSet:  'Object literal may not have multiple get/set accessors with the same name',
-        StrictLHSAssignment:  'Assignment to eval or arguments is not allowed in strict mode',
-        StrictLHSPostfix:  'Postfix increment/decrement may not have eval or arguments operand in strict mode',
-        StrictLHSPrefix:  'Prefix increment/decrement may not have eval or arguments operand in strict mode',
-        StrictReservedWord:  'Use of future reserved word in strict mode'
-    };
-
-    // See also tools/generate-unicode-regex.py.
-    Regex = {
-        NonAsciiIdentifierStart: new RegExp('[\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u0527\u0531-\u0556\u0559\u0561-\u0587\u05d0-\u05ea\u05f0-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u08a0\u08a2-\u08ac\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0977\u0979-\u097f\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c33\u0c35-\u0c39\u0c3d\u0c58\u0c59\u0c60\u0c61\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d60\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e87\u0e88\u0e8a\u0e8d\u0e94-\u0e97\u0e99-\u0e9f\u0ea1-\u0ea3\u0ea5\u0ea7\u0eaa\u0eab\u0ead-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f4\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f0\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1877\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191c\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19c1-\u19c7\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1ce9-\u1cec\u1cee-\u1cf1\u1cf5\u1cf6\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2119-\u211d\u2124\u2126\u2128\u212a-\u212d\u212f-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2e2f\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309d-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312d\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fcc\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua697\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua78e\ua790-\ua793\ua7a0-\ua7aa\ua7f8-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa80-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uabc0-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]'),
-        NonAsciiIdentifierPart: new RegExp('[\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0300-\u0374\u0376\u0377\u037a-\u037d\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u0483-\u0487\u048a-\u0527\u0531-\u0556\u0559\u0561-\u0587\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u05d0-\u05ea\u05f0-\u05f2\u0610-\u061a\u0620-\u0669\u066e-\u06d3\u06d5-\u06dc\u06df-\u06e8\u06ea-\u06fc\u06ff\u0710-\u074a\u074d-\u07b1\u07c0-\u07f5\u07fa\u0800-\u082d\u0840-\u085b\u08a0\u08a2-\u08ac\u08e4-\u08fe\u0900-\u0963\u0966-\u096f\u0971-\u0977\u0979-\u097f\u0981-\u0983\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bc-\u09c4\u09c7\u09c8\u09cb-\u09ce\u09d7\u09dc\u09dd\u09df-\u09e3\u09e6-\u09f1\u0a01-\u0a03\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a59-\u0a5c\u0a5e\u0a66-\u0a75\u0a81-\u0a83\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abc-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ad0\u0ae0-\u0ae3\u0ae6-\u0aef\u0b01-\u0b03\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3c-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b56\u0b57\u0b5c\u0b5d\u0b5f-\u0b63\u0b66-\u0b6f\u0b71\u0b82\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd0\u0bd7\u0be6-\u0bef\u0c01-\u0c03\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c33\u0c35-\u0c39\u0c3d-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c58\u0c59\u0c60-\u0c63\u0c66-\u0c6f\u0c82\u0c83\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbc-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0cde\u0ce0-\u0ce3\u0ce6-\u0cef\u0cf1\u0cf2\u0d02\u0d03\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d-\u0d44\u0d46-\u0d48\u0d4a-\u0d4e\u0d57\u0d60-\u0d63\u0d66-\u0d6f\u0d7a-\u0d7f\u0d82\u0d83\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0df2\u0df3\u0e01-\u0e3a\u0e40-\u0e4e\u0e50-\u0e59\u0e81\u0e82\u0e84\u0e87\u0e88\u0e8a\u0e8d\u0e94-\u0e97\u0e99-\u0e9f\u0ea1-\u0ea3\u0ea5\u0ea7\u0eaa\u0eab\u0ead-\u0eb9\u0ebb-\u0ebd\u0ec0-\u0ec4\u0ec6\u0ec8-\u0ecd\u0ed0-\u0ed9\u0edc-\u0edf\u0f00\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e-\u0f47\u0f49-\u0f6c\u0f71-\u0f84\u0f86-\u0f97\u0f99-\u0fbc\u0fc6\u1000-\u1049\u1050-\u109d\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u135d-\u135f\u1380-\u138f\u13a0-\u13f4\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f0\u1700-\u170c\u170e-\u1714\u1720-\u1734\u1740-\u1753\u1760-\u176c\u176e-\u1770\u1772\u1773\u1780-\u17d3\u17d7\u17dc\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u1820-\u1877\u1880-\u18aa\u18b0-\u18f5\u1900-\u191c\u1920-\u192b\u1930-\u193b\u1946-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u19d0-\u19d9\u1a00-\u1a1b\u1a20-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1aa7\u1b00-\u1b4b\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1bf3\u1c00-\u1c37\u1c40-\u1c49\u1c4d-\u1c7d\u1cd0-\u1cd2\u1cd4-\u1cf6\u1d00-\u1de6\u1dfc-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u200c\u200d\u203f\u2040\u2054\u2071\u207f\u2090-\u209c\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2102\u2107\u210a-\u2113\u2115\u2119-\u211d\u2124\u2126\u2128\u212a-\u212d\u212f-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d7f-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u2de0-\u2dff\u2e2f\u3005-\u3007\u3021-\u302f\u3031-\u3035\u3038-\u303c\u3041-\u3096\u3099\u309a\u309d-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312d\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fcc\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua62b\ua640-\ua66f\ua674-\ua67d\ua67f-\ua697\ua69f-\ua6f1\ua717-\ua71f\ua722-\ua788\ua78b-\ua78e\ua790-\ua793\ua7a0-\ua7aa\ua7f8-\ua827\ua840-\ua873\ua880-\ua8c4\ua8d0-\ua8d9\ua8e0-\ua8f7\ua8fb\ua900-\ua92d\ua930-\ua953\ua960-\ua97c\ua980-\ua9c0\ua9cf-\ua9d9\uaa00-\uaa36\uaa40-\uaa4d\uaa50-\uaa59\uaa60-\uaa76\uaa7a\uaa7b\uaa80-\uaac2\uaadb-\uaadd\uaae0-\uaaef\uaaf2-\uaaf6\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uabc0-\uabea\uabec\uabed\uabf0-\uabf9\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe00-\ufe0f\ufe20-\ufe26\ufe33\ufe34\ufe4d-\ufe4f\ufe70-\ufe74\ufe76-\ufefc\uff10-\uff19\uff21-\uff3a\uff3f\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc]')
-    };
-
-    // Ensure the condition is true, otherwise throw an error.
-    // This is only to have a better contract semantic, i.e. another safety net
-    // to catch a logic error. The condition shall be fulfilled in normal case.
-    // Do NOT use this to enforce a certain condition on any user input.
-
-    function assert(condition, message) {
-        if (!condition) {
-            throw new Error('ASSERT: ' + message);
-        }
-    }
-
-    function sliceSource(from, to) {
-        return source.slice(from, to);
-    }
-
-    if (typeof 'esprima'[0] === 'undefined') {
-        sliceSource = function sliceArraySource(from, to) {
-            return source.slice(from, to).join('');
-        };
-    }
-
-    function isDecimalDigit(ch) {
-        return '0123456789'.indexOf(ch) >= 0;
-    }
-
-    function isHexDigit(ch) {
-        return '0123456789abcdefABCDEF'.indexOf(ch) >= 0;
-    }
-
-    function isOctalDigit(ch) {
-        return '01234567'.indexOf(ch) >= 0;
-    }
-
-
-    // 7.2 White Space
-
-    function isWhiteSpace(ch) {
-        return (ch === ' ') || (ch === '\u0009') || (ch === '\u000B') ||
-            (ch === '\u000C') || (ch === '\u00A0') ||
-            (ch.charCodeAt(0) >= 0x1680 &&
-             '\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\uFEFF'.indexOf(ch) >= 0);
-    }
-
-    // 7.3 Line Terminators
-
-    function isLineTerminator(ch) {
-        return (ch === '\n' || ch === '\r' || ch === '\u2028' || ch === '\u2029');
-    }
-
-    // 7.6 Identifier Names and Identifiers
-
-    function isIdentifierStart(ch) {
-        return (ch === '$') || (ch === '_') || (ch === '\\') ||
-            (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-            ((ch.charCodeAt(0) >= 0x80) && Regex.NonAsciiIdentifierStart.test(ch));
-    }
-
-    function isIdentifierPart(ch) {
-        return (ch === '$') || (ch === '_') || (ch === '\\') ||
-            (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
-            ((ch >= '0') && (ch <= '9')) ||
-            ((ch.charCodeAt(0) >= 0x80) && Regex.NonAsciiIdentifierPart.test(ch));
-    }
-
-    // 7.6.1.2 Future Reserved Words
-
-    function isFutureReservedWord(id) {
-        switch (id) {
-
-        // Future reserved words.
-        case 'class':
-        case 'enum':
-        case 'export':
-        case 'extends':
-        case 'import':
-        case 'super':
-            return true;
-        }
-
-        return false;
-    }
-
-    function isStrictModeReservedWord(id) {
-        switch (id) {
-
-        // Strict Mode reserved words.
-        case 'implements':
-        case 'interface':
-        case 'package':
-        case 'private':
-        case 'protected':
-        case 'public':
-        case 'static':
-        case 'yield':
-        case 'let':
-            return true;
-        }
-
-        return false;
-    }
-
-    function isRestrictedWord(id) {
-        return id === 'eval' || id === 'arguments';
-    }
-
-    // 7.6.1.1 Keywords
-
-    function isKeyword(id) {
-        var keyword = false;
-        switch (id.length) {
-        case 2:
-            keyword = (id === 'if') || (id === 'in') || (id === 'do');
-            break;
-        case 3:
-            keyword = (id === 'var') || (id === 'for') || (id === 'new') || (id === 'try');
-            break;
-        case 4:
-            keyword = (id === 'this') || (id === 'else') || (id === 'case') || (id === 'void') || (id === 'with');
-            break;
-        case 5:
-            keyword = (id === 'while') || (id === 'break') || (id === 'catch') || (id === 'throw');
-            break;
-        case 6:
-            keyword = (id === 'return') || (id === 'typeof') || (id === 'delete') || (id === 'switch');
-            break;
-        case 7:
-            keyword = (id === 'default') || (id === 'finally');
-            break;
-        case 8:
-            keyword = (id === 'function') || (id === 'continue') || (id === 'debugger');
-            break;
-        case 10:
-            keyword = (id === 'instanceof');
-            break;
-        }
-
-        if (keyword) {
-            return true;
-        }
-
-        switch (id) {
-        // Future reserved words.
-        // 'const' is specialized as Keyword in V8.
-        case 'const':
-            return true;
-
-        // For compatiblity to SpiderMonkey and ES.next
-        case 'yield':
-        case 'let':
-            return true;
-        }
-
-        if (strict && isStrictModeReservedWord(id)) {
-            return true;
-        }
-
-        return isFutureReservedWord(id);
-    }
-
-    // 7.4 Comments
-
-    function skipComment() {
-        var ch, blockComment, lineComment;
-
-        blockComment = false;
-        lineComment = false;
-
-        while (index < length) {
-            ch = source[index];
-
-            if (lineComment) {
-                ch = source[index++];
-                if (isLineTerminator(ch)) {
-                    lineComment = false;
-                    if (ch === '\r' && source[index] === '\n') {
-                        ++index;
-                    }
-                    ++lineNumber;
-                    lineStart = index;
-                }
-            } else if (blockComment) {
-                if (isLineTerminator(ch)) {
-                    if (ch === '\r' && source[index + 1] === '\n') {
-                        ++index;
-                    }
-                    ++lineNumber;
-                    ++index;
-                    lineStart = index;
-                    if (index >= length) {
-                        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                    }
-                } else {
-                    ch = source[index++];
-                    if (index >= length) {
-                        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                    }
-                    if (ch === '*') {
-                        ch = source[index];
-                        if (ch === '/') {
-                            ++index;
-                            blockComment = false;
-                        }
-                    }
-                }
-            } else if (ch === '/') {
-                ch = source[index + 1];
-                if (ch === '/') {
-                    index += 2;
-                    lineComment = true;
-                } else if (ch === '*') {
-                    index += 2;
-                    blockComment = true;
-                    if (index >= length) {
-                        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                    }
-                } else {
-                    break;
-                }
-            } else if (isWhiteSpace(ch)) {
-                ++index;
-            } else if (isLineTerminator(ch)) {
-                ++index;
-                if (ch ===  '\r' && source[index] === '\n') {
-                    ++index;
-                }
-                ++lineNumber;
-                lineStart = index;
-            } else {
-                break;
-            }
-        }
-    }
-
-    function scanHexEscape(prefix) {
-        var i, len, ch, code = 0;
-
-        len = (prefix === 'u') ? 4 : 2;
-        for (i = 0; i < len; ++i) {
-            if (index < length && isHexDigit(source[index])) {
-                ch = source[index++];
-                code = code * 16 + '0123456789abcdef'.indexOf(ch.toLowerCase());
-            } else {
-                return '';
-            }
-        }
-        return String.fromCharCode(code);
-    }
-
-    function scanIdentifier() {
-        var ch, start, id, restore;
-
-        ch = source[index];
-        if (!isIdentifierStart(ch)) {
-            return;
-        }
-
-        start = index;
-        if (ch === '\\') {
-            ++index;
-            if (source[index] !== 'u') {
-                return;
-            }
-            ++index;
-            restore = index;
-            ch = scanHexEscape('u');
-            if (ch) {
-                if (ch === '\\' || !isIdentifierStart(ch)) {
-                    return;
-                }
-                id = ch;
-            } else {
-                index = restore;
-                id = 'u';
-            }
-        } else {
-            id = source[index++];
-        }
-
-        while (index < length) {
-            ch = source[index];
-            if (!isIdentifierPart(ch)) {
-                break;
-            }
-            if (ch === '\\') {
-                ++index;
-                if (source[index] !== 'u') {
-                    return;
-                }
-                ++index;
-                restore = index;
-                ch = scanHexEscape('u');
-                if (ch) {
-                    if (ch === '\\' || !isIdentifierPart(ch)) {
-                        return;
-                    }
-                    id += ch;
-                } else {
-                    index = restore;
-                    id += 'u';
-                }
-            } else {
-                id += source[index++];
-            }
-        }
-
-        // There is no keyword or literal with only one character.
-        // Thus, it must be an identifier.
-        if (id.length === 1) {
-            return {
-                type: Token.Identifier,
-                value: id,
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        if (isKeyword(id)) {
-            return {
-                type: Token.Keyword,
-                value: id,
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        // 7.8.1 Null Literals
-
-        if (id === 'null') {
-            return {
-                type: Token.NullLiteral,
-                value: id,
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        // 7.8.2 Boolean Literals
-
-        if (id === 'true' || id === 'false') {
-            return {
-                type: Token.BooleanLiteral,
-                value: id,
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        return {
-            type: Token.Identifier,
-            value: id,
-            lineNumber: lineNumber,
-            lineStart: lineStart,
-            range: [start, index]
-        };
-    }
-
-    // 7.7 Punctuators
-
-    function scanPunctuator() {
-        var start = index,
-            ch1 = source[index],
-            ch2,
-            ch3,
-            ch4;
-
-        // Check for most common single-character punctuators.
-
-        if (ch1 === ';' || ch1 === '{' || ch1 === '}') {
-            ++index;
-            return {
-                type: Token.Punctuator,
-                value: ch1,
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        if (ch1 === ',' || ch1 === '(' || ch1 === ')') {
-            ++index;
-            return {
-                type: Token.Punctuator,
-                value: ch1,
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        // Dot (.) can also start a floating-point number, hence the need
-        // to check the next character.
-
-        ch2 = source[index + 1];
-        if (ch1 === '.' && !isDecimalDigit(ch2)) {
-            return {
-                type: Token.Punctuator,
-                value: source[index++],
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        // Peek more characters.
-
-        ch3 = source[index + 2];
-        ch4 = source[index + 3];
-
-        // 4-character punctuator: >>>=
-
-        if (ch1 === '>' && ch2 === '>' && ch3 === '>') {
-            if (ch4 === '=') {
-                index += 4;
-                return {
-                    type: Token.Punctuator,
-                    value: '>>>=',
-                    lineNumber: lineNumber,
-                    lineStart: lineStart,
-                    range: [start, index]
-                };
-            }
-        }
-
-        // 3-character punctuators: === !== >>> <<= >>=
-
-        if (ch1 === '=' && ch2 === '=' && ch3 === '=') {
-            index += 3;
-            return {
-                type: Token.Punctuator,
-                value: '===',
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        if (ch1 === '!' && ch2 === '=' && ch3 === '=') {
-            index += 3;
-            return {
-                type: Token.Punctuator,
-                value: '!==',
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        if (ch1 === '>' && ch2 === '>' && ch3 === '>') {
-            index += 3;
-            return {
-                type: Token.Punctuator,
-                value: '>>>',
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        if (ch1 === '<' && ch2 === '<' && ch3 === '=') {
-            index += 3;
-            return {
-                type: Token.Punctuator,
-                value: '<<=',
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        if (ch1 === '>' && ch2 === '>' && ch3 === '=') {
-            index += 3;
-            return {
-                type: Token.Punctuator,
-                value: '>>=',
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-
-        // 2-character punctuators: <= >= == != ++ -- << >> && ||
-        // += -= *= %= &= |= ^= /=
-
-        if (ch2 === '=') {
-            if ('<>=!+-*%&|^/'.indexOf(ch1) >= 0) {
-                index += 2;
-                return {
-                    type: Token.Punctuator,
-                    value: ch1 + ch2,
-                    lineNumber: lineNumber,
-                    lineStart: lineStart,
-                    range: [start, index]
-                };
-            }
-        }
-
-        if (ch1 === ch2 && ('+-<>&|'.indexOf(ch1) >= 0)) {
-            if ('+-<>&|'.indexOf(ch2) >= 0) {
-                index += 2;
-                return {
-                    type: Token.Punctuator,
-                    value: ch1 + ch2,
-                    lineNumber: lineNumber,
-                    lineStart: lineStart,
-                    range: [start, index]
-                };
-            }
-        }
-
-        // The remaining 1-character punctuators.
-
-        if ('[]<>+-*%&|^!~?:=/'.indexOf(ch1) >= 0) {
-            return {
-                type: Token.Punctuator,
-                value: source[index++],
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [start, index]
-            };
-        }
-    }
-
-    // 7.8.3 Numeric Literals
-
-    function scanNumericLiteral() {
-        var number, start, ch;
-
-        ch = source[index];
-        assert(isDecimalDigit(ch) || (ch === '.'),
-            'Numeric literal must start with a decimal digit or a decimal point');
-
-        start = index;
-        number = '';
-        if (ch !== '.') {
-            number = source[index++];
-            ch = source[index];
-
-            // Hex number starts with '0x'.
-            // Octal number starts with '0'.
-            if (number === '0') {
-                if (ch === 'x' || ch === 'X') {
-                    number += source[index++];
-                    while (index < length) {
-                        ch = source[index];
-                        if (!isHexDigit(ch)) {
-                            break;
-                        }
-                        number += source[index++];
-                    }
-
-                    if (number.length <= 2) {
-                        // only 0x
-                        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                    }
-
-                    if (index < length) {
-                        ch = source[index];
-                        if (isIdentifierStart(ch)) {
-                            throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                        }
-                    }
-                    return {
-                        type: Token.NumericLiteral,
-                        value: parseInt(number, 16),
-                        lineNumber: lineNumber,
-                        lineStart: lineStart,
-                        range: [start, index]
-                    };
-                } else if (isOctalDigit(ch)) {
-                    number += source[index++];
-                    while (index < length) {
-                        ch = source[index];
-                        if (!isOctalDigit(ch)) {
-                            break;
-                        }
-                        number += source[index++];
-                    }
-
-                    if (index < length) {
-                        ch = source[index];
-                        if (isIdentifierStart(ch) || isDecimalDigit(ch)) {
-                            throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                        }
-                    }
-                    return {
-                        type: Token.NumericLiteral,
-                        value: parseInt(number, 8),
-                        octal: true,
-                        lineNumber: lineNumber,
-                        lineStart: lineStart,
-                        range: [start, index]
-                    };
-                }
-
-                // decimal number starts with '0' such as '09' is illegal.
-                if (isDecimalDigit(ch)) {
-                    throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                }
-            }
-
-            while (index < length) {
-                ch = source[index];
-                if (!isDecimalDigit(ch)) {
-                    break;
-                }
-                number += source[index++];
-            }
-        }
-
-        if (ch === '.') {
-            number += source[index++];
-            while (index < length) {
-                ch = source[index];
-                if (!isDecimalDigit(ch)) {
-                    break;
-                }
-                number += source[index++];
-            }
-        }
-
-        if (ch === 'e' || ch === 'E') {
-            number += source[index++];
-
-            ch = source[index];
-            if (ch === '+' || ch === '-') {
-                number += source[index++];
-            }
-
-            ch = source[index];
-            if (isDecimalDigit(ch)) {
-                number += source[index++];
-                while (index < length) {
-                    ch = source[index];
-                    if (!isDecimalDigit(ch)) {
-                        break;
-                    }
-                    number += source[index++];
-                }
-            } else {
-                ch = 'character ' + ch;
-                if (index >= length) {
-                    ch = '<end>';
-                }
-                throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-            }
-        }
-
-        if (index < length) {
-            ch = source[index];
-            if (isIdentifierStart(ch)) {
-                throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-            }
-        }
-
-        return {
-            type: Token.NumericLiteral,
-            value: parseFloat(number),
-            lineNumber: lineNumber,
-            lineStart: lineStart,
-            range: [start, index]
-        };
-    }
-
-    // 7.8.4 String Literals
-
-    function scanStringLiteral() {
-        var str = '', quote, start, ch, code, unescaped, restore, octal = false;
-
-        quote = source[index];
-        assert((quote === '\'' || quote === '"'),
-            'String literal must starts with a quote');
-
-        start = index;
-        ++index;
-
-        while (index < length) {
-            ch = source[index++];
-
-            if (ch === quote) {
-                quote = '';
-                break;
-            } else if (ch === '\\') {
-                ch = source[index++];
-                if (!isLineTerminator(ch)) {
-                    switch (ch) {
-                    case 'n':
-                        str += '\n';
-                        break;
-                    case 'r':
-                        str += '\r';
-                        break;
-                    case 't':
-                        str += '\t';
-                        break;
-                    case 'u':
-                    case 'x':
-                        restore = index;
-                        unescaped = scanHexEscape(ch);
-                        if (unescaped) {
-                            str += unescaped;
-                        } else {
-                            index = restore;
-                            str += ch;
-                        }
-                        break;
-                    case 'b':
-                        str += '\b';
-                        break;
-                    case 'f':
-                        str += '\f';
-                        break;
-                    case 'v':
-                        str += '\x0B';
-                        break;
-
-                    default:
-                        if (isOctalDigit(ch)) {
-                            code = '01234567'.indexOf(ch);
-
-                            // \0 is not octal escape sequence
-                            if (code !== 0) {
-                                octal = true;
-                            }
-
-                            if (index < length && isOctalDigit(source[index])) {
-                                octal = true;
-                                code = code * 8 + '01234567'.indexOf(source[index++]);
-
-                                // 3 digits are only allowed when string starts
-                                // with 0, 1, 2, 3
-                                if ('0123'.indexOf(ch) >= 0 &&
-                                        index < length &&
-                                        isOctalDigit(source[index])) {
-                                    code = code * 8 + '01234567'.indexOf(source[index++]);
-                                }
-                            }
-                            str += String.fromCharCode(code);
-                        } else {
-                            str += ch;
-                        }
-                        break;
-                    }
-                } else {
-                    ++lineNumber;
-                    if (ch ===  '\r' && source[index] === '\n') {
-                        ++index;
-                    }
-                }
-            } else if (isLineTerminator(ch)) {
-                break;
-            } else {
-                str += ch;
-            }
-        }
-
-        if (quote !== '') {
-            throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-        }
-
-        return {
-            type: Token.StringLiteral,
-            value: str,
-            octal: octal,
-            lineNumber: lineNumber,
-            lineStart: lineStart,
-            range: [start, index]
-        };
-    }
-
-    function scanRegExp() {
-        var str, ch, start, pattern, flags, value, classMarker = false, restore, terminated = false;
-
-        buffer = null;
-        skipComment();
-
-        start = index;
-        ch = source[index];
-        assert(ch === '/', 'Regular expression literal must start with a slash');
-        str = source[index++];
-
-        while (index < length) {
-            ch = source[index++];
-            str += ch;
-            if (ch === '\\') {
-                ch = source[index++];
-                // ECMA-262 7.8.5
-                if (isLineTerminator(ch)) {
-                    throwError({}, Messages.UnterminatedRegExp);
-                }
-                str += ch;
-            } else if (classMarker) {
-                if (ch === ']') {
-                    classMarker = false;
-                }
-            } else {
-                if (ch === '/') {
-                    terminated = true;
-                    break;
-                } else if (ch === '[') {
-                    classMarker = true;
-                } else if (isLineTerminator(ch)) {
-                    throwError({}, Messages.UnterminatedRegExp);
-                }
-            }
-        }
-
-        if (!terminated) {
-            throwError({}, Messages.UnterminatedRegExp);
-        }
-
-        // Exclude leading and trailing slash.
-        pattern = str.substr(1, str.length - 2);
-
-        flags = '';
-        while (index < length) {
-            ch = source[index];
-            if (!isIdentifierPart(ch)) {
-                break;
-            }
-
-            ++index;
-            if (ch === '\\' && index < length) {
-                ch = source[index];
-                if (ch === 'u') {
-                    ++index;
-                    restore = index;
-                    ch = scanHexEscape('u');
-                    if (ch) {
-                        flags += ch;
-                        str += '\\u';
-                        for (; restore < index; ++restore) {
-                            str += source[restore];
-                        }
-                    } else {
-                        index = restore;
-                        flags += 'u';
-                        str += '\\u';
-                    }
-                } else {
-                    str += '\\';
-                }
-            } else {
-                flags += ch;
-                str += ch;
-            }
-        }
-
-        try {
-            value = new RegExp(pattern, flags);
-        } catch (e) {
-            throwError({}, Messages.InvalidRegExp);
-        }
-
-        return {
-            literal: str,
-            value: value,
-            range: [start, index]
-        };
-    }
-
-    function isIdentifierName(token) {
-        return token.type === Token.Identifier ||
-            token.type === Token.Keyword ||
-            token.type === Token.BooleanLiteral ||
-            token.type === Token.NullLiteral;
-    }
-
-    function advance() {
-        var ch, token;
-
-        skipComment();
-
-        if (index >= length) {
-            return {
-                type: Token.EOF,
-                lineNumber: lineNumber,
-                lineStart: lineStart,
-                range: [index, index]
-            };
-        }
-
-        token = scanPunctuator();
-        if (typeof token !== 'undefined') {
-            return token;
-        }
-
-        ch = source[index];
-
-        if (ch === '\'' || ch === '"') {
-            return scanStringLiteral();
-        }
-
-        if (ch === '.' || isDecimalDigit(ch)) {
-            return scanNumericLiteral();
-        }
-
-        token = scanIdentifier();
-        if (typeof token !== 'undefined') {
-            return token;
-        }
-
-        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-    }
-
-    function lex() {
-        var token;
-
-        if (buffer) {
-            index = buffer.range[1];
-            lineNumber = buffer.lineNumber;
-            lineStart = buffer.lineStart;
-            token = buffer;
-            buffer = null;
-            return token;
-        }
-
-        buffer = null;
-        return advance();
-    }
-
-    function lookahead() {
-        var pos, line, start;
-
-        if (buffer !== null) {
-            return buffer;
-        }
-
-        pos = index;
-        line = lineNumber;
-        start = lineStart;
-        buffer = advance();
-        index = pos;
-        lineNumber = line;
-        lineStart = start;
-
-        return buffer;
-    }
-
-    // Return true if there is a line terminator before the next token.
-
-    function peekLineTerminator() {
-        var pos, line, start, found;
-
-        pos = index;
-        line = lineNumber;
-        start = lineStart;
-        skipComment();
-        found = lineNumber !== line;
-        index = pos;
-        lineNumber = line;
-        lineStart = start;
-
-        return found;
-    }
-
-    // Throw an exception
-
-    function throwError(token, messageFormat) {
-        var error,
-            args = Array.prototype.slice.call(arguments, 2),
-            msg = messageFormat.replace(
-                /%(\d)/g,
-                function (whole, index) {
-                    return args[index] || '';
-                }
-            );
-
-        if (typeof token.lineNumber === 'number') {
-            error = new Error('Line ' + token.lineNumber + ': ' + msg);
-            error.index = token.range[0];
-            error.lineNumber = token.lineNumber;
-            error.column = token.range[0] - lineStart + 1;
-        } else {
-            error = new Error('Line ' + lineNumber + ': ' + msg);
-            error.index = index;
-            error.lineNumber = lineNumber;
-            error.column = index - lineStart + 1;
-        }
-
-        throw error;
-    }
-
-    function throwErrorTolerant() {
-        try {
-            throwError.apply(null, arguments);
-        } catch (e) {
-            if (extra.errors) {
-                extra.errors.push(e);
-            } else {
-                throw e;
-            }
-        }
-    }
-
-
-    // Throw an exception because of the token.
-
-    function throwUnexpected(token) {
-        if (token.type === Token.EOF) {
-            throwError(token, Messages.UnexpectedEOS);
-        }
-
-        if (token.type === Token.NumericLiteral) {
-            throwError(token, Messages.UnexpectedNumber);
-        }
-
-        if (token.type === Token.StringLiteral) {
-            throwError(token, Messages.UnexpectedString);
-        }
-
-        if (token.type === Token.Identifier) {
-            throwError(token, Messages.UnexpectedIdentifier);
-        }
-
-        if (token.type === Token.Keyword) {
-            if (isFutureReservedWord(token.value)) {
-                throwError(token, Messages.UnexpectedReserved);
-            } else if (strict && isStrictModeReservedWord(token.value)) {
-                throwErrorTolerant(token, Messages.StrictReservedWord);
-                return;
-            }
-            throwError(token, Messages.UnexpectedToken, token.value);
-        }
-
-        // BooleanLiteral, NullLiteral, or Punctuator.
-        throwError(token, Messages.UnexpectedToken, token.value);
-    }
-
-    // Expect the next token to match the specified punctuator.
-    // If not, an exception will be thrown.
-
-    function expect(value) {
-        var token = lex();
-        if (token.type !== Token.Punctuator || token.value !== value) {
-            throwUnexpected(token);
-        }
-    }
-
-    // Expect the next token to match the specified keyword.
-    // If not, an exception will be thrown.
-
-    function expectKeyword(keyword) {
-        var token = lex();
-        if (token.type !== Token.Keyword || token.value !== keyword) {
-            throwUnexpected(token);
-        }
-    }
-
-    // Return true if the next token matches the specified punctuator.
-
-    function match(value) {
-        var token = lookahead();
-        return token.type === Token.Punctuator && token.value === value;
-    }
-
-    // Return true if the next token matches the specified keyword
-
-    function matchKeyword(keyword) {
-        var token = lookahead();
-        return token.type === Token.Keyword && token.value === keyword;
-    }
-
-    // Return true if the next token is an assignment operator
-
-    function matchAssign() {
-        var token = lookahead(),
-            op = token.value;
-
-        if (token.type !== Token.Punctuator) {
-            return false;
-        }
-        return op === '=' ||
-            op === '*=' ||
-            op === '/=' ||
-            op === '%=' ||
-            op === '+=' ||
-            op === '-=' ||
-            op === '<<=' ||
-            op === '>>=' ||
-            op === '>>>=' ||
-            op === '&=' ||
-            op === '^=' ||
-            op === '|=';
-    }
-
-    function consumeSemicolon() {
-        var token, line;
-
-        // Catch the very common case first.
-        if (source[index] === ';') {
-            lex();
-            return;
-        }
-
-        line = lineNumber;
-        skipComment();
-        if (lineNumber !== line) {
-            return;
-        }
-
-        if (match(';')) {
-            lex();
-            return;
-        }
-
-        token = lookahead();
-        if (token.type !== Token.EOF && !match('}')) {
-            throwUnexpected(token);
-        }
-    }
-
-    // Return true if provided expression is LeftHandSideExpression
-
-    function isLeftHandSide(expr) {
-        return expr.type === Syntax.Identifier || expr.type === Syntax.MemberExpression;
-    }
-
-    // 11.1.4 Array Initialiser
-
-    function parseArrayInitialiser() {
-        var elements = [];
-
-        expect('[');
-
-        while (!match(']')) {
-            if (match(',')) {
-                lex();
-                elements.push(null);
-            } else {
-                elements.push(parseAssignmentExpression());
-
-                if (!match(']')) {
-                    expect(',');
-                }
-            }
-        }
-
-        expect(']');
-
-        return {
-            type: Syntax.ArrayExpression,
-            elements: elements
-        };
-    }
-
-    // 11.1.5 Object Initialiser
-
-    function parsePropertyFunction(param, first) {
-        var previousStrict, body;
-
-        previousStrict = strict;
-        body = parseFunctionSourceElements();
-        if (first && strict && isRestrictedWord(param[0].name)) {
-            throwErrorTolerant(first, Messages.StrictParamName);
-        }
-        strict = previousStrict;
-
-        return {
-            type: Syntax.FunctionExpression,
-            id: null,
-            params: param,
-            defaults: [],
-            body: body,
-            rest: null,
-            generator: false,
-            expression: false
-        };
-    }
-
-    function parseObjectPropertyKey() {
-        var token = lex();
-
-        // Note: This function is called only from parseObjectProperty(), where
-        // EOF and Punctuator tokens are already filtered out.
-
-        if (token.type === Token.StringLiteral || token.type === Token.NumericLiteral) {
-            if (strict && token.octal) {
-                throwErrorTolerant(token, Messages.StrictOctalLiteral);
-            }
-            return createLiteral(token);
-        }
-
-        return {
-            type: Syntax.Identifier,
-            name: token.value
-        };
-    }
-
-    function parseObjectProperty() {
-        var token, key, id, param;
-
-        token = lookahead();
-
-        if (token.type === Token.Identifier) {
-
-            id = parseObjectPropertyKey();
-
-            // Property Assignment: Getter and Setter.
-
-            if (token.value === 'get' && !match(':')) {
-                key = parseObjectPropertyKey();
-                expect('(');
-                expect(')');
-                return {
-                    type: Syntax.Property,
-                    key: key,
-                    value: parsePropertyFunction([]),
-                    kind: 'get'
-                };
-            } else if (token.value === 'set' && !match(':')) {
-                key = parseObjectPropertyKey();
-                expect('(');
-                token = lookahead();
-                if (token.type !== Token.Identifier) {
-                    expect(')');
-                    throwErrorTolerant(token, Messages.UnexpectedToken, token.value);
-                    return {
-                        type: Syntax.Property,
-                        key: key,
-                        value: parsePropertyFunction([]),
-                        kind: 'set'
-                    };
-                } else {
-                    param = [ parseVariableIdentifier() ];
-                    expect(')');
-                    return {
-                        type: Syntax.Property,
-                        key: key,
-                        value: parsePropertyFunction(param, token),
-                        kind: 'set'
-                    };
-                }
-            } else {
-                expect(':');
-                return {
-                    type: Syntax.Property,
-                    key: id,
-                    value: parseAssignmentExpression(),
-                    kind: 'init'
-                };
-            }
-        } else if (token.type === Token.EOF || token.type === Token.Punctuator) {
-            throwUnexpected(token);
-        } else {
-            key = parseObjectPropertyKey();
-            expect(':');
-            return {
-                type: Syntax.Property,
-                key: key,
-                value: parseAssignmentExpression(),
-                kind: 'init'
-            };
-        }
-    }
-
-    function parseObjectInitialiser() {
-        var properties = [], property, name, kind, map = {}, toString = String;
-
-        expect('{');
-
-        while (!match('}')) {
-            property = parseObjectProperty();
-
-            if (property.key.type === Syntax.Identifier) {
-                name = property.key.name;
-            } else {
-                name = toString(property.key.value);
-            }
-            kind = (property.kind === 'init') ? PropertyKind.Data : (property.kind === 'get') ? PropertyKind.Get : PropertyKind.Set;
-            if (Object.prototype.hasOwnProperty.call(map, name)) {
-                if (map[name] === PropertyKind.Data) {
-                    if (strict && kind === PropertyKind.Data) {
-                        throwErrorTolerant({}, Messages.StrictDuplicateProperty);
-                    } else if (kind !== PropertyKind.Data) {
-                        throwErrorTolerant({}, Messages.AccessorDataProperty);
-                    }
-                } else {
-                    if (kind === PropertyKind.Data) {
-                        throwErrorTolerant({}, Messages.AccessorDataProperty);
-                    } else if (map[name] & kind) {
-                        throwErrorTolerant({}, Messages.AccessorGetSet);
-                    }
-                }
-                map[name] |= kind;
-            } else {
-                map[name] = kind;
-            }
-
-            properties.push(property);
-
-            if (!match('}')) {
-                expect(',');
-            }
-        }
-
-        expect('}');
-
-        return {
-            type: Syntax.ObjectExpression,
-            properties: properties
-        };
-    }
-
-    // 11.1.6 The Grouping Operator
-
-    function parseGroupExpression() {
-        var expr;
-
-        expect('(');
-
-        expr = parseExpression();
-
-        expect(')');
-
-        return expr;
-    }
-
-
-    // 11.1 Primary Expressions
-
-    function parsePrimaryExpression() {
-        var token = lookahead(),
-            type = token.type;
-
-        if (type === Token.Identifier) {
-            return {
-                type: Syntax.Identifier,
-                name: lex().value
-            };
-        }
-
-        if (type === Token.StringLiteral || type === Token.NumericLiteral) {
-            if (strict && token.octal) {
-                throwErrorTolerant(token, Messages.StrictOctalLiteral);
-            }
-            return createLiteral(lex());
-        }
-
-        if (type === Token.Keyword) {
-            if (matchKeyword('this')) {
-                lex();
-                return {
-                    type: Syntax.ThisExpression
-                };
-            }
-
-            if (matchKeyword('function')) {
-                return parseFunctionExpression();
-            }
-        }
-
-        if (type === Token.BooleanLiteral) {
-            lex();
-            token.value = (token.value === 'true');
-            return createLiteral(token);
-        }
-
-        if (type === Token.NullLiteral) {
-            lex();
-            token.value = null;
-            return createLiteral(token);
-        }
-
-        if (match('[')) {
-            return parseArrayInitialiser();
-        }
-
-        if (match('{')) {
-            return parseObjectInitialiser();
-        }
-
-        if (match('(')) {
-            return parseGroupExpression();
-        }
-
-        if (match('/') || match('/=')) {
-            return createLiteral(scanRegExp());
-        }
-
-        return throwUnexpected(lex());
-    }
-
-    // 11.2 Left-Hand-Side Expressions
-
-    function parseArguments() {
-        var args = [];
-
-        expect('(');
-
-        if (!match(')')) {
-            while (index < length) {
-                args.push(parseAssignmentExpression());
-                if (match(')')) {
-                    break;
-                }
-                expect(',');
-            }
-        }
-
-        expect(')');
-
-        return args;
-    }
-
-    function parseNonComputedProperty() {
-        var token = lex();
-
-        if (!isIdentifierName(token)) {
-            throwUnexpected(token);
-        }
-
-        return {
-            type: Syntax.Identifier,
-            name: token.value
-        };
-    }
-
-    function parseNonComputedMember() {
-        expect('.');
-
-        return parseNonComputedProperty();
-    }
-
-    function parseComputedMember() {
-        var expr;
-
-        expect('[');
-
-        expr = parseExpression();
-
-        expect(']');
-
-        return expr;
-    }
-
-    function parseNewExpression() {
-        var expr;
-
-        expectKeyword('new');
-
-        expr = {
-            type: Syntax.NewExpression,
-            callee: parseLeftHandSideExpression(),
-            'arguments': []
-        };
-
-        if (match('(')) {
-            expr['arguments'] = parseArguments();
-        }
-
-        return expr;
-    }
-
-    function parseLeftHandSideExpressionAllowCall() {
-        var expr;
-
-        expr = matchKeyword('new') ? parseNewExpression() : parsePrimaryExpression();
-
-        while (match('.') || match('[') || match('(')) {
-            if (match('(')) {
-                expr = {
-                    type: Syntax.CallExpression,
-                    callee: expr,
-                    'arguments': parseArguments()
-                };
-            } else if (match('[')) {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: true,
-                    object: expr,
-                    property: parseComputedMember()
-                };
-            } else {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: false,
-                    object: expr,
-                    property: parseNonComputedMember()
-                };
-            }
-        }
-
-        return expr;
-    }
-
-
-    function parseLeftHandSideExpression() {
-        var expr;
-
-        expr = matchKeyword('new') ? parseNewExpression() : parsePrimaryExpression();
-
-        while (match('.') || match('[')) {
-            if (match('[')) {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: true,
-                    object: expr,
-                    property: parseComputedMember()
-                };
-            } else {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: false,
-                    object: expr,
-                    property: parseNonComputedMember()
-                };
-            }
-        }
-
-        return expr;
-    }
-
-    // 11.3 Postfix Expressions
-
-    function parsePostfixExpression() {
-        var expr = parseLeftHandSideExpressionAllowCall(), token;
-
-        token = lookahead();
-        if (token.type !== Token.Punctuator) {
-            return expr;
-        }
-
-        if ((match('++') || match('--')) && !peekLineTerminator()) {
-            // 11.3.1, 11.3.2
-            if (strict && expr.type === Syntax.Identifier && isRestrictedWord(expr.name)) {
-                throwErrorTolerant({}, Messages.StrictLHSPostfix);
-            }
-            if (!isLeftHandSide(expr)) {
-                throwErrorTolerant({}, Messages.InvalidLHSInAssignment);
-            }
-
-            expr = {
-                type: Syntax.UpdateExpression,
-                operator: lex().value,
-                argument: expr,
-                prefix: false
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.4 Unary Operators
-
-    function parseUnaryExpression() {
-        var token, expr;
-
-        token = lookahead();
-        if (token.type !== Token.Punctuator && token.type !== Token.Keyword) {
-            return parsePostfixExpression();
-        }
-
-        if (match('++') || match('--')) {
-            token = lex();
-            expr = parseUnaryExpression();
-            // 11.4.4, 11.4.5
-            if (strict && expr.type === Syntax.Identifier && isRestrictedWord(expr.name)) {
-                throwErrorTolerant({}, Messages.StrictLHSPrefix);
-            }
-
-            if (!isLeftHandSide(expr)) {
-                throwErrorTolerant({}, Messages.InvalidLHSInAssignment);
-            }
-
-            expr = {
-                type: Syntax.UpdateExpression,
-                operator: token.value,
-                argument: expr,
-                prefix: true
-            };
-            return expr;
-        }
-
-        if (match('+') || match('-') || match('~') || match('!')) {
-            expr = {
-                type: Syntax.UnaryExpression,
-                operator: lex().value,
-                argument: parseUnaryExpression(),
-                prefix: true
-            };
-            return expr;
-        }
-
-        if (matchKeyword('delete') || matchKeyword('void') || matchKeyword('typeof')) {
-            expr = {
-                type: Syntax.UnaryExpression,
-                operator: lex().value,
-                argument: parseUnaryExpression(),
-                prefix: true
-            };
-            if (strict && expr.operator === 'delete' && expr.argument.type === Syntax.Identifier) {
-                throwErrorTolerant({}, Messages.StrictDelete);
-            }
-            return expr;
-        }
-
-        return parsePostfixExpression();
-    }
-
-    // 11.5 Multiplicative Operators
-
-    function parseMultiplicativeExpression() {
-        var expr = parseUnaryExpression();
-
-        while (match('*') || match('/') || match('%')) {
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: lex().value,
-                left: expr,
-                right: parseUnaryExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.6 Additive Operators
-
-    function parseAdditiveExpression() {
-        var expr = parseMultiplicativeExpression();
-
-        while (match('+') || match('-')) {
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: lex().value,
-                left: expr,
-                right: parseMultiplicativeExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.7 Bitwise Shift Operators
-
-    function parseShiftExpression() {
-        var expr = parseAdditiveExpression();
-
-        while (match('<<') || match('>>') || match('>>>')) {
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: lex().value,
-                left: expr,
-                right: parseAdditiveExpression()
-            };
-        }
-
-        return expr;
-    }
-    // 11.8 Relational Operators
-
-    function parseRelationalExpression() {
-        var expr, previousAllowIn;
-
-        previousAllowIn = state.allowIn;
-        state.allowIn = true;
-
-        expr = parseShiftExpression();
-
-        while (match('<') || match('>') || match('<=') || match('>=') || (previousAllowIn && matchKeyword('in')) || matchKeyword('instanceof')) {
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: lex().value,
-                left: expr,
-                right: parseShiftExpression()
-            };
-        }
-
-        state.allowIn = previousAllowIn;
-        return expr;
-    }
-
-    // 11.9 Equality Operators
-
-    function parseEqualityExpression() {
-        var expr = parseRelationalExpression();
-
-        while (match('==') || match('!=') || match('===') || match('!==')) {
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: lex().value,
-                left: expr,
-                right: parseRelationalExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.10 Binary Bitwise Operators
-
-    function parseBitwiseANDExpression() {
-        var expr = parseEqualityExpression();
-
-        while (match('&')) {
-            lex();
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: '&',
-                left: expr,
-                right: parseEqualityExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    function parseBitwiseXORExpression() {
-        var expr = parseBitwiseANDExpression();
-
-        while (match('^')) {
-            lex();
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: '^',
-                left: expr,
-                right: parseBitwiseANDExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    function parseBitwiseORExpression() {
-        var expr = parseBitwiseXORExpression();
-
-        while (match('|')) {
-            lex();
-            expr = {
-                type: Syntax.BinaryExpression,
-                operator: '|',
-                left: expr,
-                right: parseBitwiseXORExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.11 Binary Logical Operators
-
-    function parseLogicalANDExpression() {
-        var expr = parseBitwiseORExpression();
-
-        while (match('&&')) {
-            lex();
-            expr = {
-                type: Syntax.LogicalExpression,
-                operator: '&&',
-                left: expr,
-                right: parseBitwiseORExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    function parseLogicalORExpression() {
-        var expr = parseLogicalANDExpression();
-
-        while (match('||')) {
-            lex();
-            expr = {
-                type: Syntax.LogicalExpression,
-                operator: '||',
-                left: expr,
-                right: parseLogicalANDExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.12 Conditional Operator
-
-    function parseConditionalExpression() {
-        var expr, previousAllowIn, consequent;
-
-        expr = parseLogicalORExpression();
-
-        if (match('?')) {
-            lex();
-            previousAllowIn = state.allowIn;
-            state.allowIn = true;
-            consequent = parseAssignmentExpression();
-            state.allowIn = previousAllowIn;
-            expect(':');
-
-            expr = {
-                type: Syntax.ConditionalExpression,
-                test: expr,
-                consequent: consequent,
-                alternate: parseAssignmentExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.13 Assignment Operators
-
-    function parseAssignmentExpression() {
-        var token, expr;
-
-        token = lookahead();
-        expr = parseConditionalExpression();
-
-        if (matchAssign()) {
-            // LeftHandSideExpression
-            if (!isLeftHandSide(expr)) {
-                throwErrorTolerant({}, Messages.InvalidLHSInAssignment);
-            }
-
-            // 11.13.1
-            if (strict && expr.type === Syntax.Identifier && isRestrictedWord(expr.name)) {
-                throwErrorTolerant(token, Messages.StrictLHSAssignment);
-            }
-
-            expr = {
-                type: Syntax.AssignmentExpression,
-                operator: lex().value,
-                left: expr,
-                right: parseAssignmentExpression()
-            };
-        }
-
-        return expr;
-    }
-
-    // 11.14 Comma Operator
-
-    function parseExpression() {
-        var expr = parseAssignmentExpression();
-
-        if (match(',')) {
-            expr = {
-                type: Syntax.SequenceExpression,
-                expressions: [ expr ]
-            };
-
-            while (index < length) {
-                if (!match(',')) {
-                    break;
-                }
-                lex();
-                expr.expressions.push(parseAssignmentExpression());
-            }
-
-        }
-        return expr;
-    }
-
-    // 12.1 Block
-
-    function parseStatementList() {
-        var list = [],
-            statement;
-
-        while (index < length) {
-            if (match('}')) {
-                break;
-            }
-            statement = parseSourceElement();
-            if (typeof statement === 'undefined') {
-                break;
-            }
-            list.push(statement);
-        }
-
-        return list;
-    }
-
-    function parseBlock() {
-        var block;
-
-        expect('{');
-
-        block = parseStatementList();
-
-        expect('}');
-
-        return {
-            type: Syntax.BlockStatement,
-            body: block
-        };
-    }
-
-    // 12.2 Variable Statement
-
-    function parseVariableIdentifier() {
-        var token = lex();
-
-        if (token.type !== Token.Identifier) {
-            throwUnexpected(token);
-        }
-
-        return {
-            type: Syntax.Identifier,
-            name: token.value
-        };
-    }
-
-    function parseVariableDeclaration(kind) {
-        var id = parseVariableIdentifier(),
-            init = null;
-
-        // 12.2.1
-        if (strict && isRestrictedWord(id.name)) {
-            throwErrorTolerant({}, Messages.StrictVarName);
-        }
-
-        if (kind === 'const') {
-            expect('=');
-            init = parseAssignmentExpression();
-        } else if (match('=')) {
-            lex();
-            init = parseAssignmentExpression();
-        }
-
-        return {
-            type: Syntax.VariableDeclarator,
-            id: id,
-            init: init
-        };
-    }
-
-    function parseVariableDeclarationList(kind) {
-        var list = [];
-
-        do {
-            list.push(parseVariableDeclaration(kind));
-            if (!match(',')) {
-                break;
-            }
-            lex();
-        } while (index < length);
-
-        return list;
-    }
-
-    function parseVariableStatement() {
-        var declarations;
-
-        expectKeyword('var');
-
-        declarations = parseVariableDeclarationList();
-
-        consumeSemicolon();
-
-        return {
-            type: Syntax.VariableDeclaration,
-            declarations: declarations,
-            kind: 'var'
-        };
-    }
-
-    // kind may be `const` or `let`
-    // Both are experimental and not in the specification yet.
-    // see http://wiki.ecmascript.org/doku.php?id=harmony:const
-    // and http://wiki.ecmascript.org/doku.php?id=harmony:let
-    function parseConstLetDeclaration(kind) {
-        var declarations;
-
-        expectKeyword(kind);
-
-        declarations = parseVariableDeclarationList(kind);
-
-        consumeSemicolon();
-
-        return {
-            type: Syntax.VariableDeclaration,
-            declarations: declarations,
-            kind: kind
-        };
-    }
-
-    // 12.3 Empty Statement
-
-    function parseEmptyStatement() {
-        expect(';');
-
-        return {
-            type: Syntax.EmptyStatement
-        };
-    }
-
-    // 12.4 Expression Statement
-
-    function parseExpressionStatement() {
-        var expr = parseExpression();
-
-        consumeSemicolon();
-
-        return {
-            type: Syntax.ExpressionStatement,
-            expression: expr
-        };
-    }
-
-    // 12.5 If statement
-
-    function parseIfStatement() {
-        var test, consequent, alternate;
-
-        expectKeyword('if');
-
-        expect('(');
-
-        test = parseExpression();
-
-        expect(')');
-
-        consequent = parseStatement();
-
-        if (matchKeyword('else')) {
-            lex();
-            alternate = parseStatement();
-        } else {
-            alternate = null;
-        }
-
-        return {
-            type: Syntax.IfStatement,
-            test: test,
-            consequent: consequent,
-            alternate: alternate
-        };
-    }
-
-    // 12.6 Iteration Statements
-
-    function parseDoWhileStatement() {
-        var body, test, oldInIteration;
-
-        expectKeyword('do');
-
-        oldInIteration = state.inIteration;
-        state.inIteration = true;
-
-        body = parseStatement();
-
-        state.inIteration = oldInIteration;
-
-        expectKeyword('while');
-
-        expect('(');
-
-        test = parseExpression();
-
-        expect(')');
-
-        if (match(';')) {
-            lex();
-        }
-
-        return {
-            type: Syntax.DoWhileStatement,
-            body: body,
-            test: test
-        };
-    }
-
-    function parseWhileStatement() {
-        var test, body, oldInIteration;
-
-        expectKeyword('while');
-
-        expect('(');
-
-        test = parseExpression();
-
-        expect(')');
-
-        oldInIteration = state.inIteration;
-        state.inIteration = true;
-
-        body = parseStatement();
-
-        state.inIteration = oldInIteration;
-
-        return {
-            type: Syntax.WhileStatement,
-            test: test,
-            body: body
-        };
-    }
-
-    function parseForVariableDeclaration() {
-        var token = lex();
-
-        return {
-            type: Syntax.VariableDeclaration,
-            declarations: parseVariableDeclarationList(),
-            kind: token.value
-        };
-    }
-
-    function parseForStatement() {
-        var init, test, update, left, right, body, oldInIteration;
-
-        init = test = update = null;
-
-        expectKeyword('for');
-
-        expect('(');
-
-        if (match(';')) {
-            lex();
-        } else {
-            if (matchKeyword('var') || matchKeyword('let')) {
-                state.allowIn = false;
-                init = parseForVariableDeclaration();
-                state.allowIn = true;
-
-                if (init.declarations.length === 1 && matchKeyword('in')) {
-                    lex();
-                    left = init;
-                    right = parseExpression();
-                    init = null;
-                }
-            } else {
-                state.allowIn = false;
-                init = parseExpression();
-                state.allowIn = true;
-
-                if (matchKeyword('in')) {
-                    // LeftHandSideExpression
-                    if (!isLeftHandSide(init)) {
-                        throwErrorTolerant({}, Messages.InvalidLHSInForIn);
-                    }
-
-                    lex();
-                    left = init;
-                    right = parseExpression();
-                    init = null;
-                }
-            }
-
-            if (typeof left === 'undefined') {
-                expect(';');
-            }
-        }
-
-        if (typeof left === 'undefined') {
-
-            if (!match(';')) {
-                test = parseExpression();
-            }
-            expect(';');
-
-            if (!match(')')) {
-                update = parseExpression();
-            }
-        }
-
-        expect(')');
-
-        oldInIteration = state.inIteration;
-        state.inIteration = true;
-
-        body = parseStatement();
-
-        state.inIteration = oldInIteration;
-
-        if (typeof left === 'undefined') {
-            return {
-                type: Syntax.ForStatement,
-                init: init,
-                test: test,
-                update: update,
-                body: body
-            };
-        }
-
-        return {
-            type: Syntax.ForInStatement,
-            left: left,
-            right: right,
-            body: body,
-            each: false
-        };
-    }
-
-    // 12.7 The continue statement
-
-    function parseContinueStatement() {
-        var token, label = null;
-
-        expectKeyword('continue');
-
-        // Optimize the most common form: 'continue;'.
-        if (source[index] === ';') {
-            lex();
-
-            if (!state.inIteration) {
-                throwError({}, Messages.IllegalContinue);
-            }
-
-            return {
-                type: Syntax.ContinueStatement,
-                label: null
-            };
-        }
-
-        if (peekLineTerminator()) {
-            if (!state.inIteration) {
-                throwError({}, Messages.IllegalContinue);
-            }
-
-            return {
-                type: Syntax.ContinueStatement,
-                label: null
-            };
-        }
-
-        token = lookahead();
-        if (token.type === Token.Identifier) {
-            label = parseVariableIdentifier();
-
-            if (!Object.prototype.hasOwnProperty.call(state.labelSet, label.name)) {
-                throwError({}, Messages.UnknownLabel, label.name);
-            }
-        }
-
-        consumeSemicolon();
-
-        if (label === null && !state.inIteration) {
-            throwError({}, Messages.IllegalContinue);
-        }
-
-        return {
-            type: Syntax.ContinueStatement,
-            label: label
-        };
-    }
-
-    // 12.8 The break statement
-
-    function parseBreakStatement() {
-        var token, label = null;
-
-        expectKeyword('break');
-
-        // Optimize the most common form: 'break;'.
-        if (source[index] === ';') {
-            lex();
-
-            if (!(state.inIteration || state.inSwitch)) {
-                throwError({}, Messages.IllegalBreak);
-            }
-
-            return {
-                type: Syntax.BreakStatement,
-                label: null
-            };
-        }
-
-        if (peekLineTerminator()) {
-            if (!(state.inIteration || state.inSwitch)) {
-                throwError({}, Messages.IllegalBreak);
-            }
-
-            return {
-                type: Syntax.BreakStatement,
-                label: null
-            };
-        }
-
-        token = lookahead();
-        if (token.type === Token.Identifier) {
-            label = parseVariableIdentifier();
-
-            if (!Object.prototype.hasOwnProperty.call(state.labelSet, label.name)) {
-                throwError({}, Messages.UnknownLabel, label.name);
-            }
-        }
-
-        consumeSemicolon();
-
-        if (label === null && !(state.inIteration || state.inSwitch)) {
-            throwError({}, Messages.IllegalBreak);
-        }
-
-        return {
-            type: Syntax.BreakStatement,
-            label: label
-        };
-    }
-
-    // 12.9 The return statement
-
-    function parseReturnStatement() {
-        var token, argument = null;
-
-        expectKeyword('return');
-
-        if (!state.inFunctionBody) {
-            throwErrorTolerant({}, Messages.IllegalReturn);
-        }
-
-        // 'return' followed by a space and an identifier is very common.
-        if (source[index] === ' ') {
-            if (isIdentifierStart(source[index + 1])) {
-                argument = parseExpression();
-                consumeSemicolon();
-                return {
-                    type: Syntax.ReturnStatement,
-                    argument: argument
-                };
-            }
-        }
-
-        if (peekLineTerminator()) {
-            return {
-                type: Syntax.ReturnStatement,
-                argument: null
-            };
-        }
-
-        if (!match(';')) {
-            token = lookahead();
-            if (!match('}') && token.type !== Token.EOF) {
-                argument = parseExpression();
-            }
-        }
-
-        consumeSemicolon();
-
-        return {
-            type: Syntax.ReturnStatement,
-            argument: argument
-        };
-    }
-
-    // 12.10 The with statement
-
-    function parseWithStatement() {
-        var object, body;
-
-        if (strict) {
-            throwErrorTolerant({}, Messages.StrictModeWith);
-        }
-
-        expectKeyword('with');
-
-        expect('(');
-
-        object = parseExpression();
-
-        expect(')');
-
-        body = parseStatement();
-
-        return {
-            type: Syntax.WithStatement,
-            object: object,
-            body: body
-        };
-    }
-
-    // 12.10 The swith statement
-
-    function parseSwitchCase() {
-        var test,
-            consequent = [],
-            statement;
-
-        if (matchKeyword('default')) {
-            lex();
-            test = null;
-        } else {
-            expectKeyword('case');
-            test = parseExpression();
-        }
-        expect(':');
-
-        while (index < length) {
-            if (match('}') || matchKeyword('default') || matchKeyword('case')) {
-                break;
-            }
-            statement = parseStatement();
-            if (typeof statement === 'undefined') {
-                break;
-            }
-            consequent.push(statement);
-        }
-
-        return {
-            type: Syntax.SwitchCase,
-            test: test,
-            consequent: consequent
-        };
-    }
-
-    function parseSwitchStatement() {
-        var discriminant, cases, clause, oldInSwitch, defaultFound;
-
-        expectKeyword('switch');
-
-        expect('(');
-
-        discriminant = parseExpression();
-
-        expect(')');
-
-        expect('{');
-
-        cases = [];
-
-        if (match('}')) {
-            lex();
-            return {
-                type: Syntax.SwitchStatement,
-                discriminant: discriminant,
-                cases: cases
-            };
-        }
-
-        oldInSwitch = state.inSwitch;
-        state.inSwitch = true;
-        defaultFound = false;
-
-        while (index < length) {
-            if (match('}')) {
-                break;
-            }
-            clause = parseSwitchCase();
-            if (clause.test === null) {
-                if (defaultFound) {
-                    throwError({}, Messages.MultipleDefaultsInSwitch);
-                }
-                defaultFound = true;
-            }
-            cases.push(clause);
-        }
-
-        state.inSwitch = oldInSwitch;
-
-        expect('}');
-
-        return {
-            type: Syntax.SwitchStatement,
-            discriminant: discriminant,
-            cases: cases
-        };
-    }
-
-    // 12.13 The throw statement
-
-    function parseThrowStatement() {
-        var argument;
-
-        expectKeyword('throw');
-
-        if (peekLineTerminator()) {
-            throwError({}, Messages.NewlineAfterThrow);
-        }
-
-        argument = parseExpression();
-
-        consumeSemicolon();
-
-        return {
-            type: Syntax.ThrowStatement,
-            argument: argument
-        };
-    }
-
-    // 12.14 The try statement
-
-    function parseCatchClause() {
-        var param;
-
-        expectKeyword('catch');
-
-        expect('(');
-        if (match(')')) {
-            throwUnexpected(lookahead());
-        }
-
-        param = parseVariableIdentifier();
-        // 12.14.1
-        if (strict && isRestrictedWord(param.name)) {
-            throwErrorTolerant({}, Messages.StrictCatchVariable);
-        }
-
-        expect(')');
-
-        return {
-            type: Syntax.CatchClause,
-            param: param,
-            body: parseBlock()
-        };
-    }
-
-    function parseTryStatement() {
-        var block, handlers = [], finalizer = null;
-
-        expectKeyword('try');
-
-        block = parseBlock();
-
-        if (matchKeyword('catch')) {
-            handlers.push(parseCatchClause());
-        }
-
-        if (matchKeyword('finally')) {
-            lex();
-            finalizer = parseBlock();
-        }
-
-        if (handlers.length === 0 && !finalizer) {
-            throwError({}, Messages.NoCatchOrFinally);
-        }
-
-        return {
-            type: Syntax.TryStatement,
-            block: block,
-            guardedHandlers: [],
-            handlers: handlers,
-            finalizer: finalizer
-        };
-    }
-
-    // 12.15 The debugger statement
-
-    function parseDebuggerStatement() {
-        expectKeyword('debugger');
-
-        consumeSemicolon();
-
-        return {
-            type: Syntax.DebuggerStatement
-        };
-    }
-
-    // 12 Statements
-
-    function parseStatement() {
-        var token = lookahead(),
-            expr,
-            labeledBody;
-
-        if (token.type === Token.EOF) {
-            throwUnexpected(token);
-        }
-
-        if (token.type === Token.Punctuator) {
-            switch (token.value) {
-            case ';':
-                return parseEmptyStatement();
-            case '{':
-                return parseBlock();
-            case '(':
-                return parseExpressionStatement();
-            default:
-                break;
-            }
-        }
-
-        if (token.type === Token.Keyword) {
-            switch (token.value) {
-            case 'break':
-                return parseBreakStatement();
-            case 'continue':
-                return parseContinueStatement();
-            case 'debugger':
-                return parseDebuggerStatement();
-            case 'do':
-                return parseDoWhileStatement();
-            case 'for':
-                return parseForStatement();
-            case 'function':
-                return parseFunctionDeclaration();
-            case 'if':
-                return parseIfStatement();
-            case 'return':
-                return parseReturnStatement();
-            case 'switch':
-                return parseSwitchStatement();
-            case 'throw':
-                return parseThrowStatement();
-            case 'try':
-                return parseTryStatement();
-            case 'var':
-                return parseVariableStatement();
-            case 'while':
-                return parseWhileStatement();
-            case 'with':
-                return parseWithStatement();
-            default:
-                break;
-            }
-        }
-
-        expr = parseExpression();
-
-        // 12.12 Labelled Statements
-        if ((expr.type === Syntax.Identifier) && match(':')) {
-            lex();
-
-            if (Object.prototype.hasOwnProperty.call(state.labelSet, expr.name)) {
-                throwError({}, Messages.Redeclaration, 'Label', expr.name);
-            }
-
-            state.labelSet[expr.name] = true;
-            labeledBody = parseStatement();
-            delete state.labelSet[expr.name];
-
-            return {
-                type: Syntax.LabeledStatement,
-                label: expr,
-                body: labeledBody
-            };
-        }
-
-        consumeSemicolon();
-
-        return {
-            type: Syntax.ExpressionStatement,
-            expression: expr
-        };
-    }
-
-    // 13 Function Definition
-
-    function parseFunctionSourceElements() {
-        var sourceElement, sourceElements = [], token, directive, firstRestricted,
-            oldLabelSet, oldInIteration, oldInSwitch, oldInFunctionBody;
-
-        expect('{');
-
-        while (index < length) {
-            token = lookahead();
-            if (token.type !== Token.StringLiteral) {
-                break;
-            }
-
-            sourceElement = parseSourceElement();
-            sourceElements.push(sourceElement);
-            if (sourceElement.expression.type !== Syntax.Literal) {
-                // this is not directive
-                break;
-            }
-            directive = sliceSource(token.range[0] + 1, token.range[1] - 1);
-            if (directive === 'use strict') {
-                strict = true;
-                if (firstRestricted) {
-                    throwErrorTolerant(firstRestricted, Messages.StrictOctalLiteral);
-                }
-            } else {
-                if (!firstRestricted && token.octal) {
-                    firstRestricted = token;
-                }
-            }
-        }
-
-        oldLabelSet = state.labelSet;
-        oldInIteration = state.inIteration;
-        oldInSwitch = state.inSwitch;
-        oldInFunctionBody = state.inFunctionBody;
-
-        state.labelSet = {};
-        state.inIteration = false;
-        state.inSwitch = false;
-        state.inFunctionBody = true;
-
-        while (index < length) {
-            if (match('}')) {
-                break;
-            }
-            sourceElement = parseSourceElement();
-            if (typeof sourceElement === 'undefined') {
-                break;
-            }
-            sourceElements.push(sourceElement);
-        }
-
-        expect('}');
-
-        state.labelSet = oldLabelSet;
-        state.inIteration = oldInIteration;
-        state.inSwitch = oldInSwitch;
-        state.inFunctionBody = oldInFunctionBody;
-
-        return {
-            type: Syntax.BlockStatement,
-            body: sourceElements
-        };
-    }
-
-    function parseFunctionDeclaration() {
-        var id, param, params = [], body, token, stricted, firstRestricted, message, previousStrict, paramSet;
-
-        expectKeyword('function');
-        token = lookahead();
-        id = parseVariableIdentifier();
-        if (strict) {
-            if (isRestrictedWord(token.value)) {
-                throwErrorTolerant(token, Messages.StrictFunctionName);
-            }
-        } else {
-            if (isRestrictedWord(token.value)) {
-                firstRestricted = token;
-                message = Messages.StrictFunctionName;
-            } else if (isStrictModeReservedWord(token.value)) {
-                firstRestricted = token;
-                message = Messages.StrictReservedWord;
-            }
-        }
-
-        expect('(');
-
-        if (!match(')')) {
-            paramSet = {};
-            while (index < length) {
-                token = lookahead();
-                param = parseVariableIdentifier();
-                if (strict) {
-                    if (isRestrictedWord(token.value)) {
-                        stricted = token;
-                        message = Messages.StrictParamName;
-                    }
-                    if (Object.prototype.hasOwnProperty.call(paramSet, token.value)) {
-                        stricted = token;
-                        message = Messages.StrictParamDupe;
-                    }
-                } else if (!firstRestricted) {
-                    if (isRestrictedWord(token.value)) {
-                        firstRestricted = token;
-                        message = Messages.StrictParamName;
-                    } else if (isStrictModeReservedWord(token.value)) {
-                        firstRestricted = token;
-                        message = Messages.StrictReservedWord;
-                    } else if (Object.prototype.hasOwnProperty.call(paramSet, token.value)) {
-                        firstRestricted = token;
-                        message = Messages.StrictParamDupe;
-                    }
-                }
-                params.push(param);
-                paramSet[param.name] = true;
-                if (match(')')) {
-                    break;
-                }
-                expect(',');
-            }
-        }
-
-        expect(')');
-
-        previousStrict = strict;
-        body = parseFunctionSourceElements();
-        if (strict && firstRestricted) {
-            throwError(firstRestricted, message);
-        }
-        if (strict && stricted) {
-            throwErrorTolerant(stricted, message);
-        }
-        strict = previousStrict;
-
-        return {
-            type: Syntax.FunctionDeclaration,
-            id: id,
-            params: params,
-            defaults: [],
-            body: body,
-            rest: null,
-            generator: false,
-            expression: false
-        };
-    }
-
-    function parseFunctionExpression() {
-        var token, id = null, stricted, firstRestricted, message, param, params = [], body, previousStrict, paramSet;
-
-        expectKeyword('function');
-
-        if (!match('(')) {
-            token = lookahead();
-            id = parseVariableIdentifier();
-            if (strict) {
-                if (isRestrictedWord(token.value)) {
-                    throwErrorTolerant(token, Messages.StrictFunctionName);
-                }
-            } else {
-                if (isRestrictedWord(token.value)) {
-                    firstRestricted = token;
-                    message = Messages.StrictFunctionName;
-                } else if (isStrictModeReservedWord(token.value)) {
-                    firstRestricted = token;
-                    message = Messages.StrictReservedWord;
-                }
-            }
-        }
-
-        expect('(');
-
-        if (!match(')')) {
-            paramSet = {};
-            while (index < length) {
-                token = lookahead();
-                param = parseVariableIdentifier();
-                if (strict) {
-                    if (isRestrictedWord(token.value)) {
-                        stricted = token;
-                        message = Messages.StrictParamName;
-                    }
-                    if (Object.prototype.hasOwnProperty.call(paramSet, token.value)) {
-                        stricted = token;
-                        message = Messages.StrictParamDupe;
-                    }
-                } else if (!firstRestricted) {
-                    if (isRestrictedWord(token.value)) {
-                        firstRestricted = token;
-                        message = Messages.StrictParamName;
-                    } else if (isStrictModeReservedWord(token.value)) {
-                        firstRestricted = token;
-                        message = Messages.StrictReservedWord;
-                    } else if (Object.prototype.hasOwnProperty.call(paramSet, token.value)) {
-                        firstRestricted = token;
-                        message = Messages.StrictParamDupe;
-                    }
-                }
-                params.push(param);
-                paramSet[param.name] = true;
-                if (match(')')) {
-                    break;
-                }
-                expect(',');
-            }
-        }
-
-        expect(')');
-
-        previousStrict = strict;
-        body = parseFunctionSourceElements();
-        if (strict && firstRestricted) {
-            throwError(firstRestricted, message);
-        }
-        if (strict && stricted) {
-            throwErrorTolerant(stricted, message);
-        }
-        strict = previousStrict;
-
-        return {
-            type: Syntax.FunctionExpression,
-            id: id,
-            params: params,
-            defaults: [],
-            body: body,
-            rest: null,
-            generator: false,
-            expression: false
-        };
-    }
-
-    // 14 Program
-
-    function parseSourceElement() {
-        var token = lookahead();
-
-        if (token.type === Token.Keyword) {
-            switch (token.value) {
-            case 'const':
-            case 'let':
-                return parseConstLetDeclaration(token.value);
-            case 'function':
-                return parseFunctionDeclaration();
-            default:
-                return parseStatement();
-            }
-        }
-
-        if (token.type !== Token.EOF) {
-            return parseStatement();
-        }
-    }
-
-    function parseSourceElements() {
-        var sourceElement, sourceElements = [], token, directive, firstRestricted;
-
-        while (index < length) {
-            token = lookahead();
-            if (token.type !== Token.StringLiteral) {
-                break;
-            }
-
-            sourceElement = parseSourceElement();
-            sourceElements.push(sourceElement);
-            if (sourceElement.expression.type !== Syntax.Literal) {
-                // this is not directive
-                break;
-            }
-            directive = sliceSource(token.range[0] + 1, token.range[1] - 1);
-            if (directive === 'use strict') {
-                strict = true;
-                if (firstRestricted) {
-                    throwErrorTolerant(firstRestricted, Messages.StrictOctalLiteral);
-                }
-            } else {
-                if (!firstRestricted && token.octal) {
-                    firstRestricted = token;
-                }
-            }
-        }
-
-        while (index < length) {
-            sourceElement = parseSourceElement();
-            if (typeof sourceElement === 'undefined') {
-                break;
-            }
-            sourceElements.push(sourceElement);
-        }
-        return sourceElements;
-    }
-
-    function parseProgram() {
-        var program;
-        strict = false;
-        program = {
-            type: Syntax.Program,
-            body: parseSourceElements()
-        };
-        return program;
-    }
-
-    // The following functions are needed only when the option to preserve
-    // the comments is active.
-
-    function addComment(type, value, start, end, loc) {
-        assert(typeof start === 'number', 'Comment must have valid position');
-
-        // Because the way the actual token is scanned, often the comments
-        // (if any) are skipped twice during the lexical analysis.
-        // Thus, we need to skip adding a comment if the comment array already
-        // handled it.
-        if (extra.comments.length > 0) {
-            if (extra.comments[extra.comments.length - 1].range[1] > start) {
-                return;
-            }
-        }
-
-        extra.comments.push({
-            type: type,
-            value: value,
-            range: [start, end],
-            loc: loc
-        });
-    }
-
-    function scanComment() {
-        var comment, ch, loc, start, blockComment, lineComment;
-
-        comment = '';
-        blockComment = false;
-        lineComment = false;
-
-        while (index < length) {
-            ch = source[index];
-
-            if (lineComment) {
-                ch = source[index++];
-                if (isLineTerminator(ch)) {
-                    loc.end = {
-                        line: lineNumber,
-                        column: index - lineStart - 1
-                    };
-                    lineComment = false;
-                    addComment('Line', comment, start, index - 1, loc);
-                    if (ch === '\r' && source[index] === '\n') {
-                        ++index;
-                    }
-                    ++lineNumber;
-                    lineStart = index;
-                    comment = '';
-                } else if (index >= length) {
-                    lineComment = false;
-                    comment += ch;
-                    loc.end = {
-                        line: lineNumber,
-                        column: length - lineStart
-                    };
-                    addComment('Line', comment, start, length, loc);
-                } else {
-                    comment += ch;
-                }
-            } else if (blockComment) {
-                if (isLineTerminator(ch)) {
-                    if (ch === '\r' && source[index + 1] === '\n') {
-                        ++index;
-                        comment += '\r\n';
-                    } else {
-                        comment += ch;
-                    }
-                    ++lineNumber;
-                    ++index;
-                    lineStart = index;
-                    if (index >= length) {
-                        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                    }
-                } else {
-                    ch = source[index++];
-                    if (index >= length) {
-                        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                    }
-                    comment += ch;
-                    if (ch === '*') {
-                        ch = source[index];
-                        if (ch === '/') {
-                            comment = comment.substr(0, comment.length - 1);
-                            blockComment = false;
-                            ++index;
-                            loc.end = {
-                                line: lineNumber,
-                                column: index - lineStart
-                            };
-                            addComment('Block', comment, start, index, loc);
-                            comment = '';
-                        }
-                    }
-                }
-            } else if (ch === '/') {
-                ch = source[index + 1];
-                if (ch === '/') {
-                    loc = {
-                        start: {
-                            line: lineNumber,
-                            column: index - lineStart
-                        }
-                    };
-                    start = index;
-                    index += 2;
-                    lineComment = true;
-                    if (index >= length) {
-                        loc.end = {
-                            line: lineNumber,
-                            column: index - lineStart
-                        };
-                        lineComment = false;
-                        addComment('Line', comment, start, index, loc);
-                    }
-                } else if (ch === '*') {
-                    start = index;
-                    index += 2;
-                    blockComment = true;
-                    loc = {
-                        start: {
-                            line: lineNumber,
-                            column: index - lineStart - 2
-                        }
-                    };
-                    if (index >= length) {
-                        throwError({}, Messages.UnexpectedToken, 'ILLEGAL');
-                    }
-                } else {
-                    break;
-                }
-            } else if (isWhiteSpace(ch)) {
-                ++index;
-            } else if (isLineTerminator(ch)) {
-                ++index;
-                if (ch ===  '\r' && source[index] === '\n') {
-                    ++index;
-                }
-                ++lineNumber;
-                lineStart = index;
-            } else {
-                break;
-            }
-        }
-    }
-
-    function filterCommentLocation() {
-        var i, entry, comment, comments = [];
-
-        for (i = 0; i < extra.comments.length; ++i) {
-            entry = extra.comments[i];
-            comment = {
-                type: entry.type,
-                value: entry.value
-            };
-            if (extra.range) {
-                comment.range = entry.range;
-            }
-            if (extra.loc) {
-                comment.loc = entry.loc;
-            }
-            comments.push(comment);
-        }
-
-        extra.comments = comments;
-    }
-
-    function collectToken() {
-        var start, loc, token, range, value;
-
-        skipComment();
-        start = index;
-        loc = {
-            start: {
-                line: lineNumber,
-                column: index - lineStart
-            }
-        };
-
-        token = extra.advance();
-        loc.end = {
-            line: lineNumber,
-            column: index - lineStart
-        };
-
-        if (token.type !== Token.EOF) {
-            range = [token.range[0], token.range[1]];
-            value = sliceSource(token.range[0], token.range[1]);
-            extra.tokens.push({
-                type: TokenName[token.type],
-                value: value,
-                range: range,
-                loc: loc
-            });
-        }
-
-        return token;
-    }
-
-    function collectRegex() {
-        var pos, loc, regex, token;
-
-        skipComment();
-
-        pos = index;
-        loc = {
-            start: {
-                line: lineNumber,
-                column: index - lineStart
-            }
-        };
-
-        regex = extra.scanRegExp();
-        loc.end = {
-            line: lineNumber,
-            column: index - lineStart
-        };
-
-        // Pop the previous token, which is likely '/' or '/='
-        if (extra.tokens.length > 0) {
-            token = extra.tokens[extra.tokens.length - 1];
-            if (token.range[0] === pos && token.type === 'Punctuator') {
-                if (token.value === '/' || token.value === '/=') {
-                    extra.tokens.pop();
-                }
-            }
-        }
-
-        extra.tokens.push({
-            type: 'RegularExpression',
-            value: regex.literal,
-            range: [pos, index],
-            loc: loc
-        });
-
-        return regex;
-    }
-
-    function filterTokenLocation() {
-        var i, entry, token, tokens = [];
-
-        for (i = 0; i < extra.tokens.length; ++i) {
-            entry = extra.tokens[i];
-            token = {
-                type: entry.type,
-                value: entry.value
-            };
-            if (extra.range) {
-                token.range = entry.range;
-            }
-            if (extra.loc) {
-                token.loc = entry.loc;
-            }
-            tokens.push(token);
-        }
-
-        extra.tokens = tokens;
-    }
-
-    function createLiteral(token) {
-        return {
-            type: Syntax.Literal,
-            value: token.value
-        };
-    }
-
-    function createRawLiteral(token) {
-        return {
-            type: Syntax.Literal,
-            value: token.value,
-            raw: sliceSource(token.range[0], token.range[1])
-        };
-    }
-
-    function createLocationMarker() {
-        var marker = {};
-
-        marker.range = [index, index];
-        marker.loc = {
-            start: {
-                line: lineNumber,
-                column: index - lineStart
-            },
-            end: {
-                line: lineNumber,
-                column: index - lineStart
-            }
-        };
-
-        marker.end = function () {
-            this.range[1] = index;
-            this.loc.end.line = lineNumber;
-            this.loc.end.column = index - lineStart;
-        };
-
-        marker.applyGroup = function (node) {
-            if (extra.range) {
-                node.groupRange = [this.range[0], this.range[1]];
-            }
-            if (extra.loc) {
-                node.groupLoc = {
-                    start: {
-                        line: this.loc.start.line,
-                        column: this.loc.start.column
-                    },
-                    end: {
-                        line: this.loc.end.line,
-                        column: this.loc.end.column
-                    }
-                };
-            }
-        };
-
-        marker.apply = function (node) {
-            if (extra.range) {
-                node.range = [this.range[0], this.range[1]];
-            }
-            if (extra.loc) {
-                node.loc = {
-                    start: {
-                        line: this.loc.start.line,
-                        column: this.loc.start.column
-                    },
-                    end: {
-                        line: this.loc.end.line,
-                        column: this.loc.end.column
-                    }
-                };
-            }
-        };
-
-        return marker;
-    }
-
-    function trackGroupExpression() {
-        var marker, expr;
-
-        skipComment();
-        marker = createLocationMarker();
-        expect('(');
-
-        expr = parseExpression();
-
-        expect(')');
-
-        marker.end();
-        marker.applyGroup(expr);
-
-        return expr;
-    }
-
-    function trackLeftHandSideExpression() {
-        var marker, expr;
-
-        skipComment();
-        marker = createLocationMarker();
-
-        expr = matchKeyword('new') ? parseNewExpression() : parsePrimaryExpression();
-
-        while (match('.') || match('[')) {
-            if (match('[')) {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: true,
-                    object: expr,
-                    property: parseComputedMember()
-                };
-                marker.end();
-                marker.apply(expr);
-            } else {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: false,
-                    object: expr,
-                    property: parseNonComputedMember()
-                };
-                marker.end();
-                marker.apply(expr);
-            }
-        }
-
-        return expr;
-    }
-
-    function trackLeftHandSideExpressionAllowCall() {
-        var marker, expr;
-
-        skipComment();
-        marker = createLocationMarker();
-
-        expr = matchKeyword('new') ? parseNewExpression() : parsePrimaryExpression();
-
-        while (match('.') || match('[') || match('(')) {
-            if (match('(')) {
-                expr = {
-                    type: Syntax.CallExpression,
-                    callee: expr,
-                    'arguments': parseArguments()
-                };
-                marker.end();
-                marker.apply(expr);
-            } else if (match('[')) {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: true,
-                    object: expr,
-                    property: parseComputedMember()
-                };
-                marker.end();
-                marker.apply(expr);
-            } else {
-                expr = {
-                    type: Syntax.MemberExpression,
-                    computed: false,
-                    object: expr,
-                    property: parseNonComputedMember()
-                };
-                marker.end();
-                marker.apply(expr);
-            }
-        }
-
-        return expr;
-    }
-
-    function filterGroup(node) {
-        var n, i, entry;
-
-        n = (Object.prototype.toString.apply(node) === '[object Array]') ? [] : {};
-        for (i in node) {
-            if (node.hasOwnProperty(i) && i !== 'groupRange' && i !== 'groupLoc') {
-                entry = node[i];
-                if (entry === null || typeof entry !== 'object' || entry instanceof RegExp) {
-                    n[i] = entry;
-                } else {
-                    n[i] = filterGroup(entry);
-                }
-            }
-        }
-        return n;
-    }
-
-    function wrapTrackingFunction(range, loc) {
-
-        return function (parseFunction) {
-
-            function isBinary(node) {
-                return node.type === Syntax.LogicalExpression ||
-                    node.type === Syntax.BinaryExpression;
-            }
-
-            function visit(node) {
-                var start, end;
-
-                if (isBinary(node.left)) {
-                    visit(node.left);
-                }
-                if (isBinary(node.right)) {
-                    visit(node.right);
-                }
-
-                if (range) {
-                    if (node.left.groupRange || node.right.groupRange) {
-                        start = node.left.groupRange ? node.left.groupRange[0] : node.left.range[0];
-                        end = node.right.groupRange ? node.right.groupRange[1] : node.right.range[1];
-                        node.range = [start, end];
-                    } else if (typeof node.range === 'undefined') {
-                        start = node.left.range[0];
-                        end = node.right.range[1];
-                        node.range = [start, end];
-                    }
-                }
-                if (loc) {
-                    if (node.left.groupLoc || node.right.groupLoc) {
-                        start = node.left.groupLoc ? node.left.groupLoc.start : node.left.loc.start;
-                        end = node.right.groupLoc ? node.right.groupLoc.end : node.right.loc.end;
-                        node.loc = {
-                            start: start,
-                            end: end
-                        };
-                    } else if (typeof node.loc === 'undefined') {
-                        node.loc = {
-                            start: node.left.loc.start,
-                            end: node.right.loc.end
-                        };
-                    }
-                }
-            }
-
-            return function () {
-                var marker, node;
-
-                skipComment();
-
-                marker = createLocationMarker();
-                node = parseFunction.apply(null, arguments);
-                marker.end();
-
-                if (range && typeof node.range === 'undefined') {
-                    marker.apply(node);
-                }
-
-                if (loc && typeof node.loc === 'undefined') {
-                    marker.apply(node);
-                }
-
-                if (isBinary(node)) {
-                    visit(node);
-                }
-
-                return node;
-            };
-        };
-    }
-
-    function patch() {
-
-        var wrapTracking;
-
-        if (extra.comments) {
-            extra.skipComment = skipComment;
-            skipComment = scanComment;
-        }
-
-        if (extra.raw) {
-            extra.createLiteral = createLiteral;
-            createLiteral = createRawLiteral;
-        }
-
-        if (extra.range || extra.loc) {
-
-            extra.parseGroupExpression = parseGroupExpression;
-            extra.parseLeftHandSideExpression = parseLeftHandSideExpression;
-            extra.parseLeftHandSideExpressionAllowCall = parseLeftHandSideExpressionAllowCall;
-            parseGroupExpression = trackGroupExpression;
-            parseLeftHandSideExpression = trackLeftHandSideExpression;
-            parseLeftHandSideExpressionAllowCall = trackLeftHandSideExpressionAllowCall;
-
-            wrapTracking = wrapTrackingFunction(extra.range, extra.loc);
-
-            extra.parseAdditiveExpression = parseAdditiveExpression;
-            extra.parseAssignmentExpression = parseAssignmentExpression;
-            extra.parseBitwiseANDExpression = parseBitwiseANDExpression;
-            extra.parseBitwiseORExpression = parseBitwiseORExpression;
-            extra.parseBitwiseXORExpression = parseBitwiseXORExpression;
-            extra.parseBlock = parseBlock;
-            extra.parseFunctionSourceElements = parseFunctionSourceElements;
-            extra.parseCatchClause = parseCatchClause;
-            extra.parseComputedMember = parseComputedMember;
-            extra.parseConditionalExpression = parseConditionalExpression;
-            extra.parseConstLetDeclaration = parseConstLetDeclaration;
-            extra.parseEqualityExpression = parseEqualityExpression;
-            extra.parseExpression = parseExpression;
-            extra.parseForVariableDeclaration = parseForVariableDeclaration;
-            extra.parseFunctionDeclaration = parseFunctionDeclaration;
-            extra.parseFunctionExpression = parseFunctionExpression;
-            extra.parseLogicalANDExpression = parseLogicalANDExpression;
-            extra.parseLogicalORExpression = parseLogicalORExpression;
-            extra.parseMultiplicativeExpression = parseMultiplicativeExpression;
-            extra.parseNewExpression = parseNewExpression;
-            extra.parseNonComputedProperty = parseNonComputedProperty;
-            extra.parseObjectProperty = parseObjectProperty;
-            extra.parseObjectPropertyKey = parseObjectPropertyKey;
-            extra.parsePostfixExpression = parsePostfixExpression;
-            extra.parsePrimaryExpression = parsePrimaryExpression;
-            extra.parseProgram = parseProgram;
-            extra.parsePropertyFunction = parsePropertyFunction;
-            extra.parseRelationalExpression = parseRelationalExpression;
-            extra.parseStatement = parseStatement;
-            extra.parseShiftExpression = parseShiftExpression;
-            extra.parseSwitchCase = parseSwitchCase;
-            extra.parseUnaryExpression = parseUnaryExpression;
-            extra.parseVariableDeclaration = parseVariableDeclaration;
-            extra.parseVariableIdentifier = parseVariableIdentifier;
-
-            parseAdditiveExpression = wrapTracking(extra.parseAdditiveExpression);
-            parseAssignmentExpression = wrapTracking(extra.parseAssignmentExpression);
-            parseBitwiseANDExpression = wrapTracking(extra.parseBitwiseANDExpression);
-            parseBitwiseORExpression = wrapTracking(extra.parseBitwiseORExpression);
-            parseBitwiseXORExpression = wrapTracking(extra.parseBitwiseXORExpression);
-            parseBlock = wrapTracking(extra.parseBlock);
-            parseFunctionSourceElements = wrapTracking(extra.parseFunctionSourceElements);
-            parseCatchClause = wrapTracking(extra.parseCatchClause);
-            parseComputedMember = wrapTracking(extra.parseComputedMember);
-            parseConditionalExpression = wrapTracking(extra.parseConditionalExpression);
-            parseConstLetDeclaration = wrapTracking(extra.parseConstLetDeclaration);
-            parseEqualityExpression = wrapTracking(extra.parseEqualityExpression);
-            parseExpression = wrapTracking(extra.parseExpression);
-            parseForVariableDeclaration = wrapTracking(extra.parseForVariableDeclaration);
-            parseFunctionDeclaration = wrapTracking(extra.parseFunctionDeclaration);
-            parseFunctionExpression = wrapTracking(extra.parseFunctionExpression);
-            parseLeftHandSideExpression = wrapTracking(parseLeftHandSideExpression);
-            parseLogicalANDExpression = wrapTracking(extra.parseLogicalANDExpression);
-            parseLogicalORExpression = wrapTracking(extra.parseLogicalORExpression);
-            parseMultiplicativeExpression = wrapTracking(extra.parseMultiplicativeExpression);
-            parseNewExpression = wrapTracking(extra.parseNewExpression);
-            parseNonComputedProperty = wrapTracking(extra.parseNonComputedProperty);
-            parseObjectProperty = wrapTracking(extra.parseObjectProperty);
-            parseObjectPropertyKey = wrapTracking(extra.parseObjectPropertyKey);
-            parsePostfixExpression = wrapTracking(extra.parsePostfixExpression);
-            parsePrimaryExpression = wrapTracking(extra.parsePrimaryExpression);
-            parseProgram = wrapTracking(extra.parseProgram);
-            parsePropertyFunction = wrapTracking(extra.parsePropertyFunction);
-            parseRelationalExpression = wrapTracking(extra.parseRelationalExpression);
-            parseStatement = wrapTracking(extra.parseStatement);
-            parseShiftExpression = wrapTracking(extra.parseShiftExpression);
-            parseSwitchCase = wrapTracking(extra.parseSwitchCase);
-            parseUnaryExpression = wrapTracking(extra.parseUnaryExpression);
-            parseVariableDeclaration = wrapTracking(extra.parseVariableDeclaration);
-            parseVariableIdentifier = wrapTracking(extra.parseVariableIdentifier);
-        }
-
-        if (typeof extra.tokens !== 'undefined') {
-            extra.advance = advance;
-            extra.scanRegExp = scanRegExp;
-
-            advance = collectToken;
-            scanRegExp = collectRegex;
-        }
-    }
-
-    function unpatch() {
-        if (typeof extra.skipComment === 'function') {
-            skipComment = extra.skipComment;
-        }
-
-        if (extra.raw) {
-            createLiteral = extra.createLiteral;
-        }
-
-        if (extra.range || extra.loc) {
-            parseAdditiveExpression = extra.parseAdditiveExpression;
-            parseAssignmentExpression = extra.parseAssignmentExpression;
-            parseBitwiseANDExpression = extra.parseBitwiseANDExpression;
-            parseBitwiseORExpression = extra.parseBitwiseORExpression;
-            parseBitwiseXORExpression = extra.parseBitwiseXORExpression;
-            parseBlock = extra.parseBlock;
-            parseFunctionSourceElements = extra.parseFunctionSourceElements;
-            parseCatchClause = extra.parseCatchClause;
-            parseComputedMember = extra.parseComputedMember;
-            parseConditionalExpression = extra.parseConditionalExpression;
-            parseConstLetDeclaration = extra.parseConstLetDeclaration;
-            parseEqualityExpression = extra.parseEqualityExpression;
-            parseExpression = extra.parseExpression;
-            parseForVariableDeclaration = extra.parseForVariableDeclaration;
-            parseFunctionDeclaration = extra.parseFunctionDeclaration;
-            parseFunctionExpression = extra.parseFunctionExpression;
-            parseGroupExpression = extra.parseGroupExpression;
-            parseLeftHandSideExpression = extra.parseLeftHandSideExpression;
-            parseLeftHandSideExpressionAllowCall = extra.parseLeftHandSideExpressionAllowCall;
-            parseLogicalANDExpression = extra.parseLogicalANDExpression;
-            parseLogicalORExpression = extra.parseLogicalORExpression;
-            parseMultiplicativeExpression = extra.parseMultiplicativeExpression;
-            parseNewExpression = extra.parseNewExpression;
-            parseNonComputedProperty = extra.parseNonComputedProperty;
-            parseObjectProperty = extra.parseObjectProperty;
-            parseObjectPropertyKey = extra.parseObjectPropertyKey;
-            parsePrimaryExpression = extra.parsePrimaryExpression;
-            parsePostfixExpression = extra.parsePostfixExpression;
-            parseProgram = extra.parseProgram;
-            parsePropertyFunction = extra.parsePropertyFunction;
-            parseRelationalExpression = extra.parseRelationalExpression;
-            parseStatement = extra.parseStatement;
-            parseShiftExpression = extra.parseShiftExpression;
-            parseSwitchCase = extra.parseSwitchCase;
-            parseUnaryExpression = extra.parseUnaryExpression;
-            parseVariableDeclaration = extra.parseVariableDeclaration;
-            parseVariableIdentifier = extra.parseVariableIdentifier;
-        }
-
-        if (typeof extra.scanRegExp === 'function') {
-            advance = extra.advance;
-            scanRegExp = extra.scanRegExp;
-        }
-    }
-
-    function stringToArray(str) {
-        var length = str.length,
-            result = [],
-            i;
-        for (i = 0; i < length; ++i) {
-            result[i] = str.charAt(i);
-        }
-        return result;
-    }
-
-    function parse(code, options) {
-        var program, toString;
-
-        toString = String;
-        if (typeof code !== 'string' && !(code instanceof String)) {
-            code = toString(code);
-        }
-
-        source = code;
-        index = 0;
-        lineNumber = (source.length > 0) ? 1 : 0;
-        lineStart = 0;
-        length = source.length;
-        buffer = null;
-        state = {
-            allowIn: true,
-            labelSet: {},
-            inFunctionBody: false,
-            inIteration: false,
-            inSwitch: false
-        };
-
-        extra = {};
-        if (typeof options !== 'undefined') {
-            extra.range = (typeof options.range === 'boolean') && options.range;
-            extra.loc = (typeof options.loc === 'boolean') && options.loc;
-            extra.raw = (typeof options.raw === 'boolean') && options.raw;
-            if (typeof options.tokens === 'boolean' && options.tokens) {
-                extra.tokens = [];
-            }
-            if (typeof options.comment === 'boolean' && options.comment) {
-                extra.comments = [];
-            }
-            if (typeof options.tolerant === 'boolean' && options.tolerant) {
-                extra.errors = [];
-            }
-        }
-
-        if (length > 0) {
-            if (typeof source[0] === 'undefined') {
-                // Try first to convert to a string. This is good as fast path
-                // for old IE which understands string indexing for string
-                // literals only and not for string object.
-                if (code instanceof String) {
-                    source = code.valueOf();
-                }
-
-                // Force accessing the characters via an array.
-                if (typeof source[0] === 'undefined') {
-                    source = stringToArray(code);
-                }
-            }
-        }
-
-        patch();
-        try {
-            program = parseProgram();
-            if (typeof extra.comments !== 'undefined') {
-                filterCommentLocation();
-                program.comments = extra.comments;
-            }
-            if (typeof extra.tokens !== 'undefined') {
-                filterTokenLocation();
-                program.tokens = extra.tokens;
-            }
-            if (typeof extra.errors !== 'undefined') {
-                program.errors = extra.errors;
-            }
-            if (extra.range || extra.loc) {
-                program.body = filterGroup(program.body);
-            }
-        } catch (e) {
-            throw e;
-        } finally {
-            unpatch();
-            extra = {};
-        }
-
-        return program;
-    }
-
-    // Sync with package.json.
-    exports.version = '1.0.4';
-
-    exports.parse = parse;
-
-    // Deep copy.
-    exports.Syntax = (function () {
-        var name, types = {};
-
-        if (typeof Object.create === 'function') {
-            types = Object.create(null);
-        }
-
-        for (name in Syntax) {
-            if (Syntax.hasOwnProperty(name)) {
-                types[name] = Syntax[name];
-            }
-        }
-
-        if (typeof Object.freeze === 'function') {
-            Object.freeze(types);
-        }
-
-        return types;
-    }());
-
-}));
-/* vim: set sw=4 ts=4 et tw=80 : */
-
-},{}],265:[function(require,module,exports){
-arguments[4][186][0].apply(exports,arguments)
-},{"dup":186}],266:[function(require,module,exports){
-"use strict"
-
-var ops = require("ndarray-ops")
-var cwise = require("cwise")
-var ndarray = require("ndarray")
-var fftm = require("./lib/fft-matrix.js")
-var pool = require("typedarray-pool")
+},{"ndarray":122,"ndarray-ops":300,"ndarray-resample":319}],300:[function(require,module,exports){
+arguments[4][170][0].apply(exports,arguments)
+},{"cwise-compiler":301,"dup":170}],301:[function(require,module,exports){
+arguments[4][257][0].apply(exports,arguments)
+},{"./lib/thunk.js":303,"dup":257}],302:[function(require,module,exports){
+arguments[4][258][0].apply(exports,arguments)
+},{"dup":258,"uniq":304}],303:[function(require,module,exports){
+arguments[4][259][0].apply(exports,arguments)
+},{"./compile.js":302,"dup":259}],304:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"dup":82}],305:[function(require,module,exports){
+module.exports = require("cwise-compiler")
+},{"cwise-compiler":306}],306:[function(require,module,exports){
+arguments[4][257][0].apply(exports,arguments)
+},{"./lib/thunk.js":308,"dup":257}],307:[function(require,module,exports){
+arguments[4][258][0].apply(exports,arguments)
+},{"dup":258,"uniq":309}],308:[function(require,module,exports){
+arguments[4][259][0].apply(exports,arguments)
+},{"./compile.js":307,"dup":259}],309:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"dup":82}],310:[function(require,module,exports){
+'use strict'
+
+var ops = require('ndarray-ops')
+var ndarray = require('ndarray')
+var pool = require('typedarray-pool')
+var fftm = require('./lib/fft-matrix.js')
 
 function ndfft(dir, x, y) {
   var shape = x.shape
@@ -42393,14 +36444,14 @@ function ndfft(dir, x, y) {
     size *= shape[i]
     pad = Math.max(pad, fftm.scratchMemory(shape[i]))
     if(x.shape[i] !== y.shape[i]) {
-      throw new Error("Shape mismatch, real and imaginary arrays must have same size")
+      throw new Error('Shape mismatch, real and imaginary arrays must have same size')
     }
   }
   var buf_size = 4 * size + pad
   var buffer
-  if( x.dtype === "array" ||
-      x.dtype === "float64" ||
-      x.dtype === "custom" ) {
+  if( x.dtype === 'array' ||
+      x.dtype === 'float64' ||
+      x.dtype === 'custom' ) {
     buffer = pool.mallocDouble(buf_size)
   } else {
     buffer = pool.mallocFloat(buf_size)
@@ -42456,9 +36507,8 @@ function ndfft(dir, x, y) {
 }
 
 module.exports = ndfft
-
-},{"./lib/fft-matrix.js":267,"cwise":269,"ndarray":282,"ndarray-ops":277,"typedarray-pool":285}],267:[function(require,module,exports){
-var bits = require("bit-twiddle")
+},{"./lib/fft-matrix.js":311,"ndarray":122,"ndarray-ops":300,"typedarray-pool":314}],311:[function(require,module,exports){
+var bits = require('bit-twiddle')
 
 function fft(dir, nrows, ncols, buffer, x_ptr, y_ptr, scratch_ptr) {
   dir |= 0
@@ -42490,7 +36540,7 @@ function fftRadix2(dir, nrows, ncols, buffer, x_ptr, y_ptr) {
   ncols |= 0
   x_ptr |= 0
   y_ptr |= 0
-  var nn,i,i1,j,k,i2,l,l1,l2
+  var nn,m,i,i1,j,k,i2,l,l1,l2
   var c1,c2,t,t1,t2,u1,u2,z,row,a,b,c,d,k1,k2,k3
   
   // Calculate the number of points
@@ -42676,797 +36726,36 @@ function fftBluestein(dir, nrows, ncols, buffer, x_ptr, y_ptr, scratch_ptr) {
   }
 }
 
-},{"bit-twiddle":268}],268:[function(require,module,exports){
-arguments[4][154][0].apply(exports,arguments)
-},{"dup":154}],269:[function(require,module,exports){
-arguments[4][258][0].apply(exports,arguments)
-},{"cwise-compiler":270,"cwise-parser":274,"dup":258}],270:[function(require,module,exports){
-arguments[4][259][0].apply(exports,arguments)
-},{"./lib/thunk.js":272,"dup":259}],271:[function(require,module,exports){
-arguments[4][260][0].apply(exports,arguments)
-},{"dup":260,"uniq":273}],272:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":271,"dup":117}],273:[function(require,module,exports){
-arguments[4][186][0].apply(exports,arguments)
-},{"dup":186}],274:[function(require,module,exports){
-arguments[4][263][0].apply(exports,arguments)
-},{"dup":263,"esprima":275,"uniq":276}],275:[function(require,module,exports){
-arguments[4][264][0].apply(exports,arguments)
-},{"dup":264}],276:[function(require,module,exports){
-arguments[4][186][0].apply(exports,arguments)
-},{"dup":186}],277:[function(require,module,exports){
-"use strict"
-
-var compile = require("cwise-compiler")
-
-var EmptyProc = {
-  body: "",
-  args: [],
-  thisVars: [],
-  localVars: []
-}
-
-function fixup(x) {
-  if(!x) {
-    return EmptyProc
-  }
-  for(var i=0; i<x.args.length; ++i) {
-    var a = x.args[i]
-    if(i === 0) {
-      x.args[i] = {name: a, lvalue:true, rvalue: !!x.rvalue, count:x.count||1 }
-    } else {
-      x.args[i] = {name: a, lvalue:false, rvalue:true, count: 1}
-    }
-  }
-  if(!x.thisVars) {
-    x.thisVars = []
-  }
-  if(!x.localVars) {
-    x.localVars = []
-  }
-  return x
-}
-
-function pcompile(user_args) {
-  return compile({
-    args:     user_args.args,
-    pre:      fixup(user_args.pre),
-    body:     fixup(user_args.body),
-    post:     fixup(user_args.proc),
-    funcName: user_args.funcName
-  })
-}
-
-function makeOp(user_args) {
-  var args = []
-  for(var i=0; i<user_args.args.length; ++i) {
-    args.push("a"+i)
-  }
-  var wrapper = new Function("P", [
-    "return function ", user_args.funcName, "_ndarrayops(", args.join(","), ") {P(", args.join(","), ");return a0}"
-  ].join(""))
-  return wrapper(pcompile(user_args))
-}
-
-var assign_ops = {
-  add:  "+",
-  sub:  "-",
-  mul:  "*",
-  div:  "/",
-  mod:  "%",
-  band: "&",
-  bor:  "|",
-  bxor: "^",
-  lshift: "<<",
-  rshift: ">>",
-  rrshift: ">>>"
-}
-;(function(){
-  for(var id in assign_ops) {
-    var op = assign_ops[id]
-    exports[id] = makeOp({
-      args: ["array","array","array"],
-      body: {args:["a","b","c"],
-             body: "a=b"+op+"c"},
-      funcName: id
-    })
-    exports[id+"eq"] = makeOp({
-      args: ["array","array"],
-      body: {args:["a","b"],
-             body:"a"+op+"=b"},
-      rvalue: true,
-      funcName: id+"eq"
-    })
-    exports[id+"s"] = makeOp({
-      args: ["array", "array", "scalar"],
-      body: {args:["a","b","s"],
-             body:"a=b"+op+"s"},
-      funcName: id+"s"
-    })
-    exports[id+"seq"] = makeOp({
-      args: ["array","scalar"],
-      body: {args:["a","s"],
-             body:"a"+op+"=s"},
-      rvalue: true,
-      funcName: id+"seq"
-    })
-  }
-})();
-
-var unary_ops = {
-  not: "!",
-  bnot: "~",
-  neg: "-",
-  recip: "1.0/"
-}
-;(function(){
-  for(var id in unary_ops) {
-    var op = unary_ops[id]
-    exports[id] = makeOp({
-      args: ["array", "array"],
-      body: {args:["a","b"],
-             body:"a="+op+"b"},
-      funcName: id
-    })
-    exports[id+"eq"] = makeOp({
-      args: ["array"],
-      body: {args:["a"],
-             body:"a="+op+"a"},
-      rvalue: true,
-      count: 2,
-      funcName: id+"eq"
-    })
-  }
-})();
-
-var binary_ops = {
-  and: "&&",
-  or: "||",
-  eq: "===",
-  neq: "!==",
-  lt: "<",
-  gt: ">",
-  leq: "<=",
-  geq: ">="
-}
-;(function() {
-  for(var id in binary_ops) {
-    var op = binary_ops[id]
-    exports[id] = makeOp({
-      args: ["array","array","array"],
-      body: {args:["a", "b", "c"],
-             body:"a=b"+op+"c"},
-      funcName: id
-    })
-    exports[id+"s"] = makeOp({
-      args: ["array","array","scalar"],
-      body: {args:["a", "b", "s"],
-             body:"a=b"+op+"s"},
-      funcName: id+"s"
-    })
-    exports[id+"eq"] = makeOp({
-      args: ["array", "array"],
-      body: {args:["a", "b"],
-             body:"a=a"+op+"b"},
-      rvalue:true,
-      count:2,
-      funcName: id+"eq"
-    })
-    exports[id+"seq"] = makeOp({
-      args: ["array", "scalar"],
-      body: {args:["a","s"],
-             body:"a=a"+op+"s"},
-      rvalue:true,
-      count:2,
-      funcName: id+"seq"
-    })
-  }
-})();
-
-var math_unary = [
-  "abs",
-  "acos",
-  "asin",
-  "atan",
-  "ceil",
-  "cos",
-  "exp",
-  "floor",
-  "log",
-  "round",
-  "sin",
-  "sqrt",
-  "tan"
-]
-;(function() {
-  for(var i=0; i<math_unary.length; ++i) {
-    var f = math_unary[i]
-    exports[f] = makeOp({
-                    args: ["array", "array"],
-                    pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                    body: {args:["a","b"], body:"a=this_f(b)", thisVars:["this_f"]},
-                    funcName: f
-                  })
-    exports[f+"eq"] = makeOp({
-                      args: ["array"],
-                      pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                      body: {args: ["a"], body:"a=this_f(a)", thisVars:["this_f"]},
-                      rvalue: true,
-                      count: 2,
-                      funcName: f+"eq"
-                    })
-  }
-})();
-
-var math_comm = [
-  "max",
-  "min",
-  "atan2",
-  "pow"
-]
-;(function(){
-  for(var i=0; i<math_comm.length; ++i) {
-    var f= math_comm[i]
-    exports[f] = makeOp({
-                  args:["array", "array", "array"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b","c"], body:"a=this_f(b,c)", thisVars:["this_f"]},
-                  funcName: f
-                })
-    exports[f+"s"] = makeOp({
-                  args:["array", "array", "scalar"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b","c"], body:"a=this_f(b,c)", thisVars:["this_f"]},
-                  funcName: f+"s"
-                  })
-    exports[f+"eq"] = makeOp({ args:["array", "array"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b"], body:"a=this_f(a,b)", thisVars:["this_f"]},
-                  rvalue: true,
-                  count: 2,
-                  funcName: f+"eq"
-                  })
-    exports[f+"seq"] = makeOp({ args:["array", "scalar"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b"], body:"a=this_f(a,b)", thisVars:["this_f"]},
-                  rvalue:true,
-                  count:2,
-                  funcName: f+"seq"
-                  })
-  }
-})();
-
-var math_noncomm = [
-  "atan2",
-  "pow"
-]
-;(function(){
-  for(var i=0; i<math_noncomm.length; ++i) {
-    var f= math_noncomm[i]
-    exports[f+"op"] = makeOp({
-                  args:["array", "array", "array"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b","c"], body:"a=this_f(c,b)", thisVars:["this_f"]},
-                  funcName: f+"op"
-                })
-    exports[f+"ops"] = makeOp({
-                  args:["array", "array", "scalar"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b","c"], body:"a=this_f(c,b)", thisVars:["this_f"]},
-                  funcName: f+"ops"
-                  })
-    exports[f+"opeq"] = makeOp({ args:["array", "array"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b"], body:"a=this_f(b,a)", thisVars:["this_f"]},
-                  rvalue: true,
-                  count: 2,
-                  funcName: f+"opeq"
-                  })
-    exports[f+"opseq"] = makeOp({ args:["array", "scalar"],
-                  pre: {args:[], body:"this_f=Math."+f, thisVars:["this_f"]},
-                  body: {args:["a","b"], body:"a=this_f(b,a)", thisVars:["this_f"]},
-                  rvalue:true,
-                  count:2,
-                  funcName: f+"opseq"
-                  })
-  }
-})();
-
-exports.any = compile({
-  args:["array"],
-  pre: EmptyProc,
-  body: {args:[{name:"a", lvalue:false, rvalue:true, count:1}], body: "if(a){return true}", localVars: [], thisVars: []},
-  post: {args:[], localVars:[], thisVars:[], body:"return false"},
-  funcName: "any"
-})
-
-exports.all = compile({
-  args:["array"],
-  pre: EmptyProc,
-  body: {args:[{name:"x", lvalue:false, rvalue:true, count:1}], body: "if(!x){return false}", localVars: [], thisVars: []},
-  post: {args:[], localVars:[], thisVars:[], body:"return true"},
-  funcName: "all"
-})
-
-exports.sum = compile({
-  args:["array"],
-  pre: {args:[], localVars:[], thisVars:["this_s"], body:"this_s=0"},
-  body: {args:[{name:"a", lvalue:false, rvalue:true, count:1}], body: "this_s+=a", localVars: [], thisVars: ["this_s"]},
-  post: {args:[], localVars:[], thisVars:["this_s"], body:"return this_s"},
-  funcName: "sum"
-})
-
-exports.prod = compile({
-  args:["array"],
-  pre: {args:[], localVars:[], thisVars:["this_s"], body:"this_s=1"},
-  body: {args:[{name:"a", lvalue:false, rvalue:true, count:1}], body: "this_s*=a", localVars: [], thisVars: ["this_s"]},
-  post: {args:[], localVars:[], thisVars:["this_s"], body:"return this_s"},
-  funcName: "prod"
-})
-
-exports.norm2squared = compile({
-  args:["array"],
-  pre: {args:[], localVars:[], thisVars:["this_s"], body:"this_s=0"},
-  body: {args:[{name:"a", lvalue:false, rvalue:true, count:2}], body: "this_s+=a*a", localVars: [], thisVars: ["this_s"]},
-  post: {args:[], localVars:[], thisVars:["this_s"], body:"return this_s"},
-  funcName: "norm2squared"
-})
-  
-exports.norm2 = compile({
-  args:["array"],
-  pre: {args:[], localVars:[], thisVars:["this_s"], body:"this_s=0"},
-  body: {args:[{name:"a", lvalue:false, rvalue:true, count:2}], body: "this_s+=a*a", localVars: [], thisVars: ["this_s"]},
-  post: {args:[], localVars:[], thisVars:["this_s"], body:"return Math.sqrt(this_s)"},
-  funcName: "norm2"
-})
-  
-
-exports.norminf = compile({
-  args:["array"],
-  pre: {args:[], localVars:[], thisVars:["this_s"], body:"this_s=0"},
-  body: {args:[{name:"a", lvalue:false, rvalue:true, count:4}], body:"if(-a>this_s){this_s=-a}else if(a>this_s){this_s=a}", localVars: [], thisVars: ["this_s"]},
-  post: {args:[], localVars:[], thisVars:["this_s"], body:"return this_s"},
-  funcName: "norminf"
-})
-
-exports.norm1 = compile({
-  args:["array"],
-  pre: {args:[], localVars:[], thisVars:["this_s"], body:"this_s=0"},
-  body: {args:[{name:"a", lvalue:false, rvalue:true, count:3}], body: "this_s+=a<0?-a:a", localVars: [], thisVars: ["this_s"]},
-  post: {args:[], localVars:[], thisVars:["this_s"], body:"return this_s"},
-  funcName: "norm1"
-})
-
-exports.sup = compile({
-  args: [ "array" ],
-  pre:
-   { body: "this_h=-Infinity",
-     args: [],
-     thisVars: [ "this_h" ],
-     localVars: [] },
-  body:
-   { body: "if(_inline_1_arg0_>this_h)this_h=_inline_1_arg0_",
-     args: [{"name":"_inline_1_arg0_","lvalue":false,"rvalue":true,"count":2} ],
-     thisVars: [ "this_h" ],
-     localVars: [] },
-  post:
-   { body: "return this_h",
-     args: [],
-     thisVars: [ "this_h" ],
-     localVars: [] }
- })
-
-exports.inf = compile({
-  args: [ "array" ],
-  pre:
-   { body: "this_h=Infinity",
-     args: [],
-     thisVars: [ "this_h" ],
-     localVars: [] },
-  body:
-   { body: "if(_inline_1_arg0_<this_h)this_h=_inline_1_arg0_",
-     args: [{"name":"_inline_1_arg0_","lvalue":false,"rvalue":true,"count":2} ],
-     thisVars: [ "this_h" ],
-     localVars: [] },
-  post:
-   { body: "return this_h",
-     args: [],
-     thisVars: [ "this_h" ],
-     localVars: [] }
- })
-
-exports.argmin = compile({
-  args:["index","array","shape"],
-  pre:{
-    body:"{this_v=Infinity;this_i=_inline_0_arg2_.slice(0)}",
-    args:[
-      {name:"_inline_0_arg0_",lvalue:false,rvalue:false,count:0},
-      {name:"_inline_0_arg1_",lvalue:false,rvalue:false,count:0},
-      {name:"_inline_0_arg2_",lvalue:false,rvalue:true,count:1}
-      ],
-    thisVars:["this_i","this_v"],
-    localVars:[]},
-  body:{
-    body:"{if(_inline_1_arg1_<this_v){this_v=_inline_1_arg1_;for(var _inline_1_k=0;_inline_1_k<_inline_1_arg0_.length;++_inline_1_k){this_i[_inline_1_k]=_inline_1_arg0_[_inline_1_k]}}}",
-    args:[
-      {name:"_inline_1_arg0_",lvalue:false,rvalue:true,count:2},
-      {name:"_inline_1_arg1_",lvalue:false,rvalue:true,count:2}],
-    thisVars:["this_i","this_v"],
-    localVars:["_inline_1_k"]},
-  post:{
-    body:"{return this_i}",
-    args:[],
-    thisVars:["this_i"],
-    localVars:[]}
-})
-
-exports.argmax = compile({
-  args:["index","array","shape"],
-  pre:{
-    body:"{this_v=-Infinity;this_i=_inline_0_arg2_.slice(0)}",
-    args:[
-      {name:"_inline_0_arg0_",lvalue:false,rvalue:false,count:0},
-      {name:"_inline_0_arg1_",lvalue:false,rvalue:false,count:0},
-      {name:"_inline_0_arg2_",lvalue:false,rvalue:true,count:1}
-      ],
-    thisVars:["this_i","this_v"],
-    localVars:[]},
-  body:{
-    body:"{if(_inline_1_arg1_>this_v){this_v=_inline_1_arg1_;for(var _inline_1_k=0;_inline_1_k<_inline_1_arg0_.length;++_inline_1_k){this_i[_inline_1_k]=_inline_1_arg0_[_inline_1_k]}}}",
-    args:[
-      {name:"_inline_1_arg0_",lvalue:false,rvalue:true,count:2},
-      {name:"_inline_1_arg1_",lvalue:false,rvalue:true,count:2}],
-    thisVars:["this_i","this_v"],
-    localVars:["_inline_1_k"]},
-  post:{
-    body:"{return this_i}",
-    args:[],
-    thisVars:["this_i"],
-    localVars:[]}
-})  
-
-exports.random = makeOp({
-  args: ["array"],
-  pre: {args:[], body:"this_f=Math.random", thisVars:["this_f"]},
-  body: {args: ["a"], body:"a=this_f()", thisVars:["this_f"]},
-  funcName: "random"
-})
-
-exports.assign = makeOp({
-  args:["array", "array"],
-  body: {args:["a", "b"], body:"a=b"},
-  funcName: "assign" })
-
-exports.assigns = makeOp({
-  args:["array", "scalar"],
-  body: {args:["a", "b"], body:"a=b"},
-  funcName: "assigns" })
-
-
-},{"cwise-compiler":278}],278:[function(require,module,exports){
-arguments[4][259][0].apply(exports,arguments)
-},{"./lib/thunk.js":280,"dup":259}],279:[function(require,module,exports){
-arguments[4][260][0].apply(exports,arguments)
-},{"dup":260,"uniq":281}],280:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":279,"dup":117}],281:[function(require,module,exports){
-arguments[4][186][0].apply(exports,arguments)
-},{"dup":186}],282:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":283}],283:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],284:[function(require,module,exports){
-arguments[4][155][0].apply(exports,arguments)
-},{"dup":155}],285:[function(require,module,exports){
-(function (global){
-"use strict"
-
-var bits = require("bit-twiddle")
-var dup = require("dup")
-if(!global.__TYPEDARRAY_POOL) {
-  global.__TYPEDARRAY_POOL = {
-      UINT8   : dup([32, 0])
-    , UINT16  : dup([32, 0])
-    , UINT32  : dup([32, 0])
-    , INT8    : dup([32, 0])
-    , INT16   : dup([32, 0])
-    , INT32   : dup([32, 0])
-    , FLOAT   : dup([32, 0])
-    , DOUBLE  : dup([32, 0])
-    , DATA    : dup([32, 0])
-  }
-}
-var POOL = global.__TYPEDARRAY_POOL
-var UINT8   = POOL.UINT8
-  , UINT16  = POOL.UINT16
-  , UINT32  = POOL.UINT32
-  , INT8    = POOL.INT8
-  , INT16   = POOL.INT16
-  , INT32   = POOL.INT32
-  , FLOAT   = POOL.FLOAT
-  , DOUBLE  = POOL.DOUBLE
-  , DATA    = POOL.DATA
-
-exports.free = function free(array) {
-  if(array instanceof ArrayBuffer) {
-    var n = array.byteLength|0
-      , log_n = bits.log2(n)
-    DATA[log_n].push(array)
-  } else {
-    var n = array.length|0
-      , log_n = bits.log2(n)
-    if(array instanceof Uint8Array) {
-      UINT8[log_n].push(array)
-    } else if(array instanceof Uint16Array) {
-      UINT16[log_n].push(array)
-    } else if(array instanceof Uint32Array) {
-      UINT32[log_n].push(array)
-    } else if(array instanceof Int8Array) {
-      INT8[log_n].push(array)
-    } else if(array instanceof Int16Array) {
-      INT16[log_n].push(array)
-    } else if(array instanceof Int32Array) {
-      INT32[log_n].push(array)
-    } else if(array instanceof Float32Array) {
-      FLOAT[log_n].push(array)
-    } else if(array instanceof Float64Array) {
-      DOUBLE[log_n].push(array)
-    }
-  }
-}
-
-exports.freeUint8 = function freeUint8(array) {
-  UINT8[bits.log2(array.length)].push(array)
-}
-
-exports.freeUint16 = function freeUint16(array) {
-  UINT16[bits.log2(array.length)].push(array)
-}
-
-exports.freeUint32 = function freeUint32(array) {
-  UINT32[bits.log2(array.length)].push(array)
-}
-
-exports.freeInt8 = function freeInt8(array) {
-  INT8[bits.log2(array.length)].push(array)
-}
-
-exports.freeInt16 = function freeInt16(array) {
-  INT16[bits.log2(array.length)].push(array)
-}
-
-exports.freeInt32 = function freeInt32(array) {
-  INT32[bits.log2(array.length)].push(array)
-}
-
-exports.freeFloat32 = exports.freeFloat = function freeFloat(array) {
-  FLOAT[bits.log2(array.length)].push(array)
-}
-
-exports.freeFloat64 = exports.freeDouble = function freeDouble(array) {
-  DOUBLE[bits.log2(array.length)].push(array)
-}
-
-exports.freeArrayBuffer = function freeArrayBuffer(array) {
-  DATA[bits.log2(array.length)].push(array)
-}
-
-exports.malloc = function malloc(n, dtype) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  if(dtype === undefined) {
-    var d = DATA[log_n]
-    if(d.length > 0) {
-      var r = d[d.length-1]
-      d.pop()
-      return r
-    }
-    return new ArrayBuffer(n)
-  } else {
-    switch(dtype) {
-      case "uint8":
-        var u8 = UINT8[log_n]
-        if(u8.length > 0) {
-          return u8.pop()
-        }
-        return new Uint8Array(n)
-      break
-
-      case "uint16":
-        var u16 = UINT16[log_n]
-        if(u16.length > 0) {
-          return u16.pop()
-        }
-        return new Uint16Array(n)
-      break
-
-      case "uint32":
-        var u32 = UINT32[log_n]
-        if(u32.length > 0) {
-          return u32.pop()
-        }
-        return new Uint32Array(n)
-      break
-
-      case "int8":
-        var i8 = INT8[log_n]
-        if(i8.length > 0) {
-          return i8.pop()
-        }
-        return new Int8Array(n)
-      break
-
-      case "int16":
-        var i16 = INT16[log_n]
-        if(i16.length > 0) {
-          return i16.pop()
-        }
-        return new Int16Array(n)
-      break
-
-      case "int32":
-        var i32 = INT32[log_n]
-        if(i32.length > 0) {
-          return i32.pop()
-        }
-        return new Int32Array(n)
-      break
-
-      case "float":
-      case "float32":
-        var f = FLOAT[log_n]
-        if(f.length > 0) {
-          return f.pop()
-        }
-        return new Float32Array(n)
-      break
-
-      case "double":
-      case "float64":
-        var dd = DOUBLE[log_n]
-        if(dd.length > 0) {
-          return dd.pop()
-        }
-        return new Float64Array(n)
-      break
-
-      default:
-        return null
-    }
-  }
-  return null
-}
-
-exports.mallocUint8 = function mallocUint8(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = UINT8[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Uint8Array(n)
-}
-
-exports.mallocUint16 = function mallocUint16(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = UINT16[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Uint16Array(n)
-}
-
-exports.mallocUint32 = function mallocUint32(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = UINT32[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Uint32Array(n)
-}
-
-exports.mallocInt8 = function mallocInt8(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = INT8[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Int8Array(n)
-}
-
-exports.mallocInt16 = function mallocInt16(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = INT16[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Int16Array(n)
-}
-
-exports.mallocInt32 = function mallocInt32(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = INT32[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Int32Array(n)
-}
-
-exports.mallocFloat32 = exports.mallocFloat = function mallocFloat(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = FLOAT[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Float32Array(n)
-}
-
-exports.mallocFloat64 = exports.mallocDouble = function mallocDouble(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = DOUBLE[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new Float64Array(n)
-}
-
-exports.mallocArrayBuffer = function mallocArrayBuffer(n) {
-  n = bits.nextPow2(n)
-  var log_n = bits.log2(n)
-  var cache = DATA[log_n]
-  if(cache.length > 0) {
-    return cache.pop()
-  }
-  return new ArrayBuffer(n)
-}
-
-exports.clearCache = function clearCache() {
-  for(var i=0; i<32; ++i) {
-    UINT8[i].length = 0
-    UINT16[i].length = 0
-    UINT32[i].length = 0
-    INT8[i].length = 0
-    INT16[i].length = 0
-    INT32[i].length = 0
-    FLOAT[i].length = 0
-    DOUBLE[i].length = 0
-    DATA[i].length = 0
-  }
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"bit-twiddle":268,"dup":284}],286:[function(require,module,exports){
-arguments[4][277][0].apply(exports,arguments)
-},{"cwise-compiler":287,"dup":277}],287:[function(require,module,exports){
-arguments[4][259][0].apply(exports,arguments)
-},{"./lib/thunk.js":289,"dup":259}],288:[function(require,module,exports){
-arguments[4][260][0].apply(exports,arguments)
-},{"dup":260,"uniq":290}],289:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":288,"dup":117}],290:[function(require,module,exports){
-arguments[4][186][0].apply(exports,arguments)
-},{"dup":186}],291:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":292}],292:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],293:[function(require,module,exports){
-arguments[4][154][0].apply(exports,arguments)
-},{"dup":154}],294:[function(require,module,exports){
-arguments[4][155][0].apply(exports,arguments)
-},{"dup":155}],295:[function(require,module,exports){
-arguments[4][285][0].apply(exports,arguments)
-},{"bit-twiddle":293,"dup":285}],296:[function(require,module,exports){
+},{"bit-twiddle":312}],312:[function(require,module,exports){
+arguments[4][171][0].apply(exports,arguments)
+},{"dup":171}],313:[function(require,module,exports){
+arguments[4][172][0].apply(exports,arguments)
+},{"dup":172}],314:[function(require,module,exports){
+arguments[4][173][0].apply(exports,arguments)
+},{"bit-twiddle":312,"buffer":17,"dup":173}],315:[function(require,module,exports){
+arguments[4][171][0].apply(exports,arguments)
+},{"dup":171}],316:[function(require,module,exports){
+arguments[4][172][0].apply(exports,arguments)
+},{"dup":172}],317:[function(require,module,exports){
+arguments[4][173][0].apply(exports,arguments)
+},{"bit-twiddle":315,"buffer":17,"dup":173}],318:[function(require,module,exports){
 "use strict"
 
 var ndarray = require("ndarray")
+var ops = require("ndarray-ops")
 var pool = require("typedarray-pool")
+
+function clone(array) {
+  var dtype = array.dtype
+  if(dtype === "generic" || dtype === "array") {
+    dtype = "double"
+  }
+  var data = pool.malloc(array.size, dtype)
+  var result = ndarray(data, array.shape)
+  ops.assign(result, array)
+  return result
+}
+exports.clone = clone
 
 function malloc(shape, dtype) {
   if(!dtype) {
@@ -43483,47 +36772,1553 @@ function malloc(shape, dtype) {
 exports.malloc = malloc
 
 function free(array) {
+  if(array.dtype === "generic" || array.dtype === "array") {
+    return
+  }
   pool.free(array.data)
 }
 exports.free = free
-},{"ndarray":291,"typedarray-pool":295}],297:[function(require,module,exports){
-arguments[4][159][0].apply(exports,arguments)
-},{"cwise-compiler":298,"dup":159}],298:[function(require,module,exports){
-arguments[4][115][0].apply(exports,arguments)
-},{"./lib/thunk.js":300,"dup":115}],299:[function(require,module,exports){
-arguments[4][116][0].apply(exports,arguments)
-},{"dup":116,"uniq":301}],300:[function(require,module,exports){
-arguments[4][117][0].apply(exports,arguments)
-},{"./compile.js":299,"dup":117}],301:[function(require,module,exports){
-arguments[4][64][0].apply(exports,arguments)
-},{"dup":64}],302:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":303}],303:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],304:[function(require,module,exports){
-arguments[4][201][0].apply(exports,arguments)
-},{"buffer":17,"dup":201,"stream":40,"util":43}],305:[function(require,module,exports){
-arguments[4][202][0].apply(exports,arguments)
-},{"dup":202}],306:[function(require,module,exports){
-arguments[4][203][0].apply(exports,arguments)
-},{"dup":203,"stream":40,"util":43}],307:[function(require,module,exports){
-arguments[4][204][0].apply(exports,arguments)
-},{"./chunkstream":304,"buffer":17,"dup":204,"util":43,"zlib":16}],308:[function(require,module,exports){
-arguments[4][205][0].apply(exports,arguments)
-},{"./constants":305,"./crc":306,"./filter":307,"buffer":17,"dup":205,"stream":40,"util":43,"zlib":16}],309:[function(require,module,exports){
-arguments[4][206][0].apply(exports,arguments)
-},{"./chunkstream":304,"./constants":305,"./crc":306,"./filter":307,"buffer":17,"dup":206,"util":43,"zlib":16}],310:[function(require,module,exports){
-arguments[4][207][0].apply(exports,arguments)
-},{"./packer":308,"./parser":309,"_process":26,"buffer":17,"dup":207,"stream":40,"util":43}],311:[function(require,module,exports){
-arguments[4][192][0].apply(exports,arguments)
-},{"_process":26,"dup":192,"stream":40}],312:[function(require,module,exports){
-arguments[4][209][0].apply(exports,arguments)
-},{"dup":209,"pngjs":310,"through":311}],313:[function(require,module,exports){
+
+function zeros(shape, dtype) {
+  if(!dtype) {
+    dtype = "double"
+  }
+
+  var sz = 1
+  var stride = new Array(shape.length)
+  for(var i=shape.length-1; i>=0; --i) {
+    stride[i] = sz
+    sz *= shape[i]
+  }
+  var buf = pool.malloc(sz, dtype)
+  for(var i=0; i<sz; ++i) {
+    buf[i] = 0
+  }
+  return ndarray(buf, shape, stride, 0)
+}
+exports.zeros = zeros
+
+function ones(shape, dtype) {
+  if(!dtype) {
+    dtype = "double"
+  }
+
+  var sz = 1
+  var stride = new Array(shape.length)
+  for(var i=shape.length-1; i>=0; --i) {
+    stride[i] = sz
+    sz *= shape[i]
+  }
+  var buf = pool.malloc(sz, dtype)
+  for(var i=0; i<sz; ++i) {
+    buf[i] = 1
+  }
+  return ndarray(buf, shape, stride, 0)
+}
+exports.ones = ones
+
+function eye(shape, dtype) {
+  var i, offset
+  if(!dtype) {
+    dtype = "double"
+  }
+
+  var sz = 1
+  var stride = new Array(shape.length)
+  for(i=shape.length-1; i>=0; --i) {
+    stride[i] = sz
+    sz *= shape[i]
+  }
+  var buf = pool.malloc(sz, dtype)
+  for(i=0; i<sz; ++i) {
+    buf[i] = 0
+  }
+  var mindim = Infinity
+  var offsum = 0
+  for( i=shape.length-1; i>=0; i--) {
+    offsum += stride[i]
+    mindim = Math.min(mindim,shape[i])
+  }
+  for(i=0,offset=0; i<mindim; i++,offset+=offsum) {
+    buf[offset] = 1
+  }
+  return ndarray(buf, shape, stride, 0)
+}
+exports.eye = eye
+
+},{"ndarray":122,"ndarray-ops":300,"typedarray-pool":317}],319:[function(require,module,exports){
+"use strict"
+
+var fft = require("ndarray-fft")
+var pool = require("ndarray-scratch")
+var ops = require("ndarray-ops")
+
+
+var clampScale = require('cwise/lib/wrapper')({"args":["array","array","scalar","scalar","scalar"],"pre":{"body":"{}","args":[],"thisVars":[],"localVars":[]},"body":{"body":"{var _inline_1_f=_inline_1_arg1_*_inline_1_arg2_;_inline_1_arg3_>_inline_1_f&&(_inline_1_f=_inline_1_arg3_),_inline_1_f>_inline_1_arg4_&&(_inline_1_f=_inline_1_arg4_),_inline_1_arg0_=_inline_1_f}","args":[{"name":"_inline_1_arg0_","lvalue":true,"rvalue":false,"count":1},{"name":"_inline_1_arg1_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_1_arg2_","lvalue":false,"rvalue":true,"count":1},{"name":"_inline_1_arg3_","lvalue":false,"rvalue":true,"count":2},{"name":"_inline_1_arg4_","lvalue":false,"rvalue":true,"count":2}],"thisVars":[],"localVars":["_inline_1_f"]},"post":{"body":"{}","args":[],"thisVars":[],"localVars":[]},"debug":false,"funcName":"clampScale","blockSize":64})
+
+
+function resample(out, inp, clamp_lo, clamp_hi) {
+  if(typeof clamp_lo === "undefined") {
+    clamp_lo = -Infinity
+  }
+  if(typeof clamp_hi === "undefined") {
+    clamp_hi = Infinity
+  }
+  
+  var ishp = inp.shape
+  var oshp = out.shape
+
+  if (inp.shape.length !== out.shape.length) throw new Error("ndarray-resample: input and output arrays should have the same dimensions")
+  
+  var v, zeroInds = ishp.map(function(){return 0})
+  if(out.size === 1) {
+    v = ops.sum(inp)/inp.size
+    if(v < clamp_lo) { v = clamp_lo }
+    if(v > clamp_hi) { v = clamp_hi }
+    out.set.apply(out, zeroInds.concat(v))
+    return
+  } else if (inp.size === 1) {
+    v = inp.get.apply(inp, zeroInds)
+    if(v < clamp_lo) { v = clamp_lo }
+    if(v > clamp_hi) { v = clamp_hi }
+    ops.assigns(out, v)
+    return
+  }
+
+  var d = ishp.length
+  var mshp = new Array(d), initToZero = false
+  for(var i=0; i<d; i++) {
+    mshp[i] = Math.min(oshp[i], ishp[i])
+    if (oshp[i] > ishp[i]) initToZero = true // When upsampling, initialize the Fourier components of the output to zero
+  }
+  
+  var x = pool.malloc(ishp)
+    , y = pool.malloc(ishp)
+  
+  ops.assign(x, inp)
+  ops.assigns(y, 0.0)
+
+  fft(1, x, y)
+  
+  var lo = x.lo
+    , hi = x.hi
+  
+  var s = pool.malloc(oshp)
+    , t = pool.malloc(oshp)
+  if (initToZero) {
+    ops.assigns(s, 0.0)
+    ops.assigns(t, 0.0)
+  }
+  
+  var nr = new Array(d)
+    , a = new Array(d)
+    , b = new Array(d)
+    , io = new Array(d)
+  for(var i=0; i<1<<d; ++i) { // Iterate over the 2^d regions resulting from splitting up the indices in low frequencies above zero and low frequencies below zero (which turn up at the end of the arrays)
+    for(var j=0; j<d; ++j) { // Iterate over dimensions to determine correct starting indices and lengths
+      if(!(i&(1<<j))) { // Take the positive frequencies for this dimension
+        nr[j] = (mshp[j]+1)>>>1 // Take ceil(mshp[j]/2)) low frequencies (for example [0,1] for both mshp[j]==3 and mshp[j]==4)
+        a[j] = 0
+        b[j] = 0
+        io[j] = 0
+      } else { // Take the negative frequencies for this dimension
+        nr[j] = mshp[j] - ((mshp[j]+1)>>>1) // Take the rest ([-1] for mshp[j]==3, and [-2,-1] for mshp[j]==4)
+        if(nr[j] === 0) {
+          continue
+        }
+        a[j] = oshp[j] - nr[j]
+        b[j] = ishp[j] - nr[j]
+        // If mshp[j] is even, set the first imaginary values (along this dimension) to zero.
+        // For example, if mshp[j]==4, 2 and -2 correspond to the same frequency, and should be the average of the amplitudes for 2 and -2.
+        // Since the input is real, the Fourier transform has Hermitian symmetry, and we can simply take one or the other and set the corresponding imaginary coefficient(s) to zero.
+        // Note that when upsampling, this means that we get a asymmetric response (for example, -2, but not 2 has a non-zero weight), but this does not matter, since the weight is real anyway (again, given Hermitian symmetry).  
+        io[j] = (mshp[j]&1) ? 0 : 1
+      }
+    }
+    ops.assign(hi.apply(lo.apply(s, a), nr), hi.apply(lo.apply(x, b), nr))
+    ops.assign(lo.apply(hi.apply(lo.apply(t, a), nr), io), lo.apply(hi.apply(lo.apply(y, b), nr), io))
+    ops.assigns(hi.apply(hi.apply(lo.apply(t, a), nr), io), 0.0)
+  }
+  
+  fft(-1, s, t)
+  clampScale(out, s, out.size/inp.size, clamp_lo, clamp_hi)
+  
+  pool.free(x)
+  pool.free(y)
+  pool.free(s)
+  pool.free(t)
+}
+
+module.exports = resample
+},{"cwise/lib/wrapper":305,"ndarray-fft":310,"ndarray-ops":300,"ndarray-scratch":318}],320:[function(require,module,exports){
+(function (Buffer){
+// Copyright (c) 2012 Kuba Niegowski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+'use strict';
+
+
+var util = require('util'),
+    Stream = require('stream');
+
+
+var ChunkStream = module.exports = function() {
+    Stream.call(this);
+
+    this._buffers = [];
+    this._buffered = 0;
+
+    this._reads = [];
+    this._paused = false;
+
+    this._encoding = 'utf8';
+    this.writable = true;
+};
+util.inherits(ChunkStream, Stream);
+
+
+ChunkStream.prototype.read = function(length, callback) {
+
+    this._reads.push({
+        length: Math.abs(length),  // if length < 0 then at most this length
+        allowLess: length < 0,
+        func: callback
+    });
+
+    this._process();
+
+    // its paused and there is not enought data then ask for more
+    if (this._paused && this._reads.length > 0) {
+        this._paused = false;
+
+        this.emit('drain');
+    }
+};
+
+ChunkStream.prototype.write = function(data, encoding) {
+
+    if (!this.writable) {
+        this.emit('error', new Error('Stream not writable'));
+        return false;
+    }
+
+    if (!Buffer.isBuffer(data))
+        data = new Buffer(data, encoding || this._encoding);
+
+    this._buffers.push(data);
+    this._buffered += data.length;
+
+    this._process();
+
+    // ok if there are no more read requests
+    if (this._reads && this._reads.length == 0)
+        this._paused = true;
+
+    return this.writable && !this._paused;
+};
+
+ChunkStream.prototype.end = function(data, encoding) {
+
+    if (data) this.write(data, encoding);
+
+    this.writable = false;
+
+    // already destroyed
+    if (!this._buffers) return;
+
+    // enqueue or handle end
+    if (this._buffers.length == 0) {
+        this._end();
+    } else {
+        this._buffers.push(null);
+        this._process();
+    }
+};
+
+ChunkStream.prototype.destroySoon = ChunkStream.prototype.end;
+
+ChunkStream.prototype._end = function() {
+
+    if (this._reads.length > 0) {
+        this.emit('error',
+            new Error('There are some read requests waitng on finished stream')
+        );
+    }
+
+    this.destroy();
+};
+
+ChunkStream.prototype.destroy = function() {
+
+    if (!this._buffers) return;
+
+    this.writable = false;
+    this._reads = null;
+    this._buffers = null;
+
+    this.emit('close');
+};
+
+ChunkStream.prototype._process = function() {
+
+    // as long as there is any data and read requests
+    while (this._buffered > 0 && this._reads && this._reads.length > 0) {
+
+        var read = this._reads[0];
+
+        // read any data (but no more than length)
+        if (read.allowLess) {
+
+            // ok there is any data so that we can satisfy this request
+            this._reads.shift(); // == read
+
+            // first we need to peek into first buffer
+            var buf = this._buffers[0];
+
+            // ok there is more data than we need
+            if (buf.length > read.length) {
+
+                this._buffered -= read.length;
+                this._buffers[0] = buf.slice(read.length);
+
+                read.func.call(this, buf.slice(0, read.length));
+
+            } else {
+                // ok this is less than maximum length so use it all
+                this._buffered -= buf.length;
+                this._buffers.shift(); // == buf
+
+                read.func.call(this, buf);
+            }
+
+        } else if (this._buffered >= read.length) {
+            // ok we can meet some expectations
+
+            this._reads.shift(); // == read
+
+            var pos = 0,
+                count = 0,
+                data = new Buffer(read.length);
+
+            // create buffer for all data
+            while (pos < read.length) {
+
+                var buf = this._buffers[count++],
+                    len = Math.min(buf.length, read.length - pos);
+
+                buf.copy(data, pos, 0, len);
+                pos += len;
+
+                // last buffer wasn't used all so just slice it and leave
+                if (len != buf.length)
+                    this._buffers[--count] = buf.slice(len);
+            }
+
+            // remove all used buffers
+            if (count > 0)
+                this._buffers.splice(0, count);
+
+            this._buffered -= read.length;
+
+            read.func.call(this, data);
+
+        } else {
+            // not enought data to satisfy first request in queue
+            // so we need to wait for more
+            break;
+        }
+    }
+
+    if (this._buffers && this._buffers.length > 0 && this._buffers[0] == null) {
+        this._end();
+    }
+};
+
+}).call(this,require("buffer").Buffer)
+},{"buffer":17,"stream":40,"util":43}],321:[function(require,module,exports){
+// Copyright (c) 2012 Kuba Niegowski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+'use strict';
+
+
+module.exports = {
+
+    PNG_SIGNATURE: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+
+    TYPE_IHDR: 0x49484452,
+    TYPE_IEND: 0x49454e44,
+    TYPE_IDAT: 0x49444154,
+    TYPE_PLTE: 0x504c5445,
+    TYPE_tRNS: 0x74524e53,
+    TYPE_gAMA: 0x67414d41,
+
+    COLOR_PALETTE: 1,
+    COLOR_COLOR: 2,
+    COLOR_ALPHA: 4
+};
+
+},{}],322:[function(require,module,exports){
+// Copyright (c) 2012 Kuba Niegowski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+'use strict';
+
+var util = require('util'),
+    Stream = require('stream');
+
+
+var CrcStream = module.exports = function() {
+    Stream.call(this);
+
+    this._crc = -1;
+
+    this.writable = true;
+};
+util.inherits(CrcStream, Stream);
+
+
+CrcStream.prototype.write = function(data) {
+
+    for (var i = 0; i < data.length; i++) {
+        this._crc = crcTable[(this._crc ^ data[i]) & 0xff] ^ (this._crc >>> 8);
+    }
+    return true;
+};
+
+CrcStream.prototype.end = function(data) {
+    if (data) this.write(data);
+
+    this.emit('crc', this.crc32());
+};
+
+CrcStream.prototype.crc32 = function() {
+    return this._crc ^ -1;
+};
+
+
+CrcStream.crc32 = function(buf) {
+
+    var crc = -1;
+    for (var i = 0; i < buf.length; i++) {
+        crc = crcTable[(crc ^ buf[i]) & 0xff] ^ (crc >>> 8);
+    }
+    return crc ^ -1;
+};
+
+
+
+var crcTable = [];
+
+for (var i = 0; i < 256; i++) {
+    var c = i;
+    for (var j = 0; j < 8; j++) {
+        if (c & 1) {
+            c = 0xedb88320 ^ (c >>> 1);
+        } else {
+            c = c >>> 1;
+        }
+    }
+    crcTable[i] = c;
+}
+
+},{"stream":40,"util":43}],323:[function(require,module,exports){
+(function (Buffer){
+// Copyright (c) 2012 Kuba Niegowski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+'use strict';
+
+var util = require('util'),
+    zlib = require('zlib'),
+    ChunkStream = require('./chunkstream');
+
+
+var Filter = module.exports = function(width, height, Bpp, data, options) {
+    ChunkStream.call(this);
+
+    this._width = width;
+    this._height = height;
+    this._Bpp = Bpp;
+    this._data = data;
+    this._options = options;
+
+    this._line = 0;
+
+    if (!('filterType' in options) || options.filterType == -1) {
+        options.filterType = [0, 1, 2, 3, 4];
+    } else if (typeof options.filterType == 'number') {
+        options.filterType = [options.filterType];
+    }
+
+    this._filters = {
+        0: this._filterNone.bind(this),
+        1: this._filterSub.bind(this),
+        2: this._filterUp.bind(this),
+        3: this._filterAvg.bind(this),
+        4: this._filterPaeth.bind(this)
+    };
+
+    this.read(this._width * Bpp + 1, this._reverseFilterLine.bind(this));
+};
+util.inherits(Filter, ChunkStream);
+
+
+var pixelBppMap = {
+    1: { // L
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0xff
+    },
+    2: { // LA
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 1
+    },
+    3: { // RGB
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 0xff
+    },
+    4: { // RGBA
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3
+    }
+};
+
+Filter.prototype._reverseFilterLine = function(rawData) {
+
+    var pxData = this._data,
+        pxLineLength = this._width << 2,
+        pxRowPos = this._line * pxLineLength,
+        filter = rawData[0];
+
+    if (filter == 0) {
+        for (var x = 0; x < this._width; x++) {
+            var pxPos = pxRowPos + (x << 2),
+                rawPos = 1 + x * this._Bpp;
+
+            for (var i = 0; i < 4; i++) {
+                var idx = pixelBppMap[this._Bpp][i];
+                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] : 0xff;
+            }
+        }
+
+    } else if (filter == 1) {
+        for (var x = 0; x < this._width; x++) {
+            var pxPos = pxRowPos + (x << 2),
+                rawPos = 1 + x * this._Bpp;
+
+            for (var i = 0; i < 4; i++) {
+                var idx = pixelBppMap[this._Bpp][i],
+                    left = x > 0 ? pxData[pxPos + i - 4] : 0;
+
+                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + left : 0xff;
+            }
+        }
+
+    } else if (filter == 2) {
+        for (var x = 0; x < this._width; x++) {
+            var pxPos = pxRowPos + (x << 2),
+                rawPos = 1 + x * this._Bpp;
+
+            for (var i = 0; i < 4; i++) {
+                var idx = pixelBppMap[this._Bpp][i],
+                    up = this._line > 0 ? pxData[pxPos - pxLineLength + i] : 0;
+
+                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + up : 0xff;
+            }
+
+        }
+
+    } else if (filter == 3) {
+        for (var x = 0; x < this._width; x++) {
+            var pxPos = pxRowPos + (x << 2),
+                rawPos = 1 + x * this._Bpp;
+
+            for (var i = 0; i < 4; i++) {
+                var idx = pixelBppMap[this._Bpp][i],
+                    left = x > 0 ? pxData[pxPos + i - 4] : 0,
+                    up = this._line > 0 ? pxData[pxPos - pxLineLength + i] : 0,
+                    add = Math.floor((left + up) / 2);
+
+                 pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + add : 0xff;
+            }
+
+        }
+
+    } else if (filter == 4) {
+        for (var x = 0; x < this._width; x++) {
+            var pxPos = pxRowPos + (x << 2),
+                rawPos = 1 + x * this._Bpp;
+
+            for (var i = 0; i < 4; i++) {
+                var idx = pixelBppMap[this._Bpp][i],
+                    left = x > 0 ? pxData[pxPos + i - 4] : 0,
+                    up = this._line > 0 ? pxData[pxPos - pxLineLength + i] : 0,
+                    upLeft = x > 0 && this._line > 0
+                            ? pxData[pxPos - pxLineLength + i - 4] : 0,
+                    add = PaethPredictor(left, up, upLeft);
+
+                pxData[pxPos + i] = idx != 0xff ? rawData[rawPos + idx] + add : 0xff;
+            }
+        }
+    }
+
+
+    this._line++;
+
+    if (this._line < this._height)
+        this.read(this._width * this._Bpp + 1, this._reverseFilterLine.bind(this));
+    else
+        this.emit('complete', this._data, this._width, this._height);
+};
+
+
+
+
+Filter.prototype.filter = function() {
+
+    var pxData = this._data,
+        rawData = new Buffer(((this._width << 2) + 1) * this._height);
+
+    for (var y = 0; y < this._height; y++) {
+
+        // find best filter for this line (with lowest sum of values)
+        var filterTypes = this._options.filterType,
+            min = Infinity,
+            sel = 0;
+
+        for (var i = 0; i < filterTypes.length; i++) {
+            var sum = this._filters[filterTypes[i]](pxData, y, null);
+            if (sum < min) {
+                sel = filterTypes[i];
+                min = sum;
+            }
+        }
+
+        this._filters[sel](pxData, y, rawData);
+    }
+    return rawData;
+};
+
+Filter.prototype._filterNone = function(pxData, y, rawData) {
+
+    var pxRowLength = this._width << 2,
+        rawRowLength = pxRowLength + 1,
+        sum = 0;
+
+    if (!rawData) {
+        for (var x = 0; x < pxRowLength; x++)
+            sum += Math.abs(pxData[y * pxRowLength + x]);
+
+    } else {
+        rawData[y * rawRowLength] = 0;
+        pxData.copy(rawData, rawRowLength * y + 1, pxRowLength * y, pxRowLength * (y + 1));
+    }
+
+    return sum;
+};
+
+Filter.prototype._filterSub = function(pxData, y, rawData) {
+
+    var pxRowLength = this._width << 2,
+        rawRowLength = pxRowLength + 1,
+        sum = 0;
+
+    if (rawData)
+        rawData[y * rawRowLength] = 1;
+
+    for (var x = 0; x < pxRowLength; x++) {
+
+        var left = x >= 4 ? pxData[y * pxRowLength + x - 4] : 0,
+            val = pxData[y * pxRowLength + x] - left;
+
+        if (!rawData) sum += Math.abs(val);
+        else rawData[y * rawRowLength + 1 + x] = val;
+    }
+    return sum;
+};
+
+Filter.prototype._filterUp = function(pxData, y, rawData) {
+
+    var pxRowLength = this._width << 2,
+        rawRowLength = pxRowLength + 1,
+        sum = 0;
+
+    if (rawData)
+        rawData[y * rawRowLength] = 2;
+
+    for (var x = 0; x < pxRowLength; x++) {
+
+        var up = y > 0 ? pxData[(y - 1) * pxRowLength + x] : 0,
+            val = pxData[y * pxRowLength + x] - up;
+
+        if (!rawData) sum += Math.abs(val);
+        else rawData[y * rawRowLength + 1 + x] = val;
+    }
+    return sum;
+};
+
+Filter.prototype._filterAvg = function(pxData, y, rawData) {
+
+    var pxRowLength = this._width << 2,
+        rawRowLength = pxRowLength + 1,
+        sum = 0;
+
+    if (rawData)
+        rawData[y * rawRowLength] = 3;
+
+    for (var x = 0; x < pxRowLength; x++) {
+
+        var left = x >= 4 ? pxData[y * pxRowLength + x - 4] : 0,
+            up = y > 0 ? pxData[(y - 1) * pxRowLength + x] : 0,
+            val = pxData[y * pxRowLength + x] - ((left + up) >> 1);
+
+        if (!rawData) sum += Math.abs(val);
+        else rawData[y * rawRowLength + 1 + x] = val;
+    }
+    return sum;
+};
+
+Filter.prototype._filterPaeth = function(pxData, y, rawData) {
+
+    var pxRowLength = this._width << 2,
+        rawRowLength = pxRowLength + 1,
+        sum = 0;
+
+    if (rawData)
+        rawData[y * rawRowLength] = 4;
+
+    for (var x = 0; x < pxRowLength; x++) {
+
+        var left = x >= 4 ? pxData[y * pxRowLength + x - 4] : 0,
+            up = y > 0 ? pxData[(y - 1) * pxRowLength + x] : 0,
+            upLeft = x >= 4 && y > 0 ? pxData[(y - 1) * pxRowLength + x - 4] : 0,
+            val = pxData[y * pxRowLength + x] - PaethPredictor(left, up, upLeft);
+
+        if (!rawData) sum += Math.abs(val);
+        else rawData[y * rawRowLength + 1 + x] = val;
+    }
+    return sum;
+};
+
+
+
+var PaethPredictor = function(left, above, upLeft) {
+
+    var p = left + above - upLeft,
+        pLeft = Math.abs(p - left),
+        pAbove = Math.abs(p - above),
+        pUpLeft = Math.abs(p - upLeft);
+
+    if (pLeft <= pAbove && pLeft <= pUpLeft) return left;
+    else if (pAbove <= pUpLeft) return above;
+    else return upLeft;
+};
+
+}).call(this,require("buffer").Buffer)
+},{"./chunkstream":320,"buffer":17,"util":43,"zlib":16}],324:[function(require,module,exports){
+(function (Buffer){
+// Copyright (c) 2012 Kuba Niegowski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+'use strict';
+
+
+var util = require('util'),
+    Stream = require('stream'),
+    zlib = require('zlib'),
+    Filter = require('./filter'),
+    CrcStream = require('./crc'),
+    constants = require('./constants');
+
+
+var Packer = module.exports = function(options) {
+    Stream.call(this);
+
+    this._options = options;
+
+    options.deflateChunkSize = options.deflateChunkSize || 32 * 1024;
+    options.deflateLevel = options.deflateLevel || 9;
+    options.deflateStrategy = options.deflateStrategy || 3;
+
+    this.readable = true;
+};
+util.inherits(Packer, Stream);
+
+
+Packer.prototype.pack = function(data, width, height) {
+
+    // Signature
+    this.emit('data', new Buffer(constants.PNG_SIGNATURE));
+    this.emit('data', this._packIHDR(width, height));
+
+    // filter pixel data
+    var filter = new Filter(width, height, 4, data, this._options);
+    var data = filter.filter();
+
+    // compress it
+    var deflate = zlib.createDeflate({
+            chunkSize: this._options.deflateChunkSize,
+            level: this._options.deflateLevel,
+            strategy: this._options.deflateStrategy
+        });
+    deflate.on('error', this.emit.bind(this, 'error'));
+
+    deflate.on('data', function(data) {
+        this.emit('data', this._packIDAT(data));
+    }.bind(this));
+
+    deflate.on('end', function() {
+        this.emit('data', this._packIEND());
+        this.emit('end');
+    }.bind(this));
+
+    deflate.end(data);
+};
+
+Packer.prototype._packChunk = function(type, data) {
+
+    var len = (data ? data.length : 0),
+        buf = new Buffer(len + 12);
+
+    buf.writeUInt32BE(len, 0);
+    buf.writeUInt32BE(type, 4);
+
+    if (data) data.copy(buf, 8);
+
+    buf.writeInt32BE(CrcStream.crc32(buf.slice(4, buf.length - 4)), buf.length - 4);
+    return buf;
+};
+
+Packer.prototype._packIHDR = function(width, height) {
+
+    var buf = new Buffer(13);
+    buf.writeUInt32BE(width, 0);
+    buf.writeUInt32BE(height, 4);
+    buf[8] = 8;
+    buf[9] = 6; // colorType
+    buf[10] = 0; // compression
+    buf[11] = 0; // filter
+    buf[12] = 0; // interlace
+
+    return this._packChunk(constants.TYPE_IHDR, buf);
+};
+
+Packer.prototype._packIDAT = function(data) {
+    return this._packChunk(constants.TYPE_IDAT, data);
+};
+
+Packer.prototype._packIEND = function() {
+    return this._packChunk(constants.TYPE_IEND, null);
+};
+
+}).call(this,require("buffer").Buffer)
+},{"./constants":321,"./crc":322,"./filter":323,"buffer":17,"stream":40,"util":43,"zlib":16}],325:[function(require,module,exports){
+(function (Buffer){
+// Copyright (c) 2012 Kuba Niegowski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+'use strict';
+
+
+var util = require('util'),
+    zlib = require('zlib'),
+    CrcStream = require('./crc'),
+    ChunkStream = require('./chunkstream'),
+    constants = require('./constants'),
+    Filter = require('./filter');
+
+
+var Parser = module.exports = function(options) {
+    ChunkStream.call(this);
+
+    this._options = options;
+    options.checkCRC = options.checkCRC !== false;
+
+    this._hasIHDR = false;
+    this._hasIEND = false;
+
+    this._inflate = null;
+    this._filter = null;
+    this._crc = null;
+
+    // input flags/metadata
+    this._palette = [];
+    this._colorType = 0;
+
+    this._chunks = {};
+    this._chunks[constants.TYPE_IHDR] = this._handleIHDR.bind(this);
+    this._chunks[constants.TYPE_IEND] = this._handleIEND.bind(this);
+    this._chunks[constants.TYPE_IDAT] = this._handleIDAT.bind(this);
+    this._chunks[constants.TYPE_PLTE] = this._handlePLTE.bind(this);
+    this._chunks[constants.TYPE_tRNS] = this._handleTRNS.bind(this);
+    this._chunks[constants.TYPE_gAMA] = this._handleGAMA.bind(this);
+
+    this.writable = true;
+
+    this.on('error', this._handleError.bind(this));
+    this._handleSignature();
+};
+util.inherits(Parser, ChunkStream);
+
+
+Parser.prototype._handleError = function() {
+
+    this.writable = false;
+
+    this.destroy();
+
+    if (this._inflate)
+        this._inflate.destroy();
+};
+
+Parser.prototype._handleSignature = function() {
+    this.read(constants.PNG_SIGNATURE.length,
+        this._parseSignature.bind(this)
+    );
+};
+
+Parser.prototype._parseSignature = function(data) {
+
+    var signature = constants.PNG_SIGNATURE;
+
+    for (var i = 0; i < signature.length; i++) {
+        if (data[i] != signature[i]) {
+            this.emit('error', new Error('Invalid file signature'));
+            return;
+        }
+    }
+    this.read(8, this._parseChunkBegin.bind(this));
+};
+
+Parser.prototype._parseChunkBegin = function(data) {
+
+    // chunk content length
+    var length = data.readUInt32BE(0);
+
+    // chunk type
+    var type = data.readUInt32BE(4),
+        name = '';
+    for (var i = 4; i < 8; i++)
+        name += String.fromCharCode(data[i]);
+
+    // console.log('chunk ', name, length);
+
+    // chunk flags
+    var ancillary  = !!(data[4] & 0x20),  // or critical
+        priv       = !!(data[5] & 0x20),  // or public
+        safeToCopy = !!(data[7] & 0x20);  // or unsafe
+
+    if (!this._hasIHDR && type != constants.TYPE_IHDR) {
+        this.emit('error', new Error('Expected IHDR on beggining'));
+        return;
+    }
+
+    this._crc = new CrcStream();
+    this._crc.write(new Buffer(name));
+
+    if (this._chunks[type]) {
+        return this._chunks[type](length);
+
+    } else if (!ancillary) {
+        this.emit('error', new Error('Unsupported critical chunk type ' + name));
+        return;
+    } else {
+        this.read(length + 4, this._skipChunk.bind(this));
+    }
+};
+
+Parser.prototype._skipChunk = function(data) {
+    this.read(8, this._parseChunkBegin.bind(this));
+};
+
+Parser.prototype._handleChunkEnd = function() {
+    this.read(4, this._parseChunkEnd.bind(this));
+};
+
+Parser.prototype._parseChunkEnd = function(data) {
+
+    var fileCrc = data.readInt32BE(0),
+        calcCrc = this._crc.crc32();
+
+    // check CRC
+    if (this._options.checkCRC && calcCrc != fileCrc) {
+        this.emit('error', new Error('Crc error'));
+        return;
+    }
+
+    if (this._hasIEND) {
+        this.destroySoon();
+
+    } else {
+        this.read(8, this._parseChunkBegin.bind(this));
+    }
+};
+
+
+Parser.prototype._handleIHDR = function(length) {
+    this.read(length, this._parseIHDR.bind(this));
+};
+Parser.prototype._parseIHDR = function(data) {
+
+    this._crc.write(data);
+
+    var width = data.readUInt32BE(0),
+        height = data.readUInt32BE(4),
+        depth = data[8],
+        colorType = data[9], // bits: 1 palette, 2 color, 4 alpha
+        compr = data[10],
+        filter = data[11],
+        interlace = data[12];
+
+    // console.log('    width', width, 'height', height,
+    //     'depth', depth, 'colorType', colorType,
+    //     'compr', compr, 'filter', filter, 'interlace', interlace
+    // );
+
+    if (depth != 8) {
+        this.emit('error', new Error('Unsupported bit depth ' + depth));
+        return;
+    }
+    if (!(colorType in colorTypeToBppMap)) {
+        this.emit('error', new Error('Unsupported color type'));
+        return;
+    }
+    if (compr != 0) {
+        this.emit('error', new Error('Unsupported compression method'));
+        return;
+    }
+    if (filter != 0) {
+        this.emit('error', new Error('Unsupported filter method'));
+        return;
+    }
+    if (interlace != 0) {
+        this.emit('error', new Error('Unsupported interlace method'));
+        return;
+    }
+
+    this._colorType = colorType;
+
+    this._data = new Buffer(width * height * 4);
+    this._filter = new Filter(
+        width, height,
+        colorTypeToBppMap[this._colorType],
+        this._data,
+        this._options
+    );
+
+    this._hasIHDR = true;
+
+    this.emit('metadata', {
+        width: width,
+        height: height,
+        palette: !!(colorType & constants.COLOR_PALETTE),
+        color: !!(colorType & constants.COLOR_COLOR),
+        alpha: !!(colorType & constants.COLOR_ALPHA),
+        data: this._data
+    });
+
+    this._handleChunkEnd();
+};
+
+
+Parser.prototype._handlePLTE = function(length) {
+    this.read(length, this._parsePLTE.bind(this));
+};
+Parser.prototype._parsePLTE = function(data) {
+
+    this._crc.write(data);
+
+    var entries = Math.floor(data.length / 3);
+    // console.log('Palette:', entries);
+
+    for (var i = 0; i < entries; i++) {
+        this._palette.push([
+            data.readUInt8(i * 3),
+            data.readUInt8(i * 3 + 1),
+            data.readUInt8(i * 3 + 2 ),
+            0xff
+        ]);
+    }
+
+    this._handleChunkEnd();
+};
+
+Parser.prototype._handleTRNS = function(length) {
+    this.read(length, this._parseTRNS.bind(this));
+};
+Parser.prototype._parseTRNS = function(data) {
+
+    this._crc.write(data);
+
+    // palette
+    if (this._colorType == 3) {
+        if (this._palette.length == 0) {
+            this.emit('error', new Error('Transparency chunk must be after palette'));
+            return;
+        }
+        if (data.length > this._palette.length) {
+            this.emit('error', new Error('More transparent colors than palette size'));
+            return;
+        }
+        for (var i = 0; i < this._palette.length; i++) {
+            this._palette[i][3] = i < data.length ? data.readUInt8(i) : 0xff;
+        }
+    }
+
+    // for colorType 0 (grayscale) and 2 (rgb)
+    // there might be one gray/color defined as transparent
+
+    this._handleChunkEnd();
+};
+
+Parser.prototype._handleGAMA = function(length) {
+    this.read(length, this._parseGAMA.bind(this));
+};
+Parser.prototype._parseGAMA = function(data) {
+
+    this._crc.write(data);
+    this.emit('gamma', data.readUInt32BE(0) / 100000);
+
+    this._handleChunkEnd();
+};
+
+Parser.prototype._handleIDAT = function(length) {
+    this.read(-length, this._parseIDAT.bind(this, length));
+};
+Parser.prototype._parseIDAT = function(length, data) {
+
+    this._crc.write(data);
+
+    if (this._colorType == 3 && this._palette.length == 0)
+        throw new Error('Expected palette not found');
+
+    if (!this._inflate) {
+        this._inflate = zlib.createInflate();
+
+        this._inflate.on('error', this.emit.bind(this, 'error'));
+        this._filter.on('complete', this._reverseFiltered.bind(this));
+
+        this._inflate.pipe(this._filter);
+    }
+
+    this._inflate.write(data);
+    length -= data.length;
+
+    if (length > 0)
+        this._handleIDAT(length);
+    else
+        this._handleChunkEnd();
+};
+
+
+Parser.prototype._handleIEND = function(length) {
+    this.read(length, this._parseIEND.bind(this));
+};
+Parser.prototype._parseIEND = function(data) {
+
+    this._crc.write(data);
+
+    // no more data to inflate
+    this._inflate.end();
+
+    this._hasIEND = true;
+    this._handleChunkEnd();
+};
+
+
+var colorTypeToBppMap = {
+    0: 1,
+    2: 3,
+    3: 1,
+    4: 2,
+    6: 4
+};
+
+Parser.prototype._reverseFiltered = function(data, width, height) {
+
+    if (this._colorType == 3) { // paletted
+
+        // use values from palette
+        var pxLineLength = width << 2;
+
+        for (var y = 0; y < height; y++) {
+            var pxRowPos = y * pxLineLength;
+
+            for (var x = 0; x < width; x++) {
+                var pxPos = pxRowPos + (x << 2),
+                    color = this._palette[data[pxPos]];
+
+                for (var i = 0; i < 4; i++)
+                    data[pxPos + i] = color[i];
+            }
+        }
+    }
+
+    this.emit('parsed', data);
+};
+
+}).call(this,require("buffer").Buffer)
+},{"./chunkstream":320,"./constants":321,"./crc":322,"./filter":323,"buffer":17,"util":43,"zlib":16}],326:[function(require,module,exports){
+(function (process,Buffer){
+// Copyright (c) 2012 Kuba Niegowski
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+'use strict';
+
+
+var util = require('util'),
+    Stream = require('stream'),
+    Parser = require('./parser'),
+    Packer = require('./packer');
+
+
+var PNG = exports.PNG = function(options) {
+    Stream.call(this);
+
+    options = options || {};
+
+    this.width = options.width || 0;
+    this.height = options.height || 0;
+
+    this.data = this.width > 0 && this.height > 0
+            ? new Buffer(4 * this.width * this.height) : null;
+
+    this.gamma = 0;
+    this.readable = this.writable = true;
+
+    this._parser = new Parser(options || {});
+
+    this._parser.on('error', this.emit.bind(this, 'error'));
+    this._parser.on('close', this._handleClose.bind(this));
+    this._parser.on('metadata', this._metadata.bind(this));
+    this._parser.on('gamma', this._gamma.bind(this));
+    this._parser.on('parsed', function(data) {
+        this.data = data;
+        this.emit('parsed', data);
+    }.bind(this));
+
+    this._packer = new Packer(options);
+    this._packer.on('data', this.emit.bind(this, 'data'));
+    this._packer.on('end', this.emit.bind(this, 'end'));
+    this._parser.on('close', this._handleClose.bind(this));
+    this._packer.on('error', this.emit.bind(this, 'error'));
+
+};
+util.inherits(PNG, Stream);
+
+
+PNG.prototype.pack = function() {
+
+    process.nextTick(function() {
+        this._packer.pack(this.data, this.width, this.height);
+    }.bind(this));
+
+    return this;
+};
+
+
+PNG.prototype.parse = function(data, callback) {
+
+    if (callback) {
+        var onParsed = null, onError = null;
+
+        this.once('parsed', onParsed = function(data) {
+            this.removeListener('error', onError);
+
+            this.data = data;
+            callback(null, this);
+
+        }.bind(this));
+
+        this.once('error', onError = function(err) {
+            this.removeListener('parsed', onParsed);
+
+            callback(err, null);
+        }.bind(this));
+    }
+
+    this.end(data);
+    return this;
+};
+
+PNG.prototype.write = function(data) {
+    this._parser.write(data);
+    return true;
+};
+
+PNG.prototype.end = function(data) {
+    this._parser.end(data);
+};
+
+PNG.prototype._metadata = function(metadata) {
+    this.width = metadata.width;
+    this.height = metadata.height;
+    this.data = metadata.data;
+
+    delete metadata.data;
+    this.emit('metadata', metadata);
+};
+
+PNG.prototype._gamma = function(gamma) {
+    this.gamma = gamma;
+};
+
+PNG.prototype._handleClose = function() {
+    if (!this._parser.writable && !this._packer.readable)
+        this.emit('close');
+};
+
+
+PNG.prototype.bitblt = function(dst, sx, sy, w, h, dx, dy) {
+
+    var src = this;
+
+    if (sx > src.width || sy > src.height
+            || sx + w > src.width || sy + h > src.height)
+        throw new Error('bitblt reading outside image');
+    if (dx > dst.width || dy > dst.height
+            || dx + w > dst.width || dy + h > dst.height)
+        throw new Error('bitblt writing outside image');
+
+    for (var y = 0; y < h; y++) {
+        src.data.copy(dst.data,
+            ((dy + y) * dst.width + dx) << 2,
+            ((sy + y) * src.width + sx) << 2,
+            ((sy + y) * src.width + sx + w) << 2
+        );
+    }
+
+    return this;
+};
+
+}).call(this,require('_process'),require("buffer").Buffer)
+},{"./packer":324,"./parser":325,"_process":26,"buffer":17,"stream":40,"util":43}],327:[function(require,module,exports){
+arguments[4][264][0].apply(exports,arguments)
+},{"_process":26,"dup":264,"stream":40}],328:[function(require,module,exports){
+"use strict"
+
+var PNG = require("pngjs").PNG
+var through = require("through")
+
+function handleData(array, data) {
+  var i, j, ptr = 0, c
+  if(array.shape.length === 3) {
+    if(array.shape[2] === 3) {
+      for(i=0; i<array.shape[0]; ++i) {
+        for(j=0; j<array.shape[1]; ++j) {
+          data[ptr++] = array.get(i,j,0)>>>0
+          data[ptr++] = array.get(i,j,1)>>>0
+          data[ptr++] = array.get(i,j,2)>>>0
+          data[ptr++] = 255
+        }
+      }
+    } else if(array.shape[2] === 4) {
+      for(i=0; i<array.shape[0]; ++i) {
+        for(j=0; j<array.shape[1]; ++j) {
+          data[ptr++] = array.get(i,j,0)>>>0
+          data[ptr++] = array.get(i,j,1)>>>0
+          data[ptr++] = array.get(i,j,2)>>>0
+          data[ptr++] = array.get(i,j,3)>>>0
+        }
+      }
+    } else if(array.shape[3] === 1) {
+      for(i=0; i<array.shape[0]; ++i) {
+        for(j=0; j<array.shape[1]; ++j) {
+          var c = array.get(i,j,0)>>>0
+          data[ptr++] = c
+          data[ptr++] = c
+          data[ptr++] = c
+          data[ptr++] = 255
+        }
+      }
+    } else {
+      return new Error("Incompatible array shape")
+    }
+  } else if(array.shape.length === 2) {
+    for(i=0; i<array.shape[0]; ++i) {
+      for(j=0; j<array.shape[1]; ++j) {
+        var c = array.get(i,j,0)>>>0
+        data[ptr++] = c
+        data[ptr++] = c
+        data[ptr++] = c
+        data[ptr++] = 255
+      }
+    }
+  } else {
+    return new Error("Incompatible array shape")
+  }
+  return data
+}
+
+function haderror(err) {
+  var result = through()
+  result.emit("error", err)
+  return result
+}
+
+module.exports = function savePixels(array, type) {
+  switch(type.toUpperCase()) {
+    case "PNG":
+    case ".PNG":
+      var png = new PNG({
+        width: array.shape[1],
+        height: array.shape[0]
+      })
+      var data = handleData(array, png.data)
+      if (typeof data === "Error") return haderror(data)
+      png.data = data
+      return png.pack()
+
+    case "CANVAS":
+      var canvas = document.createElement("canvas")
+      var context = canvas.getContext("2d")
+      canvas.width = array.shape[1]
+      canvas.height = array.shape[0]
+      var imageData = context.getImageData(0, 0, canvas.width, canvas.height)
+      var data = imageData.data
+      data = handleData(array, data)
+      if (typeof data === "Error") return haderror(data)
+      context.putImageData(imageData, 0, 0)
+      return canvas
+    
+    default:
+      return haderror(new Error("Unsupported file type: " + type))
+  }
+}
+
+},{"pngjs":326,"through":327}],329:[function(require,module,exports){
 module.exports = function(item) {
   if(item === undefined)  return [];
   return Object.prototype.toString.call(item) === "[object Array]" ? item : [item];
 }
-},{}],314:[function(require,module,exports){
+},{}],330:[function(require,module,exports){
 // Generated by CoffeeScript 1.7.0
 (function() {
   var createCanvas, crop, overallSize, overlay, repeat, scale;
@@ -43613,7 +38408,7 @@ module.exports = function(item) {
 
 }).call(this);
 
-},{}],315:[function(require,module,exports){
+},{}],331:[function(require,module,exports){
 'use strict';
 
 var createArtpacks = require('artpacks');
@@ -43641,7 +38436,7 @@ function StitchPlugin(game, opts) {
   this.registry = opts.registry || game.plugins.get('voxel-registry');
   if (!this.registry) throw new Error('voxel-stitch requires voxel-registry plugin');
   this.shell = game.shell;
-  if (!this.shell) throw new Error('voxel-stitch requires game-shell'); // for gl-init
+  if (!this.shell) throw new Error('voxel-stitch requires voxel-engine-stackgl'); // for gl-init
 
   opts = opts || {};
   opts.artpacks = opts.artpacks || ['https://dl.dropboxusercontent.com/u/258156216/artpacks/ProgrammerArt-v2.2.1-dev-ResourcePack-20140322.zip'];
@@ -43902,7 +38697,7 @@ StitchPlugin.prototype.showAtlas = function() {
 
 
 
-},{"artpacks":177,"atlaspack":235,"cube-side-array":236,"events":21,"gl-texture2d":249,"inherits":250,"ndarray":254,"ndarray-hash":251,"rect-mip-map":256,"save-pixels":312,"toarray":313,"touchup":314}],316:[function(require,module,exports){
+},{"artpacks":251,"atlaspack":285,"cube-side-array":286,"events":21,"gl-texture2d":297,"inherits":120,"ndarray":122,"ndarray-hash":298,"rect-mip-map":299,"save-pixels":328,"toarray":329,"touchup":330}],332:[function(require,module,exports){
 var events = require('events')
 var inherits = require('inherits')
 
@@ -44023,7 +38818,7 @@ Chunker.prototype.voxelAtPosition = function(pos, val) {
 }
 
 
-},{"events":21,"inherits":323}],317:[function(require,module,exports){
+},{"events":21,"inherits":339}],333:[function(require,module,exports){
 var chunker = require('./chunker')
 var ndarray = require('ndarray')
 
@@ -44126,7 +38921,7 @@ module.exports.generateExamples = function() {
 }
 
 
-},{"./chunker":316,"./meshers/culled":318,"./meshers/greedy":319,"./meshers/monotone":320,"./meshers/stupid":321,"./meshers/transgreedy":322,"ndarray":324}],318:[function(require,module,exports){
+},{"./chunker":332,"./meshers/culled":334,"./meshers/greedy":335,"./meshers/monotone":336,"./meshers/stupid":337,"./meshers/transgreedy":338,"ndarray":122}],334:[function(require,module,exports){
 //Naive meshing (with face culling)
 function CulledMesh(volume, dims) {
   //Precalculate direction vectors for convenience
@@ -44178,7 +38973,7 @@ if(exports) {
   exports.mesher = CulledMesh;
 }
 
-},{}],319:[function(require,module,exports){
+},{}],335:[function(require,module,exports){
 var GreedyMesh = (function() {
 //Cache buffer internally
 var mask = new Int32Array(4096);
@@ -44295,7 +39090,7 @@ if(exports) {
   exports.mesher = GreedyMesh;
 }
 
-},{}],320:[function(require,module,exports){
+},{}],336:[function(require,module,exports){
 "use strict";
 
 var MonotoneMesh = (function(){
@@ -44548,7 +39343,7 @@ if(exports) {
   exports.mesher = MonotoneMesh;
 }
 
-},{}],321:[function(require,module,exports){
+},{}],337:[function(require,module,exports){
 //The stupidest possible way to generate a Minecraft mesh (I think)
 function StupidMesh(volume, dims) {
   var vertices = [], faces = [], x = [0,0,0], n = 0;
@@ -44584,7 +39379,7 @@ if(exports) {
   exports.mesher = StupidMesh;
 }
 
-},{}],322:[function(require,module,exports){
+},{}],338:[function(require,module,exports){
 var GreedyMesh = (function greedyLoader() {
     
 // contains all forward faces (in terms of scan direction)
@@ -44776,28 +39571,9 @@ if(exports) {
   exports.mesher = GreedyMesh;
 }
 
-},{}],323:[function(require,module,exports){
-arguments[4][179][0].apply(exports,arguments)
-},{"dup":179}],324:[function(require,module,exports){
-arguments[4][187][0].apply(exports,arguments)
-},{"buffer":17,"dup":187,"iota-array":325}],325:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],326:[function(require,module,exports){
-'use strict';
-
-require('voxel-engine-stackgl')({
-  pluginLoaders: {
-    'voxel-bedrock': require('voxel-bedrock'),
-    'voxel-flatland': require('voxel-flatland')
-  },
-  pluginOpts: {
-    'game-shell-fps-camera': {position: [-4, -40, -5], rotationX:15*Math.PI/180, rotationY:135*Math.PI/180 },
-
-    'voxel-bedrock': {},
-    'voxel-flatland': {block: 'bedrock'}
-  }});
-
-},{"voxel-bedrock":44,"voxel-engine-stackgl":45,"voxel-flatland":327}],327:[function(require,module,exports){
+},{}],339:[function(require,module,exports){
+arguments[4][253][0].apply(exports,arguments)
+},{"dup":253}],340:[function(require,module,exports){
 'use strict';
 
 var ndarray = require('ndarray');
@@ -44864,3399 +39640,10 @@ Flatland.prototype.missingChunk = function(position) {
   this.game.showChunk(chunk);
 };
 
-},{"ndarray":328}],328:[function(require,module,exports){
-var iota = require("iota-array")
-var isBuffer = require("is-buffer")
-
-var hasTypedArrays  = ((typeof Float64Array) !== "undefined")
-
-function compare1st(a, b) {
-  return a[0] - b[0]
-}
-
-function order() {
-  var stride = this.stride
-  var terms = new Array(stride.length)
-  var i
-  for(i=0; i<terms.length; ++i) {
-    terms[i] = [Math.abs(stride[i]), i]
-  }
-  terms.sort(compare1st)
-  var result = new Array(terms.length)
-  for(i=0; i<result.length; ++i) {
-    result[i] = terms[i][1]
-  }
-  return result
-}
-
-function compileConstructor(dtype, dimension) {
-  var className = ["View", dimension, "d", dtype].join("")
-  if(dimension < 0) {
-    className = "View_Nil" + dtype
-  }
-  var useGetters = (dtype === "generic")
-
-  if(dimension === -1) {
-    //Special case for trivial arrays
-    var code =
-      "function "+className+"(a){this.data=a;};\
-var proto="+className+".prototype;\
-proto.dtype='"+dtype+"';\
-proto.index=function(){return -1};\
-proto.size=0;\
-proto.dimension=-1;\
-proto.shape=proto.stride=proto.order=[];\
-proto.lo=proto.hi=proto.transpose=proto.step=\
-function(){return new "+className+"(this.data);};\
-proto.get=proto.set=function(){};\
-proto.pick=function(){return null};\
-return function construct_"+className+"(a){return new "+className+"(a);}"
-    var procedure = new Function(code)
-    return procedure()
-  } else if(dimension === 0) {
-    //Special case for 0d arrays
-    var code =
-      "function "+className+"(a,d) {\
-this.data = a;\
-this.offset = d\
-};\
-var proto="+className+".prototype;\
-proto.dtype='"+dtype+"';\
-proto.index=function(){return this.offset};\
-proto.dimension=0;\
-proto.size=1;\
-proto.shape=\
-proto.stride=\
-proto.order=[];\
-proto.lo=\
-proto.hi=\
-proto.transpose=\
-proto.step=function "+className+"_copy() {\
-return new "+className+"(this.data,this.offset)\
-};\
-proto.pick=function "+className+"_pick(){\
-return TrivialArray(this.data);\
-};\
-proto.valueOf=proto.get=function "+className+"_get(){\
-return "+(useGetters ? "this.data.get(this.offset)" : "this.data[this.offset]")+
-"};\
-proto.set=function "+className+"_set(v){\
-return "+(useGetters ? "this.data.set(this.offset,v)" : "this.data[this.offset]=v")+"\
-};\
-return function construct_"+className+"(a,b,c,d){return new "+className+"(a,d)}"
-    var procedure = new Function("TrivialArray", code)
-    return procedure(CACHED_CONSTRUCTORS[dtype][0])
-  }
-
-  var code = ["'use strict'"]
-
-  //Create constructor for view
-  var indices = iota(dimension)
-  var args = indices.map(function(i) { return "i"+i })
-  var index_str = "this.offset+" + indices.map(function(i) {
-        return "this.stride[" + i + "]*i" + i
-      }).join("+")
-  var shapeArg = indices.map(function(i) {
-      return "b"+i
-    }).join(",")
-  var strideArg = indices.map(function(i) {
-      return "c"+i
-    }).join(",")
-  code.push(
-    "function "+className+"(a," + shapeArg + "," + strideArg + ",d){this.data=a",
-      "this.shape=[" + shapeArg + "]",
-      "this.stride=[" + strideArg + "]",
-      "this.offset=d|0}",
-    "var proto="+className+".prototype",
-    "proto.dtype='"+dtype+"'",
-    "proto.dimension="+dimension)
-
-  //view.size:
-  code.push("Object.defineProperty(proto,'size',{get:function "+className+"_size(){\
-return "+indices.map(function(i) { return "this.shape["+i+"]" }).join("*"),
-"}})")
-
-  //view.order:
-  if(dimension === 1) {
-    code.push("proto.order=[0]")
-  } else {
-    code.push("Object.defineProperty(proto,'order',{get:")
-    if(dimension < 4) {
-      code.push("function "+className+"_order(){")
-      if(dimension === 2) {
-        code.push("return (Math.abs(this.stride[0])>Math.abs(this.stride[1]))?[1,0]:[0,1]}})")
-      } else if(dimension === 3) {
-        code.push(
-"var s0=Math.abs(this.stride[0]),s1=Math.abs(this.stride[1]),s2=Math.abs(this.stride[2]);\
-if(s0>s1){\
-if(s1>s2){\
-return [2,1,0];\
-}else if(s0>s2){\
-return [1,2,0];\
-}else{\
-return [1,0,2];\
-}\
-}else if(s0>s2){\
-return [2,0,1];\
-}else if(s2>s1){\
-return [0,1,2];\
-}else{\
-return [0,2,1];\
-}}})")
-      }
-    } else {
-      code.push("ORDER})")
-    }
-  }
-
-  //view.set(i0, ..., v):
-  code.push(
-"proto.set=function "+className+"_set("+args.join(",")+",v){")
-  if(useGetters) {
-    code.push("return this.data.set("+index_str+",v)}")
-  } else {
-    code.push("return this.data["+index_str+"]=v}")
-  }
-
-  //view.get(i0, ...):
-  code.push("proto.get=function "+className+"_get("+args.join(",")+"){")
-  if(useGetters) {
-    code.push("return this.data.get("+index_str+")}")
-  } else {
-    code.push("return this.data["+index_str+"]}")
-  }
-
-  //view.index:
-  code.push(
-    "proto.index=function "+className+"_index(", args.join(), "){return "+index_str+"}")
-
-  //view.hi():
-  code.push("proto.hi=function "+className+"_hi("+args.join(",")+"){return new "+className+"(this.data,"+
-    indices.map(function(i) {
-      return ["(typeof i",i,"!=='number'||i",i,"<0)?this.shape[", i, "]:i", i,"|0"].join("")
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "this.stride["+i + "]"
-    }).join(",")+",this.offset)}")
-
-  //view.lo():
-  var a_vars = indices.map(function(i) { return "a"+i+"=this.shape["+i+"]" })
-  var c_vars = indices.map(function(i) { return "c"+i+"=this.stride["+i+"]" })
-  code.push("proto.lo=function "+className+"_lo("+args.join(",")+"){var b=this.offset,d=0,"+a_vars.join(",")+","+c_vars.join(","))
-  for(var i=0; i<dimension; ++i) {
-    code.push(
-"if(typeof i"+i+"==='number'&&i"+i+">=0){\
-d=i"+i+"|0;\
-b+=c"+i+"*d;\
-a"+i+"-=d}")
-  }
-  code.push("return new "+className+"(this.data,"+
-    indices.map(function(i) {
-      return "a"+i
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "c"+i
-    }).join(",")+",b)}")
-
-  //view.step():
-  code.push("proto.step=function "+className+"_step("+args.join(",")+"){var "+
-    indices.map(function(i) {
-      return "a"+i+"=this.shape["+i+"]"
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "b"+i+"=this.stride["+i+"]"
-    }).join(",")+",c=this.offset,d=0,ceil=Math.ceil")
-  for(var i=0; i<dimension; ++i) {
-    code.push(
-"if(typeof i"+i+"==='number'){\
-d=i"+i+"|0;\
-if(d<0){\
-c+=b"+i+"*(a"+i+"-1);\
-a"+i+"=ceil(-a"+i+"/d)\
-}else{\
-a"+i+"=ceil(a"+i+"/d)\
-}\
-b"+i+"*=d\
-}")
-  }
-  code.push("return new "+className+"(this.data,"+
-    indices.map(function(i) {
-      return "a" + i
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "b" + i
-    }).join(",")+",c)}")
-
-  //view.transpose():
-  var tShape = new Array(dimension)
-  var tStride = new Array(dimension)
-  for(var i=0; i<dimension; ++i) {
-    tShape[i] = "a[i"+i+"]"
-    tStride[i] = "b[i"+i+"]"
-  }
-  code.push("proto.transpose=function "+className+"_transpose("+args+"){"+
-    args.map(function(n,idx) { return n + "=(" + n + "===undefined?" + idx + ":" + n + "|0)"}).join(";"),
-    "var a=this.shape,b=this.stride;return new "+className+"(this.data,"+tShape.join(",")+","+tStride.join(",")+",this.offset)}")
-
-  //view.pick():
-  code.push("proto.pick=function "+className+"_pick("+args+"){var a=[],b=[],c=this.offset")
-  for(var i=0; i<dimension; ++i) {
-    code.push("if(typeof i"+i+"==='number'&&i"+i+">=0){c=(c+this.stride["+i+"]*i"+i+")|0}else{a.push(this.shape["+i+"]);b.push(this.stride["+i+"])}")
-  }
-  code.push("var ctor=CTOR_LIST[a.length+1];return ctor(this.data,a,b,c)}")
-
-  //Add return statement
-  code.push("return function construct_"+className+"(data,shape,stride,offset){return new "+className+"(data,"+
-    indices.map(function(i) {
-      return "shape["+i+"]"
-    }).join(",")+","+
-    indices.map(function(i) {
-      return "stride["+i+"]"
-    }).join(",")+",offset)}")
-
-  //Compile procedure
-  var procedure = new Function("CTOR_LIST", "ORDER", code.join("\n"))
-  return procedure(CACHED_CONSTRUCTORS[dtype], order)
-}
-
-function arrayDType(data) {
-  if(isBuffer(data)) {
-    return "buffer"
-  }
-  if(hasTypedArrays) {
-    switch(Object.prototype.toString.call(data)) {
-      case "[object Float64Array]":
-        return "float64"
-      case "[object Float32Array]":
-        return "float32"
-      case "[object Int8Array]":
-        return "int8"
-      case "[object Int16Array]":
-        return "int16"
-      case "[object Int32Array]":
-        return "int32"
-      case "[object Uint8Array]":
-        return "uint8"
-      case "[object Uint16Array]":
-        return "uint16"
-      case "[object Uint32Array]":
-        return "uint32"
-      case "[object Uint8ClampedArray]":
-        return "uint8_clamped"
-    }
-  }
-  if(Array.isArray(data)) {
-    return "array"
-  }
-  return "generic"
-}
-
-var CACHED_CONSTRUCTORS = {
-  "float32":[],
-  "float64":[],
-  "int8":[],
-  "int16":[],
-  "int32":[],
-  "uint8":[],
-  "uint16":[],
-  "uint32":[],
-  "array":[],
-  "uint8_clamped":[],
-  "buffer":[],
-  "generic":[]
-}
-
-;(function() {
-  for(var id in CACHED_CONSTRUCTORS) {
-    CACHED_CONSTRUCTORS[id].push(compileConstructor(id, -1))
-  }
-});
-
-function wrappedNDArrayCtor(data, shape, stride, offset) {
-  if(data === undefined) {
-    var ctor = CACHED_CONSTRUCTORS.array[0]
-    return ctor([])
-  } else if(typeof data === "number") {
-    data = [data]
-  }
-  if(shape === undefined) {
-    shape = [ data.length ]
-  }
-  var d = shape.length
-  if(stride === undefined) {
-    stride = new Array(d)
-    for(var i=d-1, sz=1; i>=0; --i) {
-      stride[i] = sz
-      sz *= shape[i]
-    }
-  }
-  if(offset === undefined) {
-    offset = 0
-    for(var i=0; i<d; ++i) {
-      if(stride[i] < 0) {
-        offset -= (shape[i]-1)*stride[i]
-      }
-    }
-  }
-  var dtype = arrayDType(data)
-  var ctor_list = CACHED_CONSTRUCTORS[dtype]
-  while(ctor_list.length <= d+1) {
-    ctor_list.push(compileConstructor(dtype, ctor_list.length-1))
-  }
-  var ctor = ctor_list[d+1]
-  return ctor(data, shape, stride, offset)
-}
-
-module.exports = wrappedNDArrayCtor
-
-},{"iota-array":329,"is-buffer":330}],329:[function(require,module,exports){
-arguments[4][63][0].apply(exports,arguments)
-},{"dup":63}],330:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],331:[function(require,module,exports){
-arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}],332:[function(require,module,exports){
-var util = require('util');
-
-module.exports = function tsort(initial) {
-  var graph = new Graph();
-
-  if (initial) {
-    initial.forEach(function(entry) {
-      Graph.prototype.add.apply(graph, entry);
-    });
-  }
-
-  return graph;
-}
-
-function Graph() {
-  this.nodes = {};
-}
-
-// Add sorted items to the graph
-Graph.prototype.add = function() {
-  var self = this;
-  var items = [].slice.call(arguments);
-
-  if (items.length == 1 && util.isArray(items[0]))
-    items = items[0];
-
-  items.forEach(function(item) {
-    if (!self.nodes[item])
-      self.nodes[item] = [];
-  });
-
-  for (var i = 1; i < items.length; i++) {
-    var from = items[i];
-    var to = items[i - 1];
-
-    self.nodes[from].push(to);
-  }
-
-  return self;
-};
-
-// Depth first search
-// As given in http://en.wikipedia.org/wiki/Topological_sorting
-Graph.prototype.sort = function() {
-  var self = this;
-  var nodes = Object.keys(this.nodes);
-
-  var sorted = [];
-  var marks = {};
-
-  for (var i = 0; i < nodes.length; i++) {
-    var node = nodes[i];
-
-    if (!marks[node])
-      visit(node);
-  }
-
-  return sorted;
-
-  function visit(node) {
-    if (marks[node] === 'temp')
-      throw new Error("There is a cycle in the graph. It is not possible to derive a topological sort.");
-    else if (marks[node])
-      return;
-
-    marks[node] = 'temp';
-    self.nodes[node].forEach(visit);
-    marks[node] = 'perm';
-
-    sorted.push(node);
-  }
-};
-
-},{"util":43}],333:[function(require,module,exports){
-(function (process){
-'use strict';
-var EventEmitter = require('events').EventEmitter;
-var inherits = require('inherits');
-var tsort = require('tsort');
-
-module.exports = function(game, opts) {
-  return new Plugins(game, opts);
-};
-
-function Plugins(game, opts) {
-  EventEmitter.call(this);
-
-  this.game = game;
-  if (this.game) this.game.plugins = this;
-
-  opts = opts || {};
-  this.loaders = opts.loaders || {};
-  this.require = opts.require || require;
-  this.catchExceptions = false;
-  this.masterPluginName = opts.masterPluginName || 'voxel-engine'; // synthetic 'plugin' created as parent of all
-
-  // map plugin name to instances
-  this.all = {};
-
-  this.savedOpts = {};
-  this.graph = tsort();
-}
-
-inherits(Plugins, EventEmitter);
-
-Plugins.prototype.wrapExceptions = function(f) {
-  var ret;
-
-  if (!this.catchExceptions) {
-    ret = f();
-    return ret === undefined ? true : ret; // undefined ok
-  }
-
-  try {
-    ret = f();
-  } catch (e) {
-    console.log('caught exception:',e,'calling',f);
-    console.trace();
-    return false;
-  }
-  return ret === undefined ? true : ret;
-}
-
-// Require the plugin module and return its factory constructor
-// This does not construct the plugin instance, for that see instantiate()
-Plugins.prototype.scan = function(name) {
-  var createPlugin; // factory for constructor
-
-  if (name in this.loaders) {
-    createPlugin = this.loaders[name];
-  } else {
-    createPlugin = this.require(name);
-  }
-
-  return createPlugin;
-};
-
-// Scan then instantiate a plugin by name, creating its instance (starts out enabled)
-Plugins.prototype.scanAndInstantiate = function(name, opts) {
-  if (this.get(name)) {
-    console.log("plugin already instantiated: ", name);
-    return false;
-  }
-
-  opts = opts || {};
- 
-  var createPlugin = this.scan(name);
-
-  if (createPlugin.pluginInfo && createPlugin.pluginInfo.clientOnly) {
-    if (!this.game.isClient) {
-      console.log("Skipping client-only plugin ("+name+"), in non-client environment");
-      return false;
-    }
-  }
-
-  if (this.game && this.masterPluginName === name) {
-    console.log("Skipping already-loaded master plugin: " + this.masterPluginName);
-    return false;
-  }
-
-  if (!createPlugin) {
-    console.log("plugin not found: ",name);
-    return false;
-  }
-
-  var self = this;
-  if (!this.wrapExceptions(function() {
-    return self.instantiate(createPlugin, name, opts);
-  })) {
-    console.log("failed to instantiate ",name);
-  }
-
-  return true;
-};
-
-// Instantiate a plugin given factory constructor, creating its instance (starts out enabled)
-Plugins.prototype.instantiate = function(createPlugin, name, opts) {
-  var plugin;
-  if (!this.game && name === this.masterPluginName) {
-    // the 'master' plugin is the game object itself
-    this.game = plugin = createPlugin(opts);
-    this.game.plugins = this;
-    if (process.browser && this.game.notCapable()) {
-      if (window.document) window.document.body.appendChild(this.game.notCapableMessage()); // TODO: find out why notCapable() isn't showing up
-      throw new Error('[voxel-plugins] fatal error: your system is not capable of running voxel-engine (game.notCapable)');
-    }
-  } else {
-    plugin = createPlugin(this.game, opts); // requires (game, opts) convention
-    if (!plugin) {
-      console.log("create plugin failed:",name,createPlugin,plugin);
-      return false;
-    }
-  }
-
-  plugin.pluginName = name;
-  this.emit('new plugin', name);
-
-  // plugins are enabled on instantiation -- assumed constructor calls its own enable() method (if present)
-  plugin.pluginEnabled = true;
-  this.emit('plugin enabled', name);
-
-  this.all[name] = plugin;
-
-  //console.log("Instantiated plugin:",name,plugin);
-  console.log("Instantiated plugin:",name);
-
-
-  return plugin;
-};
-
-// Mark a plugin for on-demand loading in enable(), with given preconfigured options
-// (The plugin does not have to exist yet)
-// The saved configuration is also used in add(), if available
-Plugins.prototype.preconfigure = function(name, opts) {
-  this.savedOpts[name] = opts;
-  
-  if (!this.get(name)) 
-    this.emit('new plugin', name);
-};
-
-// Add a plugin for loading: scan for ordered loading and preconfigure with given options
-// Special case: if the 'onDemand' option is set, the plugin won't be scanned at all, instead the pass configuration will be saved
-Plugins.prototype.add = function(name, opts) {
-  if (!opts && !this.savedOpts[name]) throw new Error('voxel-plugins preload('+name+'): missing required options and not preconfigured');
-  if (opts.onDemand) return this.preconfigure(name, opts);
-
-  var createPlugin = this.scan(name);
-  if (!createPlugin)
-    return false;
-
-  this.buildGraph(createPlugin, name);
-
-  // save options to load with
-  this.preconfigure(name, opts);
-};
-
-Plugins.prototype.buildGraph = function(createPlugin, name) {
-  var loadAfter = [];
-
-  if (createPlugin.pluginInfo) {
-    loadAfter = createPlugin.pluginInfo.loadAfter;
-
-    if (!loadAfter) loadAfter = [];
-  }
-
-  // special master plugin, everything always loads after
-  // (mainly added so all plugins are in the graph, even with empty loadAfter)
-  if (name !== this.masterPluginName) loadAfter.unshift(this.masterPluginName);
-
-  // add edges for each plugin required to load before us
-  for (var i = 0; i < loadAfter.length; ++i)
-    this.graph.add(loadAfter[i], name);
-};
-
-// Load add()'d plugins in order sorted by pluginInfo
-Plugins.prototype.loadAll = function() {
-  // topological sort by loadAfter dependency order
-  var sortedPluginNames = this.graph.sort();
-
-  console.log('sortedPluginNames:'+JSON.stringify(sortedPluginNames));
-  for (var i = 0; i < sortedPluginNames.length; ++i) {
-    var name = sortedPluginNames[i];
-
-    if (!this.isEnabled(name))
-      this.enable(name); // will instantiate() since preconfigured
-  }
-};
-
-
-// Get an instantiated plugin instance by name or instance
-Plugins.prototype.get = function(name) {
-  if (typeof name === "string")
-    return this.all[name];
-  else
-    // assume it is a plugin instance already, return as-is
-    return name;
-};
-
-Plugins.prototype.isEnabled = function(name) {
-  var plugin = this.get(name);
-
-  return !!(plugin && plugin.pluginEnabled);
-};
-
-Plugins.prototype.isLoaded = function(name) {
-  var plugin = this.get(name);
-
-  return !!(plugin && plugin.pluginName && this.all[plugin.pluginName]);
-};
-
-// Get list of enabled plugins
-Plugins.prototype.list = function() {
-  return this.listAll().filter(this.isEnabled.bind(this));
-};
-
-// Get list of all plugins
-Plugins.prototype.listAll = function() {
-  var loaded = Object.keys(this.all);
-  var unloaded = Object.keys(this.savedOpts).filter(function(x) {
-    return loaded.indexOf(x) == -1;
-  });
-
-  return loaded.concat(unloaded);
-};
-
-
-Plugins.prototype.enable = function(name) {
-  var plugin = this.get(name);
-
-  if (!plugin) {
-    if (this.savedOpts[name]) {
-      // on-demand instantiation, with prespecified options
-      return this.scanAndInstantiate(name, this.savedOpts[name]);
-    } else {
-      if (name !== this.masterPluginName) // ignore missing master plugin, as it is optional
-        console.log("no such plugin loaded to enable: ",plugin,name);
-    }
-
-    return false;
-  } else {
-    if (plugin.pluginEnabled) {
-      console.log("already enabled: ",plugin,name);
-      return false;
-    }
-
-    if (plugin.enable) {
-      if (!this.wrapExceptions(function() {
-        plugin.enable();
-      })) {
-        console.log("failed to enable:",plugin,name);
-        return false;
-      }
-    }
-    plugin.pluginEnabled = true;
-    this.emit('plugin enabled', name);
-  }
-  return true;
-};
-
-Plugins.prototype.disable = function(name) {
-  console.log("disabling plugin ",name);
-  var plugin = this.get(name);
-
-  if (!plugin) {
-    console.log("no such plugin loaded to disable: ",plugin,name);
-    return false;
-  }
-  if (!this.isEnabled(plugin)) {
-    console.log("already disabled: ",plugin,name);
-    return false;
-  }
-
-  if (plugin.disable) {
-    if (!this.wrapExceptions(function() {
-      plugin.disable(); 
-    })) {
-      console.log("failed to disable:",plugin,name);
-      return false;
-    }
-  }
-
-  plugin.pluginEnabled = false;
-  this.emit('plugin disabled', name);
-
-  // TODO: recursively disable dependants? or refuse to disable if has enabled dependants?
-  return true;
-};
-
-Plugins.prototype.toggle = function(name) {
-  if (this.isEnabled(name)) {
-    return this.disable(name);
-  } else {
-    return this.enable(name);
-  }
-};
-
-Plugins.prototype.destroy = function(name) {
-  var plugin = this.get(name);
-
-  if (!plugin) {
-    console.log("no plugin",plugin,name);
-    return false;
-  }
-
-  if (!this.all[plugin.pluginName]) {
-    console.log("no such plugin to destroy: ",plugin);
-    return false;
-  }
-
-  if (this.isEnabled(plugin))
-    this.disable(plugin);
-
-  delete this.all[plugin.pluginName];
-  console.log("destroyed  ",plugin);
-
-  return true;
-};
-
-}).call(this,require('_process'))
-},{"_process":26,"events":21,"inherits":331,"tsort":332}],334:[function(require,module,exports){
-
-var fs = require("fs")
-var glShader = require('gl-shader')
-var mat4 = require('gl-mat4')
-var inherits = require('inherits');
-var EventEmitter = require('events').EventEmitter;
-
-module.exports = function(game, opts) {
-  return new ShaderPlugin(game, opts);
-};
-module.exports.pluginInfo = {
-  clientOnly: true,
-  loadAfter: ['voxel-stitch', 'game-shell-fps-camera'],
-};
-
-function ShaderPlugin(game, opts) {
-  this.shell = game.shell;
-
-  this.stitcher = game.plugins.get('voxel-stitch');
-  if (!this.stitcher) throw new Error('voxel-shader requires voxel-stitch plugin'); // for tileCount uniform and updateTexture event
-
-  this.meshes = opts.meshes || game.voxels.meshes
-  if (!this.meshes) throw new Error('voxel-shader requires "meshes" option or game.voxels.meshes set to array of voxel-mesher meshes')
-
-  if (game.getCamera) {
-    this.camera = game.getCamera()
-    if (!(this.camera && this.camera.view)) throw new Error('voxel-shader requires a camera with a view matrix'); // for camera view matrix
-  } else {
-    this.camera = game.plugins.get('game-shell-fps-camera');
-    if (!this.camera) throw new Error('voxel-shader requires game-shell-fps-camera plugin'); // for camera view matrix
-  }
-
-  this.perspectiveResize = opts.perspectiveResize !== undefined ? opts.perspectiveResize : true;
-  this.cameraNear = opts.cameraNear !== undefined ? opts.cameraNear : 0.1;
-  this.cameraFar = opts.cameraFar !== undefined ? opts.cameraFar : 200.0;
-  this.cameraFOV = opts.cameraFOV !== undefined ? opts.cameraFOV : 45.0;
-
-  this.projectionMatrix = mat4.create();
-
-  this.enable();
-}
-inherits(ShaderPlugin, EventEmitter);
-
-ShaderPlugin.prototype.enable = function() {
-  this.on('updateProjectionMatrix', this.perspective.bind(this));
-  this.shell.on('gl-init', this.onInit = this.ginit.bind(this));
-  this.shell.on('gl-render', this.onRender = this.render.bind(this));
-  if (this.perspectiveResize) this.shell.on('gl-resize', this.onResize = this.updateProjectionMatrix.bind(this));
-  this.stitcher.on('updateTexture', this.onUpdateTexture = this.texturesReady.bind(this));
-};
-
-ShaderPlugin.prototype.disable = function() {
-  this.shell.removeListener('gl-init', this.onInit);
-  this.shell.removeListener('gl-render', this.onRender);
-  if (this.onResize) this.shell.removeListener('gl-resize', this.onResize);
-  this.stitcher.removeListener('updateTexture', this.onUpdateTexture);
-};
-
-ShaderPlugin.prototype.texturesReady = function(texture) {
-  this.texture = texture; // used in tileMap uniform
-}
-
-ShaderPlugin.prototype.ginit = function() {
-  this.shader = this.createAOShader();
-  this.shader2 = this.createCustomModelShader();
-  this.updateProjectionMatrix();
-  this.viewMatrix = mat4.create();
-
-};
-
-ShaderPlugin.prototype.perspective = function(out) {
-  mat4.perspective(out, this.cameraFOV*Math.PI/180, this.shell.width/this.shell.height, this.cameraNear, this.cameraFar)
-};
-
-ShaderPlugin.prototype.updateProjectionMatrix = function() {
-  this.emit('updateProjectionMatrix', this.projectionMatrix);
-};
-
-ShaderPlugin.prototype.render = function() {
-  var gl = this.shell.gl
-
-  this.camera.view(this.viewMatrix)
-
-  gl.enable(gl.CULL_FACE)
-  gl.enable(gl.DEPTH_TEST)
-
-  //Bind the shader
-  // phase 1 - solid blocks
-  gl.disable(gl.BLEND)
-  var shader = this.shader
-  if (!shader) throw new Error('voxel-shader render() called before gl-init, shader=', this.shader)
-  shader.bind()
-  shader.attributes.attrib0.location = 0
-  shader.attributes.attrib1.location = 1
-  shader.uniforms.projection = this.projectionMatrix
-  shader.uniforms.view = this.viewMatrix
-  shader.uniforms.tileCount = this.stitcher.tileCount
-
-  if (this.texture) shader.uniforms.tileMap = this.texture.bind() // if a texture is loaded
-
-  var keys = Object.keys(this.meshes)
-  var length = keys.length
-  console.log('shader meshes length',length)
-
-  for (var k = 0; k < length; ++k) {
-    var chunkIndex = keys[k]
-    var mesh = this.meshes[chunkIndex]
-
-    var triangleVAO = mesh.vertexArrayObjects.surface
-    if (triangleVAO) {  // if there are triangles to render
-      shader.uniforms.model = mesh.modelMatrix
-      triangleVAO.bind()
-      gl.drawArrays(gl.TRIANGLES, 0, triangleVAO.length)
-      triangleVAO.unbind()
-    }
-  }
-
-  // phase 2 - "porous" blocks
-  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)  // TODO: premult alpha? https://github.com/deathcap/voxel-stitch/issues/6
-  gl.enable(gl.BLEND)
-  var shader2 = this.shader2
-  shader2.bind()
-  shader2.attributes.position.location = 0
-  shader2.uniforms.view = this.viewMatrix
-  shader2.uniforms.projection = this.projectionMatrix
-  if (this.texture) shader2.uniforms.texture = this.texture.bind()
-
-  for (k = 0; k < length; ++k) {
-    var chunkIndex = keys[k]
-    var mesh = this.meshes[chunkIndex]
-
-    var blockMesh = mesh.vertexArrayObjects.porous
-    if (blockMesh) {
-      shader2.uniforms.model = this.meshes[chunkIndex].modelMatrix
-
-      blockMesh.bind()
-      blockMesh.draw(gl.TRIANGLES, blockMesh.length)
-      blockMesh.unbind()
-    }
-  }
-};
-
-ShaderPlugin.prototype.createAOShader = function() {
-    return glShader(this.shell.gl ,
-    "#define GLSLIFY 1\nattribute vec4 attrib0;\nattribute vec4 attrib1;\n\nuniform mat4 projection;\nuniform mat4 view;\nuniform mat4 model;\nuniform float tileCount;\n\nvarying vec3  normal;\nvarying vec2  tileCoord;\nvarying float tileSize;\nvarying vec2  texCoord;\nvarying float ambientOcclusion;\n\nmat4 translate(float x, float y, float z) { // TODO: @import glslify? same as in avatar\n    return mat4(1.0, 0.0, 0.0, 0.0,\n                0.0, 1.0, 0.0, 0.0,\n                0.0, 0.0, 1.0, 0.0,\n                  x,   y,   z, 1.0);\n}\n\nvoid main() {\n  //Compute position\n  vec3 position = attrib0.xyz;\n  \n  //Compute ambient occlusion\n  ambientOcclusion = attrib0.w / 255.0;\n  \n  //Extracted packed bits of normal. GLSL 1.0 doesn't support bitfieldExtract or even bitwise operations :(\n  int packedNormal = int(attrib1.x);\n  int nx = packedNormal / 16;               // xx____\n  int ny = packedNormal / 4 - nx * 4;       // __xx__\n  int nz = packedNormal - nx * 16 - ny * 4; // ____xx\n\n  normal = 128.0 - vec3(nx + 127, ny + 127, nz + 127);\n  \n  //Compute texture coordinate\n  texCoord = vec2(dot(position, vec3(normal.y-normal.z, 0, normal.x)),\n                  dot(position, vec3(0, -abs(normal.x+normal.z), normal.y)));\n  \n  //Compute tile coordinate\n  tileSize    = exp2(attrib1.y);\n  float tx    = (attrib1.z * 256.0 + attrib1.w) / tileCount; // 16-bit\n  tileCoord.x = floor(tx);\n  tileCoord.y = fract(tx) * tileCount;\n\n  // Offset to account for air padding (separate from other matrices so they can be reused)\n  mat4 shift = translate(-1.0, -1.0, -1.0);\n\n  gl_Position = projection * view * model * shift * vec4(position, 1.0);\n}\n",
-    "#define GLSLIFY 1\nprecision highp float;\n\nuniform sampler2D tileMap;\nuniform float tileCount;\n\nvarying vec3  normal;\nvarying vec2  tileCoord;\nvarying float tileSize;\nvarying vec2  texCoord;\nvarying float ambientOcclusion;\n\nvoid main() {\n\n  vec2 uv      = texCoord;\n  vec4 color   = vec4(0,0,0,0);\n  float weight = 0.0;\n\n  vec2 tileOffset = 2.0 * pow(2.0, 4.0) * tileCoord;\n  float denom     = 2.0 * pow(2.0, 4.0) * tileCount;\n\n  for(int dx=0; dx<2; ++dx) {\n    for(int dy=0; dy<2; ++dy) {\n      vec2 offset = 2.0 * fract(0.5 * (uv + vec2(dx, dy)));\n      float w = pow(1.0 - max(abs(offset.x-1.0), abs(offset.y-1.0)), 16.0);\n      \n      vec2 tc = (tileOffset + tileSize * offset) / denom;\n      color  += w * texture2D(tileMap, tc);\n      weight += w;\n    }\n  }\n  color /= weight;\n  \n  if(color.w < 0.5) {\n    discard;\n  }\n  \n  float light = ambientOcclusion + max(0.15*dot(normal, vec3(1,1,1)), 0.0);\n  \n  gl_FragColor = vec4(color.xyz * light, color.w);\n}\n"
-    )
-  // return glslify({
-  //   vertex: './lib/ao.vsh',
-  //   fragment: './lib/ao.fsh'
-  // })(this.shell.gl)
-};
-
-ShaderPlugin.prototype.createCustomModelShader = function() {
-  // TODO: refactor with voxel-decals, voxel-chunkborder?
-  return glShader(this.shell.gl,
-                 "#define GLSLIFY 1\n                        attribute vec3 position;                        attribute vec2 uv;                                                uniform mat4 projection;                        uniform mat4 view;                        uniform mat4 model;                        varying vec2 vUv;                                                void main() {                        gl_Position = projection * view * model * vec4(position, 1.0);                        vUv = uv;                        }",
-                "#define GLSLIFY 1\n                        precision highp float;                                                uniform sampler2D texture;                        varying vec2 vUv;                                                void main() {                        gl_FragColor = texture2D(texture, vUv);                        }");
-};
-
-},{"events":21,"fs":1,"gl-mat4":344,"gl-shader":358,"inherits":382}],335:[function(require,module,exports){
+},{"ndarray":341}],341:[function(require,module,exports){
 arguments[4][122][0].apply(exports,arguments)
-},{"dup":122}],336:[function(require,module,exports){
-arguments[4][123][0].apply(exports,arguments)
-},{"dup":123}],337:[function(require,module,exports){
-arguments[4][124][0].apply(exports,arguments)
-},{"dup":124}],338:[function(require,module,exports){
-arguments[4][125][0].apply(exports,arguments)
-},{"dup":125}],339:[function(require,module,exports){
-arguments[4][126][0].apply(exports,arguments)
-},{"dup":126}],340:[function(require,module,exports){
-arguments[4][127][0].apply(exports,arguments)
-},{"dup":127}],341:[function(require,module,exports){
-arguments[4][128][0].apply(exports,arguments)
-},{"dup":128}],342:[function(require,module,exports){
-arguments[4][129][0].apply(exports,arguments)
-},{"dup":129}],343:[function(require,module,exports){
-arguments[4][130][0].apply(exports,arguments)
-},{"dup":130}],344:[function(require,module,exports){
-module.exports = {
-  create: require('./create')
-  , clone: require('./clone')
-  , copy: require('./copy')
-  , identity: require('./identity')
-  , transpose: require('./transpose')
-  , invert: require('./invert')
-  , adjoint: require('./adjoint')
-  , determinant: require('./determinant')
-  , multiply: require('./multiply')
-  , translate: require('./translate')
-  , scale: require('./scale')
-  , rotate: require('./rotate')
-  , rotateX: require('./rotateX')
-  , rotateY: require('./rotateY')
-  , rotateZ: require('./rotateZ')
-  , fromRotationTranslation: require('./fromRotationTranslation')
-  , fromQuat: require('./fromQuat')
-  , frustum: require('./frustum')
-  , perspective: require('./perspective')
-  , ortho: require('./ortho')
-  , lookAt: require('./lookAt')
-  , str: require('./str')
-}
-},{"./adjoint":335,"./clone":336,"./copy":337,"./create":338,"./determinant":339,"./fromQuat":340,"./fromRotationTranslation":341,"./frustum":342,"./identity":343,"./invert":345,"./lookAt":346,"./multiply":347,"./ortho":348,"./perspective":349,"./rotate":350,"./rotateX":351,"./rotateY":352,"./rotateZ":353,"./scale":354,"./str":355,"./translate":356,"./transpose":357}],345:[function(require,module,exports){
-arguments[4][132][0].apply(exports,arguments)
-},{"dup":132}],346:[function(require,module,exports){
-arguments[4][133][0].apply(exports,arguments)
-},{"./identity":343,"dup":133}],347:[function(require,module,exports){
-arguments[4][134][0].apply(exports,arguments)
-},{"dup":134}],348:[function(require,module,exports){
-arguments[4][135][0].apply(exports,arguments)
-},{"dup":135}],349:[function(require,module,exports){
-arguments[4][136][0].apply(exports,arguments)
-},{"dup":136}],350:[function(require,module,exports){
-arguments[4][138][0].apply(exports,arguments)
-},{"dup":138}],351:[function(require,module,exports){
-arguments[4][139][0].apply(exports,arguments)
-},{"dup":139}],352:[function(require,module,exports){
-arguments[4][140][0].apply(exports,arguments)
-},{"dup":140}],353:[function(require,module,exports){
-arguments[4][141][0].apply(exports,arguments)
-},{"dup":141}],354:[function(require,module,exports){
-arguments[4][142][0].apply(exports,arguments)
-},{"dup":142}],355:[function(require,module,exports){
-arguments[4][143][0].apply(exports,arguments)
-},{"dup":143}],356:[function(require,module,exports){
-arguments[4][144][0].apply(exports,arguments)
-},{"dup":144}],357:[function(require,module,exports){
-arguments[4][145][0].apply(exports,arguments)
-},{"dup":145}],358:[function(require,module,exports){
-'use strict'
-
-var createUniformWrapper   = require('./lib/create-uniforms')
-var createAttributeWrapper = require('./lib/create-attributes')
-var makeReflect            = require('./lib/reflect')
-var shaderCache            = require('./lib/shader-cache')
-var runtime                = require('./lib/runtime-reflect')
-var GLError                = require("./lib/GLError")
-
-//Shader object
-function Shader(gl) {
-  this.gl         = gl
-
-  //Default initialize these to null
-  this._vref      =
-  this._fref      =
-  this._relink    =
-  this.vertShader =
-  this.fragShader =
-  this.program    =
-  this.attributes =
-  this.uniforms   =
-  this.types      = null
-}
-
-var proto = Shader.prototype
-
-proto.bind = function() {
-  if(!this.program) {
-    this._relink()
-  }
-  this.gl.useProgram(this.program)
-}
-
-proto.dispose = function() {
-  if(this._fref) {
-    this._fref.dispose()
-  }
-  if(this._vref) {
-    this._vref.dispose()
-  }
-  this.attributes =
-  this.types      =
-  this.vertShader =
-  this.fragShader =
-  this.program    =
-  this._relink    =
-  this._fref      =
-  this._vref      = null
-}
-
-function compareAttributes(a, b) {
-  if(a.name < b.name) {
-    return -1
-  }
-  return 1
-}
-
-//Update export hook for glslify-live
-proto.update = function(
-    vertSource
-  , fragSource
-  , uniforms
-  , attributes) {
-
-  //If only one object passed, assume glslify style output
-  if(!fragSource || arguments.length === 1) {
-    var obj = vertSource
-    vertSource = obj.vertex
-    fragSource = obj.fragment
-    uniforms   = obj.uniforms
-    attributes = obj.attributes
-  }
-
-  var wrapper = this
-  var gl      = wrapper.gl
-
-  //Compile vertex and fragment shaders
-  var pvref = wrapper._vref
-  wrapper._vref = shaderCache.shader(gl, gl.VERTEX_SHADER, vertSource)
-  if(pvref) {
-    pvref.dispose()
-  }
-  wrapper.vertShader = wrapper._vref.shader
-  var pfref = this._fref
-  wrapper._fref = shaderCache.shader(gl, gl.FRAGMENT_SHADER, fragSource)
-  if(pfref) {
-    pfref.dispose()
-  }
-  wrapper.fragShader = wrapper._fref.shader
-
-  //If uniforms/attributes is not specified, use RT reflection
-  if(!uniforms || !attributes) {
-
-    //Create initial test program
-    var testProgram = gl.createProgram()
-    gl.attachShader(testProgram, wrapper.fragShader)
-    gl.attachShader(testProgram, wrapper.vertShader)
-    gl.linkProgram(testProgram)
-    if(!gl.getProgramParameter(testProgram, gl.LINK_STATUS)) {
-      var errLog = gl.getProgramInfoLog(testProgram)
-      throw new GLError(errLog, 'Error linking program:' + errLog)
-    }
-
-    //Load data from runtime
-    uniforms   = uniforms   || runtime.uniforms(gl, testProgram)
-    attributes = attributes || runtime.attributes(gl, testProgram)
-
-    //Release test program
-    gl.deleteProgram(testProgram)
-  }
-
-  //Sort attributes lexicographically
-  // overrides undefined WebGL behavior for attribute locations
-  attributes = attributes.slice()
-  attributes.sort(compareAttributes)
-
-  //Convert attribute types, read out locations
-  var attributeUnpacked  = []
-  var attributeNames     = []
-  var attributeLocations = []
-  for(var i=0; i<attributes.length; ++i) {
-    var attr = attributes[i]
-    if(attr.type.indexOf('mat') >= 0) {
-      var size = attr.type.charAt(attr.type.length-1)|0
-      var locVector = new Array(size)
-      for(var j=0; j<size; ++j) {
-        locVector[j] = attributeLocations.length
-        attributeNames.push(attr.name + '[' + j + ']')
-        if(typeof attr.location === 'number') {
-          attributeLocations.push(attr.location + j)
-        } else if(Array.isArray(attr.location) &&
-                  attr.location.length === size &&
-                  typeof attr.location[j] === 'number') {
-          attributeLocations.push(attr.location[j]|0)
-        } else {
-          attributeLocations.push(-1)
-        }
-      }
-      attributeUnpacked.push({
-        name: attr.name,
-        type: attr.type,
-        locations: locVector
-      })
-    } else {
-      attributeUnpacked.push({
-        name: attr.name,
-        type: attr.type,
-        locations: [ attributeLocations.length ]
-      })
-      attributeNames.push(attr.name)
-      if(typeof attr.location === 'number') {
-        attributeLocations.push(attr.location|0)
-      } else {
-        attributeLocations.push(-1)
-      }
-    }
-  }
-
-  //For all unspecified attributes, assign them lexicographically min attribute
-  var curLocation = 0
-  for(var i=0; i<attributeLocations.length; ++i) {
-    if(attributeLocations[i] < 0) {
-      while(attributeLocations.indexOf(curLocation) >= 0) {
-        curLocation += 1
-      }
-      attributeLocations[i] = curLocation
-    }
-  }
-
-  //Rebuild program and recompute all uniform locations
-  var uniformLocations = new Array(uniforms.length)
-  function relink() {
-    wrapper.program = shaderCache.program(
-        gl
-      , wrapper._vref
-      , wrapper._fref
-      , attributeNames
-      , attributeLocations)
-
-    for(var i=0; i<uniforms.length; ++i) {
-      uniformLocations[i] = gl.getUniformLocation(
-          wrapper.program
-        , uniforms[i].name)
-    }
-  }
-
-  //Perform initial linking, reuse program used for reflection
-  relink()
-
-  //Save relinking procedure, defer until runtime
-  wrapper._relink = relink
-
-  //Generate type info
-  wrapper.types = {
-    uniforms:   makeReflect(uniforms),
-    attributes: makeReflect(attributes)
-  }
-
-  //Generate attribute wrappers
-  wrapper.attributes = createAttributeWrapper(
-      gl
-    , wrapper
-    , attributeUnpacked
-    , attributeLocations)
-
-  //Generate uniform wrappers
-  Object.defineProperty(wrapper, 'uniforms', createUniformWrapper(
-      gl
-    , wrapper
-    , uniforms
-    , uniformLocations))
-}
-
-//Compiles and links a shader program with the given attribute and vertex list
-function createShader(
-    gl
-  , vertSource
-  , fragSource
-  , uniforms
-  , attributes) {
-
-  var shader = new Shader(gl)
-
-  shader.update(
-      vertSource
-    , fragSource
-    , uniforms
-    , attributes)
-
-  return shader
-}
-
-module.exports = createShader
-
-},{"./lib/GLError":359,"./lib/create-attributes":360,"./lib/create-uniforms":361,"./lib/reflect":362,"./lib/runtime-reflect":363,"./lib/shader-cache":364}],359:[function(require,module,exports){
-function GLError (rawError, shortMessage, longMessage) {
-    this.shortMessage = shortMessage || ''
-    this.longMessage = longMessage || ''
-    this.rawError = rawError || ''
-    this.message =
-      'gl-shader: ' + (shortMessage || rawError || '') +
-      (longMessage ? '\n'+longMessage : '')
-    this.stack = (new Error()).stack
-}
-GLError.prototype = new Error
-GLError.prototype.name = 'GLError'
-GLError.prototype.constructor = GLError
-module.exports = GLError
-
-},{}],360:[function(require,module,exports){
-'use strict'
-
-module.exports = createAttributeWrapper
-
-var GLError = require("./GLError")
-
-function ShaderAttribute(
-    gl
-  , wrapper
-  , index
-  , locations
-  , dimension
-  , constFunc) {
-  this._gl        = gl
-  this._wrapper   = wrapper
-  this._index     = index
-  this._locations = locations
-  this._dimension = dimension
-  this._constFunc = constFunc
-}
-
-var proto = ShaderAttribute.prototype
-
-proto.pointer = function setAttribPointer(
-    type
-  , normalized
-  , stride
-  , offset) {
-
-  var self      = this
-  var gl        = self._gl
-  var location  = self._locations[self._index]
-
-  gl.vertexAttribPointer(
-      location
-    , self._dimension
-    , type || gl.FLOAT
-    , !!normalized
-    , stride || 0
-    , offset || 0)
-  gl.enableVertexAttribArray(location)
-}
-
-proto.set = function(x0, x1, x2, x3) {
-  return this._constFunc(this._locations[this._index], x0, x1, x2, x3)
-}
-
-Object.defineProperty(proto, 'location', {
-  get: function() {
-    return this._locations[this._index]
-  }
-  , set: function(v) {
-    if(v !== this._locations[this._index]) {
-      this._locations[this._index] = v|0
-      this._wrapper.program = null
-    }
-    return v|0
-  }
-})
-
-//Adds a vector attribute to obj
-function addVectorAttribute(
-    gl
-  , wrapper
-  , index
-  , locations
-  , dimension
-  , obj
-  , name) {
-
-  //Construct constant function
-  var constFuncArgs = [ 'gl', 'v' ]
-  var varNames = []
-  for(var i=0; i<dimension; ++i) {
-    constFuncArgs.push('x'+i)
-    varNames.push('x'+i)
-  }
-  constFuncArgs.push(
-    'if(x0.length===void 0){return gl.vertexAttrib' +
-    dimension + 'f(v,' +
-    varNames.join() +
-    ')}else{return gl.vertexAttrib' +
-    dimension +
-    'fv(v,x0)}')
-  var constFunc = Function.apply(null, constFuncArgs)
-
-  //Create attribute wrapper
-  var attr = new ShaderAttribute(
-      gl
-    , wrapper
-    , index
-    , locations
-    , dimension
-    , constFunc)
-
-  //Create accessor
-  Object.defineProperty(obj, name, {
-    set: function(x) {
-      gl.disableVertexAttribArray(locations[index])
-      constFunc(gl, locations[index], x)
-      return x
-    }
-    , get: function() {
-      return attr
-    }
-    , enumerable: true
-  })
-}
-
-function addMatrixAttribute(
-    gl
-  , wrapper
-  , index
-  , locations
-  , dimension
-  , obj
-  , name) {
-
-  var parts = new Array(dimension)
-  var attrs = new Array(dimension)
-  for(var i=0; i<dimension; ++i) {
-    addVectorAttribute(
-        gl
-      , wrapper
-      , index[i]
-      , locations
-      , dimension
-      , parts
-      , i)
-    attrs[i] = parts[i]
-  }
-
-  Object.defineProperty(parts, 'location', {
-    set: function(v) {
-      if(Array.isArray(v)) {
-        for(var i=0; i<dimension; ++i) {
-          attrs[i].location = v[i]
-        }
-      } else {
-        for(var i=0; i<dimension; ++i) {
-          attrs[i].location = v + i
-        }
-      }
-      return v
-    }
-    , get: function() {
-      var result = new Array(dimension)
-      for(var i=0; i<dimension; ++i) {
-        result[i] = locations[index[i]]
-      }
-      return result
-    }
-    , enumerable: true
-  })
-
-  parts.pointer = function(type, normalized, stride, offset) {
-    type       = type || gl.FLOAT
-    normalized = !!normalized
-    stride     = stride || (dimension * dimension)
-    offset     = offset || 0
-    for(var i=0; i<dimension; ++i) {
-      var location = locations[index[i]]
-      gl.vertexAttribPointer(
-            location
-          , dimension
-          , type
-          , normalized
-          , stride
-          , offset + i * dimension)
-      gl.enableVertexAttribArray(location)
-    }
-  }
-
-  var scratch = new Array(dimension)
-  var vertexAttrib = gl['vertexAttrib' + dimension + 'fv']
-
-  Object.defineProperty(obj, name, {
-    set: function(x) {
-      for(var i=0; i<dimension; ++i) {
-        var loc = locations[index[i]]
-        gl.disableVertexAttribArray(loc)
-        if(Array.isArray(x[0])) {
-          vertexAttrib.call(gl, loc, x[i])
-        } else {
-          for(var j=0; j<dimension; ++j) {
-            scratch[j] = x[dimension*i + j]
-          }
-          vertexAttrib.call(gl, loc, scratch)
-        }
-      }
-      return x
-    }
-    , get: function() {
-      return parts
-    }
-    , enumerable: true
-  })
-}
-
-//Create shims for attributes
-function createAttributeWrapper(
-    gl
-  , wrapper
-  , attributes
-  , locations) {
-
-  var obj = {}
-  for(var i=0, n=attributes.length; i<n; ++i) {
-
-    var a = attributes[i]
-    var name = a.name
-    var type = a.type
-    var locs = a.locations
-
-    switch(type) {
-      case 'bool':
-      case 'int':
-      case 'float':
-        addVectorAttribute(
-            gl
-          , wrapper
-          , locs[0]
-          , locations
-          , 1
-          , obj
-          , name)
-      break
-
-      default:
-        if(type.indexOf('vec') >= 0) {
-          var d = type.charCodeAt(type.length-1) - 48
-          if(d < 2 || d > 4) {
-            throw new GLError('', 'Invalid data type for attribute ' + name + ': ' + type)
-          }
-          addVectorAttribute(
-              gl
-            , wrapper
-            , locs[0]
-            , locations
-            , d
-            , obj
-            , name)
-        } else if(type.indexOf('mat') >= 0) {
-          var d = type.charCodeAt(type.length-1) - 48
-          if(d < 2 || d > 4) {
-            throw new GLError('', 'Invalid data type for attribute ' + name + ': ' + type)
-          }
-          addMatrixAttribute(
-              gl
-            , wrapper
-            , locs
-            , locations
-            , d
-            , obj
-            , name)
-        } else {
-          throw new GLError('', 'Unknown data type for attribute ' + name + ': ' + type)
-        }
-      break
-    }
-  }
-  return obj
-}
-
-},{"./GLError":359}],361:[function(require,module,exports){
-'use strict'
-
-var coallesceUniforms = require('./reflect')
-var GLError = require("./GLError")
-
-module.exports = createUniformWrapper
-
-//Binds a function and returns a value
-function identity(x) {
-  var c = new Function('y', 'return function(){return y}')
-  return c(x)
-}
-
-function makeVector(length, fill) {
-  var result = new Array(length)
-  for(var i=0; i<length; ++i) {
-    result[i] = fill
-  }
-  return result
-}
-
-//Create shims for uniforms
-function createUniformWrapper(gl, wrapper, uniforms, locations) {
-
-  function makeGetter(index) {
-    var proc = new Function(
-        'gl'
-      , 'wrapper'
-      , 'locations'
-      , 'return function(){return gl.getUniform(wrapper.program,locations[' + index + '])}')
-    return proc(gl, wrapper, locations)
-  }
-
-  function makePropSetter(path, index, type) {
-    switch(type) {
-      case 'bool':
-      case 'int':
-      case 'sampler2D':
-      case 'samplerCube':
-        return 'gl.uniform1i(locations[' + index + '],obj' + path + ')'
-      case 'float':
-        return 'gl.uniform1f(locations[' + index + '],obj' + path + ')'
-      default:
-        var vidx = type.indexOf('vec')
-        if(0 <= vidx && vidx <= 1 && type.length === 4 + vidx) {
-          var d = type.charCodeAt(type.length-1) - 48
-          if(d < 2 || d > 4) {
-            throw new GLError('', 'Invalid data type')
-          }
-          switch(type.charAt(0)) {
-            case 'b':
-            case 'i':
-              return 'gl.uniform' + d + 'iv(locations[' + index + '],obj' + path + ')'
-            case 'v':
-              return 'gl.uniform' + d + 'fv(locations[' + index + '],obj' + path + ')'
-            default:
-              throw new GLError('', 'Unrecognized data type for vector ' + name + ': ' + type)
-          }
-        } else if(type.indexOf('mat') === 0 && type.length === 4) {
-          var d = type.charCodeAt(type.length-1) - 48
-          if(d < 2 || d > 4) {
-            throw new GLError('', 'Invalid uniform dimension type for matrix ' + name + ': ' + type)
-          }
-          return 'gl.uniformMatrix' + d + 'fv(locations[' + index + '],false,obj' + path + ')'
-        } else {
-          throw new GLError('', 'Unknown uniform data type for ' + name + ': ' + type)
-        }
-      break
-    }
-  }
-
-  function enumerateIndices(prefix, type) {
-    if(typeof type !== 'object') {
-      return [ [prefix, type] ]
-    }
-    var indices = []
-    for(var id in type) {
-      var prop = type[id]
-      var tprefix = prefix
-      if(parseInt(id) + '' === id) {
-        tprefix += '[' + id + ']'
-      } else {
-        tprefix += '.' + id
-      }
-      if(typeof prop === 'object') {
-        indices.push.apply(indices, enumerateIndices(tprefix, prop))
-      } else {
-        indices.push([tprefix, prop])
-      }
-    }
-    return indices
-  }
-
-  function makeSetter(type) {
-    var code = [ 'return function updateProperty(obj){' ]
-    var indices = enumerateIndices('', type)
-    for(var i=0; i<indices.length; ++i) {
-      var item = indices[i]
-      var path = item[0]
-      var idx  = item[1]
-      if(locations[idx]) {
-        code.push(makePropSetter(path, idx, uniforms[idx].type))
-      }
-    }
-    code.push('return obj}')
-    var proc = new Function('gl', 'locations', code.join('\n'))
-    return proc(gl, locations)
-  }
-
-  function defaultValue(type) {
-    switch(type) {
-      case 'bool':
-        return false
-      case 'int':
-      case 'sampler2D':
-      case 'samplerCube':
-        return 0
-      case 'float':
-        return 0.0
-      default:
-        var vidx = type.indexOf('vec')
-        if(0 <= vidx && vidx <= 1 && type.length === 4 + vidx) {
-          var d = type.charCodeAt(type.length-1) - 48
-          if(d < 2 || d > 4) {
-            throw new GLError('', 'Invalid data type')
-          }
-          if(type.charAt(0) === 'b') {
-            return makeVector(d, false)
-          }
-          return makeVector(d, 0)
-        } else if(type.indexOf('mat') === 0 && type.length === 4) {
-          var d = type.charCodeAt(type.length-1) - 48
-          if(d < 2 || d > 4) {
-            throw new GLError('', 'Invalid uniform dimension type for matrix ' + name + ': ' + type)
-          }
-          return makeVector(d*d, 0)
-        } else {
-          throw new GLError('', 'Unknown uniform data type for ' + name + ': ' + type)
-        }
-      break
-    }
-  }
-
-  function storeProperty(obj, prop, type) {
-    if(typeof type === 'object') {
-      var child = processObject(type)
-      Object.defineProperty(obj, prop, {
-        get: identity(child),
-        set: makeSetter(type),
-        enumerable: true,
-        configurable: false
-      })
-    } else {
-      if(locations[type]) {
-        Object.defineProperty(obj, prop, {
-          get: makeGetter(type),
-          set: makeSetter(type),
-          enumerable: true,
-          configurable: false
-        })
-      } else {
-        obj[prop] = defaultValue(uniforms[type].type)
-      }
-    }
-  }
-
-  function processObject(obj) {
-    var result
-    if(Array.isArray(obj)) {
-      result = new Array(obj.length)
-      for(var i=0; i<obj.length; ++i) {
-        storeProperty(result, i, obj[i])
-      }
-    } else {
-      result = {}
-      for(var id in obj) {
-        storeProperty(result, id, obj[id])
-      }
-    }
-    return result
-  }
-
-  //Return data
-  var coallesced = coallesceUniforms(uniforms, true)
-  return {
-    get: identity(processObject(coallesced)),
-    set: makeSetter(coallesced),
-    enumerable: true,
-    configurable: true
-  }
-}
-
-},{"./GLError":359,"./reflect":362}],362:[function(require,module,exports){
-'use strict'
-
-module.exports = makeReflectTypes
-
-//Construct type info for reflection.
-//
-// This iterates over the flattened list of uniform type values and smashes them into a JSON object.
-//
-// The leaves of the resulting object are either indices or type strings representing primitive glslify types
-function makeReflectTypes(uniforms, useIndex) {
-  var obj = {}
-  for(var i=0; i<uniforms.length; ++i) {
-    var n = uniforms[i].name
-    var parts = n.split(".")
-    var o = obj
-    for(var j=0; j<parts.length; ++j) {
-      var x = parts[j].split("[")
-      if(x.length > 1) {
-        if(!(x[0] in o)) {
-          o[x[0]] = []
-        }
-        o = o[x[0]]
-        for(var k=1; k<x.length; ++k) {
-          var y = parseInt(x[k])
-          if(k<x.length-1 || j<parts.length-1) {
-            if(!(y in o)) {
-              if(k < x.length-1) {
-                o[y] = []
-              } else {
-                o[y] = {}
-              }
-            }
-            o = o[y]
-          } else {
-            if(useIndex) {
-              o[y] = i
-            } else {
-              o[y] = uniforms[i].type
-            }
-          }
-        }
-      } else if(j < parts.length-1) {
-        if(!(x[0] in o)) {
-          o[x[0]] = {}
-        }
-        o = o[x[0]]
-      } else {
-        if(useIndex) {
-          o[x[0]] = i
-        } else {
-          o[x[0]] = uniforms[i].type
-        }
-      }
-    }
-  }
-  return obj
-}
-},{}],363:[function(require,module,exports){
-'use strict'
-
-exports.uniforms    = runtimeUniforms
-exports.attributes  = runtimeAttributes
-
-var GL_TO_GLSL_TYPES = {
-  'FLOAT':       'float',
-  'FLOAT_VEC2':  'vec2',
-  'FLOAT_VEC3':  'vec3',
-  'FLOAT_VEC4':  'vec4',
-  'INT':         'int',
-  'INT_VEC2':    'ivec2',
-  'INT_VEC3':    'ivec3',
-  'INT_VEC4':    'ivec4',
-  'BOOL':        'bool',
-  'BOOL_VEC2':   'bvec2',
-  'BOOL_VEC3':   'bvec3',
-  'BOOL_VEC4':   'bvec4',
-  'FLOAT_MAT2':  'mat2',
-  'FLOAT_MAT3':  'mat3',
-  'FLOAT_MAT4':  'mat4',
-  'SAMPLER_2D':  'sampler2D',
-  'SAMPLER_CUBE':'samplerCube'
-}
-
-var GL_TABLE = null
-
-function getType(gl, type) {
-  if(!GL_TABLE) {
-    var typeNames = Object.keys(GL_TO_GLSL_TYPES)
-    GL_TABLE = {}
-    for(var i=0; i<typeNames.length; ++i) {
-      var tn = typeNames[i]
-      GL_TABLE[gl[tn]] = GL_TO_GLSL_TYPES[tn]
-    }
-  }
-  return GL_TABLE[type]
-}
-
-function runtimeUniforms(gl, program) {
-  var numUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
-  var result = []
-  for(var i=0; i<numUniforms; ++i) {
-    var info = gl.getActiveUniform(program, i)
-    if(info) {
-      var type = getType(gl, info.type)
-      if(info.size > 1) {
-        for(var j=0; j<info.size; ++j) {
-          result.push({
-            name: info.name.replace('[0]', '[' + j + ']'),
-            type: type
-          })
-        }
-      } else {
-        result.push({
-          name: info.name,
-          type: type
-        })
-      }
-    }
-  }
-  return result
-}
-
-function runtimeAttributes(gl, program) {
-  var numAttributes = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)
-  var result = []
-  for(var i=0; i<numAttributes; ++i) {
-    var info = gl.getActiveAttrib(program, i)
-    if(info) {
-      result.push({
-        name: info.name,
-        type: getType(gl, info.type)
-      })
-    }
-  }
-  return result
-}
-
-},{}],364:[function(require,module,exports){
-'use strict'
-
-exports.shader   = getShaderReference
-exports.program  = createProgram
-
-var GLError = require("./GLError")
-var formatCompilerError = require('gl-format-compiler-error');
-
-var weakMap = typeof WeakMap === 'undefined' ? require('weakmap-shim') : WeakMap
-var CACHE = new weakMap()
-
-var SHADER_COUNTER = 0
-
-function ShaderReference(id, src, type, shader, programs, count, cache) {
-  this.id       = id
-  this.src      = src
-  this.type     = type
-  this.shader   = shader
-  this.count    = count
-  this.programs = []
-  this.cache    = cache
-}
-
-ShaderReference.prototype.dispose = function() {
-  if(--this.count === 0) {
-    var cache    = this.cache
-    var gl       = cache.gl
-
-    //Remove program references
-    var programs = this.programs
-    for(var i=0, n=programs.length; i<n; ++i) {
-      var p = cache.programs[programs[i]]
-      if(p) {
-        delete cache.programs[i]
-        gl.deleteProgram(p)
-      }
-    }
-
-    //Remove shader reference
-    gl.deleteShader(this.shader)
-    delete cache.shaders[(this.type === gl.FRAGMENT_SHADER)|0][this.src]
-  }
-}
-
-function ContextCache(gl) {
-  this.gl       = gl
-  this.shaders  = [{}, {}]
-  this.programs = {}
-}
-
-var proto = ContextCache.prototype
-
-function compileShader(gl, type, src) {
-  var shader = gl.createShader(type)
-  gl.shaderSource(shader, src)
-  gl.compileShader(shader)
-  if(!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    var errLog = gl.getShaderInfoLog(shader)
-    try {
-        var fmt = formatCompilerError(errLog, src, type);
-    } catch (e){
-        console.warn('Failed to format compiler error: ' + e);
-        throw new GLError(errLog, 'Error compiling shader:\n' + errLog)
-    }
-    throw new GLError(errLog, fmt.short, fmt.long)
-  }
-  return shader
-}
-
-proto.getShaderReference = function(type, src) {
-  var gl      = this.gl
-  var shaders = this.shaders[(type === gl.FRAGMENT_SHADER)|0]
-  var shader  = shaders[src]
-  if(!shader || !gl.isShader(shader.shader)) {
-    var shaderObj = compileShader(gl, type, src)
-    shader = shaders[src] = new ShaderReference(
-      SHADER_COUNTER++,
-      src,
-      type,
-      shaderObj,
-      [],
-      1,
-      this)
-  } else {
-    shader.count += 1
-  }
-  return shader
-}
-
-function linkProgram(gl, vshader, fshader, attribs, locations) {
-  var program = gl.createProgram()
-  gl.attachShader(program, vshader)
-  gl.attachShader(program, fshader)
-  for(var i=0; i<attribs.length; ++i) {
-    gl.bindAttribLocation(program, locations[i], attribs[i])
-  }
-  gl.linkProgram(program)
-  if(!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    var errLog = gl.getProgramInfoLog(program)
-    throw new GLError(errLog, 'Error linking program: ' + errLog)
-  }
-  return program
-}
-
-proto.getProgram = function(vref, fref, attribs, locations) {
-  var token = [vref.id, fref.id, attribs.join(':'), locations.join(':')].join('@')
-  var prog  = this.programs[token]
-  if(!prog || !this.gl.isProgram(prog)) {
-    this.programs[token] = prog = linkProgram(
-      this.gl,
-      vref.shader,
-      fref.shader,
-      attribs,
-      locations)
-    vref.programs.push(token)
-    fref.programs.push(token)
-  }
-  return prog
-}
-
-function getCache(gl) {
-  var ctxCache = CACHE.get(gl)
-  if(!ctxCache) {
-    ctxCache = new ContextCache(gl)
-    CACHE.set(gl, ctxCache)
-  }
-  return ctxCache
-}
-
-function getShaderReference(gl, type, src) {
-  return getCache(gl).getShaderReference(type, src)
-}
-
-function createProgram(gl, vref, fref, attribs, locations) {
-  return getCache(gl).getProgram(vref, fref, attribs, locations)
-}
-
-},{"./GLError":359,"gl-format-compiler-error":365,"weakmap-shim":381}],365:[function(require,module,exports){
-
-var sprintf = require('sprintf-js').sprintf;
-var glConstants = require('gl-constants/lookup');
-var shaderName = require('glsl-shader-name');
-var addLineNumbers = require('add-line-numbers');
-
-module.exports = formatCompilerError;
-
-function formatCompilerError(errLog, src, type) {
-    "use strict";
-
-    var name = shaderName(src) || 'of unknown name (see npm glsl-shader-name)';
-
-    var typeName = 'unknown type';
-    if (type !== undefined) {
-        typeName = type === glConstants.FRAGMENT_SHADER ? 'fragment' : 'vertex'
-    }
-
-    var longForm = sprintf('Error compiling %s shader %s:\n', typeName, name);
-    var shortForm = sprintf("%s%s", longForm, errLog);
-
-    var errorStrings = errLog.split('\n');
-    var errors = {};
-
-    for (var i = 0; i < errorStrings.length; i++) {
-        var errorString = errorStrings[i];
-        if (errorString === '') continue;
-        var lineNo = parseInt(errorString.split(':')[2]);
-        if (isNaN(lineNo)) {
-            throw new Error(sprintf('Could not parse error: %s', errorString));
-        }
-        errors[lineNo] = errorString;
-    }
-
-    var lines = addLineNumbers(src).split('\n');
-
-    for (var i = 0; i < lines.length; i++) {
-        if (!errors[i+3] && !errors[i+2] && !errors[i+1]) continue;
-        var line = lines[i];
-        longForm += line + '\n';
-        if (errors[i+1]) {
-            var e = errors[i+1];
-            e = e.substr(e.split(':', 3).join(':').length + 1).trim();
-            longForm += sprintf('^^^ %s\n\n', e);
-        }
-    }
-
-    return {
-        long: longForm.trim(),
-        short: shortForm.trim()
-    };
-}
-
-
-},{"add-line-numbers":366,"gl-constants/lookup":370,"glsl-shader-name":371,"sprintf-js":378}],366:[function(require,module,exports){
-var padLeft = require('pad-left')
-
-module.exports = addLineNumbers
-function addLineNumbers (string, start, delim) {
-  start = typeof start === 'number' ? start : 1
-  delim = delim || ': '
-
-  var lines = string.split(/\r?\n/)
-  var totalDigits = String(lines.length + start - 1).length
-  return lines.map(function (line, i) {
-    var c = i + start
-    var digits = String(c).length
-    var prefix = padLeft(c, totalDigits - digits)
-    return prefix + delim + line
-  }).join('\n')
-}
-
-},{"pad-left":367}],367:[function(require,module,exports){
-/*!
- * pad-left <https://github.com/jonschlinkert/pad-left>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT license.
- */
-
-'use strict';
-
-var repeat = require('repeat-string');
-
-module.exports = function padLeft(str, num, ch) {
-  ch = typeof ch !== 'undefined' ? (ch + '') : ' ';
-  return repeat(ch, num) + str;
-};
-},{"repeat-string":368}],368:[function(require,module,exports){
-/*!
- * repeat-string <https://github.com/jonschlinkert/repeat-string>
- *
- * Copyright (c) 2014-2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
-'use strict';
-
-/**
- * Expose `repeat`
- */
-
-module.exports = repeat;
-
-/**
- * Repeat the given `string` the specified `number`
- * of times.
- *
- * **Example:**
- *
- * ```js
- * var repeat = require('repeat-string');
- * repeat('A', 5);
- * //=> AAAAA
- * ```
- *
- * @param {String} `string` The string to repeat
- * @param {Number} `number` The number of times to repeat the string
- * @return {String} Repeated string
- * @api public
- */
-
-function repeat(str, num) {
-  if (typeof str !== 'string') {
-    throw new TypeError('repeat-string expects a string.');
-  }
-
-  if (num === 1) return str;
-  if (num === 2) return str + str;
-
-  var max = str.length * num;
-  if (cache !== str || typeof cache === 'undefined') {
-    cache = str;
-    res = '';
-  }
-
-  while (max > res.length && num > 0) {
-    if (num & 1) {
-      res += str;
-    }
-
-    num >>= 1;
-    if (!num) break;
-    str += str;
-  }
-
-  return res.substr(0, max);
-}
-
-/**
- * Results cache
- */
-
-var res = '';
-var cache;
-
-},{}],369:[function(require,module,exports){
-module.exports = {
-  0: 'NONE',
-  1: 'ONE',
-  2: 'LINE_LOOP',
-  3: 'LINE_STRIP',
-  4: 'TRIANGLES',
-  5: 'TRIANGLE_STRIP',
-  6: 'TRIANGLE_FAN',
-  256: 'DEPTH_BUFFER_BIT',
-  512: 'NEVER',
-  513: 'LESS',
-  514: 'EQUAL',
-  515: 'LEQUAL',
-  516: 'GREATER',
-  517: 'NOTEQUAL',
-  518: 'GEQUAL',
-  519: 'ALWAYS',
-  768: 'SRC_COLOR',
-  769: 'ONE_MINUS_SRC_COLOR',
-  770: 'SRC_ALPHA',
-  771: 'ONE_MINUS_SRC_ALPHA',
-  772: 'DST_ALPHA',
-  773: 'ONE_MINUS_DST_ALPHA',
-  774: 'DST_COLOR',
-  775: 'ONE_MINUS_DST_COLOR',
-  776: 'SRC_ALPHA_SATURATE',
-  1024: 'STENCIL_BUFFER_BIT',
-  1028: 'FRONT',
-  1029: 'BACK',
-  1032: 'FRONT_AND_BACK',
-  1280: 'INVALID_ENUM',
-  1281: 'INVALID_VALUE',
-  1282: 'INVALID_OPERATION',
-  1285: 'OUT_OF_MEMORY',
-  1286: 'INVALID_FRAMEBUFFER_OPERATION',
-  2304: 'CW',
-  2305: 'CCW',
-  2849: 'LINE_WIDTH',
-  2884: 'CULL_FACE',
-  2885: 'CULL_FACE_MODE',
-  2886: 'FRONT_FACE',
-  2928: 'DEPTH_RANGE',
-  2929: 'DEPTH_TEST',
-  2930: 'DEPTH_WRITEMASK',
-  2931: 'DEPTH_CLEAR_VALUE',
-  2932: 'DEPTH_FUNC',
-  2960: 'STENCIL_TEST',
-  2961: 'STENCIL_CLEAR_VALUE',
-  2962: 'STENCIL_FUNC',
-  2963: 'STENCIL_VALUE_MASK',
-  2964: 'STENCIL_FAIL',
-  2965: 'STENCIL_PASS_DEPTH_FAIL',
-  2966: 'STENCIL_PASS_DEPTH_PASS',
-  2967: 'STENCIL_REF',
-  2968: 'STENCIL_WRITEMASK',
-  2978: 'VIEWPORT',
-  3024: 'DITHER',
-  3042: 'BLEND',
-  3088: 'SCISSOR_BOX',
-  3089: 'SCISSOR_TEST',
-  3106: 'COLOR_CLEAR_VALUE',
-  3107: 'COLOR_WRITEMASK',
-  3317: 'UNPACK_ALIGNMENT',
-  3333: 'PACK_ALIGNMENT',
-  3379: 'MAX_TEXTURE_SIZE',
-  3386: 'MAX_VIEWPORT_DIMS',
-  3408: 'SUBPIXEL_BITS',
-  3410: 'RED_BITS',
-  3411: 'GREEN_BITS',
-  3412: 'BLUE_BITS',
-  3413: 'ALPHA_BITS',
-  3414: 'DEPTH_BITS',
-  3415: 'STENCIL_BITS',
-  3553: 'TEXTURE_2D',
-  4352: 'DONT_CARE',
-  4353: 'FASTEST',
-  4354: 'NICEST',
-  5120: 'BYTE',
-  5121: 'UNSIGNED_BYTE',
-  5122: 'SHORT',
-  5123: 'UNSIGNED_SHORT',
-  5124: 'INT',
-  5125: 'UNSIGNED_INT',
-  5126: 'FLOAT',
-  5386: 'INVERT',
-  5890: 'TEXTURE',
-  6401: 'STENCIL_INDEX',
-  6402: 'DEPTH_COMPONENT',
-  6406: 'ALPHA',
-  6407: 'RGB',
-  6408: 'RGBA',
-  6409: 'LUMINANCE',
-  6410: 'LUMINANCE_ALPHA',
-  7680: 'KEEP',
-  7681: 'REPLACE',
-  7682: 'INCR',
-  7683: 'DECR',
-  7936: 'VENDOR',
-  7937: 'RENDERER',
-  7938: 'VERSION',
-  9728: 'NEAREST',
-  9729: 'LINEAR',
-  9984: 'NEAREST_MIPMAP_NEAREST',
-  9985: 'LINEAR_MIPMAP_NEAREST',
-  9986: 'NEAREST_MIPMAP_LINEAR',
-  9987: 'LINEAR_MIPMAP_LINEAR',
-  10240: 'TEXTURE_MAG_FILTER',
-  10241: 'TEXTURE_MIN_FILTER',
-  10242: 'TEXTURE_WRAP_S',
-  10243: 'TEXTURE_WRAP_T',
-  10497: 'REPEAT',
-  10752: 'POLYGON_OFFSET_UNITS',
-  16384: 'COLOR_BUFFER_BIT',
-  32769: 'CONSTANT_COLOR',
-  32770: 'ONE_MINUS_CONSTANT_COLOR',
-  32771: 'CONSTANT_ALPHA',
-  32772: 'ONE_MINUS_CONSTANT_ALPHA',
-  32773: 'BLEND_COLOR',
-  32774: 'FUNC_ADD',
-  32777: 'BLEND_EQUATION_RGB',
-  32778: 'FUNC_SUBTRACT',
-  32779: 'FUNC_REVERSE_SUBTRACT',
-  32819: 'UNSIGNED_SHORT_4_4_4_4',
-  32820: 'UNSIGNED_SHORT_5_5_5_1',
-  32823: 'POLYGON_OFFSET_FILL',
-  32824: 'POLYGON_OFFSET_FACTOR',
-  32854: 'RGBA4',
-  32855: 'RGB5_A1',
-  32873: 'TEXTURE_BINDING_2D',
-  32926: 'SAMPLE_ALPHA_TO_COVERAGE',
-  32928: 'SAMPLE_COVERAGE',
-  32936: 'SAMPLE_BUFFERS',
-  32937: 'SAMPLES',
-  32938: 'SAMPLE_COVERAGE_VALUE',
-  32939: 'SAMPLE_COVERAGE_INVERT',
-  32968: 'BLEND_DST_RGB',
-  32969: 'BLEND_SRC_RGB',
-  32970: 'BLEND_DST_ALPHA',
-  32971: 'BLEND_SRC_ALPHA',
-  33071: 'CLAMP_TO_EDGE',
-  33170: 'GENERATE_MIPMAP_HINT',
-  33189: 'DEPTH_COMPONENT16',
-  33306: 'DEPTH_STENCIL_ATTACHMENT',
-  33635: 'UNSIGNED_SHORT_5_6_5',
-  33648: 'MIRRORED_REPEAT',
-  33901: 'ALIASED_POINT_SIZE_RANGE',
-  33902: 'ALIASED_LINE_WIDTH_RANGE',
-  33984: 'TEXTURE0',
-  33985: 'TEXTURE1',
-  33986: 'TEXTURE2',
-  33987: 'TEXTURE3',
-  33988: 'TEXTURE4',
-  33989: 'TEXTURE5',
-  33990: 'TEXTURE6',
-  33991: 'TEXTURE7',
-  33992: 'TEXTURE8',
-  33993: 'TEXTURE9',
-  33994: 'TEXTURE10',
-  33995: 'TEXTURE11',
-  33996: 'TEXTURE12',
-  33997: 'TEXTURE13',
-  33998: 'TEXTURE14',
-  33999: 'TEXTURE15',
-  34000: 'TEXTURE16',
-  34001: 'TEXTURE17',
-  34002: 'TEXTURE18',
-  34003: 'TEXTURE19',
-  34004: 'TEXTURE20',
-  34005: 'TEXTURE21',
-  34006: 'TEXTURE22',
-  34007: 'TEXTURE23',
-  34008: 'TEXTURE24',
-  34009: 'TEXTURE25',
-  34010: 'TEXTURE26',
-  34011: 'TEXTURE27',
-  34012: 'TEXTURE28',
-  34013: 'TEXTURE29',
-  34014: 'TEXTURE30',
-  34015: 'TEXTURE31',
-  34016: 'ACTIVE_TEXTURE',
-  34024: 'MAX_RENDERBUFFER_SIZE',
-  34041: 'DEPTH_STENCIL',
-  34055: 'INCR_WRAP',
-  34056: 'DECR_WRAP',
-  34067: 'TEXTURE_CUBE_MAP',
-  34068: 'TEXTURE_BINDING_CUBE_MAP',
-  34069: 'TEXTURE_CUBE_MAP_POSITIVE_X',
-  34070: 'TEXTURE_CUBE_MAP_NEGATIVE_X',
-  34071: 'TEXTURE_CUBE_MAP_POSITIVE_Y',
-  34072: 'TEXTURE_CUBE_MAP_NEGATIVE_Y',
-  34073: 'TEXTURE_CUBE_MAP_POSITIVE_Z',
-  34074: 'TEXTURE_CUBE_MAP_NEGATIVE_Z',
-  34076: 'MAX_CUBE_MAP_TEXTURE_SIZE',
-  34338: 'VERTEX_ATTRIB_ARRAY_ENABLED',
-  34339: 'VERTEX_ATTRIB_ARRAY_SIZE',
-  34340: 'VERTEX_ATTRIB_ARRAY_STRIDE',
-  34341: 'VERTEX_ATTRIB_ARRAY_TYPE',
-  34342: 'CURRENT_VERTEX_ATTRIB',
-  34373: 'VERTEX_ATTRIB_ARRAY_POINTER',
-  34466: 'NUM_COMPRESSED_TEXTURE_FORMATS',
-  34467: 'COMPRESSED_TEXTURE_FORMATS',
-  34660: 'BUFFER_SIZE',
-  34661: 'BUFFER_USAGE',
-  34816: 'STENCIL_BACK_FUNC',
-  34817: 'STENCIL_BACK_FAIL',
-  34818: 'STENCIL_BACK_PASS_DEPTH_FAIL',
-  34819: 'STENCIL_BACK_PASS_DEPTH_PASS',
-  34877: 'BLEND_EQUATION_ALPHA',
-  34921: 'MAX_VERTEX_ATTRIBS',
-  34922: 'VERTEX_ATTRIB_ARRAY_NORMALIZED',
-  34930: 'MAX_TEXTURE_IMAGE_UNITS',
-  34962: 'ARRAY_BUFFER',
-  34963: 'ELEMENT_ARRAY_BUFFER',
-  34964: 'ARRAY_BUFFER_BINDING',
-  34965: 'ELEMENT_ARRAY_BUFFER_BINDING',
-  34975: 'VERTEX_ATTRIB_ARRAY_BUFFER_BINDING',
-  35040: 'STREAM_DRAW',
-  35044: 'STATIC_DRAW',
-  35048: 'DYNAMIC_DRAW',
-  35632: 'FRAGMENT_SHADER',
-  35633: 'VERTEX_SHADER',
-  35660: 'MAX_VERTEX_TEXTURE_IMAGE_UNITS',
-  35661: 'MAX_COMBINED_TEXTURE_IMAGE_UNITS',
-  35663: 'SHADER_TYPE',
-  35664: 'FLOAT_VEC2',
-  35665: 'FLOAT_VEC3',
-  35666: 'FLOAT_VEC4',
-  35667: 'INT_VEC2',
-  35668: 'INT_VEC3',
-  35669: 'INT_VEC4',
-  35670: 'BOOL',
-  35671: 'BOOL_VEC2',
-  35672: 'BOOL_VEC3',
-  35673: 'BOOL_VEC4',
-  35674: 'FLOAT_MAT2',
-  35675: 'FLOAT_MAT3',
-  35676: 'FLOAT_MAT4',
-  35678: 'SAMPLER_2D',
-  35680: 'SAMPLER_CUBE',
-  35712: 'DELETE_STATUS',
-  35713: 'COMPILE_STATUS',
-  35714: 'LINK_STATUS',
-  35715: 'VALIDATE_STATUS',
-  35716: 'INFO_LOG_LENGTH',
-  35717: 'ATTACHED_SHADERS',
-  35718: 'ACTIVE_UNIFORMS',
-  35719: 'ACTIVE_UNIFORM_MAX_LENGTH',
-  35720: 'SHADER_SOURCE_LENGTH',
-  35721: 'ACTIVE_ATTRIBUTES',
-  35722: 'ACTIVE_ATTRIBUTE_MAX_LENGTH',
-  35724: 'SHADING_LANGUAGE_VERSION',
-  35725: 'CURRENT_PROGRAM',
-  36003: 'STENCIL_BACK_REF',
-  36004: 'STENCIL_BACK_VALUE_MASK',
-  36005: 'STENCIL_BACK_WRITEMASK',
-  36006: 'FRAMEBUFFER_BINDING',
-  36007: 'RENDERBUFFER_BINDING',
-  36048: 'FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE',
-  36049: 'FRAMEBUFFER_ATTACHMENT_OBJECT_NAME',
-  36050: 'FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL',
-  36051: 'FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE',
-  36053: 'FRAMEBUFFER_COMPLETE',
-  36054: 'FRAMEBUFFER_INCOMPLETE_ATTACHMENT',
-  36055: 'FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT',
-  36057: 'FRAMEBUFFER_INCOMPLETE_DIMENSIONS',
-  36061: 'FRAMEBUFFER_UNSUPPORTED',
-  36064: 'COLOR_ATTACHMENT0',
-  36096: 'DEPTH_ATTACHMENT',
-  36128: 'STENCIL_ATTACHMENT',
-  36160: 'FRAMEBUFFER',
-  36161: 'RENDERBUFFER',
-  36162: 'RENDERBUFFER_WIDTH',
-  36163: 'RENDERBUFFER_HEIGHT',
-  36164: 'RENDERBUFFER_INTERNAL_FORMAT',
-  36168: 'STENCIL_INDEX8',
-  36176: 'RENDERBUFFER_RED_SIZE',
-  36177: 'RENDERBUFFER_GREEN_SIZE',
-  36178: 'RENDERBUFFER_BLUE_SIZE',
-  36179: 'RENDERBUFFER_ALPHA_SIZE',
-  36180: 'RENDERBUFFER_DEPTH_SIZE',
-  36181: 'RENDERBUFFER_STENCIL_SIZE',
-  36194: 'RGB565',
-  36336: 'LOW_FLOAT',
-  36337: 'MEDIUM_FLOAT',
-  36338: 'HIGH_FLOAT',
-  36339: 'LOW_INT',
-  36340: 'MEDIUM_INT',
-  36341: 'HIGH_INT',
-  36346: 'SHADER_COMPILER',
-  36347: 'MAX_VERTEX_UNIFORM_VECTORS',
-  36348: 'MAX_VARYING_VECTORS',
-  36349: 'MAX_FRAGMENT_UNIFORM_VECTORS',
-  37440: 'UNPACK_FLIP_Y_WEBGL',
-  37441: 'UNPACK_PREMULTIPLY_ALPHA_WEBGL',
-  37442: 'CONTEXT_LOST_WEBGL',
-  37443: 'UNPACK_COLORSPACE_CONVERSION_WEBGL',
-  37444: 'BROWSER_DEFAULT_WEBGL'
-}
-
-},{}],370:[function(require,module,exports){
-var gl10 = require('./1.0/numbers')
-
-module.exports = function lookupConstant (number) {
-  return gl10[number]
-}
-
-},{"./1.0/numbers":369}],371:[function(require,module,exports){
-var tokenize = require('glsl-tokenizer')
-var atob     = require('atob-lite')
-
-module.exports = getName
-
-function getName(src) {
-  var tokens = Array.isArray(src)
-    ? src
-    : tokenize(src)
-
-  for (var i = 0; i < tokens.length; i++) {
-    var token = tokens[i]
-    if (token.type !== 'preprocessor') continue
-    var match = token.data.match(/\#define\s+SHADER_NAME(_B64)?\s+(.+)$/)
-    if (!match) continue
-    if (!match[2]) continue
-
-    var b64  = match[1]
-    var name = match[2]
-
-    return (b64 ? atob(name) : name).trim()
-  }
-}
-
-},{"atob-lite":372,"glsl-tokenizer":377}],372:[function(require,module,exports){
-module.exports = function _atob(str) {
-  return atob(str)
-}
-
-},{}],373:[function(require,module,exports){
-module.exports = tokenize
-
-var literals = require('./lib/literals')
-  , operators = require('./lib/operators')
-  , builtins = require('./lib/builtins')
-
-var NORMAL = 999          // <-- never emitted
-  , TOKEN = 9999          // <-- never emitted
-  , BLOCK_COMMENT = 0
-  , LINE_COMMENT = 1
-  , PREPROCESSOR = 2
-  , OPERATOR = 3
-  , INTEGER = 4
-  , FLOAT = 5
-  , IDENT = 6
-  , BUILTIN = 7
-  , KEYWORD = 8
-  , WHITESPACE = 9
-  , EOF = 10
-  , HEX = 11
-
-var map = [
-    'block-comment'
-  , 'line-comment'
-  , 'preprocessor'
-  , 'operator'
-  , 'integer'
-  , 'float'
-  , 'ident'
-  , 'builtin'
-  , 'keyword'
-  , 'whitespace'
-  , 'eof'
-  , 'integer'
-]
-
-function tokenize() {
-  var i = 0
-    , total = 0
-    , mode = NORMAL
-    , c
-    , last
-    , content = []
-    , tokens = []
-    , token_idx = 0
-    , token_offs = 0
-    , line = 1
-    , col = 0
-    , start = 0
-    , isnum = false
-    , isoperator = false
-    , input = ''
-    , len
-
-  return function(data) {
-    tokens = []
-    if (data !== null) return write(data)
-    return end()
-  }
-
-  function token(data) {
-    if (data.length) {
-      tokens.push({
-        type: map[mode]
-      , data: data
-      , position: start
-      , line: line
-      , column: col
-      })
-    }
-  }
-
-  function write(chunk) {
-    i = 0
-    input += chunk
-    len = input.length
-
-    var last
-
-    while(c = input[i], i < len) {
-      last = i
-
-      switch(mode) {
-        case BLOCK_COMMENT: i = block_comment(); break
-        case LINE_COMMENT: i = line_comment(); break
-        case PREPROCESSOR: i = preprocessor(); break
-        case OPERATOR: i = operator(); break
-        case INTEGER: i = integer(); break
-        case HEX: i = hex(); break
-        case FLOAT: i = decimal(); break
-        case TOKEN: i = readtoken(); break
-        case WHITESPACE: i = whitespace(); break
-        case NORMAL: i = normal(); break
-      }
-
-      if(last !== i) {
-        switch(input[last]) {
-          case '\n': col = 0; ++line; break
-          default: ++col; break
-        }
-      }
-    }
-
-    total += i
-    input = input.slice(i)
-    return tokens
-  }
-
-  function end(chunk) {
-    if(content.length) {
-      token(content.join(''))
-    }
-
-    mode = EOF
-    token('(eof)')
-    return tokens
-  }
-
-  function normal() {
-    content = content.length ? [] : content
-
-    if(last === '/' && c === '*') {
-      start = total + i - 1
-      mode = BLOCK_COMMENT
-      last = c
-      return i + 1
-    }
-
-    if(last === '/' && c === '/') {
-      start = total + i - 1
-      mode = LINE_COMMENT
-      last = c
-      return i + 1
-    }
-
-    if(c === '#') {
-      mode = PREPROCESSOR
-      start = total + i
-      return i
-    }
-
-    if(/\s/.test(c)) {
-      mode = WHITESPACE
-      start = total + i
-      return i
-    }
-
-    isnum = /\d/.test(c)
-    isoperator = /[^\w_]/.test(c)
-
-    start = total + i
-    mode = isnum ? INTEGER : isoperator ? OPERATOR : TOKEN
-    return i
-  }
-
-  function whitespace() {
-    if(/[^\s]/g.test(c)) {
-      token(content.join(''))
-      mode = NORMAL
-      return i
-    }
-    content.push(c)
-    last = c
-    return i + 1
-  }
-
-  function preprocessor() {
-    if(c === '\n' && last !== '\\') {
-      token(content.join(''))
-      mode = NORMAL
-      return i
-    }
-    content.push(c)
-    last = c
-    return i + 1
-  }
-
-  function line_comment() {
-    return preprocessor()
-  }
-
-  function block_comment() {
-    if(c === '/' && last === '*') {
-      content.push(c)
-      token(content.join(''))
-      mode = NORMAL
-      return i + 1
-    }
-
-    content.push(c)
-    last = c
-    return i + 1
-  }
-
-  function operator() {
-    if(last === '.' && /\d/.test(c)) {
-      mode = FLOAT
-      return i
-    }
-
-    if(last === '/' && c === '*') {
-      mode = BLOCK_COMMENT
-      return i
-    }
-
-    if(last === '/' && c === '/') {
-      mode = LINE_COMMENT
-      return i
-    }
-
-    if(c === '.' && content.length) {
-      while(determine_operator(content));
-
-      mode = FLOAT
-      return i
-    }
-
-    if(c === ';' || c === ')' || c === '(') {
-      if(content.length) while(determine_operator(content));
-      token(c)
-      mode = NORMAL
-      return i + 1
-    }
-
-    var is_composite_operator = content.length === 2 && c !== '='
-    if(/[\w_\d\s]/.test(c) || is_composite_operator) {
-      while(determine_operator(content));
-      mode = NORMAL
-      return i
-    }
-
-    content.push(c)
-    last = c
-    return i + 1
-  }
-
-  function determine_operator(buf) {
-    var j = 0
-      , idx
-      , res
-
-    do {
-      idx = operators.indexOf(buf.slice(0, buf.length + j).join(''))
-      res = operators[idx]
-
-      if(idx === -1) {
-        if(j-- + buf.length > 0) continue
-        res = buf.slice(0, 1).join('')
-      }
-
-      token(res)
-
-      start += res.length
-      content = content.slice(res.length)
-      return content.length
-    } while(1)
-  }
-
-  function hex() {
-    if(/[^a-fA-F0-9]/.test(c)) {
-      token(content.join(''))
-      mode = NORMAL
-      return i
-    }
-
-    content.push(c)
-    last = c
-    return i + 1
-  }
-
-  function integer() {
-    if(c === '.') {
-      content.push(c)
-      mode = FLOAT
-      last = c
-      return i + 1
-    }
-
-    if(/[eE]/.test(c)) {
-      content.push(c)
-      mode = FLOAT
-      last = c
-      return i + 1
-    }
-
-    if(c === 'x' && content.length === 1 && content[0] === '0') {
-      mode = HEX
-      content.push(c)
-      last = c
-      return i + 1
-    }
-
-    if(/[^\d]/.test(c)) {
-      token(content.join(''))
-      mode = NORMAL
-      return i
-    }
-
-    content.push(c)
-    last = c
-    return i + 1
-  }
-
-  function decimal() {
-    if(c === 'f') {
-      content.push(c)
-      last = c
-      i += 1
-    }
-
-    if(/[eE]/.test(c)) {
-      content.push(c)
-      last = c
-      return i + 1
-    }
-
-    if(/[^\d]/.test(c)) {
-      token(content.join(''))
-      mode = NORMAL
-      return i
-    }
-    content.push(c)
-    last = c
-    return i + 1
-  }
-
-  function readtoken() {
-    if(/[^\d\w_]/.test(c)) {
-      var contentstr = content.join('')
-      if(literals.indexOf(contentstr) > -1) {
-        mode = KEYWORD
-      } else if(builtins.indexOf(contentstr) > -1) {
-        mode = BUILTIN
-      } else {
-        mode = IDENT
-      }
-      token(content.join(''))
-      mode = NORMAL
-      return i
-    }
-    content.push(c)
-    last = c
-    return i + 1
-  }
-}
-
-},{"./lib/builtins":374,"./lib/literals":375,"./lib/operators":376}],374:[function(require,module,exports){
-module.exports = [
-    'gl_Position'
-  , 'gl_PointSize'
-  , 'gl_ClipVertex'
-  , 'gl_FragCoord'
-  , 'gl_FrontFacing'
-  , 'gl_FragColor'
-  , 'gl_FragData'
-  , 'gl_FragDepth'
-  , 'gl_Color'
-  , 'gl_SecondaryColor'
-  , 'gl_Normal'
-  , 'gl_Vertex'
-  , 'gl_MultiTexCoord0'
-  , 'gl_MultiTexCoord1'
-  , 'gl_MultiTexCoord2'
-  , 'gl_MultiTexCoord3'
-  , 'gl_MultiTexCoord4'
-  , 'gl_MultiTexCoord5'
-  , 'gl_MultiTexCoord6'
-  , 'gl_MultiTexCoord7'
-  , 'gl_FogCoord'
-  , 'gl_MaxLights'
-  , 'gl_MaxClipPlanes'
-  , 'gl_MaxTextureUnits'
-  , 'gl_MaxTextureCoords'
-  , 'gl_MaxVertexAttribs'
-  , 'gl_MaxVertexUniformComponents'
-  , 'gl_MaxVaryingFloats'
-  , 'gl_MaxVertexTextureImageUnits'
-  , 'gl_MaxCombinedTextureImageUnits'
-  , 'gl_MaxTextureImageUnits'
-  , 'gl_MaxFragmentUniformComponents'
-  , 'gl_MaxDrawBuffers'
-  , 'gl_ModelViewMatrix'
-  , 'gl_ProjectionMatrix'
-  , 'gl_ModelViewProjectionMatrix'
-  , 'gl_TextureMatrix'
-  , 'gl_NormalMatrix'
-  , 'gl_ModelViewMatrixInverse'
-  , 'gl_ProjectionMatrixInverse'
-  , 'gl_ModelViewProjectionMatrixInverse'
-  , 'gl_TextureMatrixInverse'
-  , 'gl_ModelViewMatrixTranspose'
-  , 'gl_ProjectionMatrixTranspose'
-  , 'gl_ModelViewProjectionMatrixTranspose'
-  , 'gl_TextureMatrixTranspose'
-  , 'gl_ModelViewMatrixInverseTranspose'
-  , 'gl_ProjectionMatrixInverseTranspose'
-  , 'gl_ModelViewProjectionMatrixInverseTranspose'
-  , 'gl_TextureMatrixInverseTranspose'
-  , 'gl_NormalScale'
-  , 'gl_DepthRangeParameters'
-  , 'gl_DepthRange'
-  , 'gl_ClipPlane'
-  , 'gl_PointParameters'
-  , 'gl_Point'
-  , 'gl_MaterialParameters'
-  , 'gl_FrontMaterial'
-  , 'gl_BackMaterial'
-  , 'gl_LightSourceParameters'
-  , 'gl_LightSource'
-  , 'gl_LightModelParameters'
-  , 'gl_LightModel'
-  , 'gl_LightModelProducts'
-  , 'gl_FrontLightModelProduct'
-  , 'gl_BackLightModelProduct'
-  , 'gl_LightProducts'
-  , 'gl_FrontLightProduct'
-  , 'gl_BackLightProduct'
-  , 'gl_FogParameters'
-  , 'gl_Fog'
-  , 'gl_TextureEnvColor'
-  , 'gl_EyePlaneS'
-  , 'gl_EyePlaneT'
-  , 'gl_EyePlaneR'
-  , 'gl_EyePlaneQ'
-  , 'gl_ObjectPlaneS'
-  , 'gl_ObjectPlaneT'
-  , 'gl_ObjectPlaneR'
-  , 'gl_ObjectPlaneQ'
-  , 'gl_FrontColor'
-  , 'gl_BackColor'
-  , 'gl_FrontSecondaryColor'
-  , 'gl_BackSecondaryColor'
-  , 'gl_TexCoord'
-  , 'gl_FogFragCoord'
-  , 'gl_Color'
-  , 'gl_SecondaryColor'
-  , 'gl_TexCoord'
-  , 'gl_FogFragCoord'
-  , 'gl_PointCoord'
-  , 'radians'
-  , 'degrees'
-  , 'sin'
-  , 'cos'
-  , 'tan'
-  , 'asin'
-  , 'acos'
-  , 'atan'
-  , 'pow'
-  , 'exp'
-  , 'log'
-  , 'exp2'
-  , 'log2'
-  , 'sqrt'
-  , 'inversesqrt'
-  , 'abs'
-  , 'sign'
-  , 'floor'
-  , 'ceil'
-  , 'fract'
-  , 'mod'
-  , 'min'
-  , 'max'
-  , 'clamp'
-  , 'mix'
-  , 'step'
-  , 'smoothstep'
-  , 'length'
-  , 'distance'
-  , 'dot'
-  , 'cross'
-  , 'normalize'
-  , 'faceforward'
-  , 'reflect'
-  , 'refract'
-  , 'matrixCompMult'
-  , 'lessThan'
-  , 'lessThanEqual'
-  , 'greaterThan'
-  , 'greaterThanEqual'
-  , 'equal'
-  , 'notEqual'
-  , 'any'
-  , 'all'
-  , 'not'
-  , 'texture2D'
-  , 'texture2DProj'
-  , 'texture2DLod'
-  , 'texture2DProjLod'
-  , 'textureCube'
-  , 'textureCubeLod'
-  , 'dFdx'
-  , 'dFdy'
-]
-
-},{}],375:[function(require,module,exports){
-module.exports = [
-  // current
-    'precision'
-  , 'highp'
-  , 'mediump'
-  , 'lowp'
-  , 'attribute'
-  , 'const'
-  , 'uniform'
-  , 'varying'
-  , 'break'
-  , 'continue'
-  , 'do'
-  , 'for'
-  , 'while'
-  , 'if'
-  , 'else'
-  , 'in'
-  , 'out'
-  , 'inout'
-  , 'float'
-  , 'int'
-  , 'void'
-  , 'bool'
-  , 'true'
-  , 'false'
-  , 'discard'
-  , 'return'
-  , 'mat2'
-  , 'mat3'
-  , 'mat4'
-  , 'vec2'
-  , 'vec3'
-  , 'vec4'
-  , 'ivec2'
-  , 'ivec3'
-  , 'ivec4'
-  , 'bvec2'
-  , 'bvec3'
-  , 'bvec4'
-  , 'sampler1D'
-  , 'sampler2D'
-  , 'sampler3D'
-  , 'samplerCube'
-  , 'sampler1DShadow'
-  , 'sampler2DShadow'
-  , 'struct'
-
-  // future
-  , 'asm'
-  , 'class'
-  , 'union'
-  , 'enum'
-  , 'typedef'
-  , 'template'
-  , 'this'
-  , 'packed'
-  , 'goto'
-  , 'switch'
-  , 'default'
-  , 'inline'
-  , 'noinline'
-  , 'volatile'
-  , 'public'
-  , 'static'
-  , 'extern'
-  , 'external'
-  , 'interface'
-  , 'long'
-  , 'short'
-  , 'double'
-  , 'half'
-  , 'fixed'
-  , 'unsigned'
-  , 'input'
-  , 'output'
-  , 'hvec2'
-  , 'hvec3'
-  , 'hvec4'
-  , 'dvec2'
-  , 'dvec3'
-  , 'dvec4'
-  , 'fvec2'
-  , 'fvec3'
-  , 'fvec4'
-  , 'sampler2DRect'
-  , 'sampler3DRect'
-  , 'sampler2DRectShadow'
-  , 'sizeof'
-  , 'cast'
-  , 'namespace'
-  , 'using'
-]
-
-},{}],376:[function(require,module,exports){
-module.exports = [
-    '<<='
-  , '>>='
-  , '++'
-  , '--'
-  , '<<'
-  , '>>'
-  , '<='
-  , '>='
-  , '=='
-  , '!='
-  , '&&'
-  , '||'
-  , '+='
-  , '-='
-  , '*='
-  , '/='
-  , '%='
-  , '&='
-  , '^^'
-  , '^='
-  , '|='
-  , '('
-  , ')'
-  , '['
-  , ']'
-  , '.'
-  , '!'
-  , '~'
-  , '*'
-  , '/'
-  , '%'
-  , '+'
-  , '-'
-  , '<'
-  , '>'
-  , '&'
-  , '^'
-  , '|'
-  , '?'
-  , ':'
-  , '='
-  , ','
-  , ';'
-  , '{'
-  , '}'
-]
-
-},{}],377:[function(require,module,exports){
-var tokenize = require('./index')
-
-module.exports = tokenizeString
-
-function tokenizeString(str) {
-  var generator = tokenize()
-  var tokens = []
-
-  tokens = tokens.concat(generator(str))
-  tokens = tokens.concat(generator(null))
-
-  return tokens
-}
-
-},{"./index":373}],378:[function(require,module,exports){
-(function(window) {
-    var re = {
-        not_string: /[^s]/,
-        number: /[diefg]/,
-        json: /[j]/,
-        not_json: /[^j]/,
-        text: /^[^\x25]+/,
-        modulo: /^\x25{2}/,
-        placeholder: /^\x25(?:([1-9]\d*)\$|\(([^\)]+)\))?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-gijosuxX])/,
-        key: /^([a-z_][a-z_\d]*)/i,
-        key_access: /^\.([a-z_][a-z_\d]*)/i,
-        index_access: /^\[(\d+)\]/,
-        sign: /^[\+\-]/
-    }
-
-    function sprintf() {
-        var key = arguments[0], cache = sprintf.cache
-        if (!(cache[key] && cache.hasOwnProperty(key))) {
-            cache[key] = sprintf.parse(key)
-        }
-        return sprintf.format.call(null, cache[key], arguments)
-    }
-
-    sprintf.format = function(parse_tree, argv) {
-        var cursor = 1, tree_length = parse_tree.length, node_type = "", arg, output = [], i, k, match, pad, pad_character, pad_length, is_positive = true, sign = ""
-        for (i = 0; i < tree_length; i++) {
-            node_type = get_type(parse_tree[i])
-            if (node_type === "string") {
-                output[output.length] = parse_tree[i]
-            }
-            else if (node_type === "array") {
-                match = parse_tree[i] // convenience purposes only
-                if (match[2]) { // keyword argument
-                    arg = argv[cursor]
-                    for (k = 0; k < match[2].length; k++) {
-                        if (!arg.hasOwnProperty(match[2][k])) {
-                            throw new Error(sprintf("[sprintf] property '%s' does not exist", match[2][k]))
-                        }
-                        arg = arg[match[2][k]]
-                    }
-                }
-                else if (match[1]) { // positional argument (explicit)
-                    arg = argv[match[1]]
-                }
-                else { // positional argument (implicit)
-                    arg = argv[cursor++]
-                }
-
-                if (get_type(arg) == "function") {
-                    arg = arg()
-                }
-
-                if (re.not_string.test(match[8]) && re.not_json.test(match[8]) && (get_type(arg) != "number" && isNaN(arg))) {
-                    throw new TypeError(sprintf("[sprintf] expecting number but found %s", get_type(arg)))
-                }
-
-                if (re.number.test(match[8])) {
-                    is_positive = arg >= 0
-                }
-
-                switch (match[8]) {
-                    case "b":
-                        arg = arg.toString(2)
-                    break
-                    case "c":
-                        arg = String.fromCharCode(arg)
-                    break
-                    case "d":
-                    case "i":
-                        arg = parseInt(arg, 10)
-                    break
-                    case "j":
-                        arg = JSON.stringify(arg, null, match[6] ? parseInt(match[6]) : 0)
-                    break
-                    case "e":
-                        arg = match[7] ? arg.toExponential(match[7]) : arg.toExponential()
-                    break
-                    case "f":
-                        arg = match[7] ? parseFloat(arg).toFixed(match[7]) : parseFloat(arg)
-                    break
-                    case "g":
-                        arg = match[7] ? parseFloat(arg).toPrecision(match[7]) : parseFloat(arg)
-                    break
-                    case "o":
-                        arg = arg.toString(8)
-                    break
-                    case "s":
-                        arg = ((arg = String(arg)) && match[7] ? arg.substring(0, match[7]) : arg)
-                    break
-                    case "u":
-                        arg = arg >>> 0
-                    break
-                    case "x":
-                        arg = arg.toString(16)
-                    break
-                    case "X":
-                        arg = arg.toString(16).toUpperCase()
-                    break
-                }
-                if (re.json.test(match[8])) {
-                    output[output.length] = arg
-                }
-                else {
-                    if (re.number.test(match[8]) && (!is_positive || match[3])) {
-                        sign = is_positive ? "+" : "-"
-                        arg = arg.toString().replace(re.sign, "")
-                    }
-                    else {
-                        sign = ""
-                    }
-                    pad_character = match[4] ? match[4] === "0" ? "0" : match[4].charAt(1) : " "
-                    pad_length = match[6] - (sign + arg).length
-                    pad = match[6] ? (pad_length > 0 ? str_repeat(pad_character, pad_length) : "") : ""
-                    output[output.length] = match[5] ? sign + arg + pad : (pad_character === "0" ? sign + pad + arg : pad + sign + arg)
-                }
-            }
-        }
-        return output.join("")
-    }
-
-    sprintf.cache = {}
-
-    sprintf.parse = function(fmt) {
-        var _fmt = fmt, match = [], parse_tree = [], arg_names = 0
-        while (_fmt) {
-            if ((match = re.text.exec(_fmt)) !== null) {
-                parse_tree[parse_tree.length] = match[0]
-            }
-            else if ((match = re.modulo.exec(_fmt)) !== null) {
-                parse_tree[parse_tree.length] = "%"
-            }
-            else if ((match = re.placeholder.exec(_fmt)) !== null) {
-                if (match[2]) {
-                    arg_names |= 1
-                    var field_list = [], replacement_field = match[2], field_match = []
-                    if ((field_match = re.key.exec(replacement_field)) !== null) {
-                        field_list[field_list.length] = field_match[1]
-                        while ((replacement_field = replacement_field.substring(field_match[0].length)) !== "") {
-                            if ((field_match = re.key_access.exec(replacement_field)) !== null) {
-                                field_list[field_list.length] = field_match[1]
-                            }
-                            else if ((field_match = re.index_access.exec(replacement_field)) !== null) {
-                                field_list[field_list.length] = field_match[1]
-                            }
-                            else {
-                                throw new SyntaxError("[sprintf] failed to parse named argument key")
-                            }
-                        }
-                    }
-                    else {
-                        throw new SyntaxError("[sprintf] failed to parse named argument key")
-                    }
-                    match[2] = field_list
-                }
-                else {
-                    arg_names |= 2
-                }
-                if (arg_names === 3) {
-                    throw new Error("[sprintf] mixing positional and named placeholders is not (yet) supported")
-                }
-                parse_tree[parse_tree.length] = match
-            }
-            else {
-                throw new SyntaxError("[sprintf] unexpected placeholder")
-            }
-            _fmt = _fmt.substring(match[0].length)
-        }
-        return parse_tree
-    }
-
-    var vsprintf = function(fmt, argv, _argv) {
-        _argv = (argv || []).slice(0)
-        _argv.splice(0, 0, fmt)
-        return sprintf.apply(null, _argv)
-    }
-
-    /**
-     * helpers
-     */
-    function get_type(variable) {
-        return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase()
-    }
-
-    function str_repeat(input, multiplier) {
-        return Array(multiplier + 1).join(input)
-    }
-
-    /**
-     * export to either browser or node.js
-     */
-    if (typeof exports !== "undefined") {
-        exports.sprintf = sprintf
-        exports.vsprintf = vsprintf
-    }
-    else {
-        window.sprintf = sprintf
-        window.vsprintf = vsprintf
-
-        if (typeof define === "function" && define.amd) {
-            define(function() {
-                return {
-                    sprintf: sprintf,
-                    vsprintf: vsprintf
-                }
-            })
-        }
-    }
-})(typeof window === "undefined" ? this : window);
-
-},{}],379:[function(require,module,exports){
-var hiddenStore = require('./hidden-store.js');
-
-module.exports = createStore;
-
-function createStore() {
-    var key = {};
-
-    return function (obj) {
-        if ((typeof obj !== 'object' || obj === null) &&
-            typeof obj !== 'function'
-        ) {
-            throw new Error('Weakmap-shim: Key must be object')
-        }
-
-        var store = obj.valueOf(key);
-        return store && store.identity === key ?
-            store : hiddenStore(obj, key);
-    };
-}
-
-},{"./hidden-store.js":380}],380:[function(require,module,exports){
-module.exports = hiddenStore;
-
-function hiddenStore(obj, key) {
-    var store = { identity: key };
-    var valueOf = obj.valueOf;
-
-    Object.defineProperty(obj, "valueOf", {
-        value: function (value) {
-            return value !== key ?
-                valueOf.apply(this, arguments) : store;
-        },
-        writable: true
-    });
-
-    return store;
-}
-
-},{}],381:[function(require,module,exports){
-// Original - @Gozola. 
-// https://gist.github.com/Gozala/1269991
-// This is a reimplemented version (with a few bug fixes).
-
-var createStore = require('./create-store.js');
-
-module.exports = weakMap;
-
-function weakMap() {
-    var privates = createStore();
-
-    return {
-        'get': function (key, fallback) {
-            var store = privates(key)
-            return store.hasOwnProperty('value') ?
-                store.value : fallback
-        },
-        'set': function (key, value) {
-            privates(key).value = value;
-        },
-        'has': function(key) {
-            return 'value' in privates(key);
-        },
-        'delete': function (key) {
-            return delete privates(key).value;
-        }
-    }
-}
-
-},{"./create-store.js":379}],382:[function(require,module,exports){
-arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}]},{},[326]);
+},{"dup":122,"iota-array":342,"is-buffer":343}],342:[function(require,module,exports){
+arguments[4][81][0].apply(exports,arguments)
+},{"dup":81}],343:[function(require,module,exports){
+arguments[4][23][0].apply(exports,arguments)
+},{"dup":23}]},{},[44]);
