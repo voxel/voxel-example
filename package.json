@@ -12,7 +12,7 @@
     "voxel-bedrock": "^1.0.0"
   },
   "devDependencies": {
-    "browserify": "12.0.1",
+    "browserify": "^13.0.0",
     "wzrd": "1.3.1"
   },
   "scripts": {
