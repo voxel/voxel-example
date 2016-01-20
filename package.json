@@ -4,7 +4,7 @@
   "main": "example.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:deathcap/voxel-example.git"
+    "url": "git@github.com:voxel/voxel-example.git"
   },
   "dependencies": {
     "voxel-engine-stackgl": "^1.1.0",
@@ -12,11 +12,11 @@
     "voxel-bedrock": "^1.0.0"
   },
   "devDependencies": {
-    "browserify": "12.0.1",
+    "browserify": "^13.0.0",
     "wzrd": "1.3.1"
   },
   "scripts": {
     "start": "wzrd example.js:bundle.js --port 8081"
   },
-  "license": "BSD"
+  "license": "BSD-3-Clause"
 }
