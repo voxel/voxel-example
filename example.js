@@ -6,7 +6,7 @@ require('voxel-engine-stackgl')({
     'voxel-flatland': require('voxel-flatland')
   },
   pluginOpts: {
-    'game-shell-fps-camera': {position: [-4, -40, -5], rotationX:15*Math.PI/180, rotationY:135*Math.PI/180 },
+    'game-shell-fps-camera': {position: [0, -100, 0]},
 
     'voxel-bedrock': {},
     'voxel-flatland': {block: 'bedrock'}
