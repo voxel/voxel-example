@@ -48,6 +48,8 @@ ported to use [voxel-engine-stackgl](https://github.com/voxel/voxel-engine-stack
 for more background see [voxel/issues#4](https://github.com/voxel/issues/issues/4)).
 It is now a simple yet complete working example of using voxel-engine-stackgl.
 
+For a more sophisticated exeample, see [https://github.com/deathcap/voxelmetaverse/](https://github.com/deathcap/voxelmetaverse/).
+
 ## License
 
 BSD
