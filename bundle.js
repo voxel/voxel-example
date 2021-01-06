@@ -11993,6 +11993,9 @@ require('voxel-engine-stackgl')({
   },
   pluginOpts: {
     'voxel-engine-stackgl': {generateChunks: false},
+    'voxel-stitch': {
+      artpacks: ['ProgrammerArt-ResourcePack.zip']
+    },
     'game-shell-fps-camera': {position: [0, -100, 0]},
 
     'voxel-bedrock': {},
